@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DOCTYPE -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="web.dao.face.MemberDao">
+
+	<select id="selectCntLogin" parameterType="web.dto.Member" resultType="int">
+		SELECT COUNT(*) FROM member_kg
+		WHERE email = #{email } AND password = #{password }
+	</select>
+	
+	<select id="selectMemberByEmail" parameterType="web.dto.Member" resultType="web.dto.Member">
+		SELECT department_code departmentCode, hakbun, name, email, nickname, password, penalty
+		FROM member_kg
+		WHERE email = #{email }
+	</select>
+</mapper>
