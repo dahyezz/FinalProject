@@ -14,5 +14,4 @@ public class AdminController {
 	@RequestMapping(value="/admin/main", method=RequestMethod.GET)
 	public void adminMain() { }
  
-	
 }
