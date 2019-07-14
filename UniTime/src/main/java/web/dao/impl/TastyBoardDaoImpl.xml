@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DOCTYPE -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="web.dao.face.TastyBoardDao">
+
+	<select id="selectCntAll" resultType="int">
+		SELECT COUNT(*)
+		FROM tastyboard_kg
+	</select>
+	
+	<select id="selectAll" parameterType="web.util.Paging" resultType="web.dto.TastyBoard">
+		SELECT boardno, tag, store_name storeName, loc, content, writer, hit, score, writtendate
+		FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT * FROM tastyboard_kg
+				ORDER BY boardno DESC
+				) B
+			ORDER BY rnum
+		) tastyboard_kg
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+	
+	<update id="updateHit" parameterType="web.dto.TastyBoard">
+		UPDATE tastyboard_kg
+		SET hit = hit + 1
+		WHERE boardno = #{boardno }
+	</update>
+	
+	<select id="selectBoardByBoardno" parameterType="web.dto.TastyBoard" resultType="web.dto.TastyBoard">
+		SELECT boardno, tag, store_name storeName, loc, content, writer, hit, score, writtendate
+		FROM tastyboard_kg
+		WHERE boardno = #{boardno }
+	</select>
+	
+	<insert id="insertBoard" parameterType="web.dto.TastyBoard">
+	
+		<selectKey order="BEFORE" resultType="int" keyProperty="boardno">
+			SELECT tastyboard_kg_seq.nextval FROM dual
+		</selectKey>
+
+		INSERT INTO tastyboard_kg (boardno, tag, store_name, loc, content, writer, score) 
+		VALUES (#{boardno }, #{tag }, #{storeName }, #{loc }, #{content } , #{writer }, #{score })
+	</insert>
+	
+	<delete id="deleteBoardByBoardno" parameterType="web.dto.TastyBoard">
+		DELETE FROM tastyboard_kg
+		WHERE boardno = #{boardno }
+	</delete>
+	
+	<update id="updateBoard" parameterType="web.dto.TastyBoard">
+		UPDATE tastyboard_kg
+		SET tag=#{tag }, store_name=#{storeName}, loc=#{loc }, content=#{content }
+		WHERE boardno = #{boardno }
+	</update>
+	
+</mapper>
