@@ -20,8 +20,9 @@
 
 <style type="text/css">
 .wrap {
-	width: 1000px;
-	text-align: center;
+	width: 80%;
+/* 	text-align: center; */
+	margin: 10px 10%;
 }
 </style>
 </head>
