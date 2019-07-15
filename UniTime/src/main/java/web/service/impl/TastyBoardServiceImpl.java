@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.TastyBoardDao;
 import web.dto.TastyBoard;
+import web.dto.TastyFile;
 import web.service.face.TastyBoardService;
 import web.util.Paging;
 
@@ -50,5 +52,12 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	@Override
 	public void update(TastyBoard tastyBoard) {
 		tastyBoardDao.updateBoard(tastyBoard);
+	}
+	
+	@Override
+	public TastyFile uploadFile(MultipartFile fileupload) {
+		
+		
+		return null;
 	}
 }

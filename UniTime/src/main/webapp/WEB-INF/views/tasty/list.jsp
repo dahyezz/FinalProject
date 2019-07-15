@@ -18,7 +18,7 @@ $(document).ready(function() {
 	<h3>테이스티로드</h3>
 </div>
 
-<table>
+<table style="text-align: center; margin: auto;">
 	<tr>
 		<th style="width: 5%">글번호</th>
 		<th style="width: 10%">태그</th>

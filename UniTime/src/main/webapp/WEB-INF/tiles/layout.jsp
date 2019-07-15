@@ -21,7 +21,7 @@
 <style type="text/css">
 .wrap {
 	width: 80%;
-/* 	text-align: center; */
+ 	text-align: center; 
 	margin: 10px 10%;
 }
 </style>

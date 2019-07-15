@@ -2,7 +2,10 @@ package web.service.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import web.dto.TastyBoard;
+import web.dto.TastyFile;
 import web.util.Paging;
 
 public interface TastyBoardService {
@@ -51,5 +54,7 @@ public interface TastyBoardService {
 	 * @param tastyBoard - 수정할 게시글 객체
 	 */
 	public void update(TastyBoard tastyBoard);
+
+	public TastyFile uploadFile(MultipartFile fileupload);
 
 }
