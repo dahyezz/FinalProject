@@ -20,7 +20,7 @@
 
 <style type="text/css">
 .wrap {
-	width: 1000px;
+	width: 80%;
 	text-align: center;
 }
 </style>

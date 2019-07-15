@@ -61,4 +61,15 @@ public class MemberController {
 		return "redirect:/main";
 	}
 	
+	@RequestMapping(value="/member/join", method=RequestMethod.GET)
+	public void join() { }
+	
+	@RequestMapping(value="/member/join", method=RequestMethod.POST)
+	public String joinProc(Member member) throws Exception { 
+		logger.info(member.toString());
+		
+		memberService.join(member);
+		
+		return "redirect:/main";
+	}
 }

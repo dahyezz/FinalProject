@@ -20,4 +20,11 @@ public interface MemberService {
 	 */
 	public Member getLoginMember(Member member);
 
+	/**
+	 * 회원가입
+	 * 
+	 * @param login - 회원가입 정보
+	 */
+	public void join(Member member)throws Exception;
+
 }
