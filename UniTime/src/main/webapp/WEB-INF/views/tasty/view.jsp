@@ -24,7 +24,7 @@ $(document).ready(function() {
 	<h3>테이스티로드</h3>
 </div>
 
-<table class="table table-bordered">
+<table class="table table-bordered" style="text-align: center;">
 	<tr>
 		<td class="info">글번호</td><td colspan="3">${board.boardno }</td>
 	</tr>

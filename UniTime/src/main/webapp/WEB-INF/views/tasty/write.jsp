@@ -13,6 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
 
 <script type="text/javascript">
+var fileurl = "";
 $(document).ready(function() {
 		
 	$('#summernote').summernote({
@@ -34,13 +35,13 @@ $(document).ready(function() {
 	        ['view', ['fullscreen', 'codeview']],
 	        ['help', ['help']]
 		],
-// 		callbacks: {
-// 			onImageUpload: function(files, editor){
-// 				for(var i=files.length-1; i>=0; i--) {
-// 					sendFile(files[i], this);
-// 				}
-// 			}
-// 		}
+		callbacks: {
+			onImageUpload: function(files, editor, welEditable){
+				for(var i=files.length-1; i>=0; i--) {
+					sendFile(files[i], this);
+				}
+			}
+		}
 		
 	});
 	
@@ -73,7 +74,7 @@ function postForm() {
 
 function sendFile(file, el){
 	var form_data = new FormData();
-	form_data.append('tastyFile', file);
+	form_data.append('file', file);
 	
 	$.ajax({
 		data: form_data
@@ -83,9 +84,10 @@ function sendFile(file, el){
 		, contentType: false
 		, enctype: "multipart/form-data"
 		, processData: false
-		, success: function(data) {
-
-			
+		, success: function(url) {
+// 			$("#summernote").summernote('insertImage', data.url);
+			$(el).summernote('editor.insertImage', url);
+          	$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
 		}
 	});
 }
