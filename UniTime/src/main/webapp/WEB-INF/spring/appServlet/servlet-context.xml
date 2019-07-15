@@ -17,6 +17,7 @@
 		<interceptor>
 			<mapping path="/**" />
 			<exclude-mapping path="/member/login" />
+			<exclude-mapping path="/member/join" />
 			<exclude-mapping path="/main"/>
 			<beans:bean class="web.interceptor.Interceptor" />
 		</interceptor>

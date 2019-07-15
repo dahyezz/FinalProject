@@ -20,4 +20,6 @@ public interface MemberDao {
 	 */
 	public Member selectMemberByEmail(Member member);
 
+	public void insert(Member member);
+
 }

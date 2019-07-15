@@ -5,6 +5,26 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
+   <!-- Mail 인증 관련 -->
+
+<bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="mailSender">
+   <property value="smtp.gmail.com" name="host"/>
+   <property value="587" name="port"/>
+   <property value="gjflrhlanf1@gmail.com" name="username"/>
+   <property value="gusdn1208" name="password"/>
+
+<property name="javaMailProperties">
+   <props>
+      <prop key="mail.transport.protocol">smtp</prop>
+      <prop key="mail.smtp.auth">true</prop>
+      <prop key="mail.smtp.starttls.enable">true</prop>
+      <prop key="mail.debug">true</prop>
+   </props>
+
+</property>
+
+</bean>
+
 	<!-- DB 접속 정보 -->
 	<bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />

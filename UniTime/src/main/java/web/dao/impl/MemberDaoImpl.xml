@@ -17,4 +17,13 @@
 		FROM member_kg
 		WHERE email = #{email }
 	</select>
+	
+	<insert id="insert" parameterType="web.dto.Member">
+		INSERT INTO member_kg (department_code, hakbun, name, email, nickname, password, penalty)
+		VALUES (#{departmentCode }, #{hakbun }, #{name }, #{email }, #{nickname }, #{password }, 0)
+	</insert>
+	
 </mapper>
+
+
+
