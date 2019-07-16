@@ -2,6 +2,7 @@ package web.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 
@@ -115,6 +116,14 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	
 	@Override
 	public Resource loadAsResource(String storedName) {
+		
+		Path rootLocation;
+		
+		if(storedName.toCharArray()[0] == '/') {
+			storedName = storedName.substring(1);
+		}
+		
+//		Path file = r
 		
 		return null;
 	}
