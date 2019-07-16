@@ -1,18 +1,26 @@
 package web.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.TastyBoard;
@@ -65,7 +73,7 @@ public class TastyBoardController {
 	}
 	
 	@RequestMapping(value="/tasty/imageUpload", method=RequestMethod.POST)
-	public ResponseEntity<?> imageUpload(
+	public void imageUpload(
 			TastyBoard tastyBoard,
 			@RequestParam("file") MultipartFile fileupload
 			) {
@@ -74,10 +82,55 @@ public class TastyBoardController {
 		logger.info("파일 : " + fileupload.getOriginalFilename());
 		logger.info(context.getRealPath("tastyUpload"));
 		
-		TastyFile tastyFile = tastyBoardService.uploadFile(fileupload);
-		return ResponseEntity.ok().body("/image/"+tastyFile.getFileno());
+		//첨부파일 저장
+		tastyBoardService.uploadFile(tastyBoard, fileupload, context);
+//		return ResponseEntity.ok().body("/tasty/"+tastyFile.getFileno());
 		
 	}
+	
+//	  @GetMapping("/tasty/{fileno}")
+//	  @ResponseBody
+//	  public ResponseEntity<?> serveFile(@PathVariable int fileno, HttpServletResponse response) {
+//	      try {
+//	          TastyFile tastyfile = tastyBoardService.load(fileno);
+//	          logger.info(tastyfile.toString());
+//
+//	          HttpHeaders headers = new HttpHeaders();
+//	          
+//	          Resource resource = tastyBoardService.loadAsResource(tastyfile.getStoredName());
+//	          
+////	          File src = new File(context.getRealPath("tastyUpload"), tastyfile.getStoredName());
+//////	          Resource resource = (Resource) src;
+////	          logger.info(src.toString());
+////	          
+////	          response.setContentType("application/octet-stream");
+////	          response.setContentLength((int)src.length());
+////	          response.setCharacterEncoding("utf-8");
+////	          
+////	          File origin = new File(context.getRealPath("tastyUpload"), tastyfile.getStoredName());
+////	          
+////	          FileInputStream fis = new FileInputStream(origin);
+////	          Resource resource = (Resource) origin;
+//	          
+//	          String fileName = tastyfile.getOriginName();
+//	          headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
+//	 
+//	          
+//	          
+////	          if (MediaUtils.containsImageMediaType(t.getContentType())) {
+////	              headers.setContentType(MediaType.valueOf(uploadedFile.getContentType()));
+////	          } else {
+////	              headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+////	          }
+//	            
+//	          return ResponseEntity.ok().headers(headers).body(resource);
+//	            
+//	      } catch (Exception e) {
+//	          e.printStackTrace();
+//	          return ResponseEntity.badRequest().build();
+//	      }
+//	  }
+
 	
 	@RequestMapping(value="/tasty/delete", method=RequestMethod.GET)
 	public String delete(TastyBoard tastyBoard) {

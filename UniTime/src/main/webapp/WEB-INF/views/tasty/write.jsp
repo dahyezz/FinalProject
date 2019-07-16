@@ -36,10 +36,11 @@ $(document).ready(function() {
 	        ['help', ['help']]
 		],
 		callbacks: {
-			onImageUpload: function(files, editor, welEditable){
-				for(var i=files.length-1; i>=0; i--) {
-					sendFile(files[i], this);
-				}
+			onImageUpload: function(files, editor){
+				sendFile(files[0], this);
+// 				for(var i=files.length-1; i>=0; i--) {
+// 					sendFile(files[i], this);
+// 				}
 			}
 		}
 		
@@ -55,42 +56,59 @@ $(document).ready(function() {
 	
 });
 
-function postForm() {
+// function postForm() {
 	
-	if(writeForm.storeName.value==""){
-		alert("음식점명을 입력해주세요");
-		writeForm.storeName.focus();
-		return false;
-	}
+// 	if(writeForm.storeName.value==""){
+// 		alert("음식점명을 입력해주세요");
+// 		writeForm.storeName.focus();
+// 		return false;
+// 	}
 	
-	if(writeForm.loc.value==""){
-		alert("위치를 입력해주세요");
-		writeForm.loc.focus();
-		return false;
-	}
+// 	if(writeForm.loc.value==""){
+// 		alert("위치를 입력해주세요");
+// 		writeForm.loc.focus();
+// 		return false;
+// 	}
 	
-	$('textarea[name="content"]').val($('#summernote').summernote('code'));
-}
+// 	$('textarea[name="content"]').val($('#summernote').summernote('code'));
+// }
 
 function sendFile(file, el){
-	var form_data = new FormData();
-	form_data.append('file', file);
+	//파일 전송을 위한 폼 데이터 생성
+	var data = new FormData();
+	data.append('file', file);
+// 	data.append('boardno', $('#boardno').val());
 	
+	//ajax를 통해 파일 업로드 처리
 	$.ajax({
-		data: form_data
+		data: data
+		, dataType: "json"
 		, type: "POST"
-		, url: "/tasty/write"
+		, url: "/tasty/imageUpload"
 		, cache: false
 		, contentType: false
 		, enctype: "multipart/form-data"
 		, processData: false
 		, success: function(url) {
+			console.log(url);
+// 			editor.insertImage(welEditable, data.url);
 // 			$("#summernote").summernote('insertImage', data.url);
-			$(el).summernote('editor.insertImage', url);
-          	$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+// 			fileurl = data.url
+// 			$('#boardno').val(data.boardno);
+			$(el).summernote('editor.insertImage', "http://localhost:8088/tastyUpload/"+url);
+//           	$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
 		}
 	});
 }
+
+$(document).ready(function() {
+	$("#fo").submit(function() {
+		$(this).append($("<input>").attr("type", "hidden").attr("name", "fileurl").val(fileurl));
+		var code = $('#summernote').summernote('code');
+	    $('textarea[name="content"]').val(code);
+		$(this).submit();
+	})
+})
 
 </script>
 
@@ -99,7 +117,8 @@ function sendFile(file, el){
 </div>
 
 <div>
-<form action="/tasty/write" method="post" onsubmit="return postForm()" name="writeForm">
+<!-- <form action="/tasty/write" method="post" onsubmit="return postForm()" name="writeForm"> -->
+<form action="/tasty/write" method="post" name="writeForm" id="fo">
 
 	<div class="container">
 <!-- 		<span class="input-group-addon" id="basic-addon1">종류</span> -->
@@ -138,6 +157,9 @@ function sendFile(file, el){
 	<button type="submit" class="btn btn-info">작성</button>
 	<button type="button" id="btnCancel" class="btn btn-danger">취소</button>
 </div>
+
+<!-- <input type="file" name="file" /> -->
+<input type="hidden" name="boardno" id="boardno" value="0" />
 
 </form>
 </div>
