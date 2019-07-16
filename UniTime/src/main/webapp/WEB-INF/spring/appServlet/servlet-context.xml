@@ -57,6 +57,9 @@
 		<beans:property name="order" value="0" /> <!-- 우선순위 -->
 	</beans:bean>
 	
+	<!-- FreeDownoadView 클래스를 freedown이라는 이름의 빈으로 등록 -->
+	<beans:bean id="freedown" class="web.view.FreeDownloadView" />
+	
 	<!-- MultipartResolver -->
 	<!-- 파일업로드 처리 클래스 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

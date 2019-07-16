@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DOCTYPE -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="web.dao.face.FreeBoardDao">
+
+	<select id="selectAll" parameterType="web.util.Paging" resultType="web.dto.FreeBoard">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+		        SELECT boardno, tag, title, writer, hit, writtendate FROM freeboard_kg
+		        ORDER BY boardno DESC ) B
+		    ORDER BY rnum ) RB
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+	
+	<select id="selectCntAll" resultType="int">
+		SELECT count(*) FROM freeboard_kg
+	</select>
+	
+	<select id="selectBoardByBoardno" parameterType="int" resultType="web.dto.FreeBoard">
+		SELECT * FROM freeboard_kg
+		WHERE boardno=#{boardno }
+	</select>
+	
+	<update id="updateHit" parameterType="int">
+		UPDATE freeboard_kg
+		SET hit=hit+1
+		WHERE boardno=#{boardno }
+	</update>
+	
+	<select id="selectBoardno" resultType="int">
+		SELECT freeboard_kg_seq.nextval FROM dual
+	</select>
+	
+	<insert id="insertBoard" parameterType="web.dto.FreeBoard">		
+		INSERT INTO freeboard_kg(boardno, tag, title, content, writer)
+		VALUES (#{boardno }, #{tag }, #{title }, #{content }, #{writer })
+	</insert>
+	
+	<update id="updateBoard" parameterType="web.dto.FreeBoard">
+		UPDATE freeboard_kg
+		SET tag=#{tag }, title=#{title }, content=#{content }
+		WHERE boardno=#{boardno }
+	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM freeboard_kg
+		WHERE boardno=#{boardno }
+	</delete>
+	
+	<insert id="insertFile" parameterType="web.dto.FreeFile">
+		INSERT INTO freefile_kg(fileno, boardno, originname, storedname)
+		VALUES(freefile_kg_seq.nextval, #{boardno }, #{originname }, #{storedname })
+	</insert>
+	
+	<select id="selectFileByBoardno" parameterType="int" resultType="web.dto.FreeFile">
+		SELECT * FROM freefile_kg
+		WHERE boardno=#{boardno }
+	</select>
+	
+	<select id="selectFileByFileno" parameterType="int" resultType="web.dto.FreeFile">
+		SELECT * FROM freefile_kg
+		WHERE fileno=#{fileno }
+	</select>
+	
+	<delete id="deleteFileByBoardno" parameterType="int">
+		DELETE FROM freefile_kg
+		WHERE boardno=#{boardno }
+	</delete>
+	
+	<select id="selectCommentByBoardno" parameterType="int" resultType="web.dto.FreeComment">
+		SELECT * FROM freecomment_kg
+		WHERE boardno=#{boardno }
+		ORDER BY commentno DESC
+	</select>
+	
+	<insert id="insertComment" parameterType="web.dto.FreeComment">
+		INSERT INTO freecomment_kg(commentno, boardno, writer, content)
+		VALUES(freecomment_kg_seq.nextval, #{boardno }, #{writer }, #{content })
+	</insert>
+	
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM freecomment_kg
+		WHERE commentno=#{commentno }
+	</delete>
+	
+	<delete id="deleteCommentByBoardno" parameterType="int">
+		DELETE FROM freecomment_kg
+		WHERE boardno=#{boardno }
+	</delete>
+
+</mapper>
