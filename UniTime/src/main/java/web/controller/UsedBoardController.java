@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import web.dto.UsedBoard;
 import web.service.face.UsedService;
 import web.util.Paging;
 
 @Controller
-public class UsedBoard {
+public class UsedBoardController {
 	
 	// Logger 객체 생성 
 	private static final Logger logger
@@ -30,12 +31,15 @@ public class UsedBoard {
 			@RequestParam(defaultValue="1") int curPage 
 			) {
 		
+		logger.info("게시판 리스트");
+		
 		Paging paging = usedService.getPage(curPage);
 		
 		List<UsedBoard> boardList
 		= usedService.list(paging);
 		
 		model.addAttribute("list", boardList);
+		model.addAttribute("paging", paging);
 				
 	}
 }
