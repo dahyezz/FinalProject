@@ -7,22 +7,34 @@
 
 <mapper namespace="web.dao.face.MemberDao">
 
-	<select id="selectCntLogin" parameterType="web.dto.Member" resultType="int">
+	<select id="selectCntLogin" parameterType="web.dto.Member"
+		resultType="int">
 		SELECT COUNT(*) FROM member_kg
-		WHERE email = #{email } AND password = #{password }
+		WHERE email = #{email } AND
+		password = #{password }
 	</select>
-	
-	<select id="selectMemberByEmail" parameterType="web.dto.Member" resultType="web.dto.Member">
-		SELECT department_code departmentCode, hakbun, name, email, nickname, password, penalty
+
+	<select id="selectMemberByEmail" parameterType="web.dto.Member"
+		resultType="web.dto.Member">
+		SELECT department_code departmentCode, hakbun, name, email,
+		nickname, password, penalty
 		FROM member_kg
 		WHERE email = #{email }
 	</select>
-	
+
 	<insert id="insert" parameterType="web.dto.Member">
-		INSERT INTO member_kg (department_code, hakbun, name, email, nickname, password, penalty)
-		VALUES (#{departmentCode }, #{hakbun }, #{name }, #{email }, #{nickname }, #{password }, 0)
+		INSERT INTO member_kg
+		(department_code, hakbun, name, email, nickname, password, penalty)
+		VALUES (#{departmentCode }, #{hakbun }, #{name }, #{email },
+		#{nickname }, #{password }, 0)
 	</insert>
-	
+
+	<!-- 아이디 확인 -->
+	<select id="idCheck" resultType="web.dto.Member">
+		SELECT hakbun from member_kg
+		where hakbun = #{hakbun}
+	</select>
+
 </mapper>
 
 

@@ -48,15 +48,21 @@ public class MemberServiceImpl implements MemberService{
 	      // mail 작성 관련 
 	      MailUtils sendMail = new MailUtils(mailSender);
 	      
-	      sendMail.setSubject("회원가입 이메일 인증");
-	      sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>")
+	      sendMail.setSubject("슬기로운 대학생활 회원가입 이메일 인증입니다.");
+	      sendMail.setText(new StringBuffer().append("<h1>슬기로운 대학생활 이메일 인증입니다.</h1>")
 	            .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-	            .append("<a href='http://localhost:8088/member/joinConfirm?auth_key='")
+	            .append("<p>인증를 완료하시면 슬기로운 대학생활의 서비스를 이용하실 수 있습니다.</p>")
+	            .append("<a href='http://localhost:8080/member/joinComplete'")
 	            .append(">이메일 인증 확인</a>")
 	            .toString());
-	      sendMail.setFrom("gjflrhlanf1@naver.com", "hyunwoo");
+	      sendMail.setFrom("gjflrhlanf1@gmail.com", "hyunwoo");
 	      sendMail.setTo(member.getEmail());
 	      sendMail.send();
 		
+	}
+
+	@Override
+	public Member idCheck(String hakbun) throws Exception {
+		return memberDao.idCheck(hakbun);
 	}
 }

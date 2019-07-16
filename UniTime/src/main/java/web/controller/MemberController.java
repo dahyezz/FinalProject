@@ -1,5 +1,6 @@
 package web.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.Member;
 import web.service.face.MemberService;
@@ -70,6 +72,36 @@ public class MemberController {
 		
 		memberService.join(member);
 		
-		return "redirect:/main";
+		return "redirect:/member/joinEmail";
 	}
+	
+	@RequestMapping(value = "/member/joinEmail", method = RequestMethod.GET)
+	public void joinEmail() {
+		
+	}
+	
+	@RequestMapping(value = "/member/joinComplete", method = RequestMethod.GET)
+	public void joinComplete() {
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/member/idCheck", method = RequestMethod.POST)
+	public int postIdCheck(HttpServletRequest req) throws Exception {
+		
+		logger.info("post idCheck");
+		 
+		String hakbun = req.getParameter("hakbun");
+
+		Member idCheck =  memberService.idCheck(hakbun);
+		
+		 int result = 0;
+		 
+		 if(idCheck != null) {
+		  result = 1;
+		 } 
+		 
+		 return result;
+		 
+		}
 }
