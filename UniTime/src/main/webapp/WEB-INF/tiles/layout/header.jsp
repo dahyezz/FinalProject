@@ -50,7 +50,7 @@
 <div class="container-fluid">
 	<ul class="nav nav-pills nav-justified">
 		<c:if test="${nick ne 'admin' }">
-			<li><a href="/timetable/recommend">시간표 추천</a></li>
+			<li><a href="/timetable/lecturelist">시간표 추천</a></li>
 			<li><a href="/free/list">자유게시판</a></li>
 			<li><a href="/lecture/list">강의평가</a></li>
 			<li><a href="/used/list">중고장터</a></li>
