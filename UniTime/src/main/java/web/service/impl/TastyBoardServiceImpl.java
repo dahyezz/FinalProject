@@ -1,8 +1,15 @@
 package web.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,8 +62,68 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	}
 	
 	@Override
-	public TastyFile uploadFile(MultipartFile fileupload) {
+	public TastyFile uploadFile(TastyBoard tastyBoard, MultipartFile fileupload, ServletContext context) {
 		
+//		String url = "http://localhost:8088/tastyUpload/";
+		
+		//파일이 저장될 경로
+		String storedPath = context.getRealPath("tastyUpload");
+		
+		//UUID
+		String uId = UUID.randomUUID().toString().split("-")[4];
+		
+		//저장될 파일의 이름(원본이름 + UUID)
+		String name = fileupload.getOriginalFilename()+"_"+uId;
+//		url += name;
+		
+		//저장될 파일 객체
+		File dest = new File(storedPath, name);
+		
+		try {
+			fileupload.transferTo(dest); //실제 저장
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+
+		// STEP1. 게시글 당 하나의 사진만 첨부한다고 가정하고 boardno 알아오기
+		int boardno = 0;
+		
+		if(tastyBoard.getBoardno()==0) {
+			boardno = tastyBoardDao.selectBoardno();
+		} else {
+			boardno = tastyBoard.getBoardno();
+		}
+		
+		//DB에 저장(업로드 정보 기록)
+		TastyFile tastyfile = new TastyFile();
+		tastyfile.setBoardno(boardno);
+		tastyfile.setOriginName(fileupload.getOriginalFilename());
+		tastyfile.setStoredName(name);
+		tastyfile.setFilesize((int)fileupload.getSize());
+		
+		tastyBoardDao.insertFile(tastyfile);
+		
+		return tastyfile;
+	}
+	
+	@Override
+	public TastyFile load(int fileno) {
+		return tastyBoardDao.selectFileByFileno(fileno);
+	}
+	
+	@Override
+	public Resource loadAsResource(String storedName) {
+		
+		Path rootLocation;
+		
+		if(storedName.toCharArray()[0] == '/') {
+			storedName = storedName.substring(1);
+		}
+		
+//		Path file = r
 		
 		return null;
 	}
