@@ -57,4 +57,24 @@
 		WHERE boardno = #{boardno }
 	</update>
 	
+	<select id="selectBoardno" resultType="int">
+		SELECT tastyboard_kg_seq.nextval FROM dual
+	</select>
+	
+	<insert id="insertFile" parameterType="web.dto.TastyFile">
+	
+		<selectKey order="BEFORE" resultType="int" keyProperty="fileno">
+			SELECT tastyfile_kg_seq.nextval FROM dual
+		</selectKey>
+	
+		INSERT INTO tastyfile_kg (fileno, boardno, origin_name, stored_name, filesize)
+		VALUES (#{fileno }, #{boardno }, #{originName }, #{storedName }, #{filesize })
+	</insert>
+	
+	<select id="selectFileByFileno" parameterType="int" resultType="web.dto.TastyFile">
+		SELECT fileno, boardno, origin_name originName, stored_name storedName, filesize
+		FROM tastyfile_kg
+		WHERE fileno = #{fileno }
+	</select>
+	
 </mapper>

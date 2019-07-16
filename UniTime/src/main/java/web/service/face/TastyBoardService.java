@@ -2,6 +2,9 @@ package web.service.face;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.TastyBoard;
@@ -55,6 +58,10 @@ public interface TastyBoardService {
 	 */
 	public void update(TastyBoard tastyBoard);
 
-	public TastyFile uploadFile(MultipartFile fileupload);
+	public TastyFile uploadFile(TastyBoard tastyBoard, MultipartFile fileupload, ServletContext context);
+
+	public TastyFile load(int fileno);
+
+	public Resource loadAsResource(String storedName);
 
 }

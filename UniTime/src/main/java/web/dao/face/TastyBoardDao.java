@@ -3,6 +3,7 @@ package web.dao.face;
 import java.util.List;
 
 import web.dto.TastyBoard;
+import web.dto.TastyFile;
 import web.util.Paging;
 
 public interface TastyBoardDao {
@@ -57,5 +58,21 @@ public interface TastyBoardDao {
 	 * @param tastyBoard
 	 */
 	public void updateHit(TastyBoard tastyBoard);
+
+	/**
+	 * tastyboard 테이블 next sequence 값 가져오기
+	 * 
+	 * @return
+	 */
+	public int selectBoardno();
+
+	/**
+	 * filetable에 insert하기
+	 * 
+	 * @param tastyfile
+	 */
+	public void insertFile(TastyFile tastyfile);
+
+	public TastyFile selectFileByFileno(int fileno);
 
 }
