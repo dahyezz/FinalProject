@@ -26,5 +26,7 @@ public interface MemberService {
 	 * @param login - 회원가입 정보
 	 */
 	public void join(Member member)throws Exception;
+	
+	public Member idCheck(String hakbun) throws Exception;
 
 }

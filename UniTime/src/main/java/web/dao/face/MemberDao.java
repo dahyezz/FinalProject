@@ -22,4 +22,5 @@ public interface MemberDao {
 
 	public void insert(Member member);
 
+	public Member idCheck(String hakbun) throws Exception;
 }
