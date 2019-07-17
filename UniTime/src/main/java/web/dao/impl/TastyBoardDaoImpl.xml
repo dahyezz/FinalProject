@@ -77,4 +77,27 @@
 		WHERE fileno = #{fileno }
 	</select>
 	
+	<select id="selectAllCommentByBoardno" parameterType="web.dto.TastyBoard" resultType="web.dto.TastyComment">
+		SELECT commentno, boardno, writer, content, writtendate
+		FROM tastycomment_kg
+		WHERE boardno = #{boardno }
+		ORDER BY commentno DESC
+	</select>
+	
+	<insert id="insertComment" parameterType="web.dto.TastyComment">
+		INSERT INTO tastycomment_kg(commentno, boardno, writer, content)
+		VALUES (tastycomment_kg_seq.nextval, #{boardno }, #{writer }, #{content } )
+	</insert>
+	
+	<select id="selectBoardnoByCommentno" parameterType="web.dto.TastyComment" resultType="web.dto.TastyComment">
+		SELECT commentno, boardno, writer, content, writtendate
+		FROM tastycomment_kg
+		WHERE commentno = #{commentno }
+	</select>
+	
+	<delete id="deleteComment" parameterType="web.dto.TastyComment">
+		DELETE tastycomment_kg
+		WHERE commentno = #{commentno }
+	</delete>
+	
 </mapper>
