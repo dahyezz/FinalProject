@@ -40,6 +40,6 @@ public class UsedBoardController {
 		
 		model.addAttribute("list", boardList);
 		model.addAttribute("paging", paging);
-				
+		
 	}
 }
