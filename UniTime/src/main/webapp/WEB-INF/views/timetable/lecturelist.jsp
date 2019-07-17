@@ -2,6 +2,108 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$("btnContain").click(function(){
+		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
+		
+		// 체크된 대상들을 map으로 만들고 map을 문자열로 만들기
+		var map = $checkboxes.map(function() {
+			return $(this).val();
+		});
+		var names = map.get().join(",");
+		console.log("names : " + names);
+
+		// 전송 폼
+		var $form = $("<form>")
+			.attr("action", "/timetable/lecturelist")
+			.attr("method", "post")
+			.append(
+				$("<input>")
+					.attr("type", "hidden")
+					.attr("name", "names")
+					.attr("value", names)
+			);
+		$(document.body).append($form);
+		$form.submit();
+		
+		
+	});
+	// 선택체크 삭제
+	$("#btnDelete").click(function() {
+		// 선택된 체크박스
+		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
+		
+				
+		//방법1
+		// 체크된 대상들을 하나씩 꺼내서 문자열로 합치기
+// 		var names = "";
+// 		var len = $checkboxes.length;
+// 		$checkboxes.each( function(idx) {
+// 			names += $(this).val();
+			
+// 			if( len-1 != idx ) {
+// 				names += ",";
+// 			}
+// 		});
+// 		console.log(names);
+	
+		//방법2
+		// 체크된 대상들을 map으로 만들고 map을 문자열로 만들기
+		var map = $checkboxes.map(function() {
+			return $(this).val();
+		});
+		var names = map.get().join(",");
+// 		console.log("names : " + names);
+
+// 		console.log($checkboxes);
+// 		console.log( "map:" + map );	// 맵
+// 		console.log( "map->array : " + map.get() );	// 맵->배열
+// 		console.log( "array tostring : " + map.get().join(",") ); // toString
+		
+		
+		
+		// 전송 폼
+		var $form = $("<form>")
+			.attr("action", "/timetable/deletemylist")
+			.attr("method", "post")
+			.append(
+				$("<input>")
+					.attr("type", "hidden")
+					.attr("name", "names")
+					.attr("value", names)
+			);
+		$(document.body).append($form);
+		$form.submit();
+	
+	});
+	
+});
+
+//전체 체크/해제
+function checkAll() {
+	// checkbox들
+	var $checkboxes=$("input:checkbox[name='checkRow']");
+
+	// checkAll 체크상태 (true:전체선택, false:전체해제)
+	var check_status = $("#checkAll").is(":checked");
+	
+	if( check_status ) {
+		// 전체 체크박스를 checked로 바꾸기
+		$checkboxes.each(function() {
+			this.checked = true;	
+		});
+	} else {
+		// 전체 체크박스를 checked 해제하기
+		$checkboxes.each(function() {
+			this.checked = false;	
+		});
+	}
+}
+
+</script>
 <style type="text/css">
 #lectureList {
 	text-align: center;
@@ -21,7 +123,10 @@
 <hr>
 <h1>시간표 메인 페이지</h1>
 <hr>
+
+<form>
 <div style="overflow:scroll;width:1000px;height:400px;">
+
 <table id="lectureList">
 <thead>
 	<tr>
@@ -57,8 +162,8 @@
 </table>
 </div>
 <br>
-<button>강의담기</button>
-
+<button id="btnContain">강의담기</button>
+</form>
 <br><br>
 <h3>내 강의 목록</h3>
 <hr>
