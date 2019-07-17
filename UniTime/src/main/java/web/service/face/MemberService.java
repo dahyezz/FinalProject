@@ -28,5 +28,5 @@ public interface MemberService {
 	public void join(Member member)throws Exception;
 	
 	public Member idCheck(String hakbun) throws Exception;
-
+	public Member nickCheck(String nickname) throws Exception;
 }
