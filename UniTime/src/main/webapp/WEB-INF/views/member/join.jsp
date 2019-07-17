@@ -17,20 +17,39 @@ function inputCheck() {
 		join.userpwCheck.focus();
 		return false;
 	}
+
+	if(!join.password.value.match(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/)) {
+	    alert("비밀번호는 영문,숫자,특수문자(!@$%^&* 만 허용)를 혼합하여 사용해주세요. 영문은 대소문자를 구분합니다.");
+	    return false;
+	}
 }
+
 	$(document).ready(function() {
 		$(".idCheck").click(function() {
-
+			
+			var join = document.joinForm;
+			
+		    if (join.hakbun.value.length < 9 || join.hakbun.value.length > 9){
+		        alert("학번은 9자 이여야 합니다.");
+		        x.id.focus();
+		        return;
+		        }
+			
+		    //----------------------------------------------------------------------------------------------------
 			var query = {
-				userId : $("#hakbun").val()
+				hakbun : $("#hakbun").val()
 			};
-
+			
+			console.log( $("#hakbun").val() );
+			
 			$.ajax({
 				url : "/member/idCheck",
 				type : "post",
 				data : query,
 				success : function(data) {
 
+					console.log(data);
+					
 					if (data == 1) {
 						$(".result .msg").text("사용 불가");
 						$(".result .msg").attr("style", "color:#f00");
@@ -45,7 +64,37 @@ function inputCheck() {
 				}
 			}); // ajax 끝
 		});
+			//----------------------------------------------------------------------------------------------------
+		$(".nickCheck").click(function() {
+			var query = {
+				nickname : $("#nickname").val()
+			};
+			
+			console.log( $("#nickname").val() );
+			
+			$.ajax({
+				url : "/member/nickCheck",
+				type : "post",
+				data : query,
+				success : function(data) {
 
+					console.log(data);
+					
+					if (data == 1) {
+						$(".result1 .msg").text("사용 불가");
+						$(".result1 .msg").attr("style", "color:#f00");
+
+						$("#btnJoin").attr("disabled", "disabled");
+					} else {
+						$(".result1 .msg").text("사용 가능");
+						$(".result1 .msg").attr("style", "color:#00f");
+
+						$("#btnJoin").removeAttr("disabled");
+					}
+				}
+			}); // ajax 끝
+		});
+			
 		$("#idCheckBtn").unbind("click").click(function(e) {
 			e.preventDefault();
 			fn_userIDCHeck();
@@ -79,12 +128,13 @@ function inputCheck() {
 
 <div>
 
-	<form action="/member/join" method="post" name = "joinForm" onsubmit = "return inputCheck()">
+	<form action="/member/join" method="post" name="joinForm"
+		onsubmit="return inputCheck()">
 		<table style="text-align: center; margin: auto;">
 			<tr>
 				<th style="width: 100px" scope="row"><label>학번<input
-						type="text" name="hakbun" placeholder=" 학번을 입력하세요" /></label>
-				<button type="button" class="idCheck">학번 확인</button></th>
+						id="hakbun" type="text" name="hakbun" placeholder=" 학번을 입력하세요" /></label>
+					<button type="button" class="idCheck">학번 확인</button></th>
 			</tr>
 			<tr>
 				<th><p class="result">
@@ -100,7 +150,13 @@ function inputCheck() {
 			</tr>
 			<tr>
 				<th style="width: 100px" scope="row"><label>닉네임<input
-						type="text" name="nickname" placeholder=" 닉네임을 입력하세요" /></label></th>
+						id="nickname" type="text" name="nickname"
+						placeholder=" 닉네임을 입력하세요" /></label>
+					<button type="button" class="nickCheck">닉네임 확인</button></th>
+			</tr>
+			<tr>
+				<th><p class="result1">
+						<span class="msg">닉네임을 확인해 주십시오.</span></th>
 			</tr>
 			<tr>
 				<th style="width: 100px" scope="row"><label>패스워드<input

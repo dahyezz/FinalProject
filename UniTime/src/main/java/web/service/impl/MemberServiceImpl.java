@@ -65,4 +65,8 @@ public class MemberServiceImpl implements MemberService{
 	public Member idCheck(String hakbun) throws Exception {
 		return memberDao.idCheck(hakbun);
 	}
+	@Override
+	public Member nickCheck(String nickname) throws Exception {
+		return memberDao.nickCheck(nickname);
+	}
 }

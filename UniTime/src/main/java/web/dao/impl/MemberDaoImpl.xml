@@ -35,6 +35,11 @@
 		where hakbun = #{hakbun}
 	</select>
 
+	<!-- 닉네임 확인 -->
+	<select id="nickCheck" resultType="web.dto.Member">
+		SELECT nickname from member_kg
+		where nickname = #{nickname}
+	</select>
 </mapper>
 
 
