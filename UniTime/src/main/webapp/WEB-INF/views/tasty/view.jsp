@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -12,12 +13,68 @@ $(document).ready(function() {
 	
 	$('#btnUpdate').click(function() {
 		$(location).attr("href","/tasty/update?boardno="+${board.boardno });
-	})
+	});
 	
 	$('#btnDelete').click(function() {
 		$(location).attr("href","/tasty/delete?boardno="+${board.boardno });
 	});
+	
+	$('#cmtWrite').click(function() {
+// 		console.log(${board.boardno })
+// 		console.log($('#content').val())
+// 		console.log($('#writer').val())
+		
+		$form = $("<form>").attr({
+			action: "/tasty/writeComment"
+			, method: "post"
+		}).append(
+			$("<input>").attr({
+				type: "hidden",
+				name: "boardno",
+				value: "${board.boardno }"
+			})		
+		).append(
+			$("<input>").attr({
+				type: "hidden",
+				name: "writer",
+				value: "${sessionScope.nick }"
+			})	
+		).append(
+			$("<textarea>")
+				.attr("name", "content")
+				.css("display", "none")
+				.text($("#content").val())
+		);
+		$(document.body).append($form);
+		$form.submit();
+	});
+	
+	
 });
+
+function deleteComment(commentno){
+	
+// 	console.log(commentno)
+	$.ajax({
+		type: "post"
+		, url: "/tasty/deleteComment"
+		, dataType: "json"
+		, data: {
+			commentno: commentno
+		}
+		, success: function(data){
+			if(data.success){
+				$("[data-commentno='"+commentno+"']").remove();
+			} else {
+				alert("댓글 삭제 실패");
+			}
+		}
+		, error: function() {
+			console.log("error")
+		}
+	});
+	
+}
 </script>
 
 <div class="ed board-header padding-horizontal-small@s margin-bottom-small">
@@ -51,6 +108,33 @@ $(document).ready(function() {
 	<tr><td colspan="4">${board.content }</td></tr>
 </table>
 
+
+<div>
+<h5>댓글</h5>
+
+
+<table class="table">
+<c:forEach items="${commentList }" var="i">
+	<tr data-commentno="${i.commentno }">
+		<td>${i.writer }</td>
+		<td>${i.content }</td>
+		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm:ss" /></td>	
+		
+		<td><c:if test="${nick eq i.writer }">
+			<button  onclick="deleteComment(${i.commentno });">삭제</button>
+		</c:if></td>
+	</tr>
+</c:forEach>
+</table>
+
+</div>
+
+<%-- <form action="/tasty/writeComment?boardno=${board.boardno }" method="post"> --%>
+	<label>${nick }<textarea id="content" name="content" rows="1" cols="70"></textarea></label>
+	<input type="hidden" name="writer" id="writer" value="${nick }" />
+	
+	<button id="cmtWrite" name="cmtWrite" class="btn">입력</button>
+<!-- </form> -->
 
 <div class="text-center">
 	<button id="btnList" class="btn btn-primary">목록</button>
