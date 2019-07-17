@@ -7,9 +7,10 @@
 <div class="ed board-header padding-horizontal-small@margin-bottom-small">
 	<h3>중고장터</h3>
 </div>
+<div>
 
-<table border=1 
-    style="text-align: center; margin: auto;">
+<table class="table table-striped table-hover table-condensed">
+	
 	<tr>
 		<th style="text-align:center; width: 7%">글번호</th>
 		<th style="text-align:center; width: 8%">태그</th>
@@ -19,7 +20,9 @@
 		<th style="text-align:center; width: 8%">조회수</th>
 		<th style="text-align:center; width: 15%">작성일</th>
 	</tr>
+	
 	<c:forEach items="#{list }" var="i">
+	
 	<tr>
 		<td>${i.boardno }</td>
 		<td>${i.tag }</td>
@@ -28,6 +31,15 @@
 		<td><fmt:formatNumber value="${i.price }" pattern="###,###.###"></fmt:formatNumber></td>
 		<td>${i.hit }</td>
 		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></th>
-	</tr>	
+	</tr>
+		
 	</c:forEach>
+	
 </table>
+
+</div>
+
+<div id="pagingbox" align="center">
+	<c:import url="/WEB-INF/views/used/paging.jsp" />
+</div>
+
