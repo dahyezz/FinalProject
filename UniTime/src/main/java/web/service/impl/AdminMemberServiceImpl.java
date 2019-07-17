@@ -1,5 +1,6 @@
 package web.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,31 @@ import web.service.face.AdminMemberService;
 @Service
 public class AdminMemberServiceImpl implements AdminMemberService {
 	
-	@Autowired AdminMemberDao adminMemberdao;
+	@Autowired AdminMemberDao adminMemberDao;
 	
 	@Override
 	public List memberSelectAll() {
 
-		return adminMemberdao.memberSelectAll();
+		return adminMemberDao.memberSelectAll();
 	}
 	
+	@Override
+	public void memberDelete(String[] email) {
+		
+		HashMap map = new HashMap();
+		map.put("email", email);
+		
+		adminMemberDao.memberDelete(map);
+	}
+	
+	@Override
+	public void memberPenalty(String[] email) {
+
+		HashMap map = new HashMap();
+		map.put("email", email);
+		
+		adminMemberDao.memberUpdate(map);
+	}
 
 
 }
