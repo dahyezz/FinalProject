@@ -25,7 +25,7 @@
 		<td>${i.tag }</td>
 		<td>${i.writer }</td>
 		<td><a href="/used/view?boardno=${i.boardno }">${i.title }</a></td>
-		<td>${i.price }</td>
+		<td><fmt:formatNumber value="${i.price }" pattern="###,###.###"></fmt:formatNumber></td>
 		<td>${i.hit }</td>
 		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></th>
 	</tr>	
