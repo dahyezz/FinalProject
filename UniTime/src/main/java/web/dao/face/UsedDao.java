@@ -22,4 +22,11 @@ public interface UsedDao {
 	 */
 	public List<UsedBoard> selectAll(Paging paging);
 	
+	/*
+	 *  조회수 기능 
+	 *  
+	 *  @param UsedBoard
+	 */
+	public void updateHit(UsedBoard usedBoard);
+	
 }
