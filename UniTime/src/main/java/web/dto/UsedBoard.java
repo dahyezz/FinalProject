@@ -9,13 +9,13 @@ public class UsedBoard {
 	private String content;
 	private String writer;
 	private int hit;
+	private int price;
 	private Date writtendate;
-	
 	
 	@Override
 	public String toString() {
 		return "UsedBoard [boardno=" + boardno + ", tag=" + tag + ", title=" + title + ", content=" + content
-				+ ", writer=" + writer + ", hit=" + hit + ", writtendate=" + writtendate + "]";
+				+ ", writer=" + writer + ", hit=" + hit + ", price=" + price + ", writtendate=" + writtendate + "]";
 	}
 
 	public int getBoardno() {
@@ -66,6 +66,14 @@ public class UsedBoard {
 		this.hit = hit;
 	}
 
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
 	public Date getWrittendate() {
 		return writtendate;
 	}
@@ -73,6 +81,5 @@ public class UsedBoard {
 	public void setWrittendate(Date writtendate) {
 		this.writtendate = writtendate;
 	}
-
 	
 }

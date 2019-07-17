@@ -80,24 +80,28 @@ function sendFile(file, el){
 // 	data.append('boardno', $('#boardno').val());
 	
 	//ajax를 통해 파일 업로드 처리
-	$.ajax({
+	$.ajax({	
 		data: data
-		, dataType: "json"
+		, dataType: "text"
 		, type: "POST"
 		, url: "/tasty/imageUpload"
 		, cache: false
 		, contentType: false
 		, enctype: "multipart/form-data"
 		, processData: false
-		, success: function(url) {
-			console.log(url);
-// 			editor.insertImage(welEditable, data.url);
-// 			$("#summernote").summernote('insertImage', data.url);
+		, success: function(data) {
+			console.log("성공");
+			console.log(data);
+			editor.insertImage(welEditable, data);
+// 			$("#summernote").summernote('insertImage', data);
 // 			fileurl = data.url
 // 			$('#boardno').val(data.boardno);
-			$(el).summernote('editor.insertImage', "http://localhost:8088/tastyUpload/"+url);
-//           	$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+// 			$(el).summernote('editor.insertImage', "http://localhost:8088/tastyUpload/"+data);
+//           	$('#imageBoard > ul').append('<li><img src="'+data+'" width="480" height="auto"/></li>');
 		}
+		, error: function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus+"  "+errorThrown)
+		} 
 	});
 }
 

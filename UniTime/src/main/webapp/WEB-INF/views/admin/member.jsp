@@ -2,6 +2,82 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	// 회원 삭제
+	// 선택체크 삭제
+	$("#btnDelete").click(function() {
+		// 선택된 체크박스
+		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
+		
+		//방법1
+		// 체크된 대상들을 하나씩 꺼내서 문자열로 합치기
+		var email = "";
+		var len = $checkboxes.length;
+		$checkboxes.each( function(idx) {
+			email += $(this).val();
+			
+			if( len-1 != idx ) {
+				email += ",";
+			}
+		});
+		console.log(email);
+		
+		// 전송 폼
+		var $form = $("<form>")
+			.attr("action", "/admin/memberDelete")
+			.attr("method", "get")
+			.append(
+				$("<input>")
+					.attr("type", "hidden")
+					.attr("name", "email")
+					.attr("value", email)
+			);
+		$(document.body).append($form);
+		$form.submit();
+	
+	});
+
+
+	// 회원 경고
+	// 선택체크 삭제
+	$("#btnPenalty").click(function() {
+		// 선택된 체크박스
+		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
+		
+		//방법1
+		// 체크된 대상들을 하나씩 꺼내서 문자열로 합치기
+		var email = "";
+		var len = $checkboxes.length;
+		$checkboxes.each( function(idx) {
+			email += $(this).val();
+			
+			if( len-1 != idx ) {
+				email += ",";
+			}
+		});
+		console.log(email);
+		
+		// 전송 폼
+		var $form = $("<form>")
+			.attr("action", "/admin/memberPenalty")
+			.attr("method", "get")
+			.append(
+				$("<input>")
+					.attr("type", "hidden")
+					.attr("name", "email")
+					.attr("value", email)
+			);
+		$(document.body).append($form);
+		$form.submit();
+	
+	});
+});
+
+
+</script>
     
 <style type="text/css">
 table, th {
@@ -11,8 +87,6 @@ table, th {
 </style>
 
 
-<form action="/admin/memberDelete" method="get">
-<div>
 <table>
 <thead>
 	<tr>
@@ -36,14 +110,13 @@ table, th {
 		<td>${i.email }</td>
 		<td>${i.nickname }</td>
 		<td>${i.penalty }</td>
-		<td><input type="checkbox" value="${i.hakbun }" /></td>
+		<td><input type="checkbox" name="checkRow" value="${i.email }" /></td>
 	</tr>
 </c:forEach>
 </tbody>
-<button>회원탈퇴</button>
-</div>
-</form>
 </table>
+<button id="btnDelete" name="checkRow">삭제</button>
+<button id="btnPenalty" name="checkRow">경고부여</button>
 
 
 
