@@ -15,26 +15,13 @@ import web.service.face.AdminMemberService;
 @Controller
 public class AdminController {
 	
-	@Autowired AdminMemberService adminMemberService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
 	@RequestMapping(value="/admin/main", method=RequestMethod.GET)
 	public void adminMain() { }
 	
-	@RequestMapping(value = "/admin/member", method = RequestMethod.GET)
-	public void adminMember(Model model) {
-		
-		List list = adminMemberService.memberSelectAll();
-		
-		model.addAttribute("list", list);
-		
-		
-	}
-	@RequestMapping(value="/admin/memberDelete", method = RequestMethod.GET)
-	public void adminMemberDelete() {
-		
-	}
+
 	
 
  

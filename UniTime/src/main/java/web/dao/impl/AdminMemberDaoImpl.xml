@@ -9,8 +9,24 @@
 
 	<select id="memberSelectAll" resultType="web.dto.Member">
 			SELECT * FROM member_kg
+			ORDER BY hakbun
 			
-	
 	</select>
+	
+	<delete id="memberDelete" parameterType="String">
+		DELETE member_kg
+		WHERE email IN 
+		<foreach collection="email" item="e" open="(" close=")" separator=",">#{e}</foreach>
+	
+	</delete>
+	
+	<update id="memberUpdate" parameterType="String">
+		UPDATE member_kg
+		SET penalty = penalty + 1
+		WHERE email IN
+		<foreach collection="email" item="e" open="(" close=")" separator=",">#{e}</foreach>
+	
+	</update>
+	
 	
 </mapper>
