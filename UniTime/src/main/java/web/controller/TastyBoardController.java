@@ -1,7 +1,6 @@
 package web.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -10,20 +9,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import web.dto.TastyBoard;
+import web.dto.TastyComment;
 import web.dto.TastyFile;
 import web.service.face.TastyBoardService;
 import web.util.Paging;
@@ -35,6 +31,10 @@ public class TastyBoardController {
 	
 	@Autowired ServletContext context;
 	@Autowired TastyBoardService tastyBoardService;
+	
+	// json 데이터로 응답을 보내기 위한 
+	@Autowired MappingJackson2JsonView jsonView;
+
 	
 	@RequestMapping(value="/tasty/list", method=RequestMethod.GET)
 	public void list(Model model,
@@ -55,8 +55,10 @@ public class TastyBoardController {
 		logger.info(tastyBoard.toString());
 		
 		tastyBoard = tastyBoardService.getBoard(tastyBoard);
+		List<TastyComment> commentList = tastyBoardService.getComment(tastyBoard);
 		
 		model.addAttribute("board", tastyBoard);
+		model.addAttribute("commentList", commentList);
 	}
 	
 	@RequestMapping(value="/tasty/write", method=RequestMethod.GET)
@@ -75,7 +77,9 @@ public class TastyBoardController {
 	@RequestMapping(value="/tasty/imageUpload", method=RequestMethod.POST)
 	public void imageUpload(
 			TastyBoard tastyBoard,
-			@RequestParam("file") MultipartFile fileupload
+			@RequestParam("file") MultipartFile fileupload,
+			HttpServletResponse resp
+//			ModelAndView mav
 			) {
 		
 		logger.info(tastyBoard.toString());
@@ -83,8 +87,21 @@ public class TastyBoardController {
 		logger.info(context.getRealPath("tastyUpload"));
 		
 		//첨부파일 저장
-		tastyBoardService.uploadFile(tastyBoard, fileupload, context);
+		TastyFile tastyfile = tastyBoardService.uploadFile(tastyBoard, fileupload, context);
 //		return ResponseEntity.ok().body("/tasty/"+tastyFile.getFileno());
+		logger.info(tastyfile.toString());
+		String url = tastyfile.getOriginName();
+//		mav.setViewName("multipartResolver");
+//		mav.setView(jsonView);
+//		mav.addObject("file", tastyfile);
+		
+//		return mav;
+		
+		try {
+			resp.getWriter().append("{\"url\":"+url+"}");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -152,6 +169,34 @@ public class TastyBoardController {
 		tastyBoardService.update(tastyBoard);
 		
 		return "redirect:/tasty/view?boardno="+tastyBoard.getBoardno();
+	}
+	
+
+	@RequestMapping(value="/tasty/writeComment", method=RequestMethod.POST)
+	public String writeComment(TastyComment tastyComment) {
+		
+		logger.info(tastyComment.toString());
+		
+		tastyBoardService.writeComment(tastyComment);
+		
+		return "redirect:/tasty/view?boardno="+tastyComment.getBoardno();
+	}
+	
+	@RequestMapping(value="/tasty/deleteComment", method=RequestMethod.POST)
+	public void deleteComment(TastyComment tastyComment, HttpServletResponse response) {
+		logger.info(tastyComment.toString());
+		
+		tastyComment = tastyBoardService.getBoardno(tastyComment);
+		tastyBoardService.deleteComment(tastyComment);
+		
+		boolean success = true;
+		
+		try {
+			response.getWriter().append("{\"success\":"+success+"}");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	

@@ -5,19 +5,38 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="web.dao.face.UsedBoardDao">
+<mapper namespace="web.dao.face.UsedDao">
 
 	<select id="selectCntAll"
 	    resultType="int">
-	    SELECT COUNT(*)
-	    FROM usedBoard_kg
+	    SELECT count(*)
+	    FROM UsedBoard_KG
 	</select>
 	
 	<select id="selectAll"
 	    resultType="web.dto.UsedBoard"
 	    parameterType="web.util.Paging">
-	    
+	    SELECT 
+	    	boardno, tag, title,
+		    content, writer, hit, price,
+		    writtendate
+	    FROM (
+	    	SELECT rownum rnum, B.* FROM (
+	    	    SELECT * FROM UsedBoard_KG
+	    	    ORDER BY boardno DESC
+	    	    ) B
+	    	ORDER BY rnum
+	    ) UsedBoard_KG
+	    WHERE 
+	         rnum BETWEEN #{startNo } AND #{endNo }
 	</select>
+	
+	<update id="updateHit"
+	    parameterType="web.dto.UsedBoard">
+	    UPDATE UsedBoard_KG
+	    SET hit = 1
+	    WHERE boardno = #{boardno }
+	</update>
 
 
 </mapper>
