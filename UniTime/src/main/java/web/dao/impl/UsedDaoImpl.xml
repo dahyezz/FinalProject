@@ -17,7 +17,7 @@
 	    resultType="web.dto.UsedBoard"
 	    parameterType="web.util.Paging">
 	    SELECT 
-	    	boardno, tag, title,
+	    	boardno, tag, title, product,
 		    content, writer, hit, price,
 		    writtendate
 	    FROM (
@@ -34,9 +34,34 @@
 	<update id="updateHit"
 	    parameterType="web.dto.UsedBoard">
 	    UPDATE UsedBoard_KG
-	    SET hit = 1
+	    SET hit = hit + 1
 	    WHERE boardno = #{boardno }
 	</update>
+	
+	<select id="selectBoardByBoardno"
+	    parameterType="web.dto.UsedBoard"
+	    resultType="web.dto.UsedBoard">
+		SELECT  
+		    boardno, tag, title, product, 
+		    content, writer, hit, 
+		    price, writtendate
+		FROM 
+		    UsedBoard_KG
+		WHERE 
+		    boardno = #{boardno }
+	</select>
+	
+	<insert id="write"
+	    parameterType="web.dto.usedBoard">
+	    INSERT INTO USEDBOARD_KG(
+	        boardno, tag, title,
+	        product, content, writer,
+	        hit, price, writtendate)
+	        VALUES(UsedBoard_KG_SEQ, #{tag },
+	        #{title }, #{product }, #{content },
+	        #{writer }, #{hit }, #{price },
+	        #{writtendate })
+	</insert>
 
 
 </mapper>

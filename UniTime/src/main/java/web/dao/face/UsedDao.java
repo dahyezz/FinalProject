@@ -18,7 +18,7 @@ public interface UsedDao {
 	 *  전체 게시글 불러오기 
 	 *  
 	 *  @param paging : 페이징 객체 
-	 *  @return List<UsedBoard> : 전체 조회 결과 
+	 *  @return List<UsedBoard> : 전체 조회 결과 반환
 	 */
 	public List<UsedBoard> selectAll(Paging paging);
 	
@@ -29,4 +29,19 @@ public interface UsedDao {
 	 */
 	public void updateHit(UsedBoard usedBoard);
 	
+	/*
+	 *  게시글 조회하기 
+	 *  
+	 *  @param usedBoard : 조회할 게시글 번호
+	 *  @return usedBoard : 조회된 게시글 정보 반환
+	 */
+	public UsedBoard selectBoardByBoardno(UsedBoard usedBoard);
+	
+	/*
+	 * 게시글 작성하기 
+	 * 
+	 * @param usedBoard : 작성할 게시글
+	 * @return usedBoard : 반환할 게시글 
+	 */
+	public void write(UsedBoard usedBoard);
 }
