@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+        
 <hr>
 <h1>시간표 추천 페이지</h1>
 <hr>
@@ -56,7 +56,15 @@
  </c:forEach>
  </tr>
  <tr><th>12:00-13:00</th>
- 
+  <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 4 || mi.end_time eq 3 }">
+ <th><c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if></th>
+ <th><c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if></th>
+ <th><c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if></th>
+ <th><c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if></th>
+ <th><c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if></th>
+ </c:if>
+ </c:forEach>
  </tr>
  <tr><th>13:00-14:00</th></tr>
  <tr><th>14:00-15:00</th></tr>
