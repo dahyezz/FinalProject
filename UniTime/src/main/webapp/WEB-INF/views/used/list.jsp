@@ -5,7 +5,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
     
 <div class="ed board-header padding-horizontal-small@margin-bottom-small">
-	<h3>중고장터</h3>
+	<h2>중고장터</h2>
+	<hr>
 </div>
 <div>
 
@@ -28,9 +29,11 @@
 		<td>${i.tag }</td>
 		<td>${i.writer }</td>
 		<td><a href="/used/view?boardno=${i.boardno }">${i.title }</a></td>
-		<td><fmt:formatNumber value="${i.price }" pattern="###,###.###"></fmt:formatNumber></td>
+		<td><fmt:formatNumber value="${i.price }" 
+		    pattern="###,###.###"/></td>
 		<td>${i.hit }</td>
-		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></th>
+		<td><fmt:formatDate value="${i.writtendate }" 
+		    pattern="yyyy-MM-dd" /></th>
 	</tr>
 		
 	</c:forEach>

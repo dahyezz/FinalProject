@@ -34,9 +34,22 @@
 	<update id="updateHit"
 	    parameterType="web.dto.UsedBoard">
 	    UPDATE UsedBoard_KG
-	    SET hit = 1
+	    SET hit = hit + 1
 	    WHERE boardno = #{boardno }
 	</update>
+	
+	<select id="selectBoardByBoardno"
+	    parameterType="web.dto.UsedBoard"
+	    resultType="web.dto.UsedBoard">
+		SELECT  
+		    boardno, tag, title, 
+		    content, writer, hit, 
+		    price, writtendate
+		FROM 
+		    UsedBoard_KG
+		WHERE 
+		    boardno = #{boardno }
+	</select>
 
 
 </mapper>

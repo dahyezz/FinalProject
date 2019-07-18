@@ -18,20 +18,22 @@ import web.util.Paging;
 @Controller
 public class UsedBoardController {
 	
-	// Logger 객체 생성 
+	// 테스트 코드 위한 Logger 객체 생성 
 	private static final Logger logger
 	= LoggerFactory.getLogger(UsedBoard.class);
 	
 	@Autowired UsedService usedService;
 	
+	
+	/*
+	 *  used/List 페이지 컨트롤러
+	 */
 	@RequestMapping(value="/used/list",
 			method=RequestMethod.GET)
 	public void list(
 			Model model,
 			@RequestParam(defaultValue="1") int curPage 
 			) {
-		
-		logger.info("게시판 리스트");
 		
 		Paging paging = usedService.getPage(curPage);
 		
@@ -40,6 +42,25 @@ public class UsedBoardController {
 		
 		model.addAttribute("list", boardList);
 		model.addAttribute("paging", paging);
+		
+	}
+	
+	
+	/*
+	 *  used/view 페이지 컨트롤러 
+	 */
+	@RequestMapping(value="/used/view",
+			method=RequestMethod.GET)
+	public void view(
+			Model model,
+			UsedBoard usedBoard
+			) {
+		
+		logger.info(usedBoard.toString());
+		
+		usedBoard = usedService.view(usedBoard);
+		
+		model.addAttribute("usedboard", usedBoard);
 		
 	}
 }

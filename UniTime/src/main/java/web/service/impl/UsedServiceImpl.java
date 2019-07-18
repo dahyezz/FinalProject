@@ -30,4 +30,11 @@ public class UsedServiceImpl implements UsedService {
 	public List<UsedBoard> list(Paging paging) {
 		return usedDao.selectAll(paging);
 	}
+	
+	@Override
+	public UsedBoard view(UsedBoard usedBoard) {
+		usedDao.updateHit(usedBoard);
+		
+		return usedDao.selectBoardByBoardno(usedBoard);
+	}
 }
