@@ -75,6 +75,7 @@ function deleteComment(commentno){
 	});
 	
 }
+
 </script>
 
 <div class="ed board-header padding-horizontal-small@s margin-bottom-small">

@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.TastyBoard;
@@ -61,10 +60,6 @@ public interface TastyBoardService {
 
 	public TastyFile uploadFile(TastyBoard tastyBoard, MultipartFile fileupload, ServletContext context);
 
-	public TastyFile load(int fileno);
-
-	public Resource loadAsResource(String storedName);
-
 	/**
 	 * 댓글 불러오기
 	 * 
@@ -88,5 +83,7 @@ public interface TastyBoardService {
 	public void deleteComment(TastyComment tastyComment);
 
 	public TastyComment getBoardno(TastyComment tastyComment);
+
+	public TastyFile getFile(TastyFile tastyfile);
 
 }

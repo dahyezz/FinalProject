@@ -38,9 +38,9 @@
 	
 	<insert id="insertBoard" parameterType="web.dto.TastyBoard">
 	
-		<selectKey order="BEFORE" resultType="int" keyProperty="boardno">
-			SELECT tastyboard_kg_seq.nextval FROM dual
-		</selectKey>
+<!-- 		<selectKey order="BEFORE" resultType="int" keyProperty="boardno"> -->
+<!-- 			SELECT tastyboard_kg_seq.nextval FROM dual -->
+<!-- 		</selectKey> -->
 
 		INSERT INTO tastyboard_kg (boardno, tag, store_name, loc, content, writer, score) 
 		VALUES (#{boardno }, #{tag }, #{storeName }, #{loc }, #{content } , #{writer }, #{score })
@@ -58,6 +58,7 @@
 	</update>
 	
 	<select id="selectBoardno" resultType="int">
+<!-- 		SELECT max(boardno) boardno FROM tastyboard_kg -->
 		SELECT tastyboard_kg_seq.nextval FROM dual
 	</select>
 	
@@ -98,6 +99,16 @@
 	<delete id="deleteComment" parameterType="web.dto.TastyComment">
 		DELETE tastycomment_kg
 		WHERE commentno = #{commentno }
+	</delete>
+	
+	<delete id="deleteCommentByBoardno" parameterType="web.dto.TastyBoard">
+		DELETE tastycomment_kg
+		WHERE boardno = #{boardno }
+	</delete>
+	
+	<delete id="deleteFileByboardno" parameterType="web.dto.TastyBoard">
+		DELETE tastyfile_kg
+		WHERE boardno = #{boardno }
 	</delete>
 	
 </mapper>

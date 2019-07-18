@@ -100,4 +100,18 @@ public interface TastyBoardDao {
 
 	public TastyComment selectBoardnoByCommentno(TastyComment tastyComment);
 
+	/**
+	 * 게시글 삭제 시 해당 댓글도 전부 삭제
+	 * 
+	 * @param tastyBoard - 삭제하려는 게시글 번호
+	 */
+	public void deleteCommentByBoardno(TastyBoard tastyBoard);
+
+	/**
+	 * 게시글 삭제 시 첨부된 파일도 삭제
+	 * 
+	 * @param tastyBoard - 삭제하려는 게시글 번호
+	 */
+	public void deleteFileByboardno(TastyBoard tastyBoard);
+
 }

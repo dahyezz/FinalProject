@@ -1,9 +1,16 @@
 package web.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -11,11 +18,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import web.dto.TastyBoard;
@@ -71,14 +79,16 @@ public class TastyBoardController {
 		
 		logger.info(tastyBoard.toString());
 		
-		return "redirect:/tasty/view?boardno="+tastyBoard.getBoardno();
+		return "redirect:/tasty/list";
+//		return "redirect:/tasty/view?boardno="+tastyBoard.getBoardno();
 	}
 	
 	@RequestMapping(value="/tasty/imageUpload", method=RequestMethod.POST)
 	public void imageUpload(
 			TastyBoard tastyBoard,
 			@RequestParam("file") MultipartFile fileupload,
-			HttpServletResponse resp
+			HttpServletResponse resp,
+			HttpServletRequest req
 //			ModelAndView mav
 			) {
 		
@@ -88,66 +98,76 @@ public class TastyBoardController {
 		
 		//첨부파일 저장
 		TastyFile tastyfile = tastyBoardService.uploadFile(tastyBoard, fileupload, context);
-//		return ResponseEntity.ok().body("/tasty/"+tastyFile.getFileno());
+		logger.info(tastyBoard.toString());
 		logger.info(tastyfile.toString());
-		String url = tastyfile.getOriginName();
-//		mav.setViewName("multipartResolver");
-//		mav.setView(jsonView);
-//		mav.addObject("file", tastyfile);
-		
-//		return mav;
+//		String url = tastyfile.getStoredName();
+	
 		
 		try {
-			resp.getWriter().append("{\"url\":"+url+"}");
+//			resp.getWriter().append("{\"fileno\":"+tastyfile.getFileno()+"}");
+//			resp.getWriter().append("{\"boardno\":"+tastyfile.getBoardno()+"}");
+			resp.getWriter().append("{\"fileno\":"+tastyfile.getFileno()+", \"boardno\":"+tastyfile.getBoardno()+"}");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
-	
-//	  @GetMapping("/tasty/{fileno}")
-//	  @ResponseBody
-//	  public ResponseEntity<?> serveFile(@PathVariable int fileno, HttpServletResponse response) {
-//	      try {
-//	          TastyFile tastyfile = tastyBoardService.load(fileno);
-//	          logger.info(tastyfile.toString());
-//
-//	          HttpHeaders headers = new HttpHeaders();
-//	          
-//	          Resource resource = tastyBoardService.loadAsResource(tastyfile.getStoredName());
-//	          
-////	          File src = new File(context.getRealPath("tastyUpload"), tastyfile.getStoredName());
-//////	          Resource resource = (Resource) src;
-////	          logger.info(src.toString());
-////	          
-////	          response.setContentType("application/octet-stream");
-////	          response.setContentLength((int)src.length());
-////	          response.setCharacterEncoding("utf-8");
-////	          
-////	          File origin = new File(context.getRealPath("tastyUpload"), tastyfile.getStoredName());
-////	          
-////	          FileInputStream fis = new FileInputStream(origin);
-////	          Resource resource = (Resource) origin;
-//	          
-//	          String fileName = tastyfile.getOriginName();
-//	          headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
-//	 
-//	          
-//	          
-////	          if (MediaUtils.containsImageMediaType(t.getContentType())) {
-////	              headers.setContentType(MediaType.valueOf(uploadedFile.getContentType()));
-////	          } else {
-////	              headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-////	          }
-//	            
-//	          return ResponseEntity.ok().headers(headers).body(resource);
-//	            
-//	      } catch (Exception e) {
-//	          e.printStackTrace();
-//	          return ResponseEntity.badRequest().build();
-//	      }
-//	  }
 
+	@RequestMapping(value="/tastyUpload", method=RequestMethod.GET)
+	public void getFiles(ModelAndView mav, TastyFile tastyfile, HttpServletRequest req, HttpServletResponse resp) {
+		
+		logger.info("getfile--------------------------------");
+		logger.info(tastyfile.toString());
+		
+		tastyfile = tastyBoardService.getFile(tastyfile);
+		logger.info(tastyfile.toString());
+		
+		File src = new File(context.getRealPath("tastyUpload"), tastyfile.getStoredName());
+		
+		resp.setContentLength((int) src.length());
+		resp.setCharacterEncoding("utf-8");
+		
+		String filename = "";
+		
+		try {
+			filename = URLEncoder.encode(tastyfile.getOriginName(), "utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
+		//UTF-8 인코딩 오류 수정 (한글만 바꿔야 하는데 특수기호까지 바꿔서 문제가 생기는것)
+		filename = filename.replace("+", "%20"); //띄어쓰기
+		
+		filename = filename.replace("%5B", "["); 
+		filename = filename.replace("%5D", "]");
+		
+		filename = filename.replace("%21", "!"); 
+		filename = filename.replace("%23", "#"); 
+		filename = filename.replace("%24", "$"); 
+		
+		
+		File origin = new File(context.getRealPath("tastyUpload"), tastyfile.getStoredName());
+		FileInputStream fis = null;
+		
+		try {
+			fis = new FileInputStream(origin);
+			OutputStream out = resp.getOutputStream();
+	
+			FileCopyUtils.copy(fis, out);
+			
+			out.flush();
+			
+			fis.close();
+			out.close();
+			
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 	
 	@RequestMapping(value="/tasty/delete", method=RequestMethod.GET)
 	public String delete(TastyBoard tastyBoard) {
