@@ -11,4 +11,18 @@
 	SELECT * FROM timetable_kg ORDER BY lecture_code
 </select>
 
+<insert id="insertMyList" parameterType="String">
+	INSERT INTO temptable(user_email, lecture_code)
+	VALUES (#{email}, #{names})
+</insert>
+
+<delete id="deleteMyList" parameterType="String">
+	
+</delete>
+
+<select id="selectMyList" parameterType="String" resultType="web.dto.TempTable">
+	SELECT * FROM timetable_kg ttb JOIN temptable tb ON ttb.lecture_code=tb.lecture_code
+	WHERE tb.user_email = #{email}
+</select>
+
 </mapper>

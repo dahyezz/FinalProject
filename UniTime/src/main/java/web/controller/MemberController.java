@@ -1,6 +1,5 @@
 package web.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -87,12 +86,11 @@ public class MemberController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/member/idCheck", method = RequestMethod.POST)
-	public int postIdCheck(HttpServletRequest req) throws Exception {
+	public int postIdCheck(String hakbun) throws Exception {
 		
 		logger.info("post idCheck");
-		 
-		String hakbun = req.getParameter("hakbun");
-
+		logger.info(hakbun);
+		
 		Member idCheck =  memberService.idCheck(hakbun);
 		
 		 int result = 0;
@@ -104,4 +102,41 @@ public class MemberController {
 		 return result;
 		 
 		}
+	@ResponseBody
+	@RequestMapping(value = "/member/nickCheck", method = RequestMethod.POST)
+	public int postNickCheck(String nickname) throws Exception {
+		
+		logger.info("post nickCheck");
+		logger.info(nickname);
+		
+		Member nickCheck =  memberService.nickCheck(nickname);
+		
+		 int result1 = 0;
+		 
+		 if(nickCheck != null) {
+		  result1 = 1;
+		 } 
+		 
+		 return result1;
+		 
+		}
+	
+	@RequestMapping(value = "/member/mypage", method = RequestMethod.GET)
+	public void mypage(Member member, HttpSession session) {
+		
+		member.setNickname((String) session.getAttribute("nick"));
+		
+		logger.info(member.toString());
+	}
 }
+
+
+
+
+
+
+
+
+
+
+

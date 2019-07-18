@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.TastyBoardDao;
 import web.dto.TastyBoard;
+import web.dto.TastyComment;
 import web.dto.TastyFile;
 import web.service.face.TastyBoardService;
 import web.util.Paging;
@@ -126,5 +127,25 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 //		Path file = r
 		
 		return null;
+	}
+	
+	@Override
+	public List<TastyComment> getComment(TastyBoard tastyBoard) {
+		return tastyBoardDao.selectAllCommentByBoardno(tastyBoard);
+	}
+	
+	@Override
+	public void writeComment(TastyComment tastyComment) {
+		tastyBoardDao.insertComment(tastyComment);
+	}
+	
+	@Override
+	public void deleteComment(TastyComment tastyComment) {
+		tastyBoardDao.deleteComment(tastyComment);
+	}
+	
+	@Override
+	public TastyComment getBoardno(TastyComment tastyComment) {
+		return tastyBoardDao.selectBoardnoByCommentno(tastyComment);
 	}
 }

@@ -3,6 +3,7 @@ package web.dao.face;
 import java.util.List;
 
 import web.dto.TastyBoard;
+import web.dto.TastyComment;
 import web.dto.TastyFile;
 import web.util.Paging;
 
@@ -74,5 +75,29 @@ public interface TastyBoardDao {
 	public void insertFile(TastyFile tastyfile);
 
 	public TastyFile selectFileByFileno(int fileno);
+
+	/**
+	 * 게시글에 대한 전체 댓글 리스트 불러오기
+	 * 
+	 * @param tastyBoard
+	 * @return
+	 */
+	public List<TastyComment> selectAllCommentByBoardno(TastyBoard tastyBoard);
+
+	/**
+	 * 댓글 삽입하기
+	 * 
+	 * @param tastyComment
+	 */
+	public void insertComment(TastyComment tastyComment);
+
+	/**
+	 * 댓글 삭제
+	 * 
+	 * @param tastyComment
+	 */
+	public void deleteComment(TastyComment tastyComment);
+
+	public TastyComment selectBoardnoByCommentno(TastyComment tastyComment);
 
 }

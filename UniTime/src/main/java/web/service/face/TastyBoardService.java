@@ -8,6 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.TastyBoard;
+import web.dto.TastyComment;
 import web.dto.TastyFile;
 import web.util.Paging;
 
@@ -63,5 +64,29 @@ public interface TastyBoardService {
 	public TastyFile load(int fileno);
 
 	public Resource loadAsResource(String storedName);
+
+	/**
+	 * 댓글 불러오기
+	 * 
+	 * @param tastyBoard - 해당 게시글 번호
+	 * @return List<TastyComment> - 댓글 리스트
+	 */
+	public List<TastyComment> getComment(TastyBoard tastyBoard);
+
+	/**
+	 * 댓글 쓰기
+	 * 
+	 * @param tastyComment - 작성한 댓글 내용
+	 */
+	public void writeComment(TastyComment tastyComment);
+
+	/**
+	 * 댓글 삭제하기
+	 * 
+	 * @param tastyComment - 삭제할 댓글 객체
+	 */
+	public void deleteComment(TastyComment tastyComment);
+
+	public TastyComment getBoardno(TastyComment tastyComment);
 
 }

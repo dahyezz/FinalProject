@@ -18,4 +18,19 @@ public class TimeTableServiceImpl implements TimeTableService {
 		return timeTableDao.selectAll();
 	}
 
+	@Override
+	public void myListInsert(String names) {
+		timeTableDao.insertMyList(names);
+	}
+
+	@Override
+	public void myListDelete(String names) {
+		timeTableDao.deleteMyList(names);
+	}
+
+	@Override
+	public List myList(String id) {
+		return timeTableDao.selectMyList(id);
+	}
+
 }
