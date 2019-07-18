@@ -13,7 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
 
 <script type="text/javascript">
-var fileurl = "";
+
 $(document).ready(function() {
 		
 	$('#summernote').summernote({
@@ -54,35 +54,40 @@ $(document).ready(function() {
 	//select태그 동작
 	$('select').selectpicker();
 	
+	$("#fo").submit(function() {
+		
+		
+		if(writeForm.storeName.value==""){
+			alert("음식점명을 입력해주세요");
+			writeForm.storeName.focus();
+			return false;
+		}
+		
+		if(writeForm.loc.value==""){
+			alert("위치를 입력해주세요");
+			writeForm.loc.focus();
+			return false;
+		}
+		
+		$(this).append($("<input>").attr("type", "hidden").attr("name", "boardno").val(${board.boardno }));
+		var code = $('#summernote').summernote('code');
+	    $('textarea[name="content"]').val(code);
+		$(this).submit();
+		
+	});
+	
 });
-
-// function postForm() {
-	
-// 	if(writeForm.storeName.value==""){
-// 		alert("음식점명을 입력해주세요");
-// 		writeForm.storeName.focus();
-// 		return false;
-// 	}
-	
-// 	if(writeForm.loc.value==""){
-// 		alert("위치를 입력해주세요");
-// 		writeForm.loc.focus();
-// 		return false;
-// 	}
-	
-// 	$('textarea[name="content"]').val($('#summernote').summernote('code'));
-// }
 
 function sendFile(file, el){
 	//파일 전송을 위한 폼 데이터 생성
 	var data = new FormData();
 	data.append('file', file);
-// 	data.append('boardno', $('#boardno').val());
+	data.append("boardno",$('#boardno').val());
 	
 	//ajax를 통해 파일 업로드 처리
 	$.ajax({	
 		data: data
-		, dataType: "text"
+		, dataType: "json"
 		, type: "POST"
 		, url: "/tasty/imageUpload"
 		, cache: false
@@ -92,29 +97,20 @@ function sendFile(file, el){
 		, success: function(data) {
 			console.log("성공");
 			console.log(data);
-			editor.insertImage(welEditable, data);
-// 			$("#summernote").summernote('insertImage', data);
-// 			fileurl = data.url
-// 			$('#boardno').val(data.boardno);
-// 			$(el).summernote('editor.insertImage', "http://localhost:8088/tastyUpload/"+data);
-//           	$('#imageBoard > ul').append('<li><img src="'+data+'" width="480" height="auto"/></li>');
+			console.log(data.fileno)
+			console.log(data.boardno)
+
+			$(el).summernote('editor.insertImage', "/tastyUpload?fileno="+data.fileno);
+			$('#boardno').val(data.boardno);
 		}
 		, error: function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus+"  "+errorThrown)
 		} 
 	});
 }
-
-$(document).ready(function() {
-	$("#fo").submit(function() {
-		$(this).append($("<input>").attr("type", "hidden").attr("name", "fileurl").val(fileurl));
-		var code = $('#summernote').summernote('code');
-	    $('textarea[name="content"]').val(code);
-		$(this).submit();
-	})
-})
-
 </script>
+
+<input type="hidden" name="boardno" value="0" />
 
 <div class="page-header">
 	<h3>게시글 작성</h3>

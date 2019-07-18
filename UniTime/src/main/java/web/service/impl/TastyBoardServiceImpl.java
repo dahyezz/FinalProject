@@ -2,14 +2,12 @@ package web.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,11 +47,19 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	
 	@Override
 	public void write(TastyBoard tastyBoard) {
+		
+		// 사진을 첨부하지 않고 게시글 작성시 boardno 설정
+		if(tastyBoard.getBoardno()==0)
+			tastyBoard.setBoardno(tastyBoardDao.selectBoardno());
+		
 		tastyBoardDao.insertBoard(tastyBoard);
 	}
 	
 	@Override
 	public void delete(TastyBoard tastyBoard) {
+		
+		tastyBoardDao.deleteCommentByBoardno(tastyBoard);
+		tastyBoardDao.deleteFileByboardno(tastyBoard);
 		tastyBoardDao.deleteBoardByBoardno(tastyBoard);
 	}
 	
@@ -88,8 +94,6 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 			e.printStackTrace();
 		}
 		
-
-		// STEP1. 게시글 당 하나의 사진만 첨부한다고 가정하고 boardno 알아오기
 		int boardno = 0;
 		
 		if(tastyBoard.getBoardno()==0) {
@@ -110,25 +114,7 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 		return tastyfile;
 	}
 	
-	@Override
-	public TastyFile load(int fileno) {
-		return tastyBoardDao.selectFileByFileno(fileno);
-	}
-	
-	@Override
-	public Resource loadAsResource(String storedName) {
 		
-		Path rootLocation;
-		
-		if(storedName.toCharArray()[0] == '/') {
-			storedName = storedName.substring(1);
-		}
-		
-//		Path file = r
-		
-		return null;
-	}
-	
 	@Override
 	public List<TastyComment> getComment(TastyBoard tastyBoard) {
 		return tastyBoardDao.selectAllCommentByBoardno(tastyBoard);
@@ -147,5 +133,10 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	@Override
 	public TastyComment getBoardno(TastyComment tastyComment) {
 		return tastyBoardDao.selectBoardnoByCommentno(tastyComment);
+	}
+	
+	@Override
+	public TastyFile getFile(TastyFile tastyfile) {
+		return tastyBoardDao.selectFileByFileno(tastyfile.getFileno());
 	}
 }

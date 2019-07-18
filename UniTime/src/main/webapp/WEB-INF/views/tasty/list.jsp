@@ -27,6 +27,7 @@ $(document).ready(function() {
 		<th style="width: 5%">작성자</th>
 		<th style="width: 5%">조회수</th>
 		<th style="width: 5%">별점</th>
+		<th style="width: 5%">댓글</th>
 		<th style="width: 10%">작성일</th>
 	</tr>
 	
@@ -39,6 +40,7 @@ $(document).ready(function() {
 		<td>${i.writer }</td>
 		<td>${i.hit }</td>
 		<td>${i.score }</td>
+		<td>${i.comment }</td>
 		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
 	</tr>
 	</c:forEach>
