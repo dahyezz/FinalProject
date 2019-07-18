@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.FreeBoardDao;
 import web.dto.FreeBoard;
+import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
 import web.service.face.FreeBoardService;
 import web.dto.FreeComment;
@@ -159,5 +160,39 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	public void commentDelete(int commentno) {
 		
 		freeBoardDao.deleteComment(commentno);		
+	}
+	
+	@Override
+	public List noticeList() {
+		
+		return freeBoardDao.selectNoticeAll();
+	}
+	
+	@Override
+	public FreeBoardNotice viewNotice(int boardno) {
+		
+		freeBoardDao.updateNoticeHit(boardno);
+		
+		return freeBoardDao.selectNoticeByBoardno(boardno);
+	}
+	
+	@Override
+	public void writeNotice(FreeBoardNotice freeBoardNotice) {
+		
+		freeBoardDao.insertNoticeBoard(freeBoardNotice);
+	}
+
+	@Override
+	public void updateNotice(FreeBoardNotice freeBoardNotice) {
+		
+		//게시글 수정
+		freeBoardDao.updateNoticeBoard(freeBoardNotice);
+	}
+	
+	@Override
+	public void deleteNotice(int boardno) {
+		
+		//게시글 삭제		
+		freeBoardDao.deleteNoticeBoard(boardno);
 	}
 }

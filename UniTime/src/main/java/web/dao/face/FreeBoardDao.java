@@ -3,6 +3,7 @@ package web.dao.face;
 import java.util.List;
 
 import web.dto.FreeBoard;
+import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
 import web.dto.FreeComment;
 import web.util.Paging;
@@ -24,14 +25,14 @@ public interface FreeBoardDao {
 	
 	/**
 	 * 	글 번호로 게시글 조회
-	 * @param board
+	 * @param boardno - 게시글 번호
 	 * @return 게시글 조회한 결과
 	 */
 	public FreeBoard selectBoardByBoardno(int boardno);
 	
 	/**
 	 *	게시글 조회 수 증가
-	 * @param board
+	 * @param boardno - 게시글 번호
 	 */
 	public void updateHit(int boardno);
 	
@@ -109,4 +110,41 @@ public interface FreeBoardDao {
 	 * @param boardno - 게시글 번호
 	 */
 	public void deleteCommentByBoardno(int boardno);
+	
+	/**
+	 *	공지 게시글 리스트 조회
+	 * @return 공지 게시글을 조회한 결과
+	 */
+	public List selectNoticeAll();
+	
+	/**
+	 * 	글 번호로 공지 게시글 조회
+	 * @param boardno - 게시글 번호
+	 * @return 게시글 조회한 결과
+	 */
+	public FreeBoardNotice selectNoticeByBoardno(int boardno);
+	
+	/**
+	 *	공지 게시글 조회 수 증가
+	 * @param boardno - 게시글 번호
+	 */
+	public void updateNoticeHit(int boardno);
+	
+	/**
+	 * 	작성한 공지 게시글 삽입
+	 * @param FreeboardNotice
+	 */
+	public void insertNoticeBoard(FreeBoardNotice freeBoardNotice);
+	
+	/**
+	 * 	공지 게시글 수정
+	 * @param FreeboardNotice
+	 */
+	public void updateNoticeBoard(FreeBoardNotice freeBoardNotice);
+	
+	/**
+	 * 	공지 게시글 삭제
+	 * @param boardno
+	 */
+	public void deleteNoticeBoard(int boardno);
 }

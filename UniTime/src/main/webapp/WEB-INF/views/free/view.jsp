@@ -65,6 +65,7 @@
 </table>
 
 <!----------- 댓글 ---------------->
+<c:if test="${board.tag ne '공지'}">
 <div class="text-center">
 <h3 style="float:left;">댓글</h3>
 <hr>
@@ -83,7 +84,7 @@
 
 	<%-- 로그인 하고있는 상태 --%>
 	<c:if test="${login }">
-	<form action="/comment/write?boardno=${board.boardno }" method="post">
+	<form action="/free/commentwrite?boardno=${board.boardno }" method="post">
 		<table class="table table-condensed">
 		<tr>
 			<th style="width:100px;">${nick }</th>
@@ -105,20 +106,21 @@
 			<span style="color:#ccc;"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></span>
 			<c:if test="${nick eq i.writer }">
 				<button id="btnCommentDelete" style="float:right;"
-				onclick="location.href='/comment/delete?boardno=${board.boardno }&commentno=${i.commentno}'">삭제</button>
+				onclick="location.href='/free/commentdelete?boardno=${board.boardno }&commentno=${i.commentno}'">삭제</button>
 			</c:if>
 		</td>
 	</tr>
 </c:forEach>
 </table>
+</c:if>
 
 <!--------------------------------------->
 
 <div class="text-center">	
 	<button id="btnList" onclick="location.href='/free/list'">목록</button>
 	<c:if test="${nick eq board.writer }">
-		<button id="btnUpdate" onclick="location.href='/free/update?boardno=${board.boardno}'">수정</button>
-		<button id="btnDelete" onclick="location.href='/free/delete?boardno=${board.boardno}'">삭제</button>
+		<button id="btnUpdate" onclick="location.href='/free/update?tag=${board.tag }&boardno=${board.boardno}'">수정</button>
+		<button id="btnDelete" onclick="location.href='/free/delete?tag=${board.tag }&boardno=${board.boardno}'">삭제</button>
 	</c:if>
 </div>
 

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.FreeBoard;
+import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
 import web.dto.FreeComment;
 import web.service.face.FreeBoardService;
@@ -36,83 +37,111 @@ public class FreeBoardController {
 	public void list( HttpServletRequest req, Model model) {
 		logger.info("자유게시판 리스트");
 		
+		//FreeBoardNotice 테이블 전제 조회 결과 얻기
+		List noticeList=freeBoardService.noticeList();
+		model.addAttribute("noticeList", noticeList);
+		
 		//요청 파라미터에서 curPage 얻어오기
 		Paging paging=freeBoardService.getCurPage(req);
 		
 		//MODEL로 paging 객체 넣기
 		model.addAttribute("paging", paging);
 		
-		//board 테이블 전체 조회 결과 얻기
+		//FreeBoard 테이블 전체 조회 결과 얻기
 		List list=freeBoardService.list(paging);
-		
 		model.addAttribute("list",list);
+		
 	}
 	
 	@RequestMapping(value="/free/view", method=RequestMethod.GET)
-	public void view(FreeBoard freeBoard, Model model) {
-		logger.info("게시글 보기");
-		
-		//게시글 번호 파싱
-		int boardno = freeBoard.getBoardno();
+	public void view(FreeBoard freeBoard, FreeBoardNotice freeBoardNotice, Model model) {
 		
 		//게시글 조회
-		freeBoard=freeBoardService.view(boardno);
-		
-		//게시글의 파일 조회
-		FreeFile file=freeBoardService.viewFile(boardno);
-		
-		//게시글의 댓글 조회
-		List<FreeComment> commentList=freeBoardService.commentList(boardno);
-		
-		//MODEL로 객체 전달
-		model.addAttribute("board", freeBoard);
-		model.addAttribute("viewFile", file);
-		model.addAttribute("commentList", commentList);
+		if("공지".equals(freeBoardNotice.getTag())) {
+			
+			freeBoardNotice=freeBoardService.viewNotice(freeBoardNotice.getBoardno());
+			
+			model.addAttribute("board",freeBoardNotice);
+			
+		} else{
+			//게시글 번호 파싱
+			int boardno = freeBoard.getBoardno();
+			
+			freeBoard=freeBoardService.view(boardno);
+			
+			//게시글의 파일 조회
+			FreeFile file=freeBoardService.viewFile(boardno);
+			
+			//게시글의 댓글 조회
+			List<FreeComment> commentList=freeBoardService.commentList(boardno);
+			
+			//MODEL로 객체 전달
+			model.addAttribute("board", freeBoard);
+			model.addAttribute("viewFile", file);
+			model.addAttribute("commentList", commentList);
+		}
 	}
 	
 	@RequestMapping(value="/free/write", method=RequestMethod.GET)
-	public void write() {
-		logger.info("게시판 글쓰기");
-	}
+	public void write() {	}
 	
 	@RequestMapping(value="/free/write", method=RequestMethod.POST)
-	public String writeProc(HttpSession session, FreeBoard freeBoard, @RequestParam(value="file") MultipartFile fileupload) {
-		logger.info("게시판 글쓰기 처리");
+	public String writeProc(HttpSession session, FreeBoard freeBoard, FreeBoardNotice freeBoardNotice, 
+							@RequestParam(value="file") MultipartFile fileupload) {
 		
 		//세션 정보 넣어주기
 		freeBoard.setWriter((String)session.getAttribute("nick"));
+		freeBoardNotice.setWriter((String)session.getAttribute("nick"));
 		
 		//게시글 작성, 첨부파일 저장
-		freeBoardService.write(freeBoard, fileupload, context);
+		if("공지".equals(freeBoardNotice.getTag())) {
+			freeBoardService.writeNotice(freeBoardNotice);
+		} else {
+			freeBoardService.write(freeBoard, fileupload, context);
+		}
 		
 		return "redirect:/free/list";
 	}
 	
 	@RequestMapping(value="/free/update", method=RequestMethod.GET)
-	public void update(FreeBoard freeBoard, Model model) {
-		logger.info("게시글 수정");
+	public void update(FreeBoard freeBoard, FreeBoardNotice freeBoardNotice, Model model) {
 		
-		//게시글 조회
-		freeBoard=freeBoardService.view(freeBoard.getBoardno());
-		
-		model.addAttribute("board",freeBoard);
+		//게시글 정보 가져오기
+		if("공지".equals(freeBoardNotice.getTag())) {
+			
+			freeBoardNotice=freeBoardService.viewNotice(freeBoardNotice.getBoardno());
+			model.addAttribute("board",freeBoardNotice);
+			
+		} else{
+			freeBoard=freeBoardService.view(freeBoard.getBoardno());
+			model.addAttribute("board", freeBoard);
+		}
 	}
 	
 	@RequestMapping(value="/free/update", method=RequestMethod.POST)
-	public String updateProc(FreeBoard freeBoard) {
-		logger.info("게시글 수정 처리");
+	public String updateProc(FreeBoard freeBoard, FreeBoardNotice freeBoardNotice) {
 		
-		//게시글 조회
-		freeBoardService.update(freeBoard);
-		
-		return "redirect:/free/view?boardno="+freeBoard.getBoardno();
+		//게시글 수정
+		if("공지".equals(freeBoardNotice.getTag())) {
+			freeBoardService.updateNotice(freeBoardNotice);
+			
+			return "redirect:/free/view?tag="+freeBoardNotice.getTag()+"&boardno="+freeBoardNotice.getBoardno();
+		} else {
+			freeBoardService.update(freeBoard);
+			
+			return "redirect:/free/view?tag="+freeBoard.getTag()+"&boardno="+freeBoard.getBoardno();
+		}
 	}
 	
 	@RequestMapping(value="/free/delete", method=RequestMethod.GET)
-	public String delete(FreeBoard freeBoard) {
-		logger.info("게시글 삭제");
+	public String delete(FreeBoard freeBoard, FreeBoardNotice freeBoardNotice) {
 		
-		freeBoardService.delete(freeBoard.getBoardno());
+		//게시글 삭제
+		if("공지".equals(freeBoardNotice.getTag())) {
+			freeBoardService.deleteNotice(freeBoardNotice.getBoardno());
+		} else {
+			freeBoardService.delete(freeBoard.getBoardno());
+		}
 		
 		return "redirect:/free/list";
 	}
@@ -136,14 +165,11 @@ public class FreeBoardController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/comment/write", method=RequestMethod.GET)
-	public void commentWrite() {
-		logger.info("댓글쓰기");
-	}
+	@RequestMapping(value="/free/commentwrite", method=RequestMethod.GET)
+	public void commentWrite() {	}
 	
-	@RequestMapping(value="/comment/write", method=RequestMethod.POST)
+	@RequestMapping(value="/free/commentwrite", method=RequestMethod.POST)
 	public String commentWriteProc(HttpSession session, FreeBoard freeBoard, FreeComment freeComment) {
-		logger.info("댓글쓰기 처리");
 		
 		freeComment.setBoardno(freeBoard.getBoardno());
 		freeComment.setWriter((String)session.getAttribute("nick"));
@@ -154,18 +180,16 @@ public class FreeBoardController {
 		return "redirect:/free/view?boardno="+freeBoard.getBoardno();
 	}
 	
-	@RequestMapping(value="/comment/delete", method=RequestMethod.GET)
+	@RequestMapping(value="/free/commentdelete", method=RequestMethod.GET)
 	public String commentDelete(FreeBoard freeBoard, FreeComment freeComment) {
-		logger.info("댓글 삭제");
 		
 		freeBoardService.commentDelete(freeComment.getCommentno());
 		
 		return "redirect:/free/view?boardno="+freeBoard.getBoardno();
 	}
 	
-	@RequestMapping(value="/check/delete", method=RequestMethod.GET)
-	public String checkDelete(FreeBoard freeBoard, int[] checkDelete) {
-		logger.info("댓글 삭제");
+	@RequestMapping(value="/free/checkdelete", method=RequestMethod.GET)
+	public String checkDelete(int[] checkDelete) {
 		
 		for(int boardno : checkDelete) {
 			freeBoardService.delete(boardno);
