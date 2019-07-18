@@ -29,4 +29,6 @@ public interface MemberService {
 	
 	public Member idCheck(String hakbun) throws Exception;
 	public Member nickCheck(String nickname) throws Exception;
+	
+	public Member myBoard(String nickname);
 }

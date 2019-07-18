@@ -40,6 +40,11 @@
 		SELECT nickname from member_kg
 		where nickname = #{nickname}
 	</select>
+	
+	<select id = "myBoard" resultType="web.dto.Member">
+		SELECT * FROM tastyBoard_kg
+		WHERE writer = ${nickname }
+	</select>
 </mapper>
 
 

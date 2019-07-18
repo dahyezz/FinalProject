@@ -37,6 +37,7 @@ public class MemberController {
 			session.setAttribute("login", true);
 			session.setAttribute("email", member.getEmail());
 			session.setAttribute("nick", member.getNickname());
+			session.setAttribute("hakbun", member.getHakbun());
 			
 			logger.info(member.toString());
 			
@@ -124,9 +125,6 @@ public class MemberController {
 	@RequestMapping(value = "/member/mypage", method = RequestMethod.GET)
 	public void mypage(Member member, HttpSession session) {
 		
-		member.setNickname((String) session.getAttribute("nick"));
-		
-		logger.info(member.toString());
 	}
 }
 

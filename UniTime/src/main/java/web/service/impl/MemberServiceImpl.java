@@ -69,4 +69,9 @@ public class MemberServiceImpl implements MemberService{
 	public Member nickCheck(String nickname) throws Exception {
 		return memberDao.nickCheck(nickname);
 	}
+
+	@Override
+	public Member myBoard(String nickname) {
+		return memberDao.myBoard(nickname);
+	}
 }
