@@ -2,72 +2,28 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
-
 <script type="text/javascript">
 $(document).ready(function() {
 
 	$("btnContain").click(function(){
 		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
 		
-		// 체크된 대상들을 map으로 만들고 map을 문자열로 만들기
-		var map = $checkboxes.map(function() {
-			return $(this).val();
-		});
-		var names = map.get().join(",");
-		console.log("names : " + names);
-
-		// 전송 폼
-		var $form = $("<form>")
-			.attr("action", "/timetable/lecturelist")
-			.attr("method", "post")
-			.append(
-				$("<input>")
-					.attr("type", "hidden")
-					.attr("name", "names")
-					.attr("value", names)
-			);
-		$(document.body).append($form);
-		$form.submit();
-		
-		
-	});
-	// 선택체크 삭제
-	$("#btnDelete").click(function() {
-		// 선택된 체크박스
-		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
-		
-				
 		//방법1
 		// 체크된 대상들을 하나씩 꺼내서 문자열로 합치기
-// 		var names = "";
-// 		var len = $checkboxes.length;
-// 		$checkboxes.each( function(idx) {
-// 			names += $(this).val();
+		var names = "";
+		var len = $checkboxes.length;
+		$checkboxes.each( function(idx) {
+			names += $(this).val();
 			
-// 			if( len-1 != idx ) {
-// 				names += ",";
-// 			}
-// 		});
-// 		console.log(names);
-	
-		//방법2
-		// 체크된 대상들을 map으로 만들고 map을 문자열로 만들기
-		var map = $checkboxes.map(function() {
-			return $(this).val();
+			if( len-1 != idx ) {
+				names += ",";
+			}
 		});
-		var names = map.get().join(",");
-// 		console.log("names : " + names);
+		console.log(names);
 
-// 		console.log($checkboxes);
-// 		console.log( "map:" + map );	// 맵
-// 		console.log( "map->array : " + map.get() );	// 맵->배열
-// 		console.log( "array tostring : " + map.get().join(",") ); // toString
-		
-		
-		
 		// 전송 폼
 		var $form = $("<form>")
-			.attr("action", "/timetable/deletemylist")
+			.attr("action", "/timetable/containmylist")
 			.attr("method", "post")
 			.append(
 				$("<input>")
@@ -77,8 +33,10 @@ $(document).ready(function() {
 			);
 		$(document.body).append($form);
 		$form.submit();
-	
+		
+		
 	});
+
 	
 });
 
@@ -104,6 +62,8 @@ function checkAll() {
 }
 
 </script>
+
+
 <style type="text/css">
 #lectureList {
 	text-align: center;
@@ -172,7 +132,7 @@ function checkAll() {
 <thead>
 	<tr>
 		<th>
-			<input type="checkbox" id="checkAll" onclick="checkAll();" />
+			<input type="checkbox" id="checkAll2" onclick="checkAll();" />
 		</th>
 		<th id="lectureList" style="width: 5%;">학년</th>
 		<th id="lectureList" style="width: 10%;">강의구분</th>
@@ -187,7 +147,7 @@ function checkAll() {
 <tbody>
 <c:forEach items="${myList }" var="mi">
 	<tr>
-		<td><input type="checkbox" name="checkRow" value="${mi.lecture_code }" /></td>
+		<td><input type="checkbox" name="checkRow2" value="${mi.lecture_code }" /></td>
 		<td>${mi.grade }</td>
 		<td>${mi.lecture_section }</td>
 		<td>${mi.department_name }</td>

@@ -38,18 +38,12 @@ public class TimeTableController {
 		
 	}
 	
-	@RequestMapping(value="/timetable/lecturelist", method=RequestMethod.POST)
-	public String containMylist(Model model, @RequestParam("checkRow") String names, HttpSession session) {
+	
+	@RequestMapping(value="/timetable/containmylist", method=RequestMethod.POST)
+	public String viewMylist(Model model, @RequestParam("checkRow") String names, HttpSession session) {
 		
 		System.out.println(names);
-		
 		timeTableService.myListInsert(names);
-		
-		return "redirect:/timetable/containmylist";
-	}
-	
-	@RequestMapping(value="/timetable/containmylist", method=RequestMethod.GET)
-	public String viewMylist(Model model, @RequestParam("checkRow") String names, HttpSession session) {
 		
 		String id= (String) session.getAttribute("email");
 		List mylist = timeTableService.myList(id);
@@ -78,15 +72,17 @@ public class TimeTableController {
 		return "redirect:/timetable/lecturelist";
 	}
 	
-	@RequestMapping(value="/timetable/recommend", method=RequestMethod.GET)
-	public void selectLecture() {
-		
-	}
+//	@RequestMapping(value="/timetable/recommend", method=RequestMethod.GET)
+//	public void selectLecture() {
+//		
+//	}
 	
-	@RequestMapping(value="/timetable/recommend", method=RequestMethod.POST)
-	public String recommend() {
+	@RequestMapping(value="/timetable/recommend", method=RequestMethod.GET)
+	public void recommend(Model model, HttpSession session) {
 		
-		return "";
+		String id= (String) session.getAttribute("email");
+		List mylist = timeTableService.myList(id);
+		model.addAttribute("myList", mylist);
 	}
 	
 }
