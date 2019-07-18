@@ -17,7 +17,7 @@
 	    resultType="web.dto.UsedBoard"
 	    parameterType="web.util.Paging">
 	    SELECT 
-	    	boardno, tag, title,
+	    	boardno, tag, title, product,
 		    content, writer, hit, price,
 		    writtendate
 	    FROM (
@@ -42,7 +42,7 @@
 	    parameterType="web.dto.UsedBoard"
 	    resultType="web.dto.UsedBoard">
 		SELECT  
-		    boardno, tag, title, 
+		    boardno, tag, title, product, 
 		    content, writer, hit, 
 		    price, writtendate
 		FROM 

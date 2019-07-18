@@ -3,9 +3,11 @@ package web.dto;
 import java.util.Date;
 
 public class UsedBoard {
+
 	private int boardno;
 	private String tag;
 	private String title;
+	private String product;
 	private String content;
 	private String writer;
 	private int hit;
@@ -14,8 +16,9 @@ public class UsedBoard {
 	
 	@Override
 	public String toString() {
-		return "UsedBoard [boardno=" + boardno + ", tag=" + tag + ", title=" + title + ", content=" + content
-				+ ", writer=" + writer + ", hit=" + hit + ", price=" + price + ", writtendate=" + writtendate + "]";
+		return "UsedBoard [boardno=" + boardno + ", tag=" + tag + ", title=" + title + ", product=" + product
+				+ ", content=" + content + ", writer=" + writer + ", hit=" + hit + ", price=" + price + ", writtendate="
+				+ writtendate + "]";
 	}
 
 	public int getBoardno() {
@@ -40,6 +43,14 @@ public class UsedBoard {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
 	}
 
 	public String getContent() {
