@@ -91,5 +91,37 @@
 		DELETE FROM freecomment_kg
 		WHERE boardno=#{boardno }
 	</delete>
+	
+	<select id="selectNoticeAll" resultType="web.dto.FreeBoardNotice">
+		SELECT boardno, tag, title, writer, hit, writtendate FROM freeboard_notice_kg
+		ORDER BY boardno
+	</select>
+	
+	<select id="selectNoticeByBoardno" parameterType="int" resultType="web.dto.FreeBoardNotice">
+		SELECT * FROM freeboard_notice_kg
+		WHERE boardno=#{boardno }
+	</select>
+	
+	<update id="updateNoticeHit" parameterType="int">
+		UPDATE freeboard_notice_kg
+		SET hit=hit+1
+		WHERE boardno=#{boardno }
+	</update>
+	
+	<insert id="insertNoticeBoard" parameterType="web.dto.FreeBoardNotice">		
+		INSERT INTO freeboard_notice_kg(boardno, tag, title, content, writer)
+		VALUES (freeboard_notice_kg_seq.nextval, #{tag }, #{title }, #{content }, #{writer })
+	</insert>
+	
+	<update id="updateNoticeBoard" parameterType="web.dto.FreeBoardNotice">
+		UPDATE freeboard_notice_kg
+		SET tag=#{tag }, title=#{title }, content=#{content }
+		WHERE boardno=#{boardno }
+	</update>
+	
+	<delete id="deleteNoticeBoard" parameterType="int">
+		DELETE FROM freeboard_notice_kg
+		WHERE boardno=#{boardno }
+	</delete>
 
 </mapper>

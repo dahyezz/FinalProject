@@ -43,10 +43,13 @@
 		<th>태그</th>
 		<td colspan="3">
 			<select name="tag">
-			<c:if test="${nick eq admin }">
-				<option value="공지">공지</option>
+			<c:if test="${nick eq 'admin' }">
+				<option value="공지" selected>공지</option>
+				<option value="잡담">잡담</option>
 			</c:if>
+			<c:if test="${nick ne 'admin' }">
 				<option value="잡담" selected>잡담</option>
+			</c:if>				
 				<option value="연애">연애</option>
 				<option value="정보공유">정보공유</option>
 			</select>

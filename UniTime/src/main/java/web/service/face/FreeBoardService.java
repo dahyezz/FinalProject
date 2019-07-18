@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.FreeBoard;
+import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
 import web.dto.FreeComment;
 import web.util.Paging;
@@ -87,5 +88,36 @@ public interface FreeBoardService {
 	 * @param commentno - 게시글의 댓글 번호
 	 */
 	public void commentDelete(int commentno);
+	
+	/**
+	 * 	공지 게시글 리스트 조회
+	 * @return List - 공지게시글을 조회한 결과
+	 */
+	public List noticeList();
+	
+	/**
+	 * 	공지 게시글 조회, 조회수 증가
+	 * @param boardno - 게시글 번호
+	 * @return FreeBoardNotice - 공지 게시글 조회한 결과
+	 */
+	public FreeBoardNotice viewNotice(int boardno);
+
+	/**
+	 * 	공지 게시글 작성
+	 * @param freeBoardNotice - 게시글
+	 */
+	public void writeNotice(FreeBoardNotice freeBoardNotice);
+	
+	/**
+	 * 	공지 게시글 수정
+	 * @param FreeboardNotice
+	 */
+	public void updateNotice(FreeBoardNotice freeBoardNotice);
+	
+	/**
+	 * 	공지 게시글 삭제
+	 * @param boardno - 게시글 번호
+	 */
+	public void deleteNotice(int boardno);
 
 }
