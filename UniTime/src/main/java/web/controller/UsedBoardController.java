@@ -2,6 +2,8 @@ package web.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +64,27 @@ public class UsedBoardController {
 		
 		model.addAttribute("usedboard", usedBoard);
 		
+	}
+	
+	/*
+	 * used/write 컨트롤러
+	 * 게시글 작성
+	 */
+	@RequestMapping(value="/board/write",
+			method=RequestMethod.GET)
+	public void write() {
+		logger.info("게시글 작성 중");
+	}
+	
+	@RequestMapping(value="/board/write",
+			method=RequestMethod.POST)
+	public String writingProc(
+			HttpSession session,
+			UsedBoard usedBoard) {
+		
+		logger.info("작성된 게시글 처리 중");
+		usedService.write(usedBoard, session);
+		
+		return "";
 	}
 }

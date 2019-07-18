@@ -50,6 +50,18 @@
 		WHERE 
 		    boardno = #{boardno }
 	</select>
+	
+	<insert id="write"
+	    parameterType="web.dto.usedBoard">
+	    INSERT INTO USEDBOARD_KG(
+	        boardno, tag, title,
+	        product, content, writer,
+	        hit, price, writtendate)
+	        VALUES(UsedBoard_KG_SEQ, #{tag },
+	        #{title }, #{product }, #{content },
+	        #{writer }, #{hit }, #{price },
+	        #{writtendate })
+	</insert>
 
 
 </mapper>
