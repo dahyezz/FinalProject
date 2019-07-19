@@ -43,15 +43,52 @@
 		<th>태그</th>
 		<td colspan="3">
 			<select name="tag">
+			<!-- 관리자 수정일 때 -->
 			<c:if test="${nick eq 'admin' }">
-				<option value="공지" selected>공지</option>
-				<option value="잡담">잡담</option>
+				<c:if test="${board.tag eq '공지' }">
+					<option value="공지" selected>공지</option>
+					<option value="잡담" disabled>잡담</option>
+					<option value="연애" disabled>연애</option>
+					<option value="정보공유" disabled>정보공유</option>
+				</c:if>
+				<c:if test="${board.tag eq '잡담' }">
+					<option value="공지" disabled>공지</option>
+					<option value="잡담" selected>잡담</option>
+					<option value="연애">연애</option>
+					<option value="정보공유">정보공유</option>
+				</c:if>
+				<c:if test="${board.tag eq '연애' }">
+					<option value="공지" disabled>공지</option>
+					<option value="잡담">잡담</option>
+					<option value="연애" selected>연애</option>
+					<option value="정보공유">정보공유</option>
+				</c:if>
+				<c:if test="${board.tag eq '정보공유' }">
+					<option value="공지" disabled>공지</option>
+					<option value="잡담">잡담</option>
+					<option value="연애">연애</option>
+					<option value="정보공유" selected>정보공유</option>
+				</c:if>
 			</c:if>
+			
+			<!-- 일반 회원 수정일 때 -->
 			<c:if test="${nick ne 'admin' }">
-				<option value="잡담" selected>잡담</option>
-			</c:if>				
-				<option value="연애">연애</option>
-				<option value="정보공유">정보공유</option>
+				<c:if test="${board.tag eq '잡담' }">
+					<option value="잡담" selected>잡담</option>
+					<option value="연애">연애</option>
+					<option value="정보공유">정보공유</option>
+				</c:if>
+				<c:if test="${board.tag eq '연애' }">
+					<option value="잡담">잡담</option>
+					<option value="연애" selected>연애</option>
+					<option value="정보공유">정보공유</option>
+				</c:if>
+				<c:if test="${board.tag eq '정보공유' }">
+					<option value="잡담">잡담</option>
+					<option value="연애">연애</option>
+					<option value="정보공유" selected>정보공유</option>
+				</c:if>
+			</c:if>
 			</select>
 		</td>
 	</tr>
