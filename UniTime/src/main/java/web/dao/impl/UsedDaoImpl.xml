@@ -52,7 +52,7 @@
 	</select>
 	
 	<insert id="write"
-	    parameterType="web.dto.usedBoard">
+	    parameterType="web.dto.UsedBoard">
 	    INSERT INTO USEDBOARD_KG(
 	        boardno, tag, title,
 	        product, content, writer,

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.TimeTableDao;
+import web.dto.TempTable;
 import web.service.face.TimeTableService;
 
 @Service
@@ -19,13 +20,13 @@ public class TimeTableServiceImpl implements TimeTableService {
 	}
 
 	@Override
-	public void myListInsert(String names) {
-		timeTableDao.insertMyList(names);
+	public void myListInsert(TempTable temp) {
+		timeTableDao.insertMyList(temp);
 	}
 
 	@Override
-	public void myListDelete(String names) {
-		timeTableDao.deleteMyList(names);
+	public void myListDelete(TempTable temp) {
+		timeTableDao.deleteMyList(temp);
 	}
 
 	@Override

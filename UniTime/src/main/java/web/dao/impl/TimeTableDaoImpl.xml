@@ -11,13 +11,14 @@
 	SELECT * FROM timetable_kg ORDER BY lecture_code
 </select>
 
-<insert id="insertMyList" parameterType="String">
+<insert id="insertMyList" parameterType="web.dto.TempTable">
 	INSERT INTO temptable(user_email, lecture_code)
-	VALUES (#{email}, #{names})
+	VALUES (#{user_email}, #{lecture_code})
 </insert>
 
-<delete id="deleteMyList" parameterType="String">
-	
+<delete id="deleteMyList" parameterType="web.dto.TempTable">
+	DELETE FROM temptable
+	WHERE user_email=#{user_email} and lecture_code=#{lecture_code}
 </delete>
 
 <select id="selectMyList" parameterType="String" resultType="web.dto.TempTable">

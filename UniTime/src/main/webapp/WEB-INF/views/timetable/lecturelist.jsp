@@ -5,7 +5,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
-	$("btnContain").click(function(){
+	$("#btnContain").click(function(){
 		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
 		
 		//방법1
@@ -33,11 +33,39 @@ $(document).ready(function() {
 			);
 		$(document.body).append($form);
 		$form.submit();
-		
-		
 	});
-
 	
+	
+	//선택 삭제
+	$("#btnDelete").click(function(){
+		var $checkboxes = $("input:checkbox[name='checkRow2']:checked");
+		
+		//방법1
+		// 체크된 대상들을 하나씩 꺼내서 문자열로 합치기
+		var names = "";
+		var len = $checkboxes.length;
+		$checkboxes.each( function(idx) {
+			names += $(this).val();
+			
+			if( len-1 != idx ) {
+				names += ",";
+			}
+		});
+		console.log(names);
+
+		// 전송 폼
+		var $form = $("<form>")
+			.attr("action", "/timetable/deletemylist")
+			.attr("method", "post")
+			.append(
+				$("<input>")
+					.attr("type", "hidden")
+					.attr("name", "names")
+					.attr("value", names)
+			);
+		$(document.body).append($form);
+		$form.submit();
+	});
 });
 
 //전체 체크/해제
@@ -61,6 +89,26 @@ function checkAll() {
 	}
 }
 
+//전체 체크/해제
+function checkAll2() {
+	// checkbox들
+	var $checkboxes=$("input:checkbox[name='checkRow2']");
+
+	// checkAll 체크상태 (true:전체선택, false:전체해제)
+	var check_status = $("#checkAll2").is(":checked");
+	
+	if( check_status ) {
+		// 전체 체크박스를 checked로 바꾸기
+		$checkboxes.each(function() {
+			this.checked = true;	
+		});
+	} else {
+		// 전체 체크박스를 checked 해제하기
+		$checkboxes.each(function() {
+			this.checked = false;	
+		});
+	}
+}
 </script>
 
 
@@ -127,12 +175,13 @@ function checkAll() {
 <br><br>
 <h3>내 강의 목록</h3>
 <hr>
+<form>
 <div style="overflow:scroll;width:1000px;height:200px;">
 <table id="lectureList">
 <thead>
 	<tr>
 		<th>
-			<input type="checkbox" id="checkAll2" onclick="checkAll();" />
+			<input type="checkbox" id="checkAll2" onclick="checkAll2();" />
 		</th>
 		<th id="lectureList" style="width: 5%;">학년</th>
 		<th id="lectureList" style="width: 10%;">강의구분</th>
@@ -161,10 +210,12 @@ function checkAll() {
 
 </tbody>
 </table>
+<br>
 </div>
+<button id="btnDelete">내 강의 삭제</button>
+</form>
 <br>
 <button onclick="location.href='/timetable/recommend'">추천 시간표 생성</button>
 
 <br><br><br><br>
-
 
