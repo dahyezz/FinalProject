@@ -1,5 +1,7 @@
 package web.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -123,13 +125,33 @@ public class FreeBoardController {
 		
 		//게시글 수정
 		if("공지".equals(freeBoardNotice.getTag())) {
+			
+			//공지 게시글 수정
 			freeBoardService.updateNotice(freeBoardNotice);
 			
-			return "redirect:/free/view?tag="+freeBoardNotice.getTag()+"&boardno="+freeBoardNotice.getBoardno();
+			//redirect 한글 깨짐 해결
+			String tag = null;
+			try {
+				tag=URLEncoder.encode(freeBoardNotice.getTag(), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			
+			return "redirect:/free/view?tag="+tag+"&boardno="+freeBoardNotice.getBoardno();
 		} else {
+			
+			//일반 게시글 수정
 			freeBoardService.update(freeBoard);
 			
-			return "redirect:/free/view?tag="+freeBoard.getTag()+"&boardno="+freeBoard.getBoardno();
+			//redirect 한글 깨짐 해결
+			String tag = null;
+			try {
+				tag=URLEncoder.encode(freeBoard.getTag(), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			
+			return "redirect:/free/view?tag="+tag+"&boardno="+freeBoard.getBoardno();
 		}
 	}
 	
@@ -169,15 +191,14 @@ public class FreeBoardController {
 	public void commentWrite() {	}
 	
 	@RequestMapping(value="/free/commentwrite", method=RequestMethod.POST)
-	public String commentWriteProc(HttpSession session, FreeBoard freeBoard, FreeComment freeComment) {
+	public String commentWriteProc(HttpSession session, FreeComment freeComment) {
 		
-		freeComment.setBoardno(freeBoard.getBoardno());
 		freeComment.setWriter((String)session.getAttribute("nick"));
 		
 		//댓글 작성
 		freeBoardService.commentWrite(freeComment);
 		
-		return "redirect:/free/view?boardno="+freeBoard.getBoardno();
+		return "redirect:/free/view?boardno="+freeComment.getBoardno();
 	}
 	
 	@RequestMapping(value="/free/commentdelete", method=RequestMethod.GET)

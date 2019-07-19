@@ -114,9 +114,7 @@ function checkBoardDelete(){
 <!-- 공지게시글 리스트 -->
 <c:forEach items="${noticeList}" var="i">
 	<tr style="background:#ccc;">
-		<c:if test="${nick eq 'admin' }">
-			<td><input type="checkbox" name="boardCheck" value="${i.boardno }"/></td>
-		</c:if>
+		<c:if test="${nick eq 'admin' }"><td></td></c:if>
 		<td>${i.boardno }</td>
 		<td>${i.tag }</td>
 		<td><a href="/free/view?tag=${i.tag }&boardno=${i.boardno }">${i.title }</a></td>
