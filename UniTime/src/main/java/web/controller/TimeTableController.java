@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import web.dto.TempTable;
 import web.service.face.TimeTableService;
 
 @Controller
@@ -40,12 +41,17 @@ public class TimeTableController {
 	
 	
 	@RequestMapping(value="/timetable/containmylist", method=RequestMethod.POST)
-	public String viewMylist(Model model, @RequestParam("checkRow") String names, HttpSession session) {
+	public String viewMylist(Model model, @RequestParam("names") String names, HttpSession session) {
 		
 		System.out.println(names);
-		timeTableService.myListInsert(names);
-		
 		String id= (String) session.getAttribute("email");
+		
+		TempTable temp = new TempTable();
+		
+		temp.setUser_email(id);
+		temp.setLecture_code(Integer.parseInt(names));
+		
+		timeTableService.myListInsert(temp);
 		List mylist = timeTableService.myList(id);
 	
 		
@@ -57,25 +63,25 @@ public class TimeTableController {
 	
 	
 	@RequestMapping(value="/timetable/deletemylist", method=RequestMethod.POST)
-	public String deleteMylist(Model model, HttpServletRequest req, HttpSession session) {
+	public String deleteMylist(Model model, @RequestParam("names") String names, HttpSession session) {
 		
-		String names= req.getParameter("names");
-		
-		timeTableService.myListDelete(names);
-		
+		System.out.println(names);
 		String id= (String) session.getAttribute("email");
+		
+		TempTable temp = new TempTable();
+		
+		temp.setUser_email(id);
+		temp.setLecture_code(Integer.parseInt(names));
+		
+		timeTableService.myListDelete(temp);
 		List mylist = timeTableService.myList(id);
+	
 		
 		model.addAttribute("myList", mylist);
 		
 		
 		return "redirect:/timetable/lecturelist";
 	}
-	
-//	@RequestMapping(value="/timetable/recommend", method=RequestMethod.GET)
-//	public void selectLecture() {
-//		
-//	}
 	
 	@RequestMapping(value="/timetable/recommend", method=RequestMethod.GET)
 	public void recommend(Model model, HttpSession session) {
