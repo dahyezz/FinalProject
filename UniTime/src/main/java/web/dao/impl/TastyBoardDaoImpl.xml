@@ -13,7 +13,8 @@
 	</select>
 	
 	<select id="selectAll" parameterType="web.util.Paging" resultType="web.dto.TastyBoard">
-		SELECT boardno, tag, store_name storeName, loc, content, writer, hit, score, writtendate
+		SELECT boardno, tag, store_name storeName, loc, content, writer, hit, score, writtendate,
+			 ( SELECT COUNT(*) FROM tastycomment_kg WHERE boardno = tastyboard_kg.boardno ) AS commentCnt
 		FROM (
 			SELECT rownum rnum, B.* FROM (
 				SELECT * FROM tastyboard_kg
@@ -86,8 +87,12 @@
 	</select>
 	
 	<insert id="insertComment" parameterType="web.dto.TastyComment">
+		<selectKey order="BEFORE" resultType="int" keyProperty="commentno">
+			SELECT tastycomment_kg_seq.nextval FROM dual
+		</selectKey>
+	
 		INSERT INTO tastycomment_kg(commentno, boardno, writer, content)
-		VALUES (tastycomment_kg_seq.nextval, #{boardno }, #{writer }, #{content } )
+		VALUES (#{commentno }, #{boardno }, #{writer }, #{content } )
 	</insert>
 	
 	<select id="selectBoardnoByCommentno" parameterType="web.dto.TastyComment" resultType="web.dto.TastyComment">
@@ -110,5 +115,6 @@
 		DELETE tastyfile_kg
 		WHERE boardno = #{boardno }
 	</delete>
+	
 	
 </mapper>

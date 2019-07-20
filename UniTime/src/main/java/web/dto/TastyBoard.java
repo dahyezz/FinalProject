@@ -12,15 +12,13 @@ public class TastyBoard {
 	private int hit;
 	private int score;
 	private Date writtendate;
-	private int comment;
+	private int commentCnt;
 	
-
-
 	@Override
 	public String toString() {
 		return "TastyBoard [boardno=" + boardno + ", tag=" + tag + ", storeName=" + storeName + ", loc=" + loc
 				+ ", content=" + content + ", writer=" + writer + ", hit=" + hit + ", score=" + score + ", writtendate="
-				+ writtendate + ", comment=" + comment + "]";
+				+ writtendate + ", commentCnt=" + commentCnt + "]";
 	}
 
 	public int getBoardno() {
@@ -95,15 +93,15 @@ public class TastyBoard {
 		this.writtendate = writtendate;
 	}
 
-	public int getComment() {
-		return comment;
+	public int getCommentCnt() {
+		return commentCnt;
 	}
 
-	public void setComment(int comment) {
-		this.comment = comment;
+	public void setCommentCnt(int commentCnt) {
+		this.commentCnt = commentCnt;
 	}
-	
-	
+
+
 	
 
 }

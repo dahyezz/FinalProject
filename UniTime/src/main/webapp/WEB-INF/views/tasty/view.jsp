@@ -24,29 +24,72 @@ $(document).ready(function() {
 // 		console.log($('#content').val())
 // 		console.log($('#writer').val())
 		
-		$form = $("<form>").attr({
-			action: "/tasty/writeComment"
-			, method: "post"
-		}).append(
-			$("<input>").attr({
-				type: "hidden",
-				name: "boardno",
-				value: "${board.boardno }"
-			})		
-		).append(
-			$("<input>").attr({
-				type: "hidden",
-				name: "writer",
-				value: "${sessionScope.nick }"
-			})	
-		).append(
-			$("<textarea>")
-				.attr("name", "content")
-				.css("display", "none")
-				.text($("#content").val())
-		);
-		$(document.body).append($form);
-		$form.submit();
+		var boardno = ${board.boardno };
+		var content = $('#content').val();
+		var writer = $('#writer').val();
+		
+		console.log(boardno);
+		console.log(content);
+		console.log(writer);
+		
+		$.ajax({
+			type: "post"
+			, url: "/tasty/writeComment"
+			, dataType: "html"
+			, data: {
+				"boardno": boardno,
+				"content": content,
+				"writer": writer
+			}
+			, success: function(data){
+				console.log(data);
+				console.log(content);
+				console.log(writer);
+				console.log(data.writtendate)
+
+				$("#commenttest").html(data);
+// 				var div = $("<div>");
+//                 div.attr("id", "replyItem" + data);
+//                 div.appendTo($("#commentList"));
+//                 div.css({border: "1px solid gray", width: "600px", "padding": "5px", "margin-top": "5px", "margin-left": "0px", display:"inline-block"});
+// //                 div.text($("#rewriter1").val() + " 방금" );
+                
+//                 $("<a>",{
+//                     text: "삭제",
+//                     href: "#",
+//                     click: function (){fn_replyDelete(result)}
+//                 }).appendTo(div);
+
+			}
+			, error: function() {
+				console.log("error")
+			}
+		});
+
+		
+// 		$form = $("<form>").attr({
+// 			action: "/tasty/writeComment"
+// 			, method: "post"
+// 		}).append(
+// 			$("<input>").attr({
+// 				type: "hidden",
+// 				name: "boardno",
+// 				value: "${board.boardno }"
+// 			})		
+// 		).append(
+// 			$("<input>").attr({
+// 				type: "hidden",
+// 				name: "writer",
+// 				value: "${sessionScope.nick }"
+// 			})	
+// 		).append(
+// 			$("<textarea>")
+// 				.attr("name", "content")
+// 				.css("display", "none")
+// 				.text($("#content").val())
+// 		);
+// 		$(document.body).append($form);
+// 		$form.submit();
 	});
 	
 	
@@ -110,23 +153,35 @@ function deleteComment(commentno){
 </table>
 
 
-<div>
+<div id="commentDiv">
 <h5>댓글</h5>
 
 
-<table class="table">
-<c:forEach items="${commentList }" var="i">
-	<tr data-commentno="${i.commentno }">
-		<td>${i.writer }</td>
-		<td>${i.content }</td>
-		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm:ss" /></td>	
+<!-- <table class="table" id="commentTable"> -->
+<%-- <c:forEach items="${commentList }" var="i"> --%>
+<%-- 	<tr data-commentno="${i.commentno }"> --%>
+<%-- 		<td>${i.writer }</td> --%>
+<%-- 		<td>${i.content }</td> --%>
+<%-- 		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm:ss" /></td>	 --%>
 		
-		<td><c:if test="${nick eq i.writer }">
-			<button  onclick="deleteComment(${i.commentno });">삭제</button>
-		</c:if></td>
-	</tr>
+<%-- 		<td><c:if test="${nick eq i.writer }"> --%>
+<%-- 			<button  onclick="deleteComment(${i.commentno });">삭제</button> --%>
+<%-- 		</c:if></td> --%>
+<!-- 	</tr> -->
+<%-- </c:forEach> --%>
+<!-- </table> -->
+
+<c:forEach items="${commentList }" var="i">
+	<div id="commenttest">
+		<span>${i.writer }</span>
+		<span>${i.content }</span>
+		<span><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm:ss" /></span>
+		
+		<c:if test="${nick eq i.writer }">
+			<button onclick="deleteComment(${i.commentno });">삭제</button>
+		</c:if>
+	</div>
 </c:forEach>
-</table>
 
 </div>
 
