@@ -139,4 +139,9 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	public TastyFile getFile(TastyFile tastyfile) {
 		return tastyBoardDao.selectFileByFileno(tastyfile.getFileno());
 	}
+	
+	@Override
+	public TastyComment getComment(TastyComment tastyComment) {
+		return tastyBoardDao.selectBoardnoByCommentno(tastyComment);
+	}
 }

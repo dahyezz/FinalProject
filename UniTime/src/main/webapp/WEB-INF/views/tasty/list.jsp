@@ -40,7 +40,7 @@ $(document).ready(function() {
 		<td>${i.writer }</td>
 		<td>${i.hit }</td>
 		<td>${i.score }</td>
-		<td>${i.comment }</td>
+		<td>${i.commentCnt }</td>
 		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
 	</tr>
 	</c:forEach>

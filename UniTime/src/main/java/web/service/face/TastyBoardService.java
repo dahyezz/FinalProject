@@ -86,4 +86,12 @@ public interface TastyBoardService {
 
 	public TastyFile getFile(TastyFile tastyfile);
 
+	/**
+	 * 댓글번호로 댓글 조회하기
+	 * 
+	 * @param tastyComment
+	 * @return
+	 */
+	public TastyComment getComment(TastyComment tastyComment);
+
 }

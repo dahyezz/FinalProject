@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import web.dto.TastyBoard;
 import web.dto.TastyComment;
@@ -39,9 +38,6 @@ public class TastyBoardController {
 	
 	@Autowired ServletContext context;
 	@Autowired TastyBoardService tastyBoardService;
-	
-	// json 데이터로 응답을 보내기 위한 
-	@Autowired MappingJackson2JsonView jsonView;
 
 	
 	@RequestMapping(value="/tasty/list", method=RequestMethod.GET)
@@ -193,13 +189,20 @@ public class TastyBoardController {
 	
 
 	@RequestMapping(value="/tasty/writeComment", method=RequestMethod.POST)
-	public String writeComment(TastyComment tastyComment) {
+	public void writeComment(TastyComment tastyComment, HttpServletResponse response) {
 		
 		logger.info(tastyComment.toString());
 		
 		tastyBoardService.writeComment(tastyComment);
 		
-		return "redirect:/tasty/view?boardno="+tastyComment.getBoardno();
+		tastyComment = tastyBoardService.getComment(tastyComment);
+//		return "redirect:/tasty/view?boardno="+tastyComment.getBoardno();
+		
+		try {
+			response.getWriter().append("{\"comment\":"+tastyComment+"}");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@RequestMapping(value="/tasty/deleteComment", method=RequestMethod.POST)
