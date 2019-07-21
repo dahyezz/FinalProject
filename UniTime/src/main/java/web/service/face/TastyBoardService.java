@@ -94,4 +94,11 @@ public interface TastyBoardService {
 	 */
 	public TastyComment getComment(TastyComment tastyComment);
 
+	/**
+	 * 체크 삭제하기
+	 * 
+	 * @param names - 삭제할 게시글 번호
+	 */
+	public void deleteList(String names);
+
 }

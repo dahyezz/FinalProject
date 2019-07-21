@@ -115,4 +115,6 @@ public interface TastyBoardDao {
 	public void deleteFileByboardno(TastyBoard tastyBoard);
 
 
+
+
 }

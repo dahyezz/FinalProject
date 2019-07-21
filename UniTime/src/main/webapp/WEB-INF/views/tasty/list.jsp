@@ -11,7 +11,60 @@ $(document).ready(function() {
 		$(location).attr("href","/tasty/write");
 	})
 	
+	//체크 삭제 버튼 동작
+	$("#btnDelete").click(function() {
+		
+		// 선택된 체크 박스
+		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
+		
+		// 체크된 대상들을 map으로 만들기
+		var map = $checkboxes.map(function() {
+			return $(this).val();
+		});
+		var names = map.get().join(",");
+		
+// 		console.log($checkboxes)
+// 		console.log("map : " +map);
+// 		console.log("names : " + names);
+
+		//전송 폼
+		var $form = $("<form>")
+				.attr("action","/tasty/listDelete")
+				.attr("method", "POST")
+				.append(
+					$("<input>")
+							.attr("type","hidden")
+							.attr("name", "names")
+							.attr("value", names)
+				);
+		$(document.body).append($form);
+		$form.submit();
+				
+		
+	});
+	
 });
+
+// 전체 체크/체크해제 되는 동작
+function checkAll() {
+	
+	//checkbox들
+	var $checkboxes=$("input:checkbox[name='checkRow']");
+	
+	// checkAll 체크 상태 
+	var check_status = $("#checkAll").is(":checked");
+	
+	if( check_status ){
+		$checkboxes.each(function() {
+			this.checked = true;
+		});
+	} else {
+		$checkboxes.each(function() {
+			this.checked = false;
+		});
+	}
+}
+
 </script>
 
 <div class="ed board-header padding-horizontal-small@s margin-bottom-small">
@@ -20,6 +73,9 @@ $(document).ready(function() {
 
 <table style="text-align: center; margin: auto;">
 	<tr>
+		<c:if test="${nick eq 'admin' }">
+		<th style="width: 5%"><input type="checkbox" id="checkAll" onclick="checkAll();" /></th>
+		</c:if>
 		<th style="width: 5%">글번호</th>
 		<th style="width: 10%">태그</th>
 		<th style="width: 20%">음식점이름</th>
@@ -33,6 +89,9 @@ $(document).ready(function() {
 	
 	<c:forEach items="#{list }" var="i">
 	<tr>
+		<c:if test="${nick eq 'admin' }">
+			<td><input type="checkbox" name="checkRow" value="${i.boardno }" /></td>
+		</c:if>
 		<td>${i.boardno }</td>
 		<td>${i.tag }</td>
 		<td><a href="/tasty/view?boardno=${i.boardno }">${i.storeName }</a></td>
@@ -46,6 +105,10 @@ $(document).ready(function() {
 	</c:forEach>
 </table>
 
+<c:if test="${nick eq 'admin' }">
+<button id="btnDelete" class="btn btn-warning pull-left">삭제</button>
+<div class="clearfix"></div>
+</c:if>
 
 <div class="content text-center pagination-container">
 	<ul class="pagination pagination-sm">
