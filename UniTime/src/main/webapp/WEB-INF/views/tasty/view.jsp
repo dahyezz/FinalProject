@@ -47,6 +47,17 @@ $(document).ready(function() {
 				console.log(writer);
 				console.log(data.writtendate)
 				
+				document.getElementById('commenttest').innerHTML +=	"<span>";
+				document.getElementById('commenttest').innerHTML +=	writer;
+				document.getElementById('commenttest').innerHTML +=	"</span>";
+				document.getElementById('commenttest').innerHTML +=	"<span>";
+				document.getElementById('commenttest').innerHTML +=	content;
+				document.getElementById('commenttest').innerHTML +=	"</span>";
+				document.getElementById('commenttest').innerHTML +=	"<span>";
+				document.getElementById('commenttest').innerHTML +=	data.comment;
+				document.getElementById('commenttest').innerHTML +=	"</span>";
+				
+				
 				
 // 				$("#commentdiv").html(data);
 // 				$("#content").val("");
@@ -54,11 +65,11 @@ $(document).ready(function() {
 // 				$("[data-commentno='"+commentno+"']").add();
 
 // 				$("#commenttest").html(data);
-				var div = $("<div>");
-                div.attr("id", "commentdiv" + data);
-                div.appendTo($("#commentList"));
-                div.css({border: "1px solid gray", width: "600px", "padding": "5px", "margin-top": "5px", "margin-left": "0px", display:"inline-block"});
-                div.text($("#writer").val() + " 방금" );
+// 				var div = $("<div>");
+//                 div.attr("id", "commentdiv" + data);
+//                 div.appendTo($("#commentList"));
+//                 div.css({border: "1px solid gray", width: "600px", "padding": "5px", "margin-top": "5px", "margin-left": "0px", display:"inline-block"});
+//                 div.text($("#writer").val() + " 방금" );
                 
 //                 $("<a>",{
 //                     text: "삭제",
@@ -202,6 +213,10 @@ function deleteComment(commentno){
 
 <div class="text-center">
 	<button id="btnList" class="btn btn-primary">목록</button>
+	
+	<c:if test="${nick eq 'admin' }">
+		<button id="btnDelete" class="btn btn-warning">삭제</button>
+	</c:if>
 
 	<c:if test="${nick eq board.writer }">
 		<button id="btnUpdate" class="btn btn-warning">수정</button>

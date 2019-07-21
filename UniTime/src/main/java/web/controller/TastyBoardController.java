@@ -204,7 +204,7 @@ public class TastyBoardController {
 //		model.addAttribute("commentList", commentList);
 		
 		try {
-			response.getWriter().append("{\"comment\":"+tastyComment+"}");
+			response.getWriter().append("{\"comment\":"+tastyComment.getWrittendate()+"}");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
