@@ -46,13 +46,19 @@ $(document).ready(function() {
 				console.log(content);
 				console.log(writer);
 				console.log(data.writtendate)
+				
+				
+// 				$("#commentdiv").html(data);
+// 				$("#content").val("");
+				
+// 				$("[data-commentno='"+commentno+"']").add();
 
-				$("#commenttest").html(data);
-// 				var div = $("<div>");
-//                 div.attr("id", "replyItem" + data);
-//                 div.appendTo($("#commentList"));
-//                 div.css({border: "1px solid gray", width: "600px", "padding": "5px", "margin-top": "5px", "margin-left": "0px", display:"inline-block"});
-// //                 div.text($("#rewriter1").val() + " 방금" );
+// 				$("#commenttest").html(data);
+				var div = $("<div>");
+                div.attr("id", "commentdiv" + data);
+                div.appendTo($("#commentList"));
+                div.css({border: "1px solid gray", width: "600px", "padding": "5px", "margin-top": "5px", "margin-left": "0px", display:"inline-block"});
+                div.text($("#writer").val() + " 방금" );
                 
 //                 $("<a>",{
 //                     text: "삭제",
@@ -153,7 +159,7 @@ function deleteComment(commentno){
 </table>
 
 
-<div id="commentDiv">
+<div id="commentdiv">
 <h5>댓글</h5>
 
 
@@ -172,7 +178,7 @@ function deleteComment(commentno){
 <!-- </table> -->
 
 <c:forEach items="${commentList }" var="i">
-	<div id="commenttest">
+	<div id="commenttest" data-commentno="${i.commentno }" class="comment"> 
 		<span>${i.writer }</span>
 		<span>${i.content }</span>
 		<span><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm:ss" /></span>
@@ -182,6 +188,8 @@ function deleteComment(commentno){
 		</c:if>
 	</div>
 </c:forEach>
+
+<!-- <textarea id="commentcontent"></textarea> -->
 
 </div>
 

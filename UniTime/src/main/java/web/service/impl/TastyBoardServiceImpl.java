@@ -144,4 +144,23 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	public TastyComment getComment(TastyComment tastyComment) {
 		return tastyBoardDao.selectBoardnoByCommentno(tastyComment);
 	}
+	
+	@Override
+	public void deleteList(String names) {
+		
+		String[] nameList = names.split(",");
+		int deleteList[] = new int[nameList.length];
+		TastyBoard tastyBoard = new TastyBoard();
+		
+		for(int i=0; i<nameList.length; i++) {
+			deleteList[i] = Integer.parseInt(nameList[i]);
+			
+			tastyBoard.setBoardno(deleteList[i]);
+			
+			tastyBoardDao.deleteCommentByBoardno(tastyBoard);
+			tastyBoardDao.deleteFileByboardno(tastyBoard);
+			tastyBoardDao.deleteBoardByBoardno(tastyBoard);
+		}
+		
+	}
 }

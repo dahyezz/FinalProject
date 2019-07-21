@@ -189,7 +189,7 @@ public class TastyBoardController {
 	
 
 	@RequestMapping(value="/tasty/writeComment", method=RequestMethod.POST)
-	public void writeComment(TastyComment tastyComment, HttpServletResponse response) {
+	public void writeComment(TastyComment tastyComment, HttpServletResponse response, Model model) {
 		
 		logger.info(tastyComment.toString());
 		
@@ -197,6 +197,11 @@ public class TastyBoardController {
 		
 		tastyComment = tastyBoardService.getComment(tastyComment);
 //		return "redirect:/tasty/view?boardno="+tastyComment.getBoardno();
+		
+//		TastyBoard tastyBoard = new TastyBoard();
+//		tastyBoard.setBoardno(tastyComment.getBoardno());
+//		List<TastyComment> commentList = tastyBoardService.getComment(tastyBoard);
+//		model.addAttribute("commentList", commentList);
 		
 		try {
 			response.getWriter().append("{\"comment\":"+tastyComment+"}");
@@ -220,6 +225,15 @@ public class TastyBoardController {
 			e.printStackTrace();
 		}
 
+	}
+	
+	@RequestMapping(value="/tasty/listDelete", method=RequestMethod.POST)
+	public String deleteList(String names) {
+//		logger.info(names);
+		
+		tastyBoardService.deleteList(names);
+		
+		return "redirect:/tasty/list";
 	}
 
 	
