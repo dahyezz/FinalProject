@@ -89,26 +89,6 @@ function checkAll() {
 	}
 }
 
-//전체 체크/해제
-function checkAll2() {
-	// checkbox들
-	var $checkboxes=$("input:checkbox[name='checkRow2']");
-
-	// checkAll 체크상태 (true:전체선택, false:전체해제)
-	var check_status = $("#checkAll2").is(":checked");
-	
-	if( check_status ) {
-		// 전체 체크박스를 checked로 바꾸기
-		$checkboxes.each(function() {
-			this.checked = true;	
-		});
-	} else {
-		// 전체 체크박스를 checked 해제하기
-		$checkboxes.each(function() {
-			this.checked = false;	
-		});
-	}
-}
 </script>
 
 
