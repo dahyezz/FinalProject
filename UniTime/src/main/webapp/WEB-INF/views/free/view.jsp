@@ -7,53 +7,76 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	$(function(){	//페이지 로딩시 댓글 가져오기
+ 	$(function(){	//페이지 로딩시 댓글 가져오기
 	    commentList();
 	});
+	
+/*	function commentDelete(commentno){
+		
+		$.ajax({
+			url: "/free/commentdelete",
+			type: "get",
+			success:function(data){
+				commentList();
+			}
+		});
+	}
+	
+	$("#bntCommentDelete").click(function(){
+		$(location).attr("href","/free/commentdelete?boardno="+${board.boardno }+"&commentno="+${i.commentno});
+	}); */
+	
+	//댓글 목록
+	function commentList(){
+		
+		var boardno=${board.boardno};
+		
+		//getJSON : 비동기식 JSON 데이터를 가져오는 메소드
+		//첫 번째 매개변수 url : JSON 파일을 로드
+		//두 번째 매개변수 callback 함수 : JSON 파일을 이용하여 로드된 데이터를 처리한다
+		$.getJSON("/free/commentview?boardno="+boardno, function(data){
+			
+			var html='';
+			
+			//배열을 순회하면서 HTML을  생성
+			$(data).each(function(){
+				var writtendate=new Date(this.writtendate);
+				writtendate=writtendate.toLocaleDateString("ko-US");
+				
+    			html+= '<span style="font-weight:bold;">'+this.writer+'</span><br>';
+	            html+= '<span>'+this.content+'</span><br>';
+	            html+= '<span style="color:#ccc;">'+writtendate+'</span>';
+	            html+= '<c:if test="${nick eq '+this.writer+' || nick eq admin }">';
+	            html+= '<button id="btnCommentDelete" style="float:right;" onclick="commentDelete('+this.commentno+')">삭제</button>';
+	            html+= '</c:if>';
+	            html+= '<hr>';
+			});
+			
+			$(".freeViewCommentList").html(html);
+		});
+	}
 	
 	//댓글 작성
 	$("#btnCommentWrite").click(function(){
 		
+		var formOjb=$("#commentWriteForm");
+		var boardno=$("#boardno").val();
+		var comment=$("#comment").val();
+		
 		$.ajax({
-			type: "post",
-			url: "/free/commentwrtie",
-			data: $(commentWriteForm).serialize(),	// serialize(): 입력된 모든Element를 문자열의 데이터에 serialize 한다
-			success:function(data){
+			url:"/free/commentwrite",
+			type:"post",
+			data:{
+				boardno:boardno,
+				content:comment
+			},
+			success:function(){
 				commentList();	//댓글 리스트 함수 호출
 				$("#comment").val("");	//댓글 작성칸 지우기
-			},
-			error:function(){
-				console.log("실패");
 			}
 		});
-		
 	});
 	
-	//댓글 리스트
-	function commentList(){
-		$.ajax({
-	        url: "/free/view",
-	        type: "get",
-	        dataType: "json",
-	        data : $(commentWriteForm).serialize(),
-	        success : function(data){
-	            var html =''; 
-				
-	            html+= '<c:forEach items="${commentList}" var="i">';
-	            html+= '<span style="font-weight:bold;">${i.writer }</span><br>';
-	            html+= '{i.content }<br>';
-	            html+= '<span style="color:#ccc;"><fmt:formatDate value="${i.writtendate }" pattern="yyyy/MM/dd HH:mm" /></span>';
-	            html+= '<c:if test="${nick eq i.writer || nick eq admin }">"';
-	            html+= '	<button id="btnCommentDelete" style="float:right;"';
-	            html+= 'onclick="location.href='/free/commentdelete?boardno=${board.boardno }&commentno=${i.commentno}'">삭제</button>';
-	            html+= '</c:if>';
-	            html+= '<hr>';
-	            html+= '</c:forEach>';
-	            
-	            $(".freeViewComment").html(html);
-	        }
-	    });	
-	}
 });
 </script>
 
@@ -132,7 +155,7 @@ $(document).ready(function(){
 <!-- 댓글 작성 -->
 <c:if test="${board.tag ne '공지'}">
 <div class="freeCommentWrite">
-<h3 style="float:left;">Comments</h3>
+<h3 style="float:left;">Comments</h3><span id="commentCnt"></span>
 <hr>
 	<%-- 로그인 안한 상태 --%>
 	<c:if test="${empty login }">
@@ -150,13 +173,14 @@ $(document).ready(function(){
 	<%-- 로그인 하고있는 상태 --%>
 	<c:if test="${login }">
 	<form id="commentWriteForm" method="post">
-		<input type="hidden" id="boardno" value="${board.boardno }"/>
+		<input type="hidden" id="boardno" value="${board.boardno }">
+		<input type="hidden" id="nick" value="${nick }">
 		<table class="table table-condensed">
 		<tr>
 			<th style="width:100px;">${nick }</th>
 			<td>
 			<textarea id="comment" name="content" rows="3" cols="130" placeholder="댓글을 입력해주세요."></textarea>
-			<button id="btnCommentWrite" class="btn btn-info">댓글등록</button>
+			<button type="button" id="btnCommentWrite" class="btn btn-info">댓글등록</button>
 			</td>
 		</tr>
 		</table>
@@ -165,18 +189,7 @@ $(document).ready(function(){
 </div>
 
 <!-- 댓글 목록 -->
-<div class="freeViewComment" >
-<c:forEach items="${commentList}" var="i">
-	<span style="font-weight:bold;">${i.writer }</span><br>
-	${i.content }<br>
-	<span style="color:#ccc;"><fmt:formatDate value="${i.writtendate }" pattern="yyyy/MM/dd HH:mm" /></span>
-	<c:if test="${nick eq i.writer || nick eq 'admin' }">
-		<button id="btnCommentDelete" style="float:right;"
-		onclick="location.href='/free/commentdelete?boardno=${board.boardno }&commentno=${i.commentno}'">삭제</button>
-	</c:if>
-	<hr>
-</c:forEach>
-</div>
+<div class="freeViewCommentList" ></div>
 </c:if>
 
 <!--------------------------------------->
