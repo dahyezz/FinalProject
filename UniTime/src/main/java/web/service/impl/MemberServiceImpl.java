@@ -1,5 +1,9 @@
 package web.service.impl;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -7,6 +11,7 @@ import org.springframework.stereotype.Service;
 import web.dao.face.MemberDao;
 import web.dto.MailUtils;
 import web.dto.Member;
+import web.dto.TastyBoard;
 import web.service.face.MemberService;
 
 @Service
@@ -71,7 +76,12 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Member myBoard(String nickname) {
-		return memberDao.myBoard(nickname);
+	public List tastyList(Member member) {
+		return memberDao.tastyList(member);
+	}
+
+	@Override
+	public List freeList(Member member) {
+		return memberDao.freeList(member);
 	}
 }
