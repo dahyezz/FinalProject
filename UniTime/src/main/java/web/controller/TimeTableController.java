@@ -89,6 +89,23 @@ public class TimeTableController {
 		String id= (String) session.getAttribute("email");
 		List mylist = timeTableService.myList(id);
 		model.addAttribute("myList", mylist);
+		
+	}
+	
+	@RequestMapping(value="/timetable/recommendlist", method=RequestMethod.POST)
+	public void recommendList(Model model, HttpSession session
+			, @RequestParam("timepriority") String timepriority
+			, @RequestParam("majorNum") int majorNum
+			, @RequestParam("classNum") int classNum
+			) {
+		
+		String id= (String) session.getAttribute("email");
+		List mylist = timeTableService.myList(id);
+		model.addAttribute("myList", mylist);
+		
+		
+		
+		
 	}
 	
 }

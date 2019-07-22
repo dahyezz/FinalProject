@@ -18,7 +18,7 @@
 
 <delete id="deleteMyList" parameterType="web.dto.TempTable">
 	DELETE FROM temptable
-	WHERE user_email=#{user_email} and lecture_code=#{lecture_code}
+	WHERE user_email=#{user_email} and lecture_code in (#{lecture_code})
 </delete>
 
 <select id="selectMyList" parameterType="String" resultType="web.dto.TempTable">

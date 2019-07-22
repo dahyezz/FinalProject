@@ -59,7 +59,7 @@
  <tr><th>10:00-11:00</th>
  <th>
  <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 2 || mi.end_time eq 1 }">
+ <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
  <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
  </c:if>
  </c:forEach>
@@ -339,6 +339,36 @@
 </table>
 </div>
 <hr>
+<form>
+<div>
+<h5>시간 우선순위 선택</h5>
+<select name="timepriority">
+<option value="am">오전</option>
+<option value="pm">오후</option>
+</select>
+<br>
+<h5>추가할 전공과목 수</h5>
+<select name="majorNum">
+<option value="1">1개</option>
+<option value="2">2개</option>
+<option value="3">3개</option>
+<option value="4">4개</option>
+<option value="5">5개</option>
+</select>
+<br>
+<h5>추가할 교양과목 수</h5>
+<select name="classNum">
+<option value="1">1개</option>
+<option value="2">2개</option>
+<option value="3">3개</option>
+<option value="4">4개</option>
+<option value="5">5개</option>
+</select>
+<br>
+</div>
+<br>
+<button onclick="location.href='/timetable/recommend'">추천 시간표 보기</button>
+</form>
 <br><br>
 <button onclick="location.href='/timetable/lecturelist'">강의 목록으로</button>
 
