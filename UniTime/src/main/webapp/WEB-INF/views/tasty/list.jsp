@@ -67,11 +67,19 @@ function checkAll() {
 
 </script>
 
+<style type="text/css">
+
+.tastylist th {
+	text-align: center;
+}
+
+</style>
+
 <div class="ed board-header padding-horizontal-small@s margin-bottom-small">
 	<h3>테이스티로드</h3>
 </div>
 
-<table style="text-align: center; margin: auto;">
+<table style="text-align: center; margin: auto;" class="tastylist">
 	<tr>
 		<c:if test="${nick eq 'admin' }">
 		<th style="width: 5%"><input type="checkbox" id="checkAll" onclick="checkAll();" /></th>

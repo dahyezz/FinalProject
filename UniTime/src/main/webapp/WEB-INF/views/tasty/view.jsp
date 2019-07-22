@@ -42,40 +42,8 @@ $(document).ready(function() {
 				"writer": writer
 			}
 			, success: function(data){
-				console.log(data);
-				console.log(content);
-				console.log(writer);
-				console.log(data.writtendate)
-				
-				document.getElementById('commenttest').innerHTML +=	"<span>";
-				document.getElementById('commenttest').innerHTML +=	writer;
-				document.getElementById('commenttest').innerHTML +=	"</span>";
-				document.getElementById('commenttest').innerHTML +=	"<span>";
-				document.getElementById('commenttest').innerHTML +=	content;
-				document.getElementById('commenttest').innerHTML +=	"</span>";
-				document.getElementById('commenttest').innerHTML +=	"<span>";
-				document.getElementById('commenttest').innerHTML +=	data.comment;
-				document.getElementById('commenttest').innerHTML +=	"</span>";
-				
-				
-				
-// 				$("#commentdiv").html(data);
-// 				$("#content").val("");
-				
-// 				$("[data-commentno='"+commentno+"']").add();
-
-// 				$("#commenttest").html(data);
-// 				var div = $("<div>");
-//                 div.attr("id", "commentdiv" + data);
-//                 div.appendTo($("#commentList"));
-//                 div.css({border: "1px solid gray", width: "600px", "padding": "5px", "margin-top": "5px", "margin-left": "0px", display:"inline-block"});
-//                 div.text($("#writer").val() + " 방금" );
-                
-//                 $("<a>",{
-//                     text: "삭제",
-//                     href: "#",
-//                     click: function (){fn_replyDelete(result)}
-//                 }).appendTo(div);
+				$("#commentdiv").html(data);
+				$("#content").val("");
 
 			}
 			, error: function() {
@@ -83,35 +51,19 @@ $(document).ready(function() {
 			}
 		});
 
-		
-// 		$form = $("<form>").attr({
-// 			action: "/tasty/writeComment"
-// 			, method: "post"
-// 		}).append(
-// 			$("<input>").attr({
-// 				type: "hidden",
-// 				name: "boardno",
-// 				value: "${board.boardno }"
-// 			})		
-// 		).append(
-// 			$("<input>").attr({
-// 				type: "hidden",
-// 				name: "writer",
-// 				value: "${sessionScope.nick }"
-// 			})	
-// 		).append(
-// 			$("<textarea>")
-// 				.attr("name", "content")
-// 				.css("display", "none")
-// 				.text($("#content").val())
-// 		);
-// 		$(document.body).append($form);
-// 		$form.submit();
 	});
-	
+
 	
 });
 
+//댓글 수정
+function updateComment(commentno){
+	console.log(commentno);
+	console.log($(this));
+}
+
+
+//댓글 삭제
 function deleteComment(commentno){
 	
 // 	console.log(commentno)
@@ -136,6 +88,16 @@ function deleteComment(commentno){
 	
 }
 
+
+//댓글창에 엔터키로 댓글 작성
+function enter_check(){
+	
+	//엔터키의 코드가 13
+	if(event.keyCode == 13){
+		console.log("enter clicked");
+		$('#cmtWrite').click();
+	}
+}
 </script>
 
 <div class="ed board-header padding-horizontal-small@s margin-bottom-small">
@@ -170,46 +132,14 @@ function deleteComment(commentno){
 </table>
 
 
-<div id="commentdiv">
-<h5>댓글</h5>
+<c:import url="/WEB-INF/views/tasty/comment.jsp" />
 
 
-<!-- <table class="table" id="commentTable"> -->
-<%-- <c:forEach items="${commentList }" var="i"> --%>
-<%-- 	<tr data-commentno="${i.commentno }"> --%>
-<%-- 		<td>${i.writer }</td> --%>
-<%-- 		<td>${i.content }</td> --%>
-<%-- 		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm:ss" /></td>	 --%>
-		
-<%-- 		<td><c:if test="${nick eq i.writer }"> --%>
-<%-- 			<button  onclick="deleteComment(${i.commentno });">삭제</button> --%>
-<%-- 		</c:if></td> --%>
-<!-- 	</tr> -->
-<%-- </c:forEach> --%>
-<!-- </table> -->
+<label>${nick }<textarea id="content" name="content" rows="1" cols="70" onkeypress="JavaScript:enter_check();"></textarea></label>
+<input type="hidden" name="writer" id="writer" value="${nick }" />
 
-<c:forEach items="${commentList }" var="i">
-	<div id="commenttest" data-commentno="${i.commentno }" class="comment"> 
-		<span>${i.writer }</span>
-		<span>${i.content }</span>
-		<span><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm:ss" /></span>
-		
-		<c:if test="${nick eq i.writer }">
-			<button onclick="deleteComment(${i.commentno });">삭제</button>
-		</c:if>
-	</div>
-</c:forEach>
+<button id="cmtWrite" name="cmtWrite" class="btn">입력</button>
 
-<!-- <textarea id="commentcontent"></textarea> -->
-
-</div>
-
-<%-- <form action="/tasty/writeComment?boardno=${board.boardno }" method="post"> --%>
-	<label>${nick }<textarea id="content" name="content" rows="1" cols="70"></textarea></label>
-	<input type="hidden" name="writer" id="writer" value="${nick }" />
-	
-	<button id="cmtWrite" name="cmtWrite" class="btn">입력</button>
-<!-- </form> -->
 
 <div class="text-center">
 	<button id="btnList" class="btn btn-primary">목록</button>

@@ -189,8 +189,10 @@ public class TastyBoardController {
 	
 
 	@RequestMapping(value="/tasty/writeComment", method=RequestMethod.POST)
-	public void writeComment(TastyComment tastyComment, HttpServletResponse response, Model model) {
+	public String writeComment(TastyComment tastyComment, HttpServletResponse response, Model model) {
 		
+		response.setContentType("application/json;charset=UTF-8");
+
 		logger.info(tastyComment.toString());
 		
 		tastyBoardService.writeComment(tastyComment);
@@ -198,16 +200,19 @@ public class TastyBoardController {
 		tastyComment = tastyBoardService.getComment(tastyComment);
 //		return "redirect:/tasty/view?boardno="+tastyComment.getBoardno();
 		
-//		TastyBoard tastyBoard = new TastyBoard();
-//		tastyBoard.setBoardno(tastyComment.getBoardno());
+		TastyBoard tastyBoard = new TastyBoard();
+		tastyBoard.setBoardno(tastyComment.getBoardno());
 //		List<TastyComment> commentList = tastyBoardService.getComment(tastyBoard);
 //		model.addAttribute("commentList", commentList);
 		
-		try {
-			response.getWriter().append("{\"comment\":"+tastyComment.getWrittendate()+"}");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return "redirect:/tasty/comment?boardno="+tastyBoard.getBoardno();
+	}
+	
+	@RequestMapping(value="/tasty/comment", method=RequestMethod.GET)
+	public void commentList(TastyBoard tastyBoard, Model model) {
+		
+		List<TastyComment> commentList = tastyBoardService.getComment(tastyBoard);
+		model.addAttribute("commentList", commentList);
 	}
 	
 	@RequestMapping(value="/tasty/deleteComment", method=RequestMethod.POST)
