@@ -1,8 +1,9 @@
 package web.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import web.service.face.AdminMemberService;
+import web.util.Paging;
 
 @Controller
 public class AdminMemberController {
@@ -22,9 +24,15 @@ public class AdminMemberController {
 	@Autowired AdminMemberService adminMemberService;
 	
 	@RequestMapping(value = "/admin/member", method = RequestMethod.GET)
-	public void adminMember(Model model) {
+	public void adminMember(Model model, HttpServletRequest req) {
 		
-		List list = adminMemberService.memberSelectAll();
+		//요청파라미터에서 curPage 얻어오기
+		Paging paging = adminMemberService.getCurPage(req);
+		
+		//MODEL로 Paging 객체 넣기
+		model.addAttribute("paging", paging);
+		
+		List list = adminMemberService.memberSelectAll(paging);
 		
 		model.addAttribute("list", list);
 		

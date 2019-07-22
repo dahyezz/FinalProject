@@ -7,10 +7,26 @@
     
 <mapper namespace="web.dao.face.AdminMemberDao">
 
-	<select id="memberSelectAll" resultType="web.dto.Member">
-			SELECT * FROM member_kg
-			ORDER BY hakbun
+	<resultMap type="web.dto.Member" id="Member">
+		<result column="department_code" property="departmentCode" />
+	</resultMap>
+
+	<select id="memberSelectAll" resultMap="Member" parameterType="web.util.Paging">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+		        SELECT * FROM member_kg
+		        WHERE nickname like '%'||#{search }||'%'
+		        ORDER BY hakbun
+		    ) B
+		ORDER BY rnum)
+		WHERE rnum BETWEEN #{startNo } AND #{endNo };
+		 
 			
+	</select>
+	
+	<select id="selectCntAll" resultType="int">
+		SELECT count(*) FROM member_kg
+	
 	</select>
 	
 	<delete id="memberDelete" parameterType="String">

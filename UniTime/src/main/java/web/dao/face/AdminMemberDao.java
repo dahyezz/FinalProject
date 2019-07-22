@@ -3,13 +3,21 @@ package web.dao.face;
 import java.util.HashMap;
 import java.util.List;
 
+import web.util.Paging;
+
 public interface AdminMemberDao {
 	
 	/**
 	 * 
 	 * @return 멤버테이블 전체조회 리스트
 	 */
-	public List memberSelectAll();
+	public List memberSelectAll(Paging paging);
+	
+	/**
+	 * 
+	 * @return 전체 게시글 수
+	 */
+	public int selectCntAll();
 	
 	/**
 	 * 
