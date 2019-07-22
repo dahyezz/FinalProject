@@ -41,9 +41,16 @@
 		where nickname = #{nickname}
 	</select>
 	
-	<select id = "myBoard" resultType="web.dto.Member">
-		SELECT * FROM tastyBoard_kg
-		WHERE writer = ${nickname }
+	<select id = "tastyList" parameterType = "web.dto.Member" resultType="web.dto.TastyBoard">
+		SELECT boardno, tag, store_name storeName, loc, content, writer, hit, score, writtendate
+		FROM tastyBoard_kg
+		WHERE writer = #{nickname }
+	</select>
+	
+	<select id = "freeList" parameterType = "web.dto.Member" resultType="web.dto.FreeBoard">
+		SELECT *
+		FROM freeBoard_kg
+		WHERE writer = #{nickname }
 	</select>
 </mapper>
 

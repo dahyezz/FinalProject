@@ -1,6 +1,11 @@
 package web.service.face;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import web.dto.Member;
+import web.dto.TastyBoard;
 
 public interface MemberService {
 
@@ -30,5 +35,7 @@ public interface MemberService {
 	public Member idCheck(String hakbun) throws Exception;
 	public Member nickCheck(String nickname) throws Exception;
 	
-	public Member myBoard(String nickname);
+	public List tastyList(Member member);
+	public List freeList(Member member);
+
 }
