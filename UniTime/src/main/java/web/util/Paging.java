@@ -14,6 +14,18 @@ public class Paging {
 	private int startNo;	//게시물리스트 첫 번호
 	private int endNo;	//게시물리스트 마지막 번호
 	
+	private String search; //검색어
+	
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	
+	
+
 	// 총 게시글 수만 입력하는 생성자
 	//	curPage == 1
 	//	pageCount == 10
@@ -61,7 +73,7 @@ public class Paging {
 		// 기본값 설정
 		if(curPage == 0)	setCurPage(1);	//기본값으로 첫 페이지(1) 세팅
 		if(pageCount == 0)	setPageCount(10); //한 화면에 보이는 페이지수 기본값(10) 세팅
-		if(listCount == 0)	setListCount(10); //한 화면에 보이는 게시글수 기본값(10) 세팅
+		if(listCount == 0)	setListCount(20); //한 화면에 보이는 게시글수 기본값(10) 세팅
 		
 		// 총 페이지수 계산
 		totalPage = totalCount / listCount;
