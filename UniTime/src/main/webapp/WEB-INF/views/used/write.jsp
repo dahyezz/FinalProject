@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="ed board-header padding-horizontal-small@margin-bottom-small">
 	<h2>중고장터에서 거래하기</h2>
@@ -32,6 +33,9 @@
 		</tr>
 		
 		<tr>
+			<th>작성자</th>
+			<td>${nick }</td>
+			
 			<th colspan="2">제목</th>
 			<td colspan="4">
 				<input type="text" 

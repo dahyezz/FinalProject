@@ -56,11 +56,11 @@
 	    INSERT INTO USEDBOARD_KG(
 	        boardno, tag, title,
 	        product, content, writer,
-	        hit, price, writtendate)
-	        VALUES(usedboard_kg_seq, #{tag },
-	        #{title }, #{product }, #{content },
-	        #{writer }, #{hit }, #{price },
-	        #{writtendate })
+	        hit, price)
+        VALUES(#{boardno }, #{tag }, #{title }, 
+        #{product }, #{content }, #{writer }, 
+        #{hit }, #{price }
+	    )
 	</insert>
 	
 	<select id="selectBoardno"
@@ -68,29 +68,25 @@
 	    SELECT usedboard_kg_seq.nextval FROM dual
 	</select>
 	
-	<insert id="insertBoard"
-	    parameterType="web.dto.UsedBoard">
-	    INSERT INTO usedboard_kg(boardno, tag, ,title,
-	        product, content, writer, price)
-	    VALUES (#{boardno }, #{tag }, #{title },
-	        #{product }, #{content }, #{writer }, #{price })
-	</insert>
-	
 	<insert id="insertImg"
-		parameterType="web.dto.UsedBoard">
+		parameterType="web.dto.UsedImage">
 		INSERT INTO usedimg_kg(usedimgno, boardno,
 			originname, storedname)
 		VALUES(usedimg_kg_seq.nextval, #{boardno },
 			#{originname }, #{storedname })
 	</insert>
 	
-	<select id="selectImgByBoardno">
-		SELECT * FROM usedboard_kg
+	<select id="selectImgByBoardno"
+		parameterType="int"
+		resultType="web.dto.UsedImage">
+		SELECT * FROM usedimg_kg
 		WHERE boardno = #{boardno }
 	</select>
 	
-	<select id="selectImgByImgno">
-		SELECT * FROM usedboard_kg
+	<select id="selectImgByImgno"
+		parameterType="int"
+		resultType="web.dto.UsedImage">
+		SELECT * FROM usedimg_kg
 		WHERE usedimgno = #{usedimgno }
 	</select>
 

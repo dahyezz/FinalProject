@@ -62,8 +62,8 @@ public class UsedBoardController {
 			UsedBoard usedBoard
 			) {
 		
+		logger.info("게시글 보기");
 		logger.info(usedBoard.toString());
-		
 		// 게시글 조회
 		usedBoard = usedService.view(usedBoard);
 		
@@ -98,7 +98,7 @@ public class UsedBoardController {
 			) {
 		
 		logger.info("작성된 게시글 처리 중");
-		usedService.write(usedBoard, img, context);
+		usedService.write(session, usedBoard, img, context);
 		
 		return "redirect:/used/list";
 	}

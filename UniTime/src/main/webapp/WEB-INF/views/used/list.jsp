@@ -50,7 +50,7 @@
 		    pattern="###,###.###"/></td>
 		<td>${i.hit }</td>
 		<td><fmt:formatDate value="${i.writtendate }" 
-		    pattern="yyyy-MM-dd" /></th>
+		    pattern="yyyy-MM-dd" /></td>
 	</tr>
 		
 	</c:forEach>

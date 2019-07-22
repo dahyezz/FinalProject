@@ -3,6 +3,7 @@ package web.service.face;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,6 +52,7 @@ public interface UsedService {
 	 * @return usedBoard : 반환할 게시글 
 	 */
 	public void write(
+			HttpSession session,
 			UsedBoard usedboard,
 			MultipartFile img,
 			ServletContext context

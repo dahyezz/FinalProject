@@ -47,17 +47,10 @@ public interface UsedDao {
 	public void write(UsedBoard usedBoard);
 	
 	/*
-	 *  새 게시글의 시퀀스 번호 조회 
+	 *  새 게시글의 번호 조회 
 	 *  @return int
 	 */
 	public int selectBoardno();
-	
-	/*
-	 *  게시글 삽입
-	 *  
-	 *  @param UsedBoard
-	 */
-	public void insertBoard(UsedBoard usedboard);
 	
 	/*
 	 *  이미지 추가
@@ -71,7 +64,7 @@ public interface UsedDao {
 	 * @param boardno : 게시글 번호
 	 * @return usedImgNo : 조회된 이미지 정보 객체
 	 */
-	public UsedImage selectImgByBoardno(int usedImgNo);
+	public UsedImage selectImgByBoardno(int boardno);
 	
 	/*
 	 *  파일번호를 이용하여 이미지 정보 조회

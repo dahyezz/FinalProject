@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,10 +52,11 @@ public class UsedServiceImpl implements UsedService {
 	// 게시글 작성하기 ('used/write')
 	@Override
 	public void write(
+			HttpSession session,
 			UsedBoard usedboard,
 			MultipartFile img,
 			ServletContext context
-			) {
+		) {
 
 		// 파일이 저장될 경로
 		String storedPath = context.getRealPath("usedimg_kg");
@@ -65,8 +67,9 @@ public class UsedServiceImpl implements UsedService {
 		 */
 		String uuid = UUID.randomUUID().toString().split("-")[4];
 		
+		
 		// 저장된 파일의 이름 (originName + UUID)
-		String filename = img.getOriginalFilename()+"-"+uuid;
+		String filename = img.getOriginalFilename() +"-"+uuid;
 		
 		// 저장될 파일 객체 
 		File dest = new File(storedPath, filename);
@@ -80,25 +83,35 @@ public class UsedServiceImpl implements UsedService {
 			e.printStackTrace();
 		}
 		
+		// 작성자 nick 저장
+		String used_nick = (String)session.getAttribute("nick");
+		
+		
 		// 게시글 시퀀스 번호 조회
 		int boardno = usedDao.selectBoardno();
 		
+		
 		// 게시글 작성
 		if(usedboard!=null) {
+			// 게시판 db에 boardno 저장 
 			usedboard.setBoardno(boardno);
+			// 게시판 db에 nick 저장 
+			usedboard.setWriter(used_nick);
 			
-			usedDao.insertBoard(usedboard);
+			usedDao.write(usedboard);
 		}
+		
+		
 		
 		// 업로드 정보 DB에 저장
 		UsedImage usedImg = new UsedImage();
 		
-		usedImg.setOriginName(usedImg.getOriginName());
+		usedImg.setOriginName(img.getOriginalFilename());
 			System.out.println("원본 이름 : "+usedImg.getOriginName());
 		usedImg.setStoredName(filename);
-		usedImg.setImgSize((int)usedImg.getImgSize());
-		usedImg.setBoardno(boardno);
+		usedImg.setImgSize((int)img.getSize());
 		
+		usedImg.setBoardno(boardno);
 		usedDao.insertImg(usedImg);
 	}
 
