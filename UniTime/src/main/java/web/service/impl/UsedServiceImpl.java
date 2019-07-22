@@ -1,14 +1,19 @@
 package web.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.UsedDao;
 import web.dto.UsedBoard;
+import web.dto.UsedImage;
 import web.service.face.UsedService;
 import web.util.Paging;
 
@@ -46,13 +51,64 @@ public class UsedServiceImpl implements UsedService {
 	// 게시글 작성하기 ('used/write')
 	@Override
 	public void write(
-			UsedBoard usedBoard,
-			HttpSession session
+			UsedBoard usedboard,
+			MultipartFile img,
+			ServletContext context
 			) {
-		String writer = (String)session.getAttribute("writer");
-	
-		usedBoard.setWriter(writer);
+
+		// 파일이 저장될 경로
+		String storedPath = context.getRealPath("usedimg_kg");
 		
-		usedDao.write(usedBoard);
+		/*
+		 *  UUID 생성
+		 *  UUID 생성해서 4자릿 수마다 '-' 삽입.
+		 */
+		String uuid = UUID.randomUUID().toString().split("-")[4];
+		
+		// 저장된 파일의 이름 (originName + UUID)
+		String filename = img.getOriginalFilename()+"-"+uuid;
+		
+		// 저장될 파일 객체 
+		File dest = new File(storedPath, filename);
+		
+		// 파일 저장
+		try {
+			img.transferTo(dest);
+		} catch(IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// 게시글 시퀀스 번호 조회
+		int boardno = usedDao.selectBoardno();
+		
+		// 게시글 작성
+		if(usedboard!=null) {
+			usedboard.setBoardno(boardno);
+			
+			usedDao.insertBoard(usedboard);
+		}
+		
+		// 업로드 정보 DB에 저장
+		UsedImage usedImg = new UsedImage();
+		
+		usedImg.setOriginName(usedImg.getOriginName());
+			System.out.println("원본 이름 : "+usedImg.getOriginName());
+		usedImg.setStoredName(filename);
+		usedImg.setImgSize((int)usedImg.getImgSize());
+		usedImg.setBoardno(boardno);
+		
+		usedDao.insertImg(usedImg);
+	}
+
+	@Override
+	public UsedImage viewImg(int boardno) {
+		return usedDao.selectImgByBoardno(boardno);
+	}
+
+	@Override
+	public UsedImage getImg(int usedImgNo) {
+		return usedDao.selectImgByBoardno(usedImgNo);
 	}
 }
