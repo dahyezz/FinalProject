@@ -200,7 +200,7 @@ public class FreeBoardController {
 	
 	@RequestMapping(value="/free/commentwrite", method=RequestMethod.POST)
 	@ResponseBody
-	public void commentWriteProc(HttpSession session, FreeComment freeComment) {
+	public void commentWrite(HttpSession session, FreeComment freeComment) {
 		
 		freeComment.setWriter((String)session.getAttribute("nick"));
 		
@@ -208,12 +208,12 @@ public class FreeBoardController {
 		freeBoardService.commentWrite(freeComment);
 	}
 	
-	@RequestMapping(value="/free/commentdelete", method=RequestMethod.GET)
-	public String commentDelete(FreeBoard freeBoard, FreeComment freeComment) {
+	@RequestMapping(value="/free/commentdelete", method=RequestMethod.POST)
+	@ResponseBody
+	public void commentDelete(FreeComment freeComment) {
 		
 		freeBoardService.commentDelete(freeComment.getCommentno());
 		
-		return "redirect:/free/view?boardno="+freeBoard.getBoardno();
 	}
 	
 	@RequestMapping(value="/free/checkdelete", method=RequestMethod.GET)
