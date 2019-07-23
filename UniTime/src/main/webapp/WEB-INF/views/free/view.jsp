@@ -6,32 +6,42 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	
- 	$(function(){	//페이지 로딩시 댓글 가져오기
-	    commentList();
+
+	//게시글 수정 버튼
+	$("#btnUpdate").click(function(){
+		
+		var tag=$("#tag").val();
+		var boardno=$("#boardno").val();
+		
+		$(location).attr("href","/free/update?tag="+tag+"&boardno="+boardno);
 	});
 	
-/*	function commentDelete(commentno){
+	//게시글 삭제 버튼
+	$("#btnDelete").click(function(){
 		
-		$.ajax({
-			url: "/free/commentdelete",
-			type: "get",
-			success:function(data){
-				commentList();
-			}
-		});
-	}
+		var tag=$("#tag").val();
+		var boardno=$("#boardno").val();
+		
+		var deleteConfirm=confirm("정말 삭제하시겠습니까?");
+		
+		if(deleteConfirm){
+			$(location).attr("href","/free/delete?tag="+tag+"&boardno="+boardno);
+		}
+	});
 	
-	$("#bntCommentDelete").click(function(){
-		$(location).attr("href","/free/commentdelete?boardno="+${board.boardno }+"&commentno="+${i.commentno});
-	}); */
 	
+	//페이지 로딩시 댓글 가져오기
+ 	$(function(){
+	    commentList();
+	});
+		
 	//댓글 목록
 	function commentList(){
 		
-		var boardno=${board.boardno};
+		var boardno=$("#boardno").val();
+		var nick=$("#nick").val();
 		
-		//getJSON : 비동기식 JSON 데이터를 가져오는 메소드
+		//$.getJSON : 비동기식 JSON 데이터를 가져오는 메소드
 		//첫 번째 매개변수 url : JSON 파일을 로드
 		//두 번째 매개변수 callback 함수 : JSON 파일을 이용하여 로드된 데이터를 처리한다
 		$.getJSON("/free/commentview?boardno="+boardno, function(data){
@@ -40,16 +50,19 @@ $(document).ready(function(){
 			
 			//배열을 순회하면서 HTML을  생성
 			$(data).each(function(){
-				var writtendate=new Date(this.writtendate);
-				writtendate=writtendate.toLocaleDateString("ko-US");
 				
+				var writtendate=new Date(this.writtendate);
+				writtendate=writtendate.toLocaleString("ko-US");
+				
+				html+= '<div class="commentList">';
     			html+= '<span style="font-weight:bold;">'+this.writer+'</span><br>';
 	            html+= '<span>'+this.content+'</span><br>';
 	            html+= '<span style="color:#ccc;">'+writtendate+'</span>';
-	            html+= '<c:if test="${nick eq '+this.writer+' || nick eq admin }">';
-	            html+= '<button id="btnCommentDelete" style="float:right;" onclick="commentDelete('+this.commentno+')">삭제</button>';
-	            html+= '</c:if>';
+	            if(nick == this.writer || nick == 'admin'){
+	            	html+= '<button class="commentDelete" data-commentno="'+this.commentno+'" style="float:right;">삭제</button>';
+	            }
 	            html+= '<hr>';
+	            html+= '</div>';
 			});
 			
 			$(".freeViewCommentList").html(html);
@@ -73,10 +86,37 @@ $(document).ready(function(){
 			success:function(){
 				commentList();	//댓글 리스트 함수 호출
 				$("#comment").val("");	//댓글 작성칸 지우기
+			},
+			error:function(){
+				console.log("댓글 작성 실패");
 			}
 		});
 	});
 	
+	//댓글 삭제
+	//댓글 목록은 스크립트로인해 생성된 동적인 HTML코드로, 일반적인 클릭 메소드 .click() 가 아니라 .on() 메소드를 사용
+	$(document).on("click", ".commentDelete",function(){
+		
+		var deleteConfirm=confirm("댓글을 삭제하시겠습니까?");
+		
+		if(deleteConfirm){
+			
+			$.ajax({
+				url: "/free/commentdelete",
+				type: "post",
+				data: {
+					commentno: $(this).attr("data-commentno")
+				},
+				success:function(data){
+					commentList();
+				},
+				error:function(){
+					console.log("댓글 삭제 실패");
+				}
+			});
+		}
+	});
+		
 });
 </script>
 
@@ -105,7 +145,7 @@ $(document).ready(function(){
 	border-right: 1px solid #eee;
 }
 
-.freeViewComment {
+.commentList {
 	text-align: left;
 	width:98%;
 	margin-left: 10px;
@@ -151,27 +191,23 @@ $(document).ready(function(){
 	</tr>
 </table>
 
-<!----------- 댓글 ---------------->
+<div class="text-center">	
+	<input type="hidden" id="boardno" value="${board.boardno }">
+	<input type="hidden" id="tag" value="${board.tag }">
+	<button id="btnList" onclick="location.href='/free/list'">목록</button>
+	<c:if test="${nick eq board.writer || nick eq 'admin' }">
+		<button id="btnUpdate">수정</button>
+		<button id="btnDelete">삭제</button>
+	</c:if>
+</div>
+
 <!-- 댓글 작성 -->
 <c:if test="${board.tag ne '공지'}">
-<div class="freeCommentWrite">
-<h3 style="float:left;">Comments</h3><span id="commentCnt"></span>
-<hr>
-	<%-- 로그인 안한 상태 --%>
-	<c:if test="${empty login }">
-		<table class="table table-condensed">
-		<tr>
-			<th style="width:100px;"><a href="/member/login">로그인</a></th>
-			<td>
-			<textarea rows="3" cols="130">로그인 후에 이용 가능합니다.</textarea>
-			<button type="button" class="btn btn-info">댓글등록</button>
-			</td>
-		</tr>
-		</table>
-	</c:if>
 
-	<%-- 로그인 하고있는 상태 --%>
-	<c:if test="${login }">
+<div class="freeCommentWrite">
+	<h3 style="float:left;">Comments</h3><span id="commentCnt"></span>
+	<hr>
+	
 	<form id="commentWriteForm" method="post">
 		<input type="hidden" id="boardno" value="${board.boardno }">
 		<input type="hidden" id="nick" value="${nick }">
@@ -185,21 +221,11 @@ $(document).ready(function(){
 		</tr>
 		</table>
 	</form>
-	</c:if>
 </div>
 
 <!-- 댓글 목록 -->
 <div class="freeViewCommentList" ></div>
+
 </c:if>
-
-<!--------------------------------------->
-
-<div class="text-center">	
-	<button id="btnList" onclick="location.href='/free/list'">목록</button>
-	<c:if test="${nick eq board.writer || nick eq 'admin' }">
-		<button id="btnUpdate" onclick="location.href='/free/update?tag=${board.tag }&boardno=${board.boardno}'">수정</button>
-		<button id="btnDelete" onclick="location.href='/free/delete?tag=${board.tag }&boardno=${board.boardno}'">삭제</button>
-	</c:if>
-</div>
 
 </div>
