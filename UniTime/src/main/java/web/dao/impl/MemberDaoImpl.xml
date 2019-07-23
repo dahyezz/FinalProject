@@ -52,6 +52,14 @@
 		FROM freeBoard_kg
 		WHERE writer = #{nickname }
 	</select>
+	
+	<delete id="memberNumberDelete" parameterType="Int">
+		DELETE 시발
+		WHERE number IN 
+		<foreach collection="number" item="e" open="(" close=")" separator=",">#{e}</foreach>
+	
+	</delete>
+	
 </mapper>
 
 

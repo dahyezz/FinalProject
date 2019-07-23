@@ -38,4 +38,6 @@ public interface MemberService {
 	public List tastyList(Member member);
 	public List freeList(Member member);
 
+	public void memberNumberDelete(int[] number);
+
 }
