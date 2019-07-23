@@ -2,6 +2,8 @@ package web.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import web.dto.FreeBoard;
 import web.dto.Member;
 import web.dto.TastyBoard;
+import web.service.face.FreeBoardService;
 import web.service.face.MemberService;
+import web.service.face.TastyBoardService;
 
 @Controller
 public class MemberController {
@@ -141,8 +145,21 @@ public class MemberController {
 		List<FreeBoard> freeList = memberService.freeList(member);
 		
 		model.addAttribute("freeList", freeList);
-		
 	
+	}
+	
+	@RequestMapping(value = "/member/mypage/delete", method = RequestMethod.GET)
+	public String mypageDelete(int[] number) {
+		
+		logger.info("삭제할 학번:" + number);
+		memberService.memberNumberDelete(number);
+		
+		return "redirect:/member/mypage";
+	}
+	
+	@RequestMapping(value = "/member/modify", method = RequestMethod.GET)
+	public void mypageModify() {
+		
 	}
 }
 

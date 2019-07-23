@@ -1,5 +1,6 @@
 package web.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -84,4 +85,14 @@ public class MemberServiceImpl implements MemberService{
 	public List freeList(Member member) {
 		return memberDao.freeList(member);
 	}
+
+	@Override
+	public void memberNumberDelete(int[] number) {
+
+		HashMap map = new HashMap();
+		map.put("number", number);
+		
+		memberDao.memberNumberDelete(map);
+	}
+
 }

@@ -1,5 +1,6 @@
 package web.dao.face;
 
+import java.util.HashMap;
 import java.util.List;
 
 import web.dto.Member;
@@ -30,4 +31,13 @@ public interface MemberDao {
 
 	public List tastyList(Member member);
 	public List freeList(Member member);
+
+	/**
+	 * 
+	 * @param number 삭제할 회원의 글
+	 */
+	public void memberNumberDelete(HashMap map);
+
+
+
 }
