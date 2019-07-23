@@ -31,6 +31,11 @@
 	         rnum BETWEEN #{startNo } AND #{endNo }
 	</select>
 	
+	<select id="selectBoardno"
+	    resultType="int">
+	    SELECT usedboard_kg_seq.nextval FROM dual
+	</select>
+	
 	<update id="updateHit"
 	    parameterType="web.dto.UsedBoard">
 	    UPDATE UsedBoard_KG
@@ -39,7 +44,7 @@
 	</update>
 	
 	<select id="selectBoardByBoardno"
-	    parameterType="web.dto.UsedBoard"
+	    parameterType="int"
 	    resultType="web.dto.UsedBoard">
 		SELECT  
 		    boardno, tag, title, product, 
@@ -53,15 +58,37 @@
 	
 	<insert id="write"
 	    parameterType="web.dto.UsedBoard">
-	    INSERT INTO USEDBOARD_KG(
+	    INSERT INTO UsedBoard_KG(
 	        boardno, tag, title,
 	        product, content, writer,
-	        hit, price, writtendate)
-	        VALUES(UsedBoard_KG_SEQ, #{tag },
-	        #{title }, #{product }, #{content },
-	        #{writer }, #{hit }, #{price },
-	        #{writtendate })
+	        hit, price)
+        VALUES( #{boardno }, #{tag }, #{title }, 
+        #{product }, #{content }, #{writer }, 
+        #{hit }, #{price }
+	    )
 	</insert>
+	
+	<insert id="insertImg"
+		parameterType="web.dto.UsedImage">
+		INSERT INTO UsedImg_KG(usedimgno, boardno,
+			originname, storedname)
+		VALUES(usedimg_kg_seq.nextval, #{boardno },
+			#{originName }, #{storedName })
+	</insert>
+	
+	<select id="selectImgByBoardno"
+		parameterType="int"
+		resultType="web.dto.UsedImage">
+		SELECT * FROM UsedImg_KG
+		WHERE boardno = #{boardno }
+	</select>
+	
+	<select id="selectImgByImgno"
+		parameterType="int"
+		resultType="web.dto.UsedImage">
+		SELECT * FROM UsedImg_KG
+		WHERE usedimgno = #{usedImgNo }
+	</select>
 
 
 </mapper>

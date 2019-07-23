@@ -69,7 +69,7 @@
 				이미지
 			</th>
 			<td style="text-align:center;" colspan="8">
-				<!-- 빈 칸 -->
+				img
 			</td>
 		</tr>
 		<tr>
@@ -91,3 +91,21 @@
 		</tr>
 	</table>
 </div>
+
+<div id="view-buttons">
+	<a href="/used/list">
+		<button class="btn btn-primary">목록</button>
+	</a>
+	
+	<!-- 접속한 회원의 nick이 해당 게시글의 작성자일 경우 -->
+	<c:if test="${nick eq usedboard.writer }">
+		<a href="/used/update?boardno=${usedboard.boardno }">
+			<button class="btn btn-primary">수정</button>
+		</a>
+		
+		<a href="/used/delete?boardno=${usedboard.boardno }">
+			<button class="btn btn-primary">삭제</button>
+		</a>
+	</c:if>
+</div>
+<br><br><br>

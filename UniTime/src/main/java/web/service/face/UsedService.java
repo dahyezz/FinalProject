@@ -2,9 +2,13 @@ package web.service.face;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import web.dto.UsedBoard;
+import web.dto.UsedImage;
 import web.util.Paging;
 
 public interface UsedService {
@@ -37,7 +41,7 @@ public interface UsedService {
 	 *  @return UsedBoard : 조회된 게시글 객체 
 	 */
 	public UsedBoard view(
-			UsedBoard usedBoard
+			int boardno
 		);
 	
 	
@@ -48,7 +52,26 @@ public interface UsedService {
 	 * @return usedBoard : 반환할 게시글 
 	 */
 	public void write(
-			UsedBoard usedBoard,
-			HttpSession session
+			UsedBoard usedboard,
+			MultipartFile img,
+			ServletContext context
 		);
+	
+	/*
+	 *  게시글 번호로 첨부파일 조회 
+	 *  
+	 *  @param boardno : 게시글 번호
+	 *  @return UsedFile : 조회된 파일 정보
+	 */
+	public UsedImage viewImg(int boardno);
+	
+	
+	/*
+	 *  파일번호로 파일정보를 조회한다 
+	 *  
+	 *  @param fileno : 조회대상 파일번호 
+	 *  @return UsedFile : 조회된 파일의 정보
+	 */
+	public UsedImage getImg(int usedImgNo);
+	
 }

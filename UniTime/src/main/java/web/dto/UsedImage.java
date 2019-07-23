@@ -1,16 +1,16 @@
 package web.dto;
 
-public class UsedFile {
+public class UsedImage {
 	private int boardno;
-	private int usedImageNo;
+	private int usedImgNo;
 	private String originName;
 	private String storedName;
-	private int filesize;
+	private int imgSize;
 	
 	@Override
 	public String toString() {
-		return "UsedFile [boardno=" + boardno + ", usedImageNo=" + usedImageNo + ", originName=" + originName
-				+ ", storedName=" + storedName + ", filesize=" + filesize + "]";
+		return "UsedImage [boardno=" + boardno + ", usedImgNo=" + usedImgNo + ", originName=" + originName
+				+ ", storedName=" + storedName + ", imgSize=" + imgSize + "]";
 	}
 
 	public int getBoardno() {
@@ -21,12 +21,12 @@ public class UsedFile {
 		this.boardno = boardno;
 	}
 
-	public int getUsedImageNo() {
-		return usedImageNo;
+	public int getUsedImgNo() {
+		return usedImgNo;
 	}
 
-	public void setUsedImageNo(int usedImageNo) {
-		this.usedImageNo = usedImageNo;
+	public void setUsedImgNo(int usedImgNo) {
+		this.usedImgNo = usedImgNo;
 	}
 
 	public String getOriginName() {
@@ -45,12 +45,12 @@ public class UsedFile {
 		this.storedName = storedName;
 	}
 
-	public int getFilesize() {
-		return filesize;
+	public int getImgSize() {
+		return imgSize;
 	}
 
-	public void setFilesize(int filesize) {
-		this.filesize = filesize;
+	public void setImgSize(int imgSize) {
+		this.imgSize = imgSize;
 	}
 	
 }
