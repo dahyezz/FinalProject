@@ -53,5 +53,4 @@ public class UsedImage {
 		this.imgSize = imgSize;
 	}
 	
-	
 }

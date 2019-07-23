@@ -41,7 +41,7 @@ public interface UsedService {
 	 *  @return UsedBoard : 조회된 게시글 객체 
 	 */
 	public UsedBoard view(
-			UsedBoard usedBoard
+			int boardno
 		);
 	
 	
@@ -52,7 +52,6 @@ public interface UsedService {
 	 * @return usedBoard : 반환할 게시글 
 	 */
 	public void write(
-			HttpSession session,
 			UsedBoard usedboard,
 			MultipartFile img,
 			ServletContext context

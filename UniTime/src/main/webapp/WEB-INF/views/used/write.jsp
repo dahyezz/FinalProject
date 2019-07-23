@@ -62,8 +62,9 @@
 	</table>
 	
 	<div id="write-buttons">
-	    <button class="btn btn-info">작성</button>
-	    <button class="btn btn-info">취소</button>
+	    <button id="btnWrite" class="btn btn-info">작성</button>
+	    <button type="button" id="btnCancle" class="btn btn-info"
+	    	onclick="history.go(-1)">취소</button>
 	</div>
 	
 </form>

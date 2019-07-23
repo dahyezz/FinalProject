@@ -69,7 +69,7 @@
 				이미지
 			</th>
 			<td style="text-align:center;" colspan="8">
-				<!-- <a href="/used/usedimgno=${usedimage.usedimgno }">${usedimage.originname }</a> -->
+				img
 			</td>
 		</tr>
 		<tr>

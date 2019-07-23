@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,25 +40,46 @@ public class UsedServiceImpl implements UsedService {
 		return usedDao.selectAll(paging);
 	}
 	
+	
 	// 게시글 상세보기 ('used/view')
 	@Override
-	public UsedBoard view(UsedBoard usedBoard) {
-		usedDao.updateHit(usedBoard);
+	public UsedBoard view(int boardno) {
+		usedDao.updateHit(boardno);
 		
-		return usedDao.selectBoardByBoardno(usedBoard);
+		return usedDao.selectBoardByBoardno(boardno);
 	}
+	
 	
 	// 게시글 작성하기 ('used/write')
 	@Override
 	public void write(
-			HttpSession session,
 			UsedBoard usedboard,
 			MultipartFile img,
 			ServletContext context
 		) {
+		
+		
+		// 게시글 시퀀스 번호 조회
+		int boardno = usedDao.selectBoardno();
+		
+		
+		// 게시글 작성
+		if(usedboard!=null) {
+			// 게시판 db에 boardno 저장 
+			usedboard.setBoardno(boardno);
+			
+			if((usedboard.getTitle()==null)
+				|| "".equals(usedboard.getTitle())) {
+				usedboard.setTitle("(제목없음)");
+			}
+			
+			usedDao.write(usedboard);
+		}
+		
 
 		// 파일이 저장될 경로
-		String storedPath = context.getRealPath("usedimg_kg");
+		String storedPath = context.getRealPath("usedboard_Images");
+		
 		
 		/*
 		 *  UUID 생성
@@ -71,8 +91,10 @@ public class UsedServiceImpl implements UsedService {
 		// 저장된 파일의 이름 (originName + UUID)
 		String filename = img.getOriginalFilename() +"-"+uuid;
 		
+		
 		// 저장될 파일 객체 
 		File dest = new File(storedPath, filename);
+		
 		
 		// 파일 저장
 		try {
@@ -83,36 +105,22 @@ public class UsedServiceImpl implements UsedService {
 			e.printStackTrace();
 		}
 		
-		// 작성자 nick 저장
-		String used_nick = (String)session.getAttribute("nick");
-		
-		
-		// 게시글 시퀀스 번호 조회
-		int boardno = usedDao.selectBoardno();
-		
-		
-		// 게시글 작성
-		if(usedboard!=null) {
-			// 게시판 db에 boardno 저장 
-			usedboard.setBoardno(boardno);
-			// 게시판 db에 nick 저장 
-			usedboard.setWriter(used_nick);
-			
-			usedDao.write(usedboard);
-		}
-		
-		
 		
 		// 업로드 정보 DB에 저장
 		UsedImage usedImg = new UsedImage();
 		
 		usedImg.setOriginName(img.getOriginalFilename());
-			System.out.println("원본 이름 : "+usedImg.getOriginName());
+		
 		usedImg.setStoredName(filename);
 		usedImg.setImgSize((int)img.getSize());
 		
-		usedImg.setBoardno(boardno);
-		usedDao.insertImg(usedImg);
+		// img업로드(db 삽입)
+		if((usedImg.getOriginName()!=null)
+			&& !"".equals(usedImg.getOriginName())) {
+				usedImg.setBoardno(boardno);
+				usedDao.insertImg(usedImg);
+		}
+		
 	}
 
 	@Override
@@ -122,6 +130,6 @@ public class UsedServiceImpl implements UsedService {
 
 	@Override
 	public UsedImage getImg(int usedImgNo) {
-		return usedDao.selectImgByBoardno(usedImgNo);
+		return usedDao.selectImgByImgno(usedImgNo);
 	}
 }

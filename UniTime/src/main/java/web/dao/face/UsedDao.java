@@ -23,12 +23,6 @@ public interface UsedDao {
 	 */
 	public List<UsedBoard> selectAll(Paging paging);
 	
-	/*
-	 *  조회수 기능 
-	 *  
-	 *  @param UsedBoard
-	 */
-	public void updateHit(UsedBoard usedBoard);
 	
 	/*
 	 *  게시글 조회하기 
@@ -36,7 +30,21 @@ public interface UsedDao {
 	 *  @param usedBoard : 조회할 게시글 번호
 	 *  @return usedBoard : 조회된 게시글 정보 반환
 	 */
-	public UsedBoard selectBoardByBoardno(UsedBoard usedBoard);
+	public UsedBoard selectBoardByBoardno(int boardno);
+	
+	/*
+	 *  조회수 기능 
+	 *  
+	 *  @param UsedBoard
+	 */
+	public void updateHit(int boardno);
+	
+	
+	/*
+	 *  새 게시글의 번호 조회 
+	 *  @return int
+	 */
+	public int selectBoardno();
 	
 	/*
 	 * 게시글 작성하기 
@@ -46,11 +54,6 @@ public interface UsedDao {
 	 */
 	public void write(UsedBoard usedBoard);
 	
-	/*
-	 *  새 게시글의 번호 조회 
-	 *  @return int
-	 */
-	public int selectBoardno();
 	
 	/*
 	 *  이미지 추가

@@ -23,12 +23,12 @@ import web.util.Paging;
 @Controller
 public class UsedBoardController {
 	
+	@Autowired UsedService usedService;
+	@Autowired ServletContext context;
+	
 	// 테스트 코드 위한 Logger 객체 생성 
 	private static final Logger logger
 	= LoggerFactory.getLogger(UsedBoard.class);
-	
-	@Autowired UsedService usedService;
-	@Autowired ServletContext context;
 	
 	
 	/*
@@ -64,16 +64,17 @@ public class UsedBoardController {
 		
 		logger.info("게시글 보기");
 		logger.info(usedBoard.toString());
-		// 게시글 조회
-		usedBoard = usedService.view(usedBoard);
 		
 		// 게시글 번호 파싱
 		int boardno = usedBoard.getBoardno();
 		
+		// 게시글 조회
+		usedBoard = usedService.view(boardno);
+		
 		// 게시글 이미지 조회
 		UsedImage usedImg = usedService.viewImg(boardno);
 		
-		
+		// model로 객체 전달 
 		model.addAttribute("usedboard", usedBoard);
 		model.addAttribute("viewImg", usedImg);
 		
@@ -98,8 +99,15 @@ public class UsedBoardController {
 			) {
 		
 		logger.info("작성된 게시글 처리 중");
-		usedService.write(session, usedBoard, img, context);
+		
+		// 세션 정보 넣어주기 
+		usedBoard.setWriter((String)session.getAttribute("nick"));
+		
+		// 게시글 작성, 첨부파일 저장
+		usedService.write(usedBoard, img, context);
 		
 		return "redirect:/used/list";
 	}
+	
+	
 }
