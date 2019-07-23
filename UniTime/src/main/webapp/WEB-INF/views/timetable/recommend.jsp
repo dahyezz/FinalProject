@@ -343,20 +343,20 @@
 <div>
 <h5>시간 우선순위 선택</h5>
 <select name="timepriority">
-<option value="am">오전</option>
-<option value="pm">오후</option>
+<option value="<5">오전</option>
+<option value=">4">오후</option>
 </select>
 <br>
-<h5>추가할 전공과목 수</h5>
-<select name="majorNum">
-<option value="1">1개</option>
-<option value="2">2개</option>
-<option value="3">3개</option>
-<option value="4">4개</option>
-<option value="5">5개</option>
-</select>
-<br>
-<h5>추가할 교양과목 수</h5>
+<!-- <h5>추가할 전공과목 수</h5> -->
+<!-- <select name="majorNum"> -->
+<!-- <option value="1">1개</option> -->
+<!-- <option value="2">2개</option> -->
+<!-- <option value="3">3개</option> -->
+<!-- <option value="4">4개</option> -->
+<!-- <option value="5">5개</option> -->
+<!-- </select> -->
+<!-- <br> -->
+<h5>추가할 과목 수</h5>
 <select name="classNum">
 <option value="1">1개</option>
 <option value="2">2개</option>

@@ -14,4 +14,6 @@ public interface TimeTableDao {
 
 	public List selectMyList(String id);
 
+	public List recommend(String lec);
+
 }
