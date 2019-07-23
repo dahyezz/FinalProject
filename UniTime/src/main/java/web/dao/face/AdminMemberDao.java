@@ -21,6 +21,13 @@ public interface AdminMemberDao {
 	
 	/**
 	 * 
+	 * @param 검색어
+	 * @return 검색된 전체 게시글 수
+	 */
+	public int selectSearchCntAll(String select);
+	
+	/**
+	 * 
 	 * @param hakbun 삭제할 회원의 학번
 	 */
 	public void memberDelete(HashMap email);

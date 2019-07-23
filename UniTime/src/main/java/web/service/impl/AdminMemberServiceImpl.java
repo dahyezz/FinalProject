@@ -34,14 +34,22 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 		
 		String search = req.getParameter("search");
 		
+		if(search != null && search != "") {
 		// 전체 게시글 수
-		int totalCount = adminMemberDao.selectCntAll();
-		
-		// 페이징 객체 생성
-		Paging paging = new Paging(totalCount, curPage);
-		paging.setSearch(search);
+			int totalCount = adminMemberDao.selectSearchCntAll(search);
+			
+			Paging paging = new Paging(totalCount, curPage);
+			paging.setSearch(search);
 
-		return paging;
+			return paging;
+		} else {
+			int totalCount = adminMemberDao.selectCntAll();
+			
+			Paging paging = new Paging(totalCount, curPage);
+			
+			return paging;
+		}
+		// 페이징 객체 생성
 	}
 	
 	@Override
