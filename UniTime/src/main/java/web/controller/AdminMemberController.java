@@ -41,7 +41,7 @@ public class AdminMemberController {
 	@RequestMapping(value="/admin/memberDelete", method = RequestMethod.GET)
 	public String adminMemberDelete(String[] email) {
 		
-		logger.info("삭제할 학번:" + email);
+		logger.info("삭제할 이메일:" + email);
 		adminMemberService.memberDelete(email);
 		
 		return "redirect:/admin/member";

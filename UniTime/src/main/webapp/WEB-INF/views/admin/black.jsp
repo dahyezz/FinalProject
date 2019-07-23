@@ -27,7 +27,7 @@ $(document).ready(function() {
 		
 		// 전송 폼
 		var $form = $("<form>")
-			.attr("action", "/admin/memberDelete")
+			.attr("action", "/admin/blackListDelete")
 			.attr("method", "get")
 			.append(
 				$("<input>")
@@ -41,43 +41,11 @@ $(document).ready(function() {
 	});
 
 
-	// 회원 경고
-	// 선택체크 삭제
-	$("#btnPenalty").click(function() {
-		// 선택된 체크박스
-		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
-		
-		//방법1
-		// 체크된 대상들을 하나씩 꺼내서 문자열로 합치기
-		var email = "";
-		var len = $checkboxes.length;
-		$checkboxes.each( function(idx) {
-			email += $(this).val();
-			
-			if( len-1 != idx ) {
-				email += ",";
-			}
-		});
-		console.log(email);
-		
-		// 전송 폼
-		var $form = $("<form>")
-			.attr("action", "/admin/memberPenalty")
-			.attr("method", "get")
-			.append(
-				$("<input>")
-					.attr("type", "hidden")
-					.attr("name", "email")
-					.attr("value", email)
-			);
-		$(document.body).append($form);
-		$form.submit();
 	
-	});
 	
 	// 검색 기능
 	$("#btnSearch").click(function() {
-		location.href="/admin/member?search="+$("#search").val();
+		location.href="/admin/black?search="+$("#search").val();
 	});
 });
 
@@ -99,12 +67,9 @@ table, th {
 <table>
 <thead>
 	<tr>
-		<th style="width: 15%;">학과코드</th>
 		<th style="width: 20%;">학번</th>
 		<th style="width: 10%;">이름</th>
 		<th style="width: 25%;">이메일</th>
-		<th style="width: 15%;">닉네임</th>
-		<th style="width: 10%;">경고횟수</th>
 		<th style="width: 5%;">
 		</th>
 	</tr>
@@ -113,12 +78,9 @@ table, th {
 <tbody>
 <c:forEach items="${list}" var="i">
 	<tr>
-		<td>${i.departmentCode }</td>
 		<td>${i.hakbun }</td>
 		<td>${i.name }</td>
 		<td>${i.email }</td>
-		<td>${i.nickname }</td>
-		<td>${i.penalty }</td>
 		<td><input type="checkbox" name="checkRow" value="${i.email }" /></td>
 	</tr>
 </c:forEach>
@@ -131,7 +93,7 @@ table, th {
 		<!-- 처음으로 가기 -->
 		<c:if test="${paging.startPage ne 1 }">
 		<li>
-			<a href="/admin/member"><span>&larr;처음</span></a>
+			<a href="/admin/black"><span>&larr;처음</span></a>
 		</li>
 		</c:if>
 
@@ -148,7 +110,7 @@ table, th {
 
 		<c:if test="${paging.curPage ne 1 }">
 		<li>
-			<a href="/admin/member?curPage=${paging.curPage-1 }&search=${paging.search }"><span>&laquo;</span></a>
+			<a href="/admin/black?curPage=${paging.curPage-1 }&search=${paging.search }"><span>&laquo;</span></a>
 	    </li>
 	    </c:if>
 
@@ -164,13 +126,13 @@ table, th {
 			<!-- 현재 보고 있는 페이지번호만 강조해주기 -->
 			<c:if test="${paging.curPage eq i}">
 			<li class="active">
-				<a href="/admin/member?curPage=${i }&search=${paging.search }">${i }</a>
+				<a href="/admin/black?curPage=${i }&search=${paging.search }">${i }</a>
 			</li>
 			</c:if>
 		
 			<c:if test="${paging.curPage ne i}">
 			<li>
-				<a href="/admin/member?curPage=${i }&search=${paging.search }">${i }</a>
+				<a href="/admin/black?curPage=${i }&search=${paging.search }">${i }</a>
 			</li>
 			</c:if>
 			
@@ -188,7 +150,7 @@ table, th {
 
 		<c:if test="${paging.curPage ne paging.totalPage }">
 		<li>
-			<a href="/admin/member?curPage=${paging.curPage+1 }&search=${paging.search }">
+			<a href="/admin/black?curPage=${paging.curPage+1 }&search=${paging.search }">
 			<span>&raquo;</span>
 		</a>
 		</li>
@@ -198,11 +160,3 @@ table, th {
 
 
 <button id="btnDelete" name="checkRow">삭제</button>
-<button id="btnPenalty" name="checkRow">경고부여</button>
-
-
-
-
-
-
-
