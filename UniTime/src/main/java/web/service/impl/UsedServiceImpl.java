@@ -78,7 +78,7 @@ public class UsedServiceImpl implements UsedService {
 		
 
 		// 파일이 저장될 경로
-		String storedPath = context.getRealPath("usedboard_Images");
+		String storedPath = context.getRealPath("usedUpload");
 		
 		
 		/*
@@ -131,5 +131,13 @@ public class UsedServiceImpl implements UsedService {
 	@Override
 	public UsedImage getImg(int usedImgNo) {
 		return usedDao.selectImgByImgno(usedImgNo);
+	}
+
+	@Override
+	public void update(UsedBoard usedboard) {
+		
+		// 게시글 수정
+		usedDao.update(usedboard);
+		
 	}
 }

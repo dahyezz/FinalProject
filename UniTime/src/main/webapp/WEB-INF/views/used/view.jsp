@@ -3,94 +3,96 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<div class="UsedBoardTable">
+		
+<style type="text/css">
+.usedView table {
+	border:1px solid #ccc;
+}
+
+.usedView th{
+	text-align: center;
+	border:1px solid #ccc;
+	background:#ccf;
+	width: 15%;
+}
+
+.usedView td{
+	text-align: left;
+}
+
+.usedView button {
+	background:#ccf;
+}
+
+.usedView {
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
+}
+
+.commentList {
+	text-align: left;
+	width:98%;
+	margin-left: 10px;
+}
+</style>		
+		
+<div class="usedView">
+<!-- Controller에서 model에 지정한 dto 이름. -->
+<h2>게시글 조회</h2>
 	<table class="table table-striped table-hover table-condensed" >
 		
-		<!-- usedBoard -->
-		<!-- Controller에서 model에 지정한 dto 이름. -->
-		<h2>${usedboard.title }</h2>
-		<hr>
 		<tr>
-			<th style="text-align:center; ">
-				글번호
-			</th>
-			<td style="text-align:center; width: 8%">
+			<th>글번호</th>
+			<td>
 				${usedboard.boardno }
 			</td>
-			<th style="text-align:center; width: 8%">
-				작성일
-			</th>
-			<td style="text-align:center; " colspan="4">
-				<fmt:formatDate value="${usedboard.writtendate }" 
-			    pattern="yyyy-MM-dd" />
-			</td>
-			<th style="text-align:center; width: 8%">
-				조회수
-			</th>
-			<td style="text-align:center; ">
+			<th>조회수</th>
+			<td>
 				${usedboard.hit }
 			</td>
 		</tr>
 		<tr>
-			<th  style="text-align:center; ">
-				태그
-			</th>
-			<td  style="text-align:center; ">
+			<th>태그</th>
+			<td colspan="3">
 				${usedboard.tag }
 			</td>
-			<th style="text-align:center; ">
-				작성자
-			</th>
-			<td style="text-align:center; " colspan="4">
+		</tr>
+		<tr>
+			<th>제목</th>
+			<td colspan="3">
+				${usedboard.title }
+			</td>
+		</tr>
+		<tr>
+			<th>작성자</th>
+			<td colspan="1">
 				${usedboard.writer }
 			</td>
-			<td colspan="2"></td>
+			<th>작성일</th>
+			<td colspan="1">
+				<fmt:formatDate value="${usedboard.writtendate }" 
+				pattern="yyyy-MM-dd HH:mm"/>
+			</td>
 		</tr>
 		<tr>
-			<th style="text-align:center;" colspan="1">
-				제품
-			</th>
-			<td style="text-align:center;" colspan="3">
+			<th>제품명</th>
+			<td colspan="3">
 				${usedboard.product }
 			</td>
-			<td style="text-align:center;" colspan="3">
-				<!-- 빈 칸 -->
-			</td>
-			<th style="text-align:center;" colspan="1">
-				가격
-			</th>
-			<td style="text-align:center; " colspan="2">
-				<fmt:formatNumber value="${usedboard.price }" 
-			    pattern="###,###.###" /> 
+		</tr>
+		<tr>
+			<th>가격</th>
+			<td colspan="3">
+				<fmt:formatNumber value="${usedboard.price }"
+				pattern="###,###.###"/>
 			</td>
 		</tr>
 		<tr>
-			<th style="text-align:center;" colspan="1">
-				이미지
-			</th>
-			<td style="text-align:center;" colspan="8">
-				img
-			</td>
-		</tr>
-		<tr>
-			<td style="text-align:center; " colspan="9">
-			</td>
-		</tr>
-		<tr>
-			<th style="text-align:center;" colspan="1">
-				본문
-			</th>
-			<td  style="text-align:center;" colspan="9">
-				<!-- 빈 칸 -->
-			</td>
-		</tr>
-		<tr>
-			<td style="text-align:center; " colspan="9">
+			<td colspan="4" style="height:300px;">
 				${usedboard.content }
 			</td>
 		</tr>
 	</table>
-</div>
 
 <div id="view-buttons">
 	<a href="/used/list">
@@ -108,4 +110,6 @@
 		</a>
 	</c:if>
 </div>
-<br><br><br>
+
+</div>
+<br>
