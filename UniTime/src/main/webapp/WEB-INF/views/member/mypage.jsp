@@ -8,38 +8,83 @@
 $(document).ready(function() {
 	
 	// 선택체크 삭제
-	$("#btnDelete").click(function() {
+	$("#btnDelete1").click(function() {
 		
 	// 선택된 체크박스
 	var $checkboxes = $("input:checkbox[name='checkRow']:checked");
 		
-	// 체크된 대상들을 하나씩 꺼내서 문자열로 합치기
-	var email = "";
-	var len = $checkboxes.length;
-	$checkboxes.each( function(idx) {
-		email += $(this).val();
-		
-		if( len-1 != idx ) {
-			email += ",";
-		}
+	// 체크된 대상들을 map으로 만들고 map을 문자열로 만들기
+	var map = $checkboxes.map(function() {
+		return $(this).val();
 	});
-	console.log(email);
-	
+	var names = map.get().join(",");
+	console.log(names);	
 	// 전송 폼
 	var $form = $("<form>")
-		.attr("action", "/member/mypage/delete")
-		.attr("method", "post")
+		.attr("action", "/member/mypage/delete1")
+		.attr("method", "get")
 		.append(
 			$("<input>")
 				.attr("type", "hidden")
-				.attr("name", "number")
-				.attr("value", number)
+				.attr("name", "names")
+				.attr("value", names)
+		);
+	$(document.body).append($form);
+	$form.submit();
+	});
+	
+	// 선택체크 삭제
+	$("#btnDelete2").click(function() {
+		
+	// 선택된 체크박스
+	var $checkboxes = $("input:checkbox[name='checkRow']:checked");
+		
+	// 체크된 대상들을 map으로 만들고 map을 문자열로 만들기
+	var map = $checkboxes.map(function() {
+		return $(this).val();
+	});
+	var names = map.get().join(",");
+	console.log(names);
+	// 전송 폼
+	var $form = $("<form>")
+		.attr("action", "/member/mypage/delete2")
+		.attr("method", "get")
+		.append(
+			$("<input>")
+				.attr("type", "hidden")
+				.attr("name", "names")
+				.attr("value", names)
+		);
+	$(document.body).append($form);
+	$form.submit();
+	});
+	
+	// 선택체크 삭제
+	$("#btnDelete3").click(function() {
+		
+	// 선택된 체크박스
+	var $checkboxes = $("input:checkbox[name='checkRow']:checked");
+		
+	// 체크된 대상들을 map으로 만들고 map을 문자열로 만들기
+	var map = $checkboxes.map(function() {
+		return $(this).val();
+	});
+	var names = map.get().join(",");
+	console.log(names);
+	// 전송 폼
+	var $form = $("<form>")
+		.attr("action", "/member/mypage/delete3")
+		.attr("method", "get")
+		.append(
+			$("<input>")
+				.attr("type", "hidden")
+				.attr("name", "names")
+				.attr("value", names)
 		);
 	$(document.body).append($form);
 	$form.submit();
 	});
 });
-
 
 </script>
 
@@ -119,7 +164,7 @@ background:#E6E6E6;
 	<c:forEach items="${tastyList }" var="i">
 	<tr>
 		<td style="width: 3%">
-		<input type="checkbox" name="checkRow"/>${i.boardno }</td>
+		<input type="checkbox" name="checkRow" value = "${i.boardno }"/>${i.boardno }</td>
 		<td style="width: 3%">${i.tag }</td>
 		<td style="width: 3%"><a href="/tasty/view?boardno=${i.boardno }">${i.storeName }</a></td>
 		<td style="width: 3%">${i.writer }</td>
@@ -134,6 +179,9 @@ background:#E6E6E6;
 
 </div>
 
+</div>
+<div id="btnBox" class="float-right" style="text-align: right">
+	<button id="btnDelete1" class="btn btn-danger">삭제</button>
 </div>
 
 <div class="container">
@@ -162,7 +210,7 @@ background:#E6E6E6;
 <tbody>
 	<c:forEach items="${freeList }" var="i">
 	<tr>
-		<td style="width: 3%"><input type="checkbox" name="checkRow"/>${i.boardno }</td>
+		<td style="width: 3%"><input type="checkbox" name="checkRow" value = "${i.boardno }"/>${i.boardno }</td>
 		<td style="width: 3%">${i.tag }</td>
 		<td style="width: 3%"><a href="/free/view?tag=${i.tag }&boardno=${i.boardno }">${i.title }</a></td>
 		<td style="width: 3%">${i.writer }</td>
@@ -179,8 +227,56 @@ background:#E6E6E6;
 
 </div>
 <div id="btnBox" class="float-right" style="text-align: right">
-	<button id="btnDelete" class="btn btn-danger">삭제</button>
+	<button id="btnDelete2" class="btn btn-danger">삭제</button>
 </div>
+
+<div class="container">
+
+<div class="row">
+
+
+<div class="col order-1">
+<br>
+
+<hr>
+내가 쓴 중고장터 게시글<br><br>
+
+<table style = "text-align : center; margin : auto;" class = "mypagelist">
+<thead>
+	<tr>
+		<th style="width: 3%">글번호</th>
+		<th style="width: 3%">태그</th>
+		<th style="width: 3%">제목</th>
+		<th style="width: 3%">작성자</th>
+		<th style="width: 3%">가격</th>
+		<th style="width: 3%">작성일</th>
+	</tr>
+</thead>
+
+<tbody>
+	<c:forEach items="${usedList }" var="i">
+	<tr>
+		<td style="width: 3%">
+		<input type="checkbox" name="checkRow" value = "${i.boardno }"/>${i.boardno }</td>
+		<td style="width: 3%">${i.tag }</td>
+			<td style="width: 3%"><a href="/used/view?boardno=${i.boardno }">${i.product }</a></td>
+		<td style="width: 3%">${i.writer }</td>
+		<td style="width: 3%">${i.hit }</td>
+		<td style="width: 3%"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
+	</tr>
+	</c:forEach>
+</tbody>
+
+</table>
+</div>
+
+</div>
+
+</div>
+<div id="btnBox" class="float-right" style="text-align: right">
+	<button id="btnDelete3" class="btn btn-danger">삭제</button>
+</div>
+
 <br>
 <br>
 <br>
@@ -188,7 +284,6 @@ background:#E6E6E6;
 <br>
 
 </nav>
-
 
 
 

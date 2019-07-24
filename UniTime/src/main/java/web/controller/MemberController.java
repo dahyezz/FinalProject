@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import web.dto.FreeBoard;
 import web.dto.Member;
 import web.dto.TastyBoard;
+import web.dto.UsedBoard;
 import web.service.face.FreeBoardService;
 import web.service.face.MemberService;
 import web.service.face.TastyBoardService;
@@ -145,16 +146,49 @@ public class MemberController {
 		List<FreeBoard> freeList = memberService.freeList(member);
 		
 		model.addAttribute("freeList", freeList);
+		
+		member.setNickname((String) session.getAttribute("nick"));
+		
+		List<UsedBoard> usedList = memberService.usedList(member);
+		
+		model.addAttribute("usedList", usedList);
 	
 	}
 	
-	@RequestMapping(value = "/member/mypage/delete", method = RequestMethod.GET)
-	public String mypageDelete(int[] number) {
+	@RequestMapping(value = "/member/mypage/delete1", method = RequestMethod.GET)
+	public String tastyDelete(String names) {
 		
-		logger.info("삭제할 학번:" + number);
-		memberService.memberNumberDelete(number);
+		logger.info("삭제할 게시글 : " + names);
+		memberService.tastyDelete(names);
 		
 		return "redirect:/member/mypage";
+	}
+	
+	@RequestMapping(value = "/member/mypage/delete2", method = RequestMethod.GET)
+	public String freeDelete(String names) {
+		
+		logger.info("삭제할 게시글 : " + names);
+		memberService.freeDelete(names);
+		
+		return "redirect:/member/mypage";
+	}
+	
+	@RequestMapping(value = "/member/mypage/delete3", method = RequestMethod.GET)
+	public String usedDelete(String names) {
+		
+		logger.info("삭제할 게시글 : " + names);
+		memberService.usedDelete(names);
+		
+		return "redirect:/member/mypage";
+	}
+	
+	@RequestMapping(value = "/member/secession", method = RequestMethod.GET)
+	public String secession(String email) {
+		
+		logger.info("삭제할 이메일:" + email);
+		memberService.memberSecession(email);
+		
+		return "redirect:/main";
 	}
 	
 	@RequestMapping(value = "/member/modify", method = RequestMethod.GET)

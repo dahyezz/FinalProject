@@ -3,16 +3,18 @@ package web.service.impl;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import web.dao.face.FreeBoardDao;
 import web.dao.face.MemberDao;
+import web.dao.face.TastyBoardDao;
+import web.dto.FreeBoard;
 import web.dto.MailUtils;
 import web.dto.Member;
 import web.dto.TastyBoard;
+import web.dto.UsedBoard;
 import web.service.face.MemberService;
 
 @Service
@@ -20,6 +22,8 @@ public class MemberServiceImpl implements MemberService{
 
 	@Autowired MemberDao memberDao;
 	@Autowired private JavaMailSender mailSender;
+	@Autowired TastyBoardDao tastyBoardDao;
+	@Autowired FreeBoardDao freeBoardDao;
 	
 	@Override
 	public boolean loginCheck(Member member) {
@@ -85,14 +89,79 @@ public class MemberServiceImpl implements MemberService{
 	public List freeList(Member member) {
 		return memberDao.freeList(member);
 	}
-
+	
 	@Override
-	public void memberNumberDelete(int[] number) {
-
-		HashMap map = new HashMap();
-		map.put("number", number);
-		
-		memberDao.memberNumberDelete(map);
+	public List usedList(Member member) {
+		return memberDao.usedList(member);
 	}
 
+
+	@Override
+	public void tastyDelete(String names) {
+
+		String[] nameList = names.split(",");
+	      int deleteList[] = new int[nameList.length];
+	      TastyBoard tastyBoard = new TastyBoard();
+	      
+	      for(int i=0; i<nameList.length; i++) {
+	         deleteList[i] = Integer.parseInt(nameList[i]);
+	         
+	         tastyBoard.setBoardno(deleteList[i]);
+	         
+	         tastyBoardDao.deleteCommentByBoardno(tastyBoard);
+	         tastyBoardDao.deleteFileByboardno(tastyBoard);
+	         tastyBoardDao.deleteBoardByBoardno(tastyBoard);
+	      }
+	}
+	
+	@Override
+	public void freeDelete(String names) {
+
+		String[] nameList = names.split(",");
+	      int deleteList[] = new int[nameList.length];
+	      FreeBoard freeBoard = new FreeBoard();
+	      
+	      for(int i=0; i<nameList.length; i++) {
+	         deleteList[i] = Integer.parseInt(nameList[i]);
+	         
+	         freeBoard.setBoardno(deleteList[i]);
+	         
+	 		//게시글의 파일첨부 삭제
+	 		freeBoardDao.deleteFileByBoardno(deleteList[i]);
+	 		
+	 		//게시글의 댓글 삭제
+	 		freeBoardDao.deleteCommentByBoardno(deleteList[i]);
+	 		
+	 		//게시글 삭제		
+	 		freeBoardDao.deleteBoard(deleteList[i]);
+	      }
+	}
+
+	@Override
+	public void usedDelete(String names) {
+
+		String[] nameList = names.split(",");
+	      int deleteList[] = new int[nameList.length];
+	      UsedBoard usedBoard = new UsedBoard();
+	      
+	      for(int i=0; i<nameList.length; i++) {
+	         deleteList[i] = Integer.parseInt(nameList[i]);
+	         
+	         usedBoard.setBoardno(deleteList[i]);
+	         
+	      }
+	}
+
+	@Override
+	public void memberSecession(String email) {
+		
+		HashMap map = new HashMap();
+		map.put("email", email);
+		
+		memberDao.memberSecession(map);
+		
+	}
 }
+
+
+
