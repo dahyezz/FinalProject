@@ -53,14 +53,31 @@
 		WHERE writer = #{nickname }
 	</select>
 	
-	<delete id="memberNumberDelete" parameterType="Int">
-		DELETE 시발
-		WHERE number IN 
-		<foreach collection="number" item="e" open="(" close=")" separator=",">#{e}</foreach>
+	<select id = "usedList" parameterType = "web.dto.Member" resultType="web.dto.UsedBoard">
+		SELECT *
+		FROM usedBoard_kg
+		WHERE writer = #{nickname }
+	</select>
 	
+	<delete id="tastyDelete" parameterType="web.dto.TastyBoard">
+		DELETE FROM tastyboard_kg
+		WHERE boardno = #{boardno }	
 	</delete>
 	
+	<delete id="freeDelete" parameterType="web.dto.FreeBoard">
+		DELETE FROM freeboard_kg
+		WHERE boardno = #{boardno }	
+	</delete>
+	
+	<delete id="usedDelete" parameterType="web.dto.UsedBoard">
+		DELETE FROM usedboard_kg
+		WHERE boardno = #{boardno }	
+	</delete>
+	
+	<delete id="memberDelete" parameterType="String">
+		DELETE member_kg
+		WHERE email IN 
+	<foreach collection="email" item="e" open="(" close=")" separator=",">#{e}</foreach>
+	
+	</delete>
 </mapper>
-
-
-

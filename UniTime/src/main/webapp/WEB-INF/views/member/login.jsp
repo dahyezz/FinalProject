@@ -13,6 +13,27 @@
   margin: 100px auto 10px;
   overflow: hidden;
 }
+#btnLogin {
+  background: #7f7fff;
+  background-image: -webkit-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -moz-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -ms-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -o-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: linear-gradient(to bottom, #7f7fff, #7f7fff);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 7px 20px 7px 20px;
+  border: solid #ffffff 1px;
+  text-decoration: none;
+}
+
+#btnLogin:hover {
+  text-decoration: none;
+}
 </style>
 <h5>로그인</h5>
 
@@ -29,7 +50,7 @@
 	</th>
 </tr>
 </table>
-	<button class="btn btn-info">로그인</button>
+	<button class="btn btn-info" id = "btnLogin">로그인</button>
 </form>
 
 <br><br><br><br><br>

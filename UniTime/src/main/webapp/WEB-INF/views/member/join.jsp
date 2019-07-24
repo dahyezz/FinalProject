@@ -6,6 +6,51 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+<style>
+#btnJoin {
+  background: #ffffff;
+  background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -o-linear-gradient(top, #ffffff, #ffffff);
+  background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: Arial;
+  color: #7f7ffa;
+  font-size: 15px;
+  padding: 10px 20px 10px 20px;
+  border: solid #7f7fff 1px;
+  text-decoration: none;
+}
+
+#btnJoin:hover {
+  text-decoration: none;
+}
+#btnCancel {
+  background: #7f7fff;
+  background-image: -webkit-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -moz-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -ms-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -o-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: linear-gradient(to bottom, #7f7fff, #7f7fff);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 10px 20px 10px 20px;
+  border: solid #ffffff 1px;
+  text-decoration: none;
+}
+
+#btnCancel:hover {
+  text-decoration: none;
+}
+</style>
+
 <script type="text/javascript">
 
 function inputCheck() {

@@ -37,7 +37,12 @@ public interface MemberService {
 	
 	public List tastyList(Member member);
 	public List freeList(Member member);
+	public List usedList(Member member);
 
-	public void memberNumberDelete(int[] number);
+	public void tastyDelete(String names);
+	public void freeDelete(String names);
+	public void usedDelete(String names);
+
+	public void memberSecession(String email);
 
 }
