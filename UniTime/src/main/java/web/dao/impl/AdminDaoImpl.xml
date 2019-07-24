@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DOCTYPE -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- 여기부터 회원관리 페이지 -->
+    
+<mapper namespace="web.dao.face.AdminDao">
+
+	<resultMap type="web.dto.Member" id="Member">
+		<result column="department_code" property="departmentCode" />
+	</resultMap>
+
+	<select id="memberSelectAll" resultMap="Member" parameterType="web.util.Paging">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+		        SELECT * FROM member_kg
+       			<if test="search != null and search != ''">
+		        WHERE nickname LIKE '%'||#{search }||'%'
+		        </if>
+		        ORDER BY hakbun
+		    ) B
+		ORDER BY rnum)
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+		 
+			
+	</select>
+	
+	<select id="selectMemberCntAll" resultType="int">
+		SELECT count(*) FROM member_kg
+	</select>
+	
+	<select id="selectMemberSearchCntAll" resultType="int" parameterType="String">
+		SELECT count(*) FROM member_kg
+		WHERE nickname LIKE '%'||#{search }||'%'
+	</select>
+	
+	<delete id="memberDelete" parameterType="String">
+		DELETE member_kg
+		WHERE email IN 
+		<foreach collection="email" item="e" open="(" close=")" separator=",">#{e}</foreach>
+	
+	</delete>
+	
+	<update id="memberUpdate" parameterType="String">
+		UPDATE member_kg
+		SET penalty = penalty + 1
+		WHERE email IN
+		<foreach collection="email" item="e" open="(" close=")" separator=",">#{e}</foreach>
+	
+	</update>
+	
+
+<!-- 여기부터 블랙리스트 관리 페이지 -->
+
+
+	<select id="blackListSelectAll" resultType="web.dto.BlackList" parameterType="web.util.Paging">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+		        SELECT * FROM blacklist_kg
+		        <if test="search != null and search != ''">
+		        WHERE hakbun = #{search }
+		        </if>
+		        ORDER BY hakbun
+		    ) B
+		ORDER BY rnum)
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+		 
+	</select>
+	
+	<select id="selectBlackListCntAll" resultType="int">
+		SELECT count(*) FROM blacklist_kg
+	</select>
+	
+	<select id="selectBlackListSearchCntAll" resultType="int" parameterType="String">
+		SELECT count(*) FROM blacklist_kg
+		WHERE hakbun = #{search }
+		
+	</select>
+	
+	<delete id="blackListDelete" parameterType="String">
+		DELETE blacklist_kg
+		WHERE email IN 
+		<foreach collection="email" item="e" open="(" close=")" separator=",">#{e}</foreach>
+	</delete>
+	
+	<insert id="moveBlackList">
+		INSERT INTO blacklist_kg(
+            SELECT hakbun, name, email FROM member_kg
+            WHERE penalty >= 3
+		)
+		
+	</insert>
+	
+	<delete id="deletePenalty">
+		DELETE member_kg
+		WHERE penalty >= 3
+	</delete>
+	
+	
+<!-- 여기부터 신고리스트 관리 페이지 -->
+	
+	<select id="badReportSelectAll" resultType="web.dto.BadReport" parameterType="web.util.Paging">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+		        SELECT * FROM badreport_kg
+       			<if test="search != null and search != ''">
+		        WHERE nickname LIKE '%'||#{search }||'%'
+		        </if>
+		    ) B
+		ORDER BY rnum)
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+		 
+			
+	</select>
+	
+	<select id="selectBadReportCntAll" resultType="int">
+		SELECT count(*) FROM badreport_kg
+	</select>
+	
+	<select id="selectBadReportSearchCntAll" resultType="int" parameterType="String">
+		SELECT count(*) FROM badreport_kg
+		WHERE nickname LIKE '%'||#{search }||'%'
+	</select>
+	
+	<delete id="badReportDelete" parameterType="int">
+		DELETE badreport_kg
+		WHERE badno IN
+		<foreach collection="badno" item="e" open="(" close=")" separator=",">#{e}</foreach>
+	</delete>
+
+
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
