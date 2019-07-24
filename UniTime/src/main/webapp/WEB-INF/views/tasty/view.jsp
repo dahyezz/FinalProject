@@ -57,9 +57,17 @@ $(document).ready(function() {
 });
 
 //댓글 수정
-function updateComment(commentno){
-	console.log(commentno);
-	console.log($(this));
+function updateComment(data){
+	console.log(data);
+	
+// 	console.log($(this));
+// 	console.log($(this).parent())
+
+	var reply = document.getElementById("update"+data);
+	reply.style.display="";
+// 	console.log(reply);
+
+
 }
 
 
@@ -119,7 +127,14 @@ function enter_check(){
 	
 	<tr>
 		<td class="info">조회수</td><td>${board.hit }</td>
-		<td class="info">추천수</td><td id="recommend">추가예정</td>
+		<td class="info">별점</td>
+		<td id="recommend" style="color: gold;">
+			<c:if test="${board.score eq 1 }">★</c:if>
+			<c:if test="${board.score eq 2 }">★★</c:if>
+			<c:if test="${board.score eq 3 }">★★★</c:if>
+			<c:if test="${board.score eq 4 }">★★★★</c:if>
+			<c:if test="${board.score eq 5 }">★★★★★</c:if>
+		</td>
 	</tr>
 	
 	<tr>

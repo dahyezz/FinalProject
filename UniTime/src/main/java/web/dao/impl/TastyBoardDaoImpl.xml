@@ -54,7 +54,7 @@
 	
 	<update id="updateBoard" parameterType="web.dto.TastyBoard">
 		UPDATE tastyboard_kg
-		SET tag=#{tag }, store_name=#{storeName}, loc=#{loc }, content=#{content }
+		SET tag=#{tag }, store_name=#{storeName}, loc=#{loc }, content=#{content }, score=#{score }
 		WHERE boardno = #{boardno }
 	</update>
 	
