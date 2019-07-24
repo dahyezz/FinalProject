@@ -89,6 +89,19 @@
 		SELECT * FROM UsedImg_KG
 		WHERE usedimgno = #{usedImgNo }
 	</select>
+	
+	
+	<update id="update"
+		parameterType="web.dto.UsedBoard">
+		UPDATE 
+			usedboard_kg
+		SET 
+			tag=#{tag }, title=#{title }, 
+			product=#{product }, price=#{price },
+			content=#{content }
+		WHERE
+			boardno=#{boardno }
+	</update>
 
 
 </mapper>

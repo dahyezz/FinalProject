@@ -1,5 +1,7 @@
 package web.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -31,7 +33,7 @@ public class UsedBoardController {
 	= LoggerFactory.getLogger(UsedBoard.class);
 	
 	
-	/*
+	/**
 	 *  used/List 페이지 컨트롤러
 	 */
 	@RequestMapping(value="/used/list",
@@ -52,7 +54,7 @@ public class UsedBoardController {
 	}
 	
 	
-	/*
+	/**
 	 *  used/view 페이지 컨트롤러 
 	 */
 	@RequestMapping(value="/used/view",
@@ -80,7 +82,8 @@ public class UsedBoardController {
 		
 	}
 	
-	/*
+	
+	/**
 	 * used/write 컨트롤러
 	 * 게시글 작성
 	 */
@@ -108,6 +111,50 @@ public class UsedBoardController {
 		
 		return "redirect:/used/list";
 	}
+	
+	
+	/**
+	 * used/update 컨트롤러
+	 * 게시글 수정
+	 */
+	@RequestMapping(value="/used/update", method=RequestMethod.GET)
+	public void update(
+			UsedBoard usedboard,
+			Model model) {
+		
+		logger.info("게시글 수정 중");
+		
+		// 게시글 정보 가져오기
+		usedboard = usedService.view(usedboard.getBoardno());
+		model.addAttribute("usedboard", usedboard);
+	}
+	
+	@RequestMapping(value="/used/update",
+			method=RequestMethod.POST)
+	public String updatingProc(UsedBoard usedboard) {
+		
+		logger.info("수정된 게시글 처리 중");
+		
+		usedService.update(usedboard);
+		
+		// redirect 한글 깨짐 해결
+		String tag = null;
+		try {
+			tag=URLEncoder.encode(usedboard.getTag(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/used/view?tag="+tag+"&boardno="+usedboard.getBoardno();
+	}
+	
+//	@RequestMapping(value="/used/delete",
+//			method=RequestMethod.GET)
+//	public String delete(UsedBoard usedboard) {
+//		usedService.delete(usedboard.getBoardno());
+//		
+//		return "redirect:/used/list";
+//	}
 	
 	
 }
