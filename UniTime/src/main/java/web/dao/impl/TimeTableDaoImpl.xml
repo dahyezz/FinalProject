@@ -26,7 +26,27 @@
 	WHERE tb.user_email = #{email}
 </select>
 
+<select id="recommendList" parameterType="String" resultType="web.dto.TempTable">
+	SELECT * FROM (SELECT * FROM timetable_kg WHERE #{lec}
+</select>
 
-
-
+<select id="recommendTmp" parameterType="String" resultType="web.dto.TempTable">
+SELECT R.* FROM (
+    SELECT
+        rank() over( partition by lecture_day, start_time order by RAN ) rank,
+        RES.*    
+    FROM (
+        SELECT T.*, DBMS_RANDOM.VALUE RAN FROM timetable_kg T
+        WHERE 1=1
+        AND department_name in ('정보통신공학과', '공통') 
+        AND ( lecture_day, start_time ) NOT IN (
+            SELECT distinct lecture_day, start_time FROM timetable_kg ttb
+            JOIN temptable tb ON ttb.lecture_code=tb.lecture_code
+            WHERE tb.user_email = 'dltngus710@daum.net')
+    ) RES
+) R
+WHERE rank = 1
+    AND rownum BETWEEN 1 AND 3
+ORDER BY DBMS_RANDOM.VALUE
+</select>
 </mapper>

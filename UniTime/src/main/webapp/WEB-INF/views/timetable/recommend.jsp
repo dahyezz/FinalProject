@@ -343,8 +343,8 @@
 <div>
 <h5>시간 우선순위 선택</h5>
 <select name="timepriority">
-<option value="<5">오전</option>
-<option value=">4">오후</option>
+<option value="<4">오전</option>
+<option value=">=4">오후</option>
 </select>
 <br>
 <!-- <h5>추가할 전공과목 수</h5> -->
@@ -367,9 +367,13 @@
 <br>
 </div>
 <br>
-<button onclick="location.href='/timetable/recommend'">추천 시간표 보기</button>
+<button onclick="location.href='/timetable/recommendlist'">추천 시간표 보기</button>
+
+
 </form>
+
 <br><br>
+
 <button onclick="location.href='/timetable/lecturelist'">강의 목록으로</button>
 
 <br><br><br><br><br><br><br><br>
