@@ -15,9 +15,12 @@
 		
 		<c:if test="${nick eq i.writer }">
 			<button onclick="deleteComment(${i.commentno });">삭제</button>
+			<div id="update${i.commentno }"  style="display:none;">
+				<textarea id="updateContent" name="updateContent" rows="1" cols="70" onkeypress="JavaScript:enter_check();"></textarea>
+			</div>
 			<button onclick="updateComment(${i.commentno });">수정</button>
 		</c:if>
-		<div id="update"></div>
+		
 	</div>
 </c:forEach>
 </div>

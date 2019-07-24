@@ -106,7 +106,13 @@ function checkAll() {
 		<td>${i.loc }</td>
 		<td>${i.writer }</td>
 		<td>${i.hit }</td>
-		<td>${i.score }</td>
+		<td style="color: gold;">
+			<c:if test="${i.score eq 1 }">★</c:if>
+			<c:if test="${i.score eq 2 }">★★</c:if>
+			<c:if test="${i.score eq 3 }">★★★</c:if>
+			<c:if test="${i.score eq 4 }">★★★★</c:if>
+			<c:if test="${i.score eq 5 }">★★★★★</c:if>
+		</td>
 		<td>${i.commentCnt }</td>
 		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
 	</tr>
