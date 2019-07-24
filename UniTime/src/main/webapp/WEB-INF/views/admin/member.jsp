@@ -90,10 +90,12 @@ table, th {
 }
 
 </style>
-
 <div class="form-inline text-center">
-	<input class="form-control" type="text" id="search" />
+	<input type="button" value="신고리스트" onclick="location.href='/admin/badReport'"/>
+	
+	<input class="form-control" type="text" placeholder="이름을 입력하세요." id="search" />
 	<button id="btnSearch" class="btn">검색</button>
+	
 </div> 
 
 <table>
