@@ -76,7 +76,6 @@ public class TimeTableController {
 		timeTableService.myListDelete(temp);
 		List mylist = timeTableService.myList(id);
 	
-		
 		model.addAttribute("myList", mylist);
 		
 		
@@ -92,10 +91,9 @@ public class TimeTableController {
 		
 	}
 	
-	@RequestMapping(value="/timetable/recommendlist", method=RequestMethod.POST)
-	public void recommendList(Model model, HttpSession session
+	@RequestMapping(value="/timetable/recommendlist", method=RequestMethod.GET)
+	public void recommendList(Model model, HttpSession session, HttpServletRequest req
 			, @RequestParam("timepriority") String timepriority
-			, @RequestParam("majorNum") int majorNum
 			, @RequestParam("classNum") int classNum
 			) {
 		
@@ -103,7 +101,8 @@ public class TimeTableController {
 		List mylist = timeTableService.myList(id);
 		model.addAttribute("myList", mylist);
 		
-		
+		List recommendList = timeTableService.recommendList(req);
+		model.addAttribute("recommendList", recommendList);
 		
 		
 	}
