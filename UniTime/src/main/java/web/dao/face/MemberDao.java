@@ -1,6 +1,10 @@
 package web.dao.face;
 
+import java.util.HashMap;
+import java.util.List;
+
 import web.dto.Member;
+import web.dto.TastyBoard;
 
 public interface MemberDao {
 
@@ -25,5 +29,15 @@ public interface MemberDao {
 	public Member idCheck(String hakbun) throws Exception;
 	public Member nickCheck(String nickname) throws Exception;
 
-	public Member myBoard(String nickname);
+	public List tastyList(Member member);
+	public List freeList(Member member);
+
+	/**
+	 * 
+	 * @param number 삭제할 회원의 글
+	 */
+	public void memberNumberDelete(HashMap map);
+
+
+
 }

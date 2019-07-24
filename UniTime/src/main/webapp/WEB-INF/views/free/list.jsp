@@ -52,9 +52,9 @@ function checkBoardDelete(){
 		return;
 	}
   
-	var agree=confirm("삭제 하시겠습니까?");
+	var deleteConfirm=confirm("삭제 하시겠습니까?");
 	
-	if(agree){
+	if(deleteConfirm){
 		//<form action="/free/checkdelete" method="get">
 		//	<input name=checkdelete value=boardno>
 		//</form>

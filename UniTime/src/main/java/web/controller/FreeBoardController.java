@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -75,12 +76,12 @@ public class FreeBoardController {
 			FreeFile file=freeBoardService.viewFile(boardno);
 			
 			//게시글의 댓글 조회
-			List<FreeComment> commentList=freeBoardService.commentList(boardno);
+			//List<FreeComment> commentList=freeBoardService.commentList(boardno);
 			
 			//MODEL로 객체 전달
 			model.addAttribute("board", freeBoard);
 			model.addAttribute("viewFile", file);
-			model.addAttribute("commentList", commentList);
+			//model.addAttribute("commentList", commentList);
 		}
 	}
 	
@@ -187,26 +188,32 @@ public class FreeBoardController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/free/commentwrite", method=RequestMethod.GET)
-	public void commentWrite() {	}
+	@ResponseBody
+	@RequestMapping(value="/free/commentview", method= RequestMethod.GET)
+	public List<FreeComment> commentView(int boardno) {
+		
+		//게시글의 댓글 조회
+		List<FreeComment> commentList=freeBoardService.commentList(boardno);
+		
+		return commentList;
+	}
 	
 	@RequestMapping(value="/free/commentwrite", method=RequestMethod.POST)
-	public String commentWriteProc(HttpSession session, FreeComment freeComment) {
+	@ResponseBody
+	public void commentWrite(HttpSession session, FreeComment freeComment) {
 		
 		freeComment.setWriter((String)session.getAttribute("nick"));
 		
 		//댓글 작성
 		freeBoardService.commentWrite(freeComment);
-		
-		return "redirect:/free/view?boardno="+freeComment.getBoardno();
 	}
 	
-	@RequestMapping(value="/free/commentdelete", method=RequestMethod.GET)
-	public String commentDelete(FreeBoard freeBoard, FreeComment freeComment) {
+	@RequestMapping(value="/free/commentdelete", method=RequestMethod.POST)
+	@ResponseBody
+	public void commentDelete(FreeComment freeComment) {
 		
 		freeBoardService.commentDelete(freeComment.getCommentno());
 		
-		return "redirect:/free/view?boardno="+freeBoard.getBoardno();
 	}
 	
 	@RequestMapping(value="/free/checkdelete", method=RequestMethod.GET)

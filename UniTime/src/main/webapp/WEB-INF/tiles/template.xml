@@ -6,6 +6,8 @@
        
 <tiles-definitions>
 
+	<definition name="tasty/comment" template="/WEB-INF/views/tasty/comment.jsp" />
+	
 	<definition name="tilesbase" template="/WEB-INF/tiles/layout.jsp">
 		<put-attribute name="header" value="/WEB-INF/tiles/layout/header.jsp" />
 		<put-attribute name="body" />

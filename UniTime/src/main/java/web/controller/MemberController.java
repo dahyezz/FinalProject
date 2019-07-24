@@ -1,17 +1,26 @@
 package web.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import web.dto.FreeBoard;
 import web.dto.Member;
+import web.dto.TastyBoard;
+import web.service.face.FreeBoardService;
 import web.service.face.MemberService;
+import web.service.face.TastyBoardService;
 
 @Controller
 public class MemberController {
@@ -123,7 +132,33 @@ public class MemberController {
 		}
 	
 	@RequestMapping(value = "/member/mypage", method = RequestMethod.GET)
-	public void mypage(Member member, HttpSession session) {
+	public void mypage(Model model, Member member, HttpSession session) {
+		
+		member.setNickname((String) session.getAttribute("nick"));
+		
+		List<TastyBoard> tastyList = memberService.tastyList(member);
+		
+		model.addAttribute("tastyList", tastyList);
+		
+		member.setNickname((String) session.getAttribute("nick"));
+		
+		List<FreeBoard> freeList = memberService.freeList(member);
+		
+		model.addAttribute("freeList", freeList);
+	
+	}
+	
+	@RequestMapping(value = "/member/mypage/delete", method = RequestMethod.GET)
+	public String mypageDelete(int[] number) {
+		
+		logger.info("삭제할 학번:" + number);
+		memberService.memberNumberDelete(number);
+		
+		return "redirect:/member/mypage";
+	}
+	
+	@RequestMapping(value = "/member/modify", method = RequestMethod.GET)
+	public void mypageModify() {
 		
 	}
 }

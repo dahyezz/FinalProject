@@ -7,8 +7,8 @@
 }
 </style>
 <div class="footer">
-	<a href="">이용약관</a>
-	<a href="">개인정보 취급방침</a>
+	<a href="/info/termofservice">이용약관</a>
+	<a href="/info/privacypolicy">개인정보 취급방침</a>
 	<br>
 	
 	<p>상호 : 슬기로운 대학생활</p>
