@@ -11,13 +11,19 @@
 		SELECT * FROM (
 		    SELECT rownum rnum, B.* FROM (
 		        SELECT boardno, tag, title, writer, hit, writtendate FROM freeboard_kg
+		        <if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+			        WHERE ${searchType } LIKE '%' || ${keyword } || '%'
+		        </if>
 		        ORDER BY boardno DESC ) B
 		    ORDER BY rnum ) RB
 		WHERE rnum BETWEEN #{startNo } AND #{endNo }
 	</select>
 	
-	<select id="selectCntAll" resultType="int">
+	<select id="selectCntAll" parameterType="web.util.Paging" resultType="int">
 		SELECT count(*) FROM freeboard_kg
+		<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+			WHERE ${searchType } LIKE '%' || ${keyword } || '%'
+		</if>
 	</select>
 	
 	<select id="selectBoardByBoardno" parameterType="int" resultType="web.dto.FreeBoard">
