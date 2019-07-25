@@ -1,10 +1,17 @@
 package web.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,10 +19,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
@@ -61,24 +70,20 @@ public class UsedBoardController {
 			method=RequestMethod.GET)
 	public void view(
 			Model model,
-			UsedBoard usedBoard
+			UsedBoard usedboard
 			) {
 		
 		logger.info("게시글 보기");
-		logger.info(usedBoard.toString());
+		logger.info(usedboard.toString());
 		
 		// 게시글 번호 파싱
-		int boardno = usedBoard.getBoardno();
+		int boardno = usedboard.getBoardno();
 		
 		// 게시글 조회
-		usedBoard = usedService.view(boardno);
-		
-		// 게시글 이미지 조회
-		UsedImage usedImg = usedService.viewImg(boardno);
+		usedboard = usedService.view(boardno);
 		
 		// model로 객체 전달 
-		model.addAttribute("usedboard", usedBoard);
-		model.addAttribute("viewImg", usedImg);
+		model.addAttribute("usedboard", usedboard);
 		
 	}
 	
@@ -97,8 +102,7 @@ public class UsedBoardController {
 			method=RequestMethod.POST)
 	public String writingProc(
 			HttpSession session,
-			UsedBoard usedBoard,
-			@RequestParam(value="usedimg") MultipartFile img
+			UsedBoard usedBoard
 			) {
 		
 		logger.info("작성된 게시글 처리 중");
@@ -107,9 +111,100 @@ public class UsedBoardController {
 		usedBoard.setWriter((String)session.getAttribute("nick"));
 		
 		// 게시글 작성, 첨부파일 저장
-		usedService.write(usedBoard, img, context);
+		usedService.write(usedBoard);
 		
 		return "redirect:/used/list";
+	}
+
+	/**
+	 *  이미지 저장 컨트롤러 
+	 */
+	@RequestMapping(value="/used/productImage", method=RequestMethod.POST)
+	public void productImage(
+			UsedBoard usedboard,
+			@RequestParam("img") MultipartFile fileupload,
+			HttpServletResponse resp,
+			HttpServletRequest req
+			) {
+		
+		logger.info(usedboard.toString());
+		logger.info("파일 : " + fileupload.getOriginalFilename());
+		logger.info(context.getRealPath("usedUpload"));
+		
+		
+		//첨부파일 저장
+		UsedImage usedImage = usedService.uploadFile(usedboard, fileupload, context);
+		logger.info(usedboard.toString());
+		logger.info(usedImage.toString());
+	
+		
+		try {
+			resp.getWriter().append("{\"usedimgno\":"+usedImage.getUsedImgNo()+", \"boardno\":"+usedImage.getBoardno()+"}");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@RequestMapping(value="/usedUpload", method=RequestMethod.GET)
+	public void getFiles(
+			ModelAndView mav, 
+			UsedImage usedImg, 
+			HttpServletRequest req, 
+			HttpServletResponse resp
+		) {
+		
+		logger.info("getfile--------------------------------");
+		logger.info(usedImg.toString());
+		
+		usedImg = usedService.getImg(usedImg);
+		logger.info(usedImg.toString());
+		
+		File src = new File(context.getRealPath("usedUpload"), usedImg.getStoredName());
+		
+		resp.setContentLength((int) src.length());
+		resp.setCharacterEncoding("utf-8");
+		
+		String filename = "";
+		
+		try {
+			filename = URLEncoder.encode(usedImg.getOriginName(), "utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
+		//UTF-8 인코딩 오류 수정 (한글만 바꿔야 하는데 특수기호까지 바꿔서 문제가 생기는것)
+		filename = filename.replace("+", "%20"); //띄어쓰기
+		
+		filename = filename.replace("%5B", "["); 
+		filename = filename.replace("%5D", "]");
+		
+		filename = filename.replace("%21", "!"); 
+		filename = filename.replace("%23", "#"); 
+		filename = filename.replace("%24", "$"); 
+		
+		
+		File origin = new File(context.getRealPath("usedUpload"), usedImg.getStoredName());
+		FileInputStream fis = null;
+		
+		try {
+			fis = new FileInputStream(origin);
+			OutputStream out = resp.getOutputStream();
+	
+			FileCopyUtils.copy(fis, out);
+			
+			out.flush();
+			
+			fis.close();
+			out.close();
+			
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	
@@ -120,7 +215,8 @@ public class UsedBoardController {
 	@RequestMapping(value="/used/update", method=RequestMethod.GET)
 	public void update(
 			UsedBoard usedboard,
-			Model model) {
+			Model model
+		) {
 		
 		logger.info("게시글 수정 중");
 		
@@ -136,16 +232,9 @@ public class UsedBoardController {
 		logger.info("수정된 게시글 처리 중");
 		
 		usedService.update(usedboard);
+
 		
-		// redirect 한글 깨짐 해결
-		String tag = null;
-		try {
-			tag=URLEncoder.encode(usedboard.getTag(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		
-		return "redirect:/used/view?tag="+tag+"&boardno="+usedboard.getBoardno();
+		return "redirect:/used/view?boardno="+usedboard.getBoardno();
 	}
 	
 //	@RequestMapping(value="/used/delete",

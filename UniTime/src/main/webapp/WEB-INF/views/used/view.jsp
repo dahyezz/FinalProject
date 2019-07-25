@@ -6,6 +6,7 @@
 		
 <style type="text/css">
 .usedView table {
+	align: center;
 	border:1px solid #ccc;
 }
 
@@ -17,7 +18,7 @@
 }
 
 .usedView td{
-	text-align: left;
+	text-align: center;
 }
 
 .usedView button {
@@ -34,12 +35,15 @@
 	width:98%;
 	margin-left: 10px;
 }
-</style>		
+
+</style>	
+	
 		
 <div class="usedView">
 <!-- Controller에서 model에 지정한 dto 이름. -->
 <h2>게시글 조회</h2>
-	<table class="table table-striped table-hover table-condensed" >
+	<table class="table table-striped table-hover table-condensed" 
+		style="width:100%">
 		
 		<tr>
 			<th>글번호</th>
@@ -53,42 +57,38 @@
 		</tr>
 		<tr>
 			<th>태그</th>
-			<td colspan="3">
+			<td>
 				${usedboard.tag }
 			</td>
-		</tr>
-		<tr>
 			<th>제목</th>
-			<td colspan="3">
+			<td>
 				${usedboard.title }
 			</td>
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td colspan="1">
+			<td>
 				${usedboard.writer }
 			</td>
 			<th>작성일</th>
-			<td colspan="1">
+			<td>
 				<fmt:formatDate value="${usedboard.writtendate }" 
 				pattern="yyyy-MM-dd HH:mm"/>
 			</td>
 		</tr>
 		<tr>
 			<th>제품명</th>
-			<td colspan="3">
+			<td>
 				${usedboard.product }
 			</td>
-		</tr>
-		<tr>
 			<th>가격</th>
-			<td colspan="3">
+			<td>
 				<fmt:formatNumber value="${usedboard.price }"
 				pattern="###,###.###"/>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="4" style="height:300px;">
+			<td id="usedView-content" colspan="4" style="height:300px;">
 				${usedboard.content }
 			</td>
 		</tr>
