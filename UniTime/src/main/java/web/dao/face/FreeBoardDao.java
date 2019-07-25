@@ -19,9 +19,10 @@ public interface FreeBoardDao {
 	
 	/**
 	 * board 테이블 전체 COUNT 조회
+	 * @param paging - 검색 결과 페이징 객체
 	 * @return 테이블 전체 행 수 조회 결과
 	 */
-	public int selectCntAll();
+	public int selectCntAll(Paging paging);
 	
 	/**
 	 * 	글 번호로 게시글 조회

@@ -41,12 +41,22 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 			curPage=Integer.parseInt(param);
 		}
 		
-		//전체 게시글 수
-		int totalCount=freeBoardDao.selectCntAll();
+		//검색 파라미터 파싱
+		String searchType=req.getParameter("searchType");
+		String keyword=req.getParameter("keyword");
 		
 		//페이징 객체 생성
-		Paging paging=new Paging(totalCount,curPage);
-//		System.out.println(paging);
+		Paging paging = new Paging();
+		paging.setSearchType(searchType);
+		paging.setKeyword(keyword);
+		
+		//전체/검색된 게시글 수
+		int totalCount=freeBoardDao.selectCntAll(paging);
+		
+		//페이징 객체 생성
+		paging=new Paging(totalCount,curPage);
+//		paging.setSearchType(searchType);
+//		paging.setKeyword(keyword);
 		
 		return paging;
 	}
