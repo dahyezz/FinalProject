@@ -6,6 +6,7 @@ import javax.servlet.ServletContext;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.BadReport;
 import web.dto.TastyBoard;
 import web.dto.TastyComment;
 import web.dto.TastyFile;
@@ -100,5 +101,19 @@ public interface TastyBoardService {
 	 * @param names - 삭제할 게시글 번호
 	 */
 	public void deleteList(String names);
+
+	/**
+	 * 댓글 수정
+	 * 
+	 * @param tastyComment - 수정할 댓글 정보(commentno, content)
+	 */
+	public void updateComment(TastyComment tastyComment);
+
+	/**
+	 * 게시글 신고
+	 * 
+	 * @param badReport - 게시글 번호,작성자 이름
+	 */
+	public void declareBoard(BadReport badReport);
 
 }

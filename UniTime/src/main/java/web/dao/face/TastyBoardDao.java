@@ -2,6 +2,7 @@ package web.dao.face;
 
 import java.util.List;
 
+import web.dto.BadReport;
 import web.dto.TastyBoard;
 import web.dto.TastyComment;
 import web.dto.TastyFile;
@@ -113,6 +114,10 @@ public interface TastyBoardDao {
 	 * @param tastyBoard - 삭제하려는 게시글 번호
 	 */
 	public void deleteFileByboardno(TastyBoard tastyBoard);
+
+	public void updateComment(TastyComment tastyComment);
+
+	public void insertBadByBoard(BadReport badReport);
 
 
 

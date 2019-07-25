@@ -56,19 +56,65 @@ $(document).ready(function() {
 	
 });
 
+var updateCount=0;
+
 //댓글 수정
-function updateComment(data){
-	console.log(data);
+function updateComment(commentno, content){
+
+// 	console.log(commentno);
+// 	console.log(content);
 	
-// 	console.log($(this));
-// 	console.log($(this).parent())
+	var htmls = document.getElementById("commentre"+commentno);
+// 	console.log(htmls);
+	
+	if(updateCount==0){
+		
+		htmls.innerHTML += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">'
+			+ '<span style="padding-left: 7px; font-size: 9pt">'
+		 	+ '<a href="javascript:void(0)" onclick="updateProc('+ commentno+')" style="padding-right:5px">저장</a>'
+	 		+ '<a href="javascript:void(0)" onclick="showList('+commentno+')">취소<a>'
+		 	+ '</span>'
+		 	+ '<textarea name="editContent" id="editContent" class="form-control" rows="1" cols="70">'+content+'</textarea>'
+		 	+ '</p>';
 
-	var reply = document.getElementById("update"+data);
-	reply.style.display="";
-// 	console.log(reply);
+		updateCount=1;
+	}
 
+	htmls.style.display="block";
 
 }
+
+function showList(commentno){
+	console.log("commentno"+commentno);
+	document.getElementById("commentre"+commentno).style.display="none";
+}
+
+function updateProc(commentno){
+	console.log(commentno);
+	
+	var editContent = $('#editContent').val();
+	console.log(editContent);
+	
+	$.ajax({
+		type: "post"
+		, url: "/tasty/updateComment"
+		, dataType: "html"
+		, data: {
+			"commentno": commentno,
+			"content": editContent
+		}
+		, success: function(data){
+			$("#commentdiv").html(data);
+			$("#content").val("");
+
+		}
+		, error: function() {
+			console.log("error")
+		}
+	});
+
+}
+
 
 
 //댓글 삭제
@@ -102,15 +148,44 @@ function enter_check(){
 	
 	//엔터키의 코드가 13
 	if(event.keyCode == 13){
-		console.log("enter clicked");
 		$('#cmtWrite').click();
 	}
+}
+
+//신고
+function declare(boardno, commentno){
+
+	var boardname="tasty";
+	var nick=document.getElementById('writer').value
+// 	console.log(nick);
+	
+	$.ajax({
+		type: "post"
+		, url: "/tasty/declare"
+		, dataType: "json"
+		, data: {
+			boardname: boardname,
+			boardno: boardno,
+			commentno: commentno,
+			nickname: nick
+		}
+		, success: function(data){
+			alert("신고완료");
+		}
+		, error: function() {
+			console.log("error")
+		}
+	});
+	
 }
 </script>
 
 <div class="ed board-header padding-horizontal-small@s margin-bottom-small">
 	<h3>테이스티로드</h3>
 </div>
+
+
+<a href="javascript:void(0)" onclick="declare('${board.boardno }')" style="float: right;">신고</a>
 
 <table class="table table-bordered" style="text-align: center;">
 	<tr>
@@ -144,6 +219,7 @@ function enter_check(){
 	
 	<tr><td class="info" colspan="4">본문</td></tr>
 	<tr><td colspan="4">${board.content }</td></tr>
+	
 </table>
 
 
