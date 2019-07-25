@@ -20,9 +20,9 @@
   background-image: -ms-linear-gradient(top, #7f7fff, #7f7fff);
   background-image: -o-linear-gradient(top, #7f7fff, #7f7fff);
   background-image: linear-gradient(to bottom, #7f7fff, #7f7fff);
-  -webkit-border-radius: 28;
-  -moz-border-radius: 28;
-  border-radius: 28px;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
   font-family: Arial;
   color: #ffffff;
   font-size: 15px;

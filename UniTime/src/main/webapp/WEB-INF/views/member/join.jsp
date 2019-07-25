@@ -14,9 +14,9 @@
   background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
   background-image: -o-linear-gradient(top, #ffffff, #ffffff);
   background-image: linear-gradient(to bottom, #ffffff, #ffffff);
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0px;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
   font-family: Arial;
   color: #7f7ffa;
   font-size: 15px;
@@ -35,9 +35,9 @@
   background-image: -ms-linear-gradient(top, #7f7fff, #7f7fff);
   background-image: -o-linear-gradient(top, #7f7fff, #7f7fff);
   background-image: linear-gradient(to bottom, #7f7fff, #7f7fff);
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0px;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
   font-family: Arial;
   color: #ffffff;
   font-size: 15px;
@@ -49,6 +49,25 @@
 #btnCancel:hover {
   text-decoration: none;
 }
+
+#idCheck, #nickCheck {
+  background: #7f7fff;
+  background-image: -webkit-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -moz-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -ms-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -o-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: linear-gradient(to bottom, #7f7fff, #7f7fff);
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 5px 10px 5px 10px;
+  border: solid #ffffff 1px;
+  text-decoration: none;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -179,7 +198,7 @@ function inputCheck() {
 			<tr>
 				<th style="width: 100px" scope="row"><label>학번<input
 						id="hakbun" type="text" name="hakbun" placeholder=" 학번을 입력하세요" /></label>
-					<button type="button" class="idCheck">학번 확인</button></th>
+					<button type="button" class="idCheck" id = "idCheck">학번 확인</button></th>
 			</tr>
 			<tr>
 				<th><p class="result">
@@ -197,7 +216,7 @@ function inputCheck() {
 				<th style="width: 100px" scope="row"><label>닉네임<input
 						id="nickname" type="text" name="nickname"
 						placeholder=" 닉네임을 입력하세요" /></label>
-					<button type="button" class="nickCheck">닉네임 확인</button></th>
+					<button type="button" class="nickCheck" id = "nickCheck">닉네임 확인</button></th>
 			</tr>
 			<tr>
 				<th><p class="result1">

@@ -41,6 +41,18 @@ public interface MemberDao {
 	public void freeDelete(HashMap map);
 	public void usedDelete(HashMap map);
 
-	public void memberSecession(HashMap map);
-
+	/*
+	 * 회원탈퇴
+	 */
+	public void memberDelete(Member member) throws Exception;
+	
+	/*
+	 * 회원 수정
+	 */
+	public void memberModify(Member member) throws Exception;
 }
+
+
+
+
+

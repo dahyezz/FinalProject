@@ -153,13 +153,23 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void memberSecession(String email) {
+	public void memberDelete(Member member) throws Exception {
 		
-		HashMap map = new HashMap();
-		map.put("email", email);
+		memberDao.memberDelete(member);
 		
-		memberDao.memberSecession(map);
+	}
+
+	@Override
+	public Member getinfo(String email) {
 		
+		Member member = new Member();
+		member.setEmail(email);
+		return memberDao.selectMemberByEmail(member);
+	}
+	
+	@Override
+	public void memberModify(Member member) throws Exception {
+		memberDao.memberModify(member);
 	}
 }
 

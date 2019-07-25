@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import web.dto.FreeBoard;
 import web.dto.Member;
@@ -182,18 +183,52 @@ public class MemberController {
 		return "redirect:/member/mypage";
 	}
 	
-	@RequestMapping(value = "/member/secession", method = RequestMethod.GET)
-	public String secession(String email) {
+	@RequestMapping(value = "/member/memberDelete", method = RequestMethod.GET)
+	public void memberDelete() throws Exception {
 		
-		logger.info("삭제할 이메일:" + email);
-		memberService.memberSecession(email);
+		logger.info("회원탈퇴페이지");
+
+	}
+	
+	@RequestMapping(value = "/member/memberDelete", method = RequestMethod.POST)
+	public String memberDeleteProc(HttpSession session, Member member, RedirectAttributes rttr) throws Exception {
+		
+		logger.info("회원탈퇴");
+		
+		String email = (String)session.getAttribute("email");
+		Member member1 = memberService.getinfo(email);
+		String oldPass = member1.getPassword();
+		 String newPass = member.getPassword();
+		     
+		 if(!(oldPass.equals(newPass))) {
+		  rttr.addFlashAttribute("msg", false);
+		  return "redirect:/member/memberDelete";
+		 }
+		 
+		 memberService.memberDelete(member1);
+		 
+		 session.invalidate();
 		
 		return "redirect:/main";
+		
 	}
 	
 	@RequestMapping(value = "/member/modify", method = RequestMethod.GET)
-	public void mypageModify() {
+	public void mypageModify() throws Exception {
+		logger.info("수정화면");
+	}
+	
+	// 회원정보 수정 post
+	@RequestMapping(value = "/member/modify", method = RequestMethod.POST)
+	public String modifyForm(HttpSession session, Member member) throws Exception {
 		
+	 logger.info("modify 처리");
+	 
+	 memberService.memberModify(member);
+	 
+	 session.invalidate();
+	 
+	 return "redirect:/main";
 	}
 }
 

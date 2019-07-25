@@ -43,6 +43,12 @@ public interface MemberService {
 	public void freeDelete(String names);
 	public void usedDelete(String names);
 
-	public void memberSecession(String email);
+	//회원 탈퇴
+	public void memberDelete(Member member) throws Exception;
+
+	public Member getinfo(String email);
+	
+	//회원정보 수정
+	public void memberModify(Member member) throws Exception;
 
 }
