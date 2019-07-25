@@ -99,7 +99,40 @@ width: 1100px;
 height: 130px;
 background:#E6E6E6;
 }
-
+#modify, #logout {
+  background: #ffffff;
+  background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -o-linear-gradient(top, #ffffff, #ffffff);
+  background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #7f7ffa;
+  font-size: 12px;
+  padding: 10px 20px 10px 20px;
+  border: solid #7f7fff 1px;
+  text-decoration: none;
+}
+#btnDelete1, #btnDelete2, #btnDelete3 {
+  background: #7f7fff;
+  background-image: -webkit-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -moz-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -ms-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: -o-linear-gradient(top, #7f7fff, #7f7fff);
+  background-image: linear-gradient(to bottom, #7f7fff, #7f7fff);
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 10px 20px 10px 20px;
+  border: solid #ffffff 1px;
+  text-decoration: none;
+}
 </style>
 
 <br>
@@ -130,8 +163,8 @@ background:#E6E6E6;
 </c:if>
 </div>
 <div style="position: relative; right: -450px; ">
-<button type="button" class="btn btn-info" onclick="location.href='/member/modify'">정보수정</button>
-<button type="button" class="btn btn-info" onclick="location.href='/member/logout'">로그아웃</button>
+<button type="button" id = "modify" onclick="location.href='/member/modify'">정보수정</button>
+<button type="button" id = "logout" onclick="location.href='/member/logout'">로그아웃</button>
 </div>
 </form>
 </div>
@@ -181,7 +214,7 @@ background:#E6E6E6;
 
 </div>
 <div id="btnBox" class="float-right" style="text-align: right">
-	<button id="btnDelete1" class="btn btn-danger">삭제</button>
+	<button id="btnDelete1">삭제</button>
 </div>
 
 <div class="container">
@@ -227,7 +260,7 @@ background:#E6E6E6;
 
 </div>
 <div id="btnBox" class="float-right" style="text-align: right">
-	<button id="btnDelete2" class="btn btn-danger">삭제</button>
+	<button id="btnDelete2">삭제</button>
 </div>
 
 <div class="container">
@@ -274,7 +307,7 @@ background:#E6E6E6;
 
 </div>
 <div id="btnBox" class="float-right" style="text-align: right">
-	<button id="btnDelete3" class="btn btn-danger">삭제</button>
+	<button id="btnDelete3">삭제</button>
 </div>
 
 <br>
