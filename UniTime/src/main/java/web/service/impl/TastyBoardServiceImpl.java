@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.TastyBoardDao;
+import web.dto.BadReport;
 import web.dto.TastyBoard;
 import web.dto.TastyComment;
 import web.dto.TastyFile;
@@ -162,5 +163,16 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 			tastyBoardDao.deleteBoardByBoardno(tastyBoard);
 		}
 		
+	}
+	
+	@Override
+	public void updateComment(TastyComment tastyComment) {
+	
+		tastyBoardDao.updateComment(tastyComment);
+	}
+	
+	@Override
+	public void declareBoard(BadReport badReport) {
+		tastyBoardDao.insertBadByBoard(badReport);
 	}
 }

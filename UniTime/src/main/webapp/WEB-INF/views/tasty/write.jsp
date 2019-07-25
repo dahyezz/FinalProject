@@ -69,6 +69,12 @@ $(document).ready(function() {
 			return false;
 		}
 		
+		if(writeForm.score.value==""){
+			alert("별점을 선택해주세요");
+			writeForm.score.focus();
+			return false;
+		}
+		
 		
 // 		var content = writeForm.content.value;
 // 		console.log(content);

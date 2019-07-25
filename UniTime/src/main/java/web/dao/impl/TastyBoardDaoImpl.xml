@@ -83,7 +83,7 @@
 		SELECT commentno, boardno, writer, content, writtendate
 		FROM tastycomment_kg
 		WHERE boardno = #{boardno }
-		ORDER BY commentno DESC
+		ORDER BY commentno
 	</select>
 	
 	<insert id="insertComment" parameterType="web.dto.TastyComment">
@@ -115,5 +115,16 @@
 		DELETE tastyfile_kg
 		WHERE boardno = #{boardno }
 	</delete>
+	
+	<update id="updateComment" parameterType="web.dto.TastyComment" >
+		UPDATE tastycomment_kg
+		SET content = #{content }, writtendate = SYSDATE
+		WHERE commentno = #{commentno }
+	</update>
+	
+	<insert id="insertBadByBoard" parameterType="web.dto.BadReport">
+		INSERT INTO badreport_kg
+		VALUES (badreport_kg_seq.nextval ,#{boardname }, #{boardno }, #{commentno },#{nickname })
+	</insert>
 
 </mapper>
