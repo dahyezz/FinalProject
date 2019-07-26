@@ -1,6 +1,7 @@
 package web.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
@@ -82,4 +83,6 @@ public interface UsedDao {
 	 *  @param UsedBoard
 	 */
 	public UsedBoard update(UsedBoard usedboard);
+
+	public void updateImgno(Map<String, Object> map);
 }

@@ -2,7 +2,9 @@ package web.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -50,7 +52,7 @@ public class UsedServiceImpl implements UsedService {
 	// 게시글 작성하기 ('used/write')
 	@Override
 	public void write(
-			UsedBoard usedboard
+			UsedBoard usedboard,String images
 		) {
 		
 		
@@ -69,7 +71,15 @@ public class UsedServiceImpl implements UsedService {
 			}
 			
 			usedDao.write(usedboard);
-			
+			logger.info(""+usedboard.getBoardno());
+			if(images != null && !"".equals(images)) {
+				Map<String,Object> map = new HashMap<String,Object>();
+//				map.put("images", images);
+				String[] imagelist = images.split(",");
+				map.put("images", imagelist);
+				map.put("boardno",usedboard.getBoardno());
+				usedDao.updateImgno(map);
+			}
 		}
 		
 	}
