@@ -1,6 +1,8 @@
 package web.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import web.dao.face.MemberDao;
 import web.dao.face.TimeTableDao;
-import web.dto.Member;
 import web.dto.TempTable;
 import web.service.face.TimeTableService;
 
@@ -45,9 +46,21 @@ public class TimeTableServiceImpl implements TimeTableService {
 	public List recommendList(HttpServletRequest req) {
 		
 		HttpSession session = req.getSession();
-		String id = (String)session.getAttribute("email");
+//		String id = (String)session.getAttribute("email");
 		
-		List reclist = timeTableDao.recommendTmp(id);
+//		String timepriority = req.getParameter("timepriority");
+//		String classNum = req.getParameter("classNum");
+		
+		Map<String,String> map = new HashMap<String, String>();
+		
+		map.put("timepriority", req.getParameter("timepriority"));
+		map.put("classNum", req.getParameter("classNum"));
+		map.put("id",(String)session.getAttribute("email"));
+		
+		
+		
+		
+		List reclist = timeTableDao.recommendTmp(map);
 		
 
 		
@@ -59,7 +72,7 @@ public class TimeTableServiceImpl implements TimeTableService {
 //		List mylist = timeTableDao.selectMyList(id);
 //		
 //		//"+ mem.getDepartmentCode() +"
-		String lec = "department_name in ('정보통신공학과','공통')";
+//		String lec = "department_name in ('정보통신공학과','공통')";
 //		for(int i=0;i<mylist.size();i++) {
 //			lec += "and (lecture_day not in"+ mylist.get(7)
 //					+" or start_time not in"+ mylist.get(8)+ ")";

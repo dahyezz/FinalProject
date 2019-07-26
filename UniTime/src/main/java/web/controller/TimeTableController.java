@@ -101,6 +101,8 @@ public class TimeTableController {
 		List mylist = timeTableService.myList(id);
 		model.addAttribute("myList", mylist);
 		
+		
+		
 		List recommendList = timeTableService.recommendList(req);
 		model.addAttribute("recommendList", recommendList);
 		
