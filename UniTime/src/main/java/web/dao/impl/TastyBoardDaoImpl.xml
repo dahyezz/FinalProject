@@ -39,9 +39,9 @@
 	
 	<insert id="insertBoard" parameterType="web.dto.TastyBoard">
 	
-<!-- 		<selectKey order="BEFORE" resultType="int" keyProperty="boardno"> -->
-<!-- 			SELECT tastyboard_kg_seq.nextval FROM dual -->
-<!-- 		</selectKey> -->
+		<selectKey order="BEFORE" resultType="int" keyProperty="boardno">
+			SELECT tastyboard_kg_seq.nextval FROM dual
+		</selectKey>
 
 		INSERT INTO tastyboard_kg (boardno, tag, store_name, loc, content, writer, score) 
 		VALUES (#{boardno }, #{tag }, #{storeName }, #{loc }, #{content } , #{writer }, #{score })
@@ -66,16 +66,16 @@
 	<insert id="insertFile" parameterType="web.dto.TastyFile">
 	
 		<selectKey order="BEFORE" resultType="int" keyProperty="fileno">
-			SELECT temptasty_kg_seq.nextval FROM dual
+			SELECT tastyfile_kg_seq.nextval FROM dual
 		</selectKey>
 	
-		INSERT INTO temptasty_kg (fileno, boardno, origin_name, stored_name, filesize)
+		INSERT INTO tastyfile_kg (fileno, boardno, origin_name, stored_name, filesize)
 		VALUES (#{fileno }, #{boardno }, #{originName }, #{storedName }, #{filesize })
 	</insert>
 	
 	<select id="selectFileByFileno" parameterType="int" resultType="web.dto.TastyFile">
 		SELECT fileno, boardno, origin_name originName, stored_name storedName, filesize
-		FROM temptasty_kg
+		FROM tastyfile_kg
 		WHERE fileno = #{fileno }
 	</select>
 	
@@ -129,28 +129,28 @@
 	
 	<select id="selectFileByBoardno" parameterType="web.dto.TastyBoard" resultType="web.dto.TastyFile">
 		SELECT fileno, boardno, origin_name originName, stored_name storedName, filesize
-		FROM temptasty_kg
+		FROM tastyfile_kg
 		WHERE boardno = #{boardno }
 	</select>
 	
-	<insert id="insertTastyfile" parameterType="web.dto.TastyFile">
-		<selectKey order="BEFORE" resultType="int" keyProperty="fileno">
-			SELECT tastyfile_kg_seq.nextval FROM dual
-		</selectKey>
+<!-- 	<insert id="insertTastyfile" parameterType="web.dto.TastyFile"> -->
+<!-- 		<selectKey order="BEFORE" resultType="int" keyProperty="fileno"> -->
+<!-- 			SELECT tastyfile_kg_seq.nextval FROM dual -->
+<!-- 		</selectKey> -->
 	
-		INSERT INTO tastyfile_kg (fileno, boardno, origin_name, stored_name, filesize)
-		VALUES (#{fileno }, #{boardno }, #{originName }, #{storedName }, #{filesize })
-	</insert>
+<!-- 		INSERT INTO tastyfile_kg (fileno, boardno, origin_name, stored_name, filesize) -->
+<!-- 		VALUES (#{fileno }, #{boardno }, #{originName }, #{storedName }, #{filesize }) -->
+<!-- 	</insert> -->
 	
-	<delete id="deleteTemp" parameterType="web.dto.TastyFile">
-		DELETE temptasty_kg
-		WHERE boardno = #{boardno }
+	<update id="updateBoardnoToFile" parameterType="web.dto.TastyBoard">
+		UPDATE tastyfile_kg
+		SET boardno = #{boardno }
+		WHERE boardno = 0
+	</update>
+	
+	<delete id="deleteFileByfileno" parameterType="web.dto.TastyFile">
+		DELETE tastyfile_kg
+		WHERE fileno = #{fileno } 
 	</delete>
-	
-	<select id="selectCntFile" parameterType="web.dto.TastyBoard" resultType="int">
-		SELECT COUNT(*)
-		FROM temptasty_kg
-		WHERE boardno = #{boardno }
-	</select>
 
 </mapper>

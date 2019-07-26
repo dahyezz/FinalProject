@@ -103,7 +103,7 @@ public class TastyBoardController {
 
 	
 	// 글 작성 폼에서 이미지 선택 시 summernote에 이미지 뜨도록 하는 메소드 -> temptasty에서 조회
-	@RequestMapping(value="/tastyUpload", method=RequestMethod.GET)
+	@RequestMapping(value="/tastyImage", method=RequestMethod.GET)
 	public void getFiles(TastyFile tastyfile, HttpServletRequest req, HttpServletResponse resp) {
 	
 		logger.info(tastyfile.toString());
@@ -241,6 +241,21 @@ public class TastyBoardController {
 		logger.info(badReport.toString());
 		
 		tastyBoardService.declareBoard(badReport);
+		
+		boolean success = true;
+		
+		try {
+			response.getWriter().append("{\"success\":"+success+"}");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value="/tasty/imageDelete", method=RequestMethod.POST)
+	public void deleteImage(TastyFile file, HttpServletResponse response) {
+		logger.info(file.toString());
+		
+		tastyBoardService.deleteImage(file);
 		
 		boolean success = true;
 		

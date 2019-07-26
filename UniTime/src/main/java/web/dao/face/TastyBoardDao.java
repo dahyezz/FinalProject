@@ -123,21 +123,18 @@ public interface TastyBoardDao {
 
 	public List<TastyFile> selectFileByBoardno(TastyBoard tastyBoard);
 
-	/**
-	 * tastyfile에 데이터 삽입 후 temptasty delete
-	 * 
-	 * @param file
-	 */
-	public void deleteTemp(TastyFile file);
 
 	/**
 	 * tastyfile에 데이터 삽입
 	 * 
 	 * @param file
 	 */
-	public void insertTastyfile(TastyFile file);
+//	public void insertTastyfile(TastyFile file);
 
-	public int selectCntFile(TastyBoard tastyBoard);
+
+	public void updateBoardnoToFile(TastyBoard tastyBoard);
+
+	public void deleteFileByfileno(TastyFile file);
 
 
 

@@ -49,17 +49,22 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	@Override
 	public void write(TastyBoard tastyBoard) {
 		
-		if(tastyBoard.getBoardno()==0)
-			tastyBoard.setBoardno(tastyBoardDao.selectBoardno());
+//		if(tastyBoard.getBoardno()==0)
+//			tastyBoard.setBoardno(tastyBoardDao.selectBoardno());
 		
 		tastyBoardDao.insertBoard(tastyBoard);
 		
-		List<TastyFile> fileList = tastyBoardDao.selectFileByBoardno(tastyBoard);
+		//tastyfile에 boardno=0 인거 update해주기
+		tastyBoardDao.updateBoardnoToFile(tastyBoard);
 		
-		for(TastyFile f : fileList) {
-			tastyBoardDao.insertTastyfile(f);
-//			tastyBoardDao.deleteTemp(f);
-		}
+//		TastyBoard test = new TastyBoard();
+//		test.setBoardno(0);
+//		List<TastyFile> fileList = tastyBoardDao.selectFileByBoardno(test);
+//		
+//		for(TastyFile f : fileList) {
+//			tastyBoardDao.insertTastyfile(f);
+////			tastyBoardDao.deleteTemp(f);
+//		}
 
 	}
 	
@@ -68,18 +73,27 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 		
 		tastyBoardDao.deleteCommentByBoardno(tastyBoard);
 		tastyBoardDao.deleteFileByboardno(tastyBoard);
+//		TastyFile file = new TastyFile();
+//		file.setBoardno(tastyBoard.getBoardno());
+
 		tastyBoardDao.deleteBoardByBoardno(tastyBoard);
 	}
 	
 	@Override
 	public void update(TastyBoard tastyBoard) {
+		
+		List<TastyFile> fileList = tastyBoardDao.selectFileByBoardno(tastyBoard);
+		
+		for(TastyFile f : fileList) {
+//			tastyBoardDao.insertTastyfile(f);
+			tastyBoardDao.insertFile(f);
+		}
+		
 		tastyBoardDao.updateBoard(tastyBoard);
 	}
 	
 	@Override
 	public TastyFile uploadFile(TastyBoard tastyBoard, MultipartFile fileupload, ServletContext context) {
-		
-//		String url = "http://localhost:8088/tastyUpload/";
 		
 		//파일이 저장될 경로
 		String storedPath = context.getRealPath("tastyUpload");
@@ -104,11 +118,8 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 		
 		int boardno = 0;
 		
-		if(tastyBoard.getBoardno()==0) {
-			boardno = tastyBoardDao.selectBoardno();
-		} else {
+		if(tastyBoard.getBoardno()!=0)
 			boardno = tastyBoard.getBoardno();
-		}
 		
 		//DB에 저장(업로드 정보 기록)
 		TastyFile tastyfile = new TastyFile();
@@ -181,5 +192,14 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	@Override
 	public void declareBoard(BadReport badReport) {
 		tastyBoardDao.insertBadByBoard(badReport);
+	}
+	
+	@Override
+	public void deleteImage(TastyFile file) {
+		
+		TastyBoard tastyBoard = new TastyBoard();
+		tastyBoard.setBoardno(file.getBoardno());
+//		tastyBoardDao.deleteFileByboardno(tastyBoard);
+		tastyBoardDao.deleteFileByfileno(file);
 	}
 }

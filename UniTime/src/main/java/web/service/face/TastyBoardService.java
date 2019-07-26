@@ -116,4 +116,11 @@ public interface TastyBoardService {
 	 */
 	public void declareBoard(BadReport badReport);
 
+	/**
+	 * 게시글 수정할 때 사진 지우면 DB에서 삭제되도록 함
+	 * 
+	 * @param file
+	 */
+	public void deleteImage(TastyFile file);
+
 }
