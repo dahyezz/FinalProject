@@ -10,7 +10,6 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -119,14 +118,13 @@ public class UsedBoardController {
 
 	
 	/**
-	 *  이미지 저장 컨트롤러 
+	 *  이미지 불러오기 컨트롤러 
 	 */
 
 	@RequestMapping(value="/usedUpload", method=RequestMethod.GET)
 	public void getFiles(
 			ModelAndView mav, 
-			UsedImage usedImg, 
-			HttpServletRequest req, 
+			UsedImage usedImg,
 			HttpServletResponse resp
 		) {
 		
@@ -181,19 +179,19 @@ public class UsedBoardController {
 	
 	
 	/**
-	 *  이미지 불러오기 컨트롤러 
+	 *  이미지 저장하기 컨트롤러 
 	 */
 	@RequestMapping(value="/used/productImage", method=RequestMethod.POST)
 	public void productImage(
 			UsedBoard usedboard,
 			@RequestParam("img") MultipartFile fileupload,
-			HttpServletResponse resp,
-			HttpServletRequest req
+			HttpServletResponse resp
 			) {
 		
 		logger.info(usedboard.toString());
 		logger.info("파일 : " + fileupload.getOriginalFilename());
 		logger.info(context.getRealPath("usedUpload"));
+		
 		
 		
 		//첨부파일 저장
