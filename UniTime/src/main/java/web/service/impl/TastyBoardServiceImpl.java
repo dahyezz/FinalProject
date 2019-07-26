@@ -49,11 +49,18 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	@Override
 	public void write(TastyBoard tastyBoard) {
 		
-		// 사진을 첨부하지 않고 게시글 작성시 boardno 설정
 		if(tastyBoard.getBoardno()==0)
 			tastyBoard.setBoardno(tastyBoardDao.selectBoardno());
 		
 		tastyBoardDao.insertBoard(tastyBoard);
+		
+		List<TastyFile> fileList = tastyBoardDao.selectFileByBoardno(tastyBoard);
+		
+		for(TastyFile f : fileList) {
+			tastyBoardDao.insertTastyfile(f);
+//			tastyBoardDao.deleteTemp(f);
+		}
+
 	}
 	
 	@Override
