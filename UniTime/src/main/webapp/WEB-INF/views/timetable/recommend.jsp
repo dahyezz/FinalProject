@@ -375,5 +375,6 @@
 <br><br>
 
 <button onclick="location.href='/timetable/lecturelist'">강의 목록으로</button>
+<c:import url="/timetable/recommendlist"></c:import>
 
 <br><br><br><br><br><br><br><br>

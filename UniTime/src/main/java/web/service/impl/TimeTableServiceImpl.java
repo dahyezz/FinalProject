@@ -47,7 +47,7 @@ public class TimeTableServiceImpl implements TimeTableService {
 		HttpSession session = req.getSession();
 		String id = (String)session.getAttribute("email");
 		
-		List mylist = timeTableDao.recommendTmp(id);
+		List reclist = timeTableDao.recommendTmp(id);
 		
 
 		
@@ -75,7 +75,7 @@ public class TimeTableServiceImpl implements TimeTableService {
 //		//lec 출력 테스트 
 //		System.out.println(lec);
 		
-		return timeTableDao.recommend(lec);
+		return reclist;
 	}
 
 }

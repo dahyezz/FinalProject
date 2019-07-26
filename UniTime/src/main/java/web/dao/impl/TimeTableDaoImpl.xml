@@ -42,7 +42,7 @@ SELECT R.* FROM (
         AND ( lecture_day, start_time ) NOT IN (
             SELECT distinct lecture_day, start_time FROM timetable_kg ttb
             JOIN temptable tb ON ttb.lecture_code=tb.lecture_code
-            WHERE tb.user_email = 'dltngus710@daum.net')
+            WHERE tb.user_email = #{email })
     ) RES
 ) R
 WHERE rank = 1

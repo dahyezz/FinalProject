@@ -91,6 +91,22 @@ public class TimeTableController {
 		
 	}
 	
+	@RequestMapping(value="/timetable/recommend", method=RequestMethod.POST)
+	public void recommendLec(Model model, HttpSession session, HttpServletRequest req
+			, @RequestParam("timepriority") String timepriority
+			, @RequestParam("classNum") int classNum
+			) {
+		
+		String id= (String) session.getAttribute("email");
+		List mylist = timeTableService.myList(id);
+		model.addAttribute("myList", mylist);
+		
+		List recommendList = timeTableService.recommendList(req);
+		model.addAttribute("recommendList", recommendList);
+		
+	}
+	
+	
 	@RequestMapping(value="/timetable/recommendlist", method=RequestMethod.GET)
 	public void recommendList(Model model, HttpSession session, HttpServletRequest req
 			, @RequestParam("timepriority") String timepriority
