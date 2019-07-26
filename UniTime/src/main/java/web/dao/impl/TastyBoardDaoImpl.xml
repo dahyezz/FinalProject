@@ -66,16 +66,16 @@
 	<insert id="insertFile" parameterType="web.dto.TastyFile">
 	
 		<selectKey order="BEFORE" resultType="int" keyProperty="fileno">
-			SELECT tastyfile_kg_seq.nextval FROM dual
+			SELECT temptasty_kg_seq.nextval FROM dual
 		</selectKey>
 	
-		INSERT INTO tastyfile_kg (fileno, boardno, origin_name, stored_name, filesize)
+		INSERT INTO temptasty_kg (fileno, boardno, origin_name, stored_name, filesize)
 		VALUES (#{fileno }, #{boardno }, #{originName }, #{storedName }, #{filesize })
 	</insert>
 	
 	<select id="selectFileByFileno" parameterType="int" resultType="web.dto.TastyFile">
 		SELECT fileno, boardno, origin_name originName, stored_name storedName, filesize
-		FROM tastyfile_kg
+		FROM temptasty_kg
 		WHERE fileno = #{fileno }
 	</select>
 	
@@ -126,5 +126,31 @@
 		INSERT INTO badreport_kg
 		VALUES (badreport_kg_seq.nextval ,#{boardname }, #{boardno }, #{commentno },#{nickname })
 	</insert>
+	
+	<select id="selectFileByBoardno" parameterType="web.dto.TastyBoard" resultType="web.dto.TastyFile">
+		SELECT fileno, boardno, origin_name originName, stored_name storedName, filesize
+		FROM temptasty_kg
+		WHERE boardno = #{boardno }
+	</select>
+	
+	<insert id="insertTastyfile" parameterType="web.dto.TastyFile">
+		<selectKey order="BEFORE" resultType="int" keyProperty="fileno">
+			SELECT tastyfile_kg_seq.nextval FROM dual
+		</selectKey>
+	
+		INSERT INTO tastyfile_kg (fileno, boardno, origin_name, stored_name, filesize)
+		VALUES (#{fileno }, #{boardno }, #{originName }, #{storedName }, #{filesize })
+	</insert>
+	
+	<delete id="deleteTemp" parameterType="web.dto.TastyFile">
+		DELETE temptasty_kg
+		WHERE boardno = #{boardno }
+	</delete>
+	
+	<select id="selectCntFile" parameterType="web.dto.TastyBoard" resultType="int">
+		SELECT COUNT(*)
+		FROM temptasty_kg
+		WHERE boardno = #{boardno }
+	</select>
 
 </mapper>

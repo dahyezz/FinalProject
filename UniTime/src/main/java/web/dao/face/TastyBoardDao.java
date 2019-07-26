@@ -69,7 +69,9 @@ public interface TastyBoardDao {
 	public int selectBoardno();
 
 	/**
+	 * (수정) temptasty에 insert 하기
 	 * filetable에 insert하기
+	 * 
 	 * 
 	 * @param tastyfile
 	 */
@@ -118,6 +120,24 @@ public interface TastyBoardDao {
 	public void updateComment(TastyComment tastyComment);
 
 	public void insertBadByBoard(BadReport badReport);
+
+	public List<TastyFile> selectFileByBoardno(TastyBoard tastyBoard);
+
+	/**
+	 * tastyfile에 데이터 삽입 후 temptasty delete
+	 * 
+	 * @param file
+	 */
+	public void deleteTemp(TastyFile file);
+
+	/**
+	 * tastyfile에 데이터 삽입
+	 * 
+	 * @param file
+	 */
+	public void insertTastyfile(TastyFile file);
+
+	public int selectCntFile(TastyBoard tastyBoard);
 
 
 

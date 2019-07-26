@@ -87,10 +87,6 @@ public class TastyBoardController {
 			HttpServletRequest req
 			) {
 		
-		logger.info(tastyBoard.toString());
-		logger.info("파일 : " + fileupload.getOriginalFilename());
-		logger.info(context.getRealPath("tastyUpload"));
-		
 		//첨부파일 저장
 		TastyFile tastyfile = tastyBoardService.uploadFile(tastyBoard, fileupload, context);
 		logger.info(tastyBoard.toString());
@@ -105,6 +101,8 @@ public class TastyBoardController {
 		
 	}
 
+	
+	// 글 작성 폼에서 이미지 선택 시 summernote에 이미지 뜨도록 하는 메소드 -> temptasty에서 조회
 	@RequestMapping(value="/tastyUpload", method=RequestMethod.GET)
 	public void getFiles(TastyFile tastyfile, HttpServletRequest req, HttpServletResponse resp) {
 	
