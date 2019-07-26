@@ -10,6 +10,17 @@
  	text-align: center;
  }
  
+ /* 제목 길어지면 길이 컷트되는 스타일 코드 */
+ #used-view-ttitle {
+ 	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+ }
+ 
+ tr th {
+  text-align: center;
+ }
+ 
 </style>
 
 <div class="ed board-header padding-horizontal-small@margin-bottom-small">
@@ -30,8 +41,8 @@
 <table class="table table-striped table-hover table-condensed">
 	
 	<tr>
-		<th style="width: 7%">글번호</th>
-		<th style="width: 8%">태그</th>
+		<th style="width: 7%;">글번호</th>
+		<th style="width: 8%;">태그</th>
 		<th style="width: 15%">작성자</th>
 		<th style="width: 35%">제목</th>
 		<th style="width: 12%">가격</th>
@@ -45,7 +56,7 @@
 		<td>${i.boardno }</td>
 		<td>${i.tag }</td>
 		<td>${i.writer }</td>
-		<td><a href="/used/view?boardno=${i.boardno }">${i.title }</a></td>
+		<td id="used-view-ttitle"><a href="/used/view?boardno=${i.boardno }">${i.title }</a></td>
 		<td><fmt:formatNumber value="${i.price }" 
 		    pattern="###,###.###"/></td>
 		<td>${i.hit }</td>

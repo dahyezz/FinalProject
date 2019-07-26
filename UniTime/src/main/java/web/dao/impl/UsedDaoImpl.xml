@@ -114,6 +114,16 @@
 		WHERE
 			boardno=#{boardno }
 	</update>
-
+	<update id="updateImgno" parameterType="Map">
+		UPDATE 
+		    USEDIMG_KG
+		SET
+		    boardno = #{boardno}
+		WHERE
+			usedimgno IN
+			<foreach collection="images" separator="," open="(" close=")" item="val">
+			${val}
+			</foreach>
+	</update>
 
 </mapper>

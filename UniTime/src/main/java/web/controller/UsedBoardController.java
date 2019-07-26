@@ -102,7 +102,8 @@ public class UsedBoardController {
 			method=RequestMethod.POST)
 	public String writingProc(
 			HttpSession session,
-			UsedBoard usedBoard
+			UsedBoard usedBoard,
+			String images
 			) {
 		
 		logger.info("작성된 게시글 처리 중");
@@ -111,41 +112,15 @@ public class UsedBoardController {
 		usedBoard.setWriter((String)session.getAttribute("nick"));
 		
 		// 게시글 작성, 첨부파일 저장
-		usedService.write(usedBoard);
+		usedService.write(usedBoard,images);
 		
 		return "redirect:/used/list";
 	}
 
+	
 	/**
 	 *  이미지 저장 컨트롤러 
 	 */
-	@RequestMapping(value="/used/productImage", method=RequestMethod.POST)
-	public void productImage(
-			UsedBoard usedboard,
-			@RequestParam("img") MultipartFile fileupload,
-			HttpServletResponse resp,
-			HttpServletRequest req
-			) {
-		
-		logger.info(usedboard.toString());
-		logger.info("파일 : " + fileupload.getOriginalFilename());
-		logger.info(context.getRealPath("usedUpload"));
-		
-		
-		//첨부파일 저장
-		UsedImage usedImage = usedService.uploadFile(usedboard, fileupload, context);
-		logger.info(usedboard.toString());
-		logger.info(usedImage.toString());
-	
-		
-		try {
-			resp.getWriter().append("{\"usedimgno\":"+usedImage.getUsedImgNo()+", \"boardno\":"+usedImage.getBoardno()+"}");
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
 
 	@RequestMapping(value="/usedUpload", method=RequestMethod.GET)
 	public void getFiles(
@@ -176,14 +151,11 @@ public class UsedBoardController {
 		
 		//UTF-8 인코딩 오류 수정 (한글만 바꿔야 하는데 특수기호까지 바꿔서 문제가 생기는것)
 		filename = filename.replace("+", "%20"); //띄어쓰기
-		
 		filename = filename.replace("%5B", "["); 
 		filename = filename.replace("%5D", "]");
-		
 		filename = filename.replace("%21", "!"); 
 		filename = filename.replace("%23", "#"); 
 		filename = filename.replace("%24", "$"); 
-		
 		
 		File origin = new File(context.getRealPath("usedUpload"), usedImg.getStoredName());
 		FileInputStream fis = null;
@@ -205,6 +177,38 @@ public class UsedBoardController {
 			e.printStackTrace();
 		}
 
+	}
+	
+	
+	/**
+	 *  이미지 불러오기 컨트롤러 
+	 */
+	@RequestMapping(value="/used/productImage", method=RequestMethod.POST)
+	public void productImage(
+			UsedBoard usedboard,
+			@RequestParam("img") MultipartFile fileupload,
+			HttpServletResponse resp,
+			HttpServletRequest req
+			) {
+		
+		logger.info(usedboard.toString());
+		logger.info("파일 : " + fileupload.getOriginalFilename());
+		logger.info(context.getRealPath("usedUpload"));
+		
+		
+		//첨부파일 저장
+		UsedImage usedImage = usedService.uploadFile(usedboard, fileupload, context);
+		logger.info(usedboard.toString());
+		logger.info(usedImage.toString());
+	
+		
+		try {
+			resp.getWriter().append("{\"usedimgno\":"+usedImage.getUsedImgNo()+", \"boardno\":"+usedImage.getBoardno()+"}");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

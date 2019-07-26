@@ -42,7 +42,7 @@ public interface UsedService {
 	 * @return usedBoard : 반환할 게시글 
 	 */
 	public void write(
-			UsedBoard usedboard
+			UsedBoard usedboard,String images
 		);
 	
 	/**

@@ -32,7 +32,8 @@ $(document).ready(function() {
 
 
 <script type="text/javascript">
-
+var images = "";
+var isfirst = true;
 $(document).ready(function() {
 		
 	$('#summernote').summernote({
@@ -115,7 +116,15 @@ function sendFile(file, el){
 			console.log(data);
 			console.log(data.usedimgno)
 			console.log(data.boardno)
-
+			if(isfirst){
+				images = images+data.usedimgno;
+				document.getElementById("images").value = images;
+				isfirst = false;
+			}else{
+				images = images + "," + data.usedimgno;	
+				document.getElementById("images").value = images;
+			}
+			
 			$(el).summernote('editor.insertImage', "/usedUpload?usedImgNo="+data.usedimgno);
 		}
 		, error: function(jqXHR, textStatus, errorThrown) {
@@ -123,11 +132,14 @@ function sendFile(file, el){
 		} 
 	});
 }
+function testing(){
+	console.log(document.getElementById("images").value);
+}
 </script>
 
 
 
-<input type="hidden" name="boardno" value="0" />
+
 
 <div class="ed board-header padding-horizontal-small@margin-bottom-small">
 	<h2>중고장터에서 거래하기</h2>
@@ -136,7 +148,7 @@ function sendFile(file, el){
 
 <div class="usedView">
 <form action="/used/write" method="post" name="writeForm" id="used-write" enctype="multipart/form-data">
-
+<input type="hidden" id="images" name="images" value="">
 <div class="input-group">
 	
 	<span class="input-group-addon" id="input-group-addon1">
@@ -179,7 +191,7 @@ function sendFile(file, el){
 	    <button type="submit" id="btnWrite" class="btn btn-info">작성</button>
 	    <button type="button" id="btnCancel" class="btn btn-info">취소</button>
 	</div>
-	
+	<button onclick="testing();">test</button>
 
 </form>
 </div>
