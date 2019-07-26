@@ -42,13 +42,20 @@ public interface UsedService {
 	 * @return usedBoard : 반환할 게시글 
 	 */
 	public void write(
-			UsedBoard usedboard,
-			MultipartFile img,
+			UsedBoard usedboard
+		);
+	
+	/**
+	 *  게시글 속 이미지 저장하기 
+	 */
+	public UsedImage uploadFile(
+			UsedBoard usedboard, 
+			MultipartFile fileupload,
 			ServletContext context
 		);
 	
 	/**
-	 *  게시글 불러오기 
+	 *  게시글 조회하기 
 	 *  
 	 *  @param usedBoard : 조회할 게시글의 게시글번호 
 	 *  @return UsedBoard : 조회된 게시글 객체 
@@ -58,21 +65,27 @@ public interface UsedService {
 		);
 	
 	/**
-	 *  게시글 번호로 첨부파일 조회 
-	 *  
-	 *  @param boardno : 게시글 번호
-	 *  @return UsedFile : 조회된 파일 정보
+	 *  게시글 이미지 가져오기 
 	 */
-	public UsedImage viewImg(int boardno);
+	public UsedImage getImg(UsedImage usedimg);
 	
-	
-	/**
-	 *  파일번호로 파일정보를 조회한다 
-	 *  
-	 *  @param fileno : 조회대상 파일번호 
-	 *  @return UsedFile : 조회된 파일의 정보
-	 */
-	public UsedImage getImg(int usedImgNo);
+
+//	/**
+//	 *  게시글 번호로 첨부파일 조회 
+//	 *  
+//	 *  @param boardno : 게시글 번호
+//	 *  @return UsedFile : 조회된 파일 정보
+//	 */
+//	public UsedImage viewImg(int boardno);
+//	
+//	
+//	/**
+//	 *  파일번호로 파일정보를 조회한다 
+//	 *  
+//	 *  @param fileno : 조회대상 파일번호 
+//	 *  @return UsedFile : 조회된 파일의 정보
+//	 */
+//	public UsedImage getImg(UsedImage usedImg);
 	
 	
 	/**

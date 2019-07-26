@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +23,10 @@ import web.util.Paging;
 public class UsedServiceImpl implements UsedService {
 	
 	@Autowired UsedDao usedDao;
+	
+	// 테스트 코드 위한 Logger 객체 생성 
+	private static final Logger logger
+	= LoggerFactory.getLogger(UsedServiceImpl.class);
 	
 	// Paging 
 	@Override
@@ -41,21 +47,10 @@ public class UsedServiceImpl implements UsedService {
 	}
 	
 	
-	// 게시글 상세보기 ('used/view')
-	@Override
-	public UsedBoard view(int boardno) {
-		usedDao.updateHit(boardno);
-		
-		return usedDao.selectBoardByBoardno(boardno);
-	}
-	
-	
 	// 게시글 작성하기 ('used/write')
 	@Override
 	public void write(
-			UsedBoard usedboard,
-			MultipartFile img,
-			ServletContext context
+			UsedBoard usedboard
 		) {
 		
 		
@@ -74,8 +69,28 @@ public class UsedServiceImpl implements UsedService {
 			}
 			
 			usedDao.write(usedboard);
+			
 		}
 		
+	}
+
+//	@Override
+//	public UsedImage viewImg(int boardno) {
+//		return usedDao.selectImgByBoardno(boardno);
+//	}
+//
+//	@Override
+//	public UsedImage getImg(int usedImgNo) {
+//		return usedDao.selectImgByImgno(usedImgNo);
+//	}
+
+
+	@Override
+	public UsedImage uploadFile(
+			UsedBoard usedboard, 
+			MultipartFile img, 
+			ServletContext context
+		) {
 
 		// 파일이 저장될 경로
 		String storedPath = context.getRealPath("usedUpload");
@@ -95,8 +110,6 @@ public class UsedServiceImpl implements UsedService {
 		// 저장될 파일 객체 
 		File dest = new File(storedPath, filename);
 		
-		
-		// 파일 저장
 		try {
 			img.transferTo(dest);
 		} catch(IllegalStateException e) {
@@ -110,34 +123,38 @@ public class UsedServiceImpl implements UsedService {
 		UsedImage usedImg = new UsedImage();
 		
 		usedImg.setOriginName(img.getOriginalFilename());
-		
 		usedImg.setStoredName(filename);
 		usedImg.setImgSize((int)img.getSize());
 		
-		// img업로드(db 삽입)
-		if((usedImg.getOriginName()!=null)
-			&& !"".equals(usedImg.getOriginName())) {
-				usedImg.setBoardno(boardno);
-				usedDao.insertImg(usedImg);
-		}
 		
+		logger.info("*********************************");
+		logger.info(usedImg.toString());
+		
+		usedDao.insertImg(usedImg);
+	
+
+		return usedImg;
 	}
+	
+	
+	// 게시글 상세보기 ('used/view')
+	@Override
+	public UsedBoard view(int boardno) {
+		usedDao.updateHit(boardno);
+		
+		return usedDao.selectBoardByBoardno(boardno);
+	}
+	
 
 	@Override
-	public UsedImage viewImg(int boardno) {
-		return usedDao.selectImgByBoardno(boardno);
+	public UsedImage getImg(UsedImage usedimg) {
+		return usedDao.selectImgByImgno(usedimg.getUsedImgNo());
 	}
-
-	@Override
-	public UsedImage getImg(int usedImgNo) {
-		return usedDao.selectImgByImgno(usedImgNo);
-	}
-
+	
+	
 	@Override
 	public void update(UsedBoard usedboard) {
-		
 		// 게시글 수정
 		usedDao.update(usedboard);
-		
 	}
 }

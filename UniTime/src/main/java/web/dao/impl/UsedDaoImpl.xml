@@ -58,6 +58,12 @@
 	
 	<insert id="write"
 	    parameterType="web.dto.UsedBoard">
+	    
+	    <selectKey order="BEFORE" resultType="int"
+			keyProperty="boardno">
+				SELECT usedBoard_KG_SEQ.nextval FROM dual
+		</selectKey>
+	    
 	    INSERT INTO UsedBoard_KG(
 	        boardno, tag, title,
 	        product, content, writer,
@@ -70,9 +76,15 @@
 	
 	<insert id="insertImg"
 		parameterType="web.dto.UsedImage">
-		INSERT INTO UsedImg_KG(usedimgno, boardno,
+		
+		<selectKey order="BEFORE" resultType="int"
+			keyProperty="usedImgNo">
+				SELECT usedImg_KG_SEQ.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO UsedImg_KG(usedimgno,
 			originname, storedname)
-		VALUES(usedimg_kg_seq.nextval, #{boardno },
+		VALUES(#{usedImgNo },
 			#{originName }, #{storedName })
 	</insert>
 	
