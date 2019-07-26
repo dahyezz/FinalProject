@@ -49,6 +49,8 @@ public class FreeBoardController {
 		
 		//MODEL로 paging 객체 넣기
 		model.addAttribute("paging", paging);
+		model.addAttribute("searchType", paging.getSearchType());
+		model.addAttribute("keyword",paging.getKeyword());
 		
 		//FreeBoard 테이블 전체 조회 결과 얻기
 		List list=freeBoardService.list(paging);

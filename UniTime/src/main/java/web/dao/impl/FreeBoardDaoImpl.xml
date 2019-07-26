@@ -10,9 +10,18 @@
 	<select id="selectAll" parameterType="web.util.Paging" resultType="web.dto.FreeBoard">
 		SELECT * FROM (
 		    SELECT rownum rnum, B.* FROM (
-		        SELECT boardno, tag, title, writer, hit, writtendate FROM freeboard_kg
+		        SELECT boardno, tag, title, content, writer, hit, writtendate FROM freeboard_kg
 		        <if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
-			        WHERE ${searchType } LIKE '%' || ${keyword } || '%'
+		        	<choose>
+		        		<when test="searchType == 'total'">
+		        			WHERE title LIKE '%' || '${keyword }' || '%'
+		        			OR content LIKE '%' || '${keyword }' || '%'
+		        			OR writer LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        		<when test="searchType != 'total'">
+		        			WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        	</choose>
 		        </if>
 		        ORDER BY boardno DESC ) B
 		    ORDER BY rnum ) RB
@@ -22,7 +31,16 @@
 	<select id="selectCntAll" parameterType="web.util.Paging" resultType="int">
 		SELECT count(*) FROM freeboard_kg
 		<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
-			WHERE ${searchType } LIKE '%' || ${keyword } || '%'
+			<choose>
+				<when test="searchType == 'total'">
+					WHERE title LIKE '%' || '${keyword }' || '%'
+		        	OR content LIKE '%' || '${keyword }' || '%'
+		        	OR writer LIKE '%' || '${keyword }' || '%'
+		        </when>
+		        <when test="searchType != 'total'">
+		        	WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
+		        </when>
+			</choose>
 		</if>
 	</select>
 	

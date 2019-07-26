@@ -53,10 +53,10 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		//전체/검색된 게시글 수
 		int totalCount=freeBoardDao.selectCntAll(paging);
 		
-		//페이징 객체 생성
+		//새로운 메소드의 페이징 객체 생성
 		paging=new Paging(totalCount,curPage);
-//		paging.setSearchType(searchType);
-//		paging.setKeyword(keyword);
+		paging.setSearchType(searchType);
+		paging.setKeyword(keyword);
 		
 		return paging;
 	}

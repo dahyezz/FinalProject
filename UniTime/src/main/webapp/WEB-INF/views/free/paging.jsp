@@ -22,25 +22,34 @@
 
 		<c:if test="${paging.curPage ne 1 }">
 		<li>
-			<a href="/free/list?curPage=${paging.curPage-1 }"><span>&laquo;</span></a>
+			<a href="/free/list?curPage=${paging.curPage-1 }&searchType=${searchType }&keyword=${keyword }"><span>&laquo;</span></a>
 	    </li>
 	    </c:if>
 
 		<!-- 페이징 리스트 -->
 		<c:forEach
-	     begin="${paging.startPage }" end="${paging.endPage }"
-	     var="i">
+	     begin="${paging.startPage }" end="${paging.endPage }" var="i">
 	
 			<!-- 현재 보고 있는 페이지번호만 강조해주기 -->
 			<c:if test="${paging.curPage eq i}">
 			<li class="active">
-				<a href="/free/list?curPage=${i }">${i }</a>
+				<c:if test="${searchType eq null and keyword eq null }">
+					<a href="/free/list?curPage=${i }">${i }</a>
+				</c:if>
+				<c:if test="${searchType ne null and keyword ne null }">
+					<a href="/free/list?curPage=${i }&searchType=${searchType }&keyword=${keyword }">${i }</a>
+				</c:if>
 			</li>
 			</c:if>
 		
 			<c:if test="${paging.curPage ne i}">
 			<li>
-				<a href="/free/list?curPage=${i }">${i }</a>
+				<c:if test="${searchType eq null and keyword eq null }">
+					<a href="/free/list?curPage=${i }">${i }</a>
+				</c:if>
+				<c:if test="${searchType ne null and keyword ne null }">
+					<a href="/free/list?curPage=${i }&searchType=${searchType }&keyword=${keyword }">${i }</a>
+				</c:if>
 			</li>
 			</c:if>
 			
@@ -55,7 +64,7 @@
 
 		<c:if test="${paging.curPage ne paging.totalPage }">
 		<li>
-			<a href="/free/list?curPage=${paging.curPage+1 }">
+			<a href="/free/list?curPage=${paging.curPage+1 }&searchType=${searchType }&keyword=${keyword }">
 			<span>&raquo;</span>
 		</a>
 		</li>
