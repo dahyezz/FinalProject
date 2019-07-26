@@ -37,11 +37,15 @@ $(document).ready(function() {
 		],
 		callbacks: {
 			onImageUpload: function(files, editor){
-// 				sendFile(files[0], this);
-				for(var i=files.length-1; i>=0; i--) {
-					sendFile(files[i], this);
-				}
-			}
+				sendFile(files[0], this);
+// 				for(var i=files.length-1; i>=0; i--) {
+// 					sendFile(files[i], this);
+// 				}
+			},
+			onMediaDelete : function(files) {
+	                alert("delete") 
+	                deleteFile(files[0]);
+	        }
 		}
 		
 	});
@@ -75,10 +79,6 @@ $(document).ready(function() {
 			return false;
 		}
 		
-		
-// 		var content = writeForm.content.value;
-// 		console.log(content);
-		
 		$(this).append($("<input>").attr("type", "hidden").attr("name", "boardno").val(${board.boardno }));
 		var code = $('#summernote').summernote('code');
 	    $('textarea[name="content"]').val(code);
@@ -88,6 +88,8 @@ $(document).ready(function() {
 	
 	
 });
+
+var newfileno;
 
 function sendFile(file, el){
 	//파일 전송을 위한 폼 데이터 생성
@@ -106,18 +108,21 @@ function sendFile(file, el){
 		, enctype: "multipart/form-data"
 		, processData: false
 		, success: function(data) {
-			console.log("성공");
-			console.log(data);
-			console.log(data.fileno)
-			console.log(data.boardno)
+			newfileno = data.fileno
 
-			$(el).summernote('editor.insertImage', "/tastyUpload?fileno="+data.fileno);
+			$(el).summernote('editor.insertImage', "/tastyImage?fileno="+data.fileno);
 			$('#boardno').val(data.boardno);
 		}
 		, error: function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus+"  "+errorThrown)
 		} 
 	});
+}
+
+function deleteFile(file){
+	
+	console.log(newfileno);
+	console.log($(this))
 }
 
 // -------------- 별점 관련 ----------------------------------
@@ -167,7 +172,7 @@ function lock(star){
 </script>
 
 <style type="text/css">
-img{
+#starRank img{
 	width: 30px;
 }
 </style>
@@ -191,7 +196,7 @@ img{
 		</select>
 
 <!-- 		<div id="rating"> -->
-			<span>
+			<span id="starRank">
 				<img id="image1" onmouseover="show(1)" onclick="mark(1)" onmouseout="noshow(1)" src="/image/star0.PNG" >
 				<img id="image2" onmouseover="show(2)" onclick="mark(2)" onmouseout="noshow(2)" src="/image/star0.PNG" >
 				<img id="image3" onmouseover="show(3)" onclick="mark(3)" onmouseout="noshow(3)" src="/image/star0.PNG" >
