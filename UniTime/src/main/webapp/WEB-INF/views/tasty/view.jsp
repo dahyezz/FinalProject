@@ -52,8 +52,16 @@ $(document).ready(function() {
 		});
 
 	});
-
 	
+	if(${isDeclare}){
+		$('#btnDeclare').html('신고취소');
+// 		$('#commentno'+commentno).html('관리자에 의해 규제된 댓글입니다.')
+	} else {
+		$('#btnDeclare').html('신고');
+// 		$('#cmtDeclare').html('신고취소');
+	}
+	
+
 });
 
 var updateCount=0;
@@ -156,8 +164,9 @@ function enter_check(){
 function declare(boardno, commentno){
 
 	var boardname="tasty";
-	var nick=document.getElementById('writer').value
-// 	console.log(nick);
+	
+	// 신고자정보
+	var nick=document.getElementById('writer').value;
 	
 	$.ajax({
 		type: "post"
@@ -170,7 +179,27 @@ function declare(boardno, commentno){
 			nickname: nick
 		}
 		, success: function(data){
-			alert("신고완료");
+			console.log(data.commentno)
+			if(data.commentno==0){
+				if(data.success){
+					$('#btnDeclare').html('신고취소');
+				} else {
+					$('#btnDeclare').html('신고');
+				}
+			}
+			else {
+				console.log("--")
+				if(data.success){
+// 					$('#cmtDeclare'+data.commentno).html('신고취소');
+					$('#commentno'+data.commentno).html('관리자에 의해 규제된 댓글입니다.')
+				} else {
+					$('#cmtDeclare'+data.commentno).html('신고');
+				}
+				
+			}
+			
+			
+			
 		}
 		, error: function() {
 			console.log("error")
@@ -184,8 +213,10 @@ function declare(boardno, commentno){
 	<h3>테이스티로드</h3>
 </div>
 
-
-<a href="javascript:void(0)" onclick="declare('${board.boardno }')" style="float: right;">신고</a>
+<c:if test="${nick ne board.writer }">
+<%-- 	<button id="btnDeclare" class="btn pull-right" onclick="declare('${board.boardno }')">신고</button> --%>
+	<a href="javascript:void(0)" onclick="declare('${board.boardno }')" style="float: right;" id="btnDeclare">신고</a>
+</c:if>
 
 <table class="table table-bordered" style="text-align: center;">
 	<tr>

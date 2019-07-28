@@ -136,6 +136,21 @@ public interface TastyBoardDao {
 
 	public void deleteFileByfileno(TastyFile file);
 
+	/**
+	 * 신고한 적이 있는지 체크
+	 * 
+	 * @param badReport
+	 * @return true - 신고했음, false - 신고 안했음
+	 */
+	public int selectCntBadReport(BadReport badReport);
+
+	/**
+	 * 신고 취소
+	 * 
+	 * @param badReport
+	 */
+	public void deleteBadByBoard(BadReport badReport);
+
 
 
 

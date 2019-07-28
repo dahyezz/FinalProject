@@ -55,7 +55,7 @@ public class TastyBoardController {
 	}
 	
 	@RequestMapping(value="/tasty/view", method=RequestMethod.GET)
-	public void view(TastyBoard tastyBoard, Model model) {
+	public void view(TastyBoard tastyBoard, BadReport badReport, Model model, HttpSession session) {
 		
 		logger.info(tastyBoard.toString());
 		
@@ -64,6 +64,15 @@ public class TastyBoardController {
 		
 		model.addAttribute("board", tastyBoard);
 		model.addAttribute("commentList", commentList);
+		
+		badReport.setBoardname("tasty");
+		badReport.setNickname(session.getAttribute("nick").toString());
+		logger.info(badReport.toString());
+
+		//신고가 되었는지 체크
+		boolean isDeclare = tastyBoardService.checkReclare(badReport);
+		System.out.println(isDeclare);
+		model.addAttribute("isDeclare", isDeclare);
 	}
 	
 	@RequestMapping(value="/tasty/write", method=RequestMethod.GET)
@@ -240,12 +249,11 @@ public class TastyBoardController {
 	public void declare(BadReport badReport, HttpServletResponse response) {
 		logger.info(badReport.toString());
 		
-		tastyBoardService.declareBoard(badReport);
+		boolean success = tastyBoardService.declareBoard(badReport);
 		
-		boolean success = true;
 		
 		try {
-			response.getWriter().append("{\"success\":"+success+"}");
+			response.getWriter().append("{\"success\":"+success+", \"commentno\":"+badReport.getCommentno()+"}");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

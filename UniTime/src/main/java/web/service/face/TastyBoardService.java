@@ -113,8 +113,9 @@ public interface TastyBoardService {
 	 * 게시글 신고
 	 * 
 	 * @param badReport - 게시글 번호,작성자 이름
+	 * @return  ture- 신고완료, false-신고취소
 	 */
-	public void declareBoard(BadReport badReport);
+	public boolean declareBoard(BadReport badReport);
 
 	/**
 	 * 게시글 수정할 때 사진 지우면 DB에서 삭제되도록 함
@@ -122,5 +123,13 @@ public interface TastyBoardService {
 	 * @param file
 	 */
 	public void deleteImage(TastyFile file);
+
+	/**
+	 * 신고된적이 있는지 체크
+	 * 
+	 * @param badReport 
+	 * @return
+	 */
+	public boolean checkReclare(BadReport badReport);
 
 }
