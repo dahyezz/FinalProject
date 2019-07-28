@@ -115,6 +115,39 @@ public class UsedBoardController {
 		
 		return "redirect:/used/list";
 	}
+	
+	
+	/**
+	 *  이미지 저장하기 컨트롤러 
+	 */
+	@RequestMapping(value="/used/productImage", method=RequestMethod.POST)
+	public void productImage(
+			UsedBoard usedboard,
+			@RequestParam("img") MultipartFile fileupload,
+			HttpServletResponse resp
+			) {
+		
+		logger.info(usedboard.toString());
+		logger.info("파일 : " + fileupload.getOriginalFilename());
+		logger.info(context.getRealPath("usedUpload"));
+		
+		
+		
+		//첨부파일 저장
+		UsedImage usedImage = usedService.uploadFile(usedboard, fileupload, context);
+		logger.info(usedboard.toString());
+		logger.info(usedImage.toString());
+	
+		
+		
+		try {
+			resp.getWriter().append("{\"usedimgno\":"+usedImage.getUsedImgNo()+", \"boardno\":"+usedImage.getBoardno()+"}");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	
 	/**
@@ -177,37 +210,6 @@ public class UsedBoardController {
 
 	}
 	
-	
-	/**
-	 *  이미지 저장하기 컨트롤러 
-	 */
-	@RequestMapping(value="/used/productImage", method=RequestMethod.POST)
-	public void productImage(
-			UsedBoard usedboard,
-			@RequestParam("img") MultipartFile fileupload,
-			HttpServletResponse resp
-			) {
-		
-		logger.info(usedboard.toString());
-		logger.info("파일 : " + fileupload.getOriginalFilename());
-		logger.info(context.getRealPath("usedUpload"));
-		
-		
-		
-		//첨부파일 저장
-		UsedImage usedImage = usedService.uploadFile(usedboard, fileupload, context);
-		logger.info(usedboard.toString());
-		logger.info(usedImage.toString());
-	
-		
-		try {
-			resp.getWriter().append("{\"usedimgno\":"+usedImage.getUsedImgNo()+", \"boardno\":"+usedImage.getBoardno()+"}");
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
 	
 	
 	/**

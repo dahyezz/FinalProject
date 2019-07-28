@@ -117,46 +117,56 @@ function sendFile(file, el){
 	<h2>게시글 수정하기</h2>
 </div>
 
+<hr>
 
-<div class="usedView">
-<form action="/used/write" method="post" name="writeForm" id="used-write" enctype="multipart/form-data">
+<div class="usedUpdate">
+<form action="/used/update" method="post" name="writeForm" id="used-write" enctype="multipart/form-data" >
+<input type="hidden" id="images" name="images" value="${usedboard.boardno }">
 
-<div class="input-group">
-	
-	<table class="table table-striped table-hover table-condensed" >
-	<tr>
-		<th>작성자</th>
-		<td>${usedboard.writer }</td>
-	</tr>
-	
-	<tr>
-		<th>태그</th>
-		<td colspan="3">
-			<select name="tag">
-				<c:if test="${usedboard.tag eq 'BUY' }">
-					<option value="BUY" selected>BUY</option>
-					<option value="SELL" disabled>SELL</option>
-				</c:if>
-				<c:if test="${usedboard.tag eq 'SELL' }">
-					<option value="BUY" disabled>BUY</option>
-					<option value="SELL" selected>SELL</option>
-				</c:if>
-			</select>
-		</td>
-	</tr>
-	
-	<span class="input-group-addon" id="input-group-addon1">
-		태그
-	</span>
-	<select id="tag" name="tag" class="selectpicker" 
-		style="width:30px">
+<div class="container">
+	<select id="tag" name="tag" class="selectpicker"
+		style="width:100%">
 		<option value="BUY">BUY</option>
 		<option value="SELL">SELL</option>
 	</select>
+</div>
+
+<div class="input-group">
+	<span class="input-group-addon">
+		제목
+	</span>
+	<input type="text" class="form-control" name="title"
+		style="width:100%" value="${usedboard.title }"/>
+</div>
+
+<div class="input-group">		
+	<span class="input-group-addon" id="input-group-addon1">
+		제품명
+	</span>
+	<input type="text" class="form-control" name="product" style="width:100%" value="${usedboard.product }"/>
+	
+	<span class="input-group-addon" id="input-group-addon1">
+		가격
+	</span>
+	<input type="text" class="form-control" name="price"
+		style="width:100%" value="${usedboard.price }"/>
+</div>
+
+<div>
+	<input type="hidden" name="writer" value="${nick }" />
+	<textarea name="content" id="content" 
+		style="display: none; text-align: left;">
+		${usedboard.content }
+			
+	</textarea>
+	<div id="summernote"></div>
+</div>
 	
 	
-	
-	</table>
-	
-	</form>
+	<div id="text-center">
+	    <button type="submit" id="btnWrite" class="btn btn-info">작성</button>
+	    <button type="button" id="btnCancel" class="btn btn-info">취소</button>
+	</div>
+
+</form>
 </div>
