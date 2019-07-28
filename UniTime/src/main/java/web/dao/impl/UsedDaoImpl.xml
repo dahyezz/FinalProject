@@ -114,6 +114,7 @@
 		WHERE
 			boardno=#{boardno }
 	</update>
+	
 	<update id="updateImgno" parameterType="Map">
 		UPDATE 
 		    USEDIMG_KG
@@ -125,5 +126,15 @@
 			${val}
 			</foreach>
 	</update>
-
+	
+	<delete id="deleteBoardByBoardno" 
+		parameterType="web.dto.UsedBoard">
+		DELETE 
+		
+		FROM
+			usedboard_kg
+		WHERE
+			boardno = #{boardno }
+	</delete>
+	
 </mapper>

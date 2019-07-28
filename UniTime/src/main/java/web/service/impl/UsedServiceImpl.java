@@ -167,4 +167,12 @@ public class UsedServiceImpl implements UsedService {
 		// 게시글 수정
 		usedDao.update(usedboard);
 	}
+	
+
+	@Override
+	public void delete(UsedBoard usedboard) {
+		// 게시글 삭제 
+		usedDao.deleteBoardByBoardno(usedboard);
+		
+	}
 }

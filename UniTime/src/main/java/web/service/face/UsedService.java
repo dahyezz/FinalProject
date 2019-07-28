@@ -12,6 +12,7 @@ import web.util.Paging;
 
 public interface UsedService {
 
+	
 	/**
 	 *  현재 페이지와 총 게시글 수
 	 *  listCount로 Paging 객체 생성
@@ -22,6 +23,7 @@ public interface UsedService {
 	public Paging getPage(
 			int curPage
 		);
+	
 	
 	/**
 	 *  전체 게시글 목록 불러오기 
@@ -44,6 +46,7 @@ public interface UsedService {
 			UsedBoard usedboard,String images
 		);
 	
+	
 	/**
 	 *  게시글 속 이미지 저장하기 
 	 */
@@ -52,6 +55,7 @@ public interface UsedService {
 			MultipartFile fileupload,
 			ServletContext context
 		);
+	
 	
 	/**
 	 *  게시글 조회하기 
@@ -63,28 +67,11 @@ public interface UsedService {
 			int boardno
 		);
 	
+	
 	/**
 	 *  게시글 이미지 가져오기 
 	 */
 	public UsedImage getImg(UsedImage usedimg);
-	
-
-//	/**
-//	 *  게시글 번호로 첨부파일 조회 
-//	 *  
-//	 *  @param boardno : 게시글 번호
-//	 *  @return UsedFile : 조회된 파일 정보
-//	 */
-//	public UsedImage viewImg(int boardno);
-//	
-//	
-//	/**
-//	 *  파일번호로 파일정보를 조회한다 
-//	 *  
-//	 *  @param fileno : 조회대상 파일번호 
-//	 *  @return UsedFile : 조회된 파일의 정보
-//	 */
-//	public UsedImage getImg(UsedImage usedImg);
 	
 	
 	/**
@@ -92,5 +79,12 @@ public interface UsedService {
 	 *  @param UsedBoard
 	 */
 	public void update(UsedBoard usedboard);
+	
+	
+	/**
+	 *  게시글을 삭제한다.
+	 *  @param UsedBoard
+	 */
+	public void delete(UsedBoard usedboard);
 	
 }

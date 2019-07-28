@@ -241,13 +241,13 @@ public class UsedBoardController {
 		return "redirect:/used/view?boardno="+usedboard.getBoardno();
 	}
 	
-//	@RequestMapping(value="/used/delete",
-//			method=RequestMethod.GET)
-//	public String delete(UsedBoard usedboard) {
-//		usedService.delete(usedboard.getBoardno());
-//		
-//		return "redirect:/used/list";
-//	}
+	@RequestMapping(value="/used/delete",
+			method=RequestMethod.GET)
+	public String delete(UsedBoard usedboard) {
+		usedService.delete(usedboard);
+		
+		return "redirect:/used/list";
+	}
 	
 	
 }
