@@ -130,7 +130,13 @@
 		WHERE badno IN
 		<foreach collection="badno" item="e" open="(" close=")" separator=",">#{e}</foreach>
 	</delete>
-
+	
+	<!-- 여기부터 사이트 관리 페이지 -->
+	<insert id="visitInsert" parameterType="int">
+		INSERT INTO visit
+		VALUES (#{hakbun }, sysdate)
+	</insert>
+	
 
 
 

@@ -88,9 +88,12 @@ public interface AdminService {
 	public void badReportDelete(int[] badno);
 	
 	
+	// 여기부터 사이트 관리 페이지
+	public int memberCntAll();
 	
+	public int blackListCntAll();
 	
-	
+	public void visitInsert(int hakbun);
 	
 	
 
