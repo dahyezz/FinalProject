@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.TempTable;
 import web.service.face.TimeTableService;
@@ -89,6 +90,8 @@ public class TimeTableController {
 		List mylist = timeTableService.myList(id);
 		model.addAttribute("myList", mylist);
 		
+		
+		
 	}
 	
 	@RequestMapping(value="/timetable/recommend", method=RequestMethod.POST)
@@ -109,7 +112,7 @@ public class TimeTableController {
 	}
 	
 	
-	@RequestMapping(value="/timetable/recommendlist", method=RequestMethod.GET)
+	@RequestMapping(value="/timetable/ajax/recommendlist", method=RequestMethod.GET)
 	public void recommendList(Model model, HttpSession session, HttpServletRequest req
 			, @RequestParam("timepriority") String timepriority
 			, @RequestParam("classNum") int classNum

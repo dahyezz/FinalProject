@@ -1,14 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        
+<style type="text/css">
+h1{
+background-color:#ffc952;
+}
+</style>
+
+<div class="container">
+
 <hr>
-<h1>시간표 추천 페이지</h1>
+<h1> ${email }님의 시간표 추천 </h1>
 <hr>
+
+<div style="width:50%; float:left;padding:10px;">
 <h3>내 시간표</h3>
 <br>
-<div class="center">
-<table class="table table-bordered" style="width:500px;height:350px;">
+<table class="table table-bordered" style="width:450px;height:350px;">
  <thead>
     <tr class="text-center">
      <th scope="col" style="width:100px">시간</th>
@@ -337,10 +345,7 @@
  </tr>
  </tbody>
 </table>
-</div>
-<hr>
 <form>
-<div>
 <h5>시간 우선순위 선택</h5>
 <select name="timepriority">
 <option value="am">오전</option>
@@ -365,16 +370,25 @@
 <option value="5">5개</option>
 </select>
 <br>
-</div>
+
 <br>
-<button onclick="location.href='/timetable/recommendlist'">추천 시간표 보기</button>
 
-
+<!-- onclick="location.href='/timetable/recommendlist'" -->
+<button id="ajax" onclick="location.href='/timetable/ajax/recommendlist'">추천 시간표 보기</button>
 </form>
-
 <br><br>
+<!-- <button onclick="location.href='/timetable/lecturelist'">강의 목록으로</button> -->
+</div>
 
-<button onclick="location.href='/timetable/lecturelist'">강의 목록으로</button>
-<c:import url="/timetable/recommendlist"></c:import>
+<div style="width:50%;float:right;padding:10px;">
+<c:import url="/timetable/ajax/recommendlist"></c:import>
+</div>
 
+<!-- <div style="width:50%;float:right;"> -->
+<!-- <br> -->
+<!-- <button onclick="location.href='/timetable/recommend'">내 시간표 보기</button> -->
+<!-- <br><br> -->
+<!-- <button onclick="location.href='/timetable/lecturelist'">강의 목록으로</button> -->
+<!-- </div> -->
+</div>
 <br><br><br><br><br><br><br><br>
