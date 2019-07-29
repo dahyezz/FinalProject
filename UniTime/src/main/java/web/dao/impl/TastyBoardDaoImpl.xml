@@ -124,7 +124,7 @@
 	
 	<insert id="insertBadByBoard" parameterType="web.dto.BadReport">
 		INSERT INTO badreport_kg
-		VALUES (badreport_kg_seq.nextval ,#{boardname }, #{boardno }, #{commentno },#{nickname })
+		VALUES (badreport_kg_seq.nextval ,#{boardname }, #{boardno }, #{commentno },#{reason }, #{nickname })
 	</insert>
 	
 	<select id="selectFileByBoardno" parameterType="web.dto.TastyBoard" resultType="web.dto.TastyFile">
@@ -153,4 +153,20 @@
 		WHERE fileno = #{fileno } 
 	</delete>
 
+	<select id="selectCntBadReport" parameterType="web.dto.BadReport" resultType="int">
+		SELECT COUNT(*)
+		FROM badreport_kg
+		WHERE boardname = #{boardname } 
+		AND boardno = #{boardno }
+		AND commentno = #{commentno }
+		AND nickname = #{nickname }
+	</select>
+	
+	<delete id="deleteBadByBoard" parameterType="web.dto.BadReport">
+		DELETE badreport_kg
+		WHERE boardname = #{boardname } 
+		AND boardno = #{boardno }
+		AND commentno = #{commentno }
+		AND nickname = #{nickname }
+	</delete>
 </mapper>

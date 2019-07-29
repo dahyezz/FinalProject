@@ -20,7 +20,7 @@
 		</c:if>
 		
 		<c:if test="${nick ne i.writer }">
-			<a href="javascript:void(0)" onclick="declare('${i.boardno}','${i.commentno }')">신고</a>
+			<a href="javascript:void(0)" onclick="declare('${i.boardno}','${i.commentno }')" id="cmtDeclare${i.commentno }">신고</a>
 		</c:if>
 		
 	</div>

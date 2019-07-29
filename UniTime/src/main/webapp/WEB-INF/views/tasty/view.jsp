@@ -5,6 +5,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <script type="text/javascript">
+// var popupX = (window.screen.width / 2) - (350/2);
+// var popupY = (window.screen.height / 2) - (30/2);
+
 $(document).ready(function() {
 	
 	$('#btnList').click(function() {
@@ -20,18 +23,10 @@ $(document).ready(function() {
 	});
 	
 	$('#cmtWrite').click(function() {
-// 		console.log(${board.boardno })
-// 		console.log($('#content').val())
-// 		console.log($('#writer').val())
-		
 		var boardno = ${board.boardno };
 		var content = $('#content').val();
 		var writer = $('#writer').val();
-		
-		console.log(boardno);
-		console.log(content);
-		console.log(writer);
-		
+
 		$.ajax({
 			type: "post"
 			, url: "/tasty/writeComment"
@@ -52,7 +47,17 @@ $(document).ready(function() {
 		});
 
 	});
-
+	
+	if(${isDeclare}){
+		$('#btnDeclare').html('신고완료');
+		$("#btnDeclare").css({ 'pointer-events': 'none' });
+		
+// 		$('#commentno'+commentno).html('관리자에 의해 규제된 댓글입니다.')
+	} else {
+		$('#btnDeclare').html('신고');
+// 		$('#cmtDeclare').html('신고취소');
+	
+	}
 	
 });
 
@@ -60,12 +65,8 @@ var updateCount=0;
 
 //댓글 수정
 function updateComment(commentno, content){
-
-// 	console.log(commentno);
-// 	console.log(content);
 	
 	var htmls = document.getElementById("commentre"+commentno);
-// 	console.log(htmls);
 	
 	if(updateCount==0){
 		
@@ -85,15 +86,13 @@ function updateComment(commentno, content){
 }
 
 function showList(commentno){
-	console.log("commentno"+commentno);
+// 	console.log("commentno"+commentno);
 	document.getElementById("commentre"+commentno).style.display="none";
 }
 
 function updateProc(commentno){
-	console.log(commentno);
 	
 	var editContent = $('#editContent').val();
-	console.log(editContent);
 	
 	$.ajax({
 		type: "post"
@@ -152,40 +151,88 @@ function enter_check(){
 	}
 }
 
+
 //신고
 function declare(boardno, commentno){
 
-	var boardname="tasty";
-	var nick=document.getElementById('writer').value
-// 	console.log(nick);
+	var myWindow = null;
+	var check = true;
+	var interval = null;
 	
+	myWindow = window.open("http://localhost:8088/tasty/declareReason","신고사유","width=550, height=650, left="+100+", top="+20+", resizable=no");
+
+	interval = window.setInterval(function() {
+		try {
+			if(myWindow == null || myWindow.closed){
+				if(check){
+					check = false;
+					declareProc(boardno, commentno)
+				}
+					
+				if(!check)
+					return;
+			}
+		} catch (e) { }
+	}, 100);
+
+}
+
+function declareProc(boardno, commentno){
+
+	var boardname="tasty";
+	
+	// 신고자정보
+	var nick=document.getElementById('writer').value;
+	var reason = document.getElementById('reason').value;
+
 	$.ajax({
-		type: "post"
+		type: "post"	
 		, url: "/tasty/declare"
 		, dataType: "json"
 		, data: {
 			boardname: boardname,
 			boardno: boardno,
 			commentno: commentno,
+			reason: reason,
 			nickname: nick
 		}
 		, success: function(data){
-			alert("신고완료");
+// 			console.log(data.commentno)
+			if(data.commentno==0){
+				if(data.success){
+					$('#btnDeclare').html('신고완료');
+					$("#btnDeclare").css({ 'pointer-events': 'none' });
+					alert("신고가 완료되었습니다.")
+				} else {
+					$('#btnDeclare').html('신고');
+				}
+			}
+			else {
+				if(data.success){
+					$('#commentno'+data.commentno).html('관리자에 의해 규제된 댓글입니다.')
+				} else {
+					$('#cmtDeclare'+data.commentno).html('신고');
+				}
+				
+			}
 		}
 		, error: function() {
 			console.log("error")
 		}
 	});
-	
 }
 </script>
+
 
 <div class="ed board-header padding-horizontal-small@s margin-bottom-small">
 	<h3>테이스티로드</h3>
 </div>
 
-
-<a href="javascript:void(0)" onclick="declare('${board.boardno }')" style="float: right;">신고</a>
+<c:if test="${nick ne board.writer }">
+<!-- 	<button id="btnDeclare" class="btn pull-right" >신고</button> -->
+	<a href="javascript:void(0)" onclick="declare('${board.boardno }')" style="float: right;" id="btnDeclare">신고</a>
+	<input type="hidden" id="reason" />
+</c:if>
 
 <table class="table table-bordered" style="text-align: center;">
 	<tr>

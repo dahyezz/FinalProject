@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,12 +83,12 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	@Override
 	public void update(TastyBoard tastyBoard) {
 		
-		List<TastyFile> fileList = tastyBoardDao.selectFileByBoardno(tastyBoard);
-		
-		for(TastyFile f : fileList) {
-//			tastyBoardDao.insertTastyfile(f);
-			tastyBoardDao.insertFile(f);
-		}
+//		List<TastyFile> fileList = tastyBoardDao.selectFileByBoardno(tastyBoard);
+//		
+//		for(TastyFile f : fileList) {
+////			tastyBoardDao.insertTastyfile(f);
+//			tastyBoardDao.insertFile(f);
+//		}
 		
 		tastyBoardDao.updateBoard(tastyBoard);
 	}
@@ -190,8 +191,19 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	}
 	
 	@Override
-	public void declareBoard(BadReport badReport) {
-		tastyBoardDao.insertBadByBoard(badReport);
+	public boolean declareBoard(BadReport badReport) {
+		
+		if(tastyBoardDao.selectCntBadReport(badReport)>0) {
+			tastyBoardDao.deleteBadByBoard(badReport);
+			
+			return false;
+		}
+		else {
+			tastyBoardDao.insertBadByBoard(badReport);
+			return true;
+		}
+			
+		
 	}
 	
 	@Override
@@ -201,5 +213,14 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 		tastyBoard.setBoardno(file.getBoardno());
 //		tastyBoardDao.deleteFileByboardno(tastyBoard);
 		tastyBoardDao.deleteFileByfileno(file);
+	}
+	
+	@Override
+	public boolean checkReclare(BadReport badReport) {
+		
+		if(tastyBoardDao.selectCntBadReport(badReport)>0)
+			return true;
+		else
+			return false;
 	}
 }
