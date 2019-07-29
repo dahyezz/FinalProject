@@ -32,6 +32,7 @@
 	<resources mapping="/js/**" location="/resources/js/" />
 	<resources mapping="/tastyUpload/**" location="/resources/tastyUpload/" />
 	<resources mapping="/freeUpload/**" location="/resources/freeUpload/" />
+	<resources mapping="/image/**" location="/resources/image/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

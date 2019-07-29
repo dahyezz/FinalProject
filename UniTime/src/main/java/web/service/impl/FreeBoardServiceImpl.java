@@ -16,6 +16,8 @@ import web.dao.face.FreeBoardDao;
 import web.dto.FreeBoard;
 import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
+import web.dto.TastyBoard;
+import web.dto.TastyFile;
 import web.service.face.FreeBoardService;
 import web.dto.FreeComment;
 import web.util.Paging;
@@ -41,12 +43,22 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 			curPage=Integer.parseInt(param);
 		}
 		
-		//전체 게시글 수
-		int totalCount=freeBoardDao.selectCntAll();
+		//검색 파라미터 파싱
+		String searchType=req.getParameter("searchType");
+		String keyword=req.getParameter("keyword");
 		
 		//페이징 객체 생성
-		Paging paging=new Paging(totalCount,curPage);
-//		System.out.println(paging);
+		Paging paging = new Paging();
+		paging.setSearchType(searchType);
+		paging.setKeyword(keyword);
+		
+		//전체/검색된 게시글 수
+		int totalCount=freeBoardDao.selectCntAll(paging);
+		
+		//새로운 메소드의 페이징 객체 생성
+		paging=new Paging(totalCount,curPage);
+		paging.setSearchType(searchType);
+		paging.setKeyword(keyword);
 		
 		return paging;
 	}
@@ -111,6 +123,46 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 			freeFile.setBoardno(boardno);
 			freeBoardDao.insertFile(freeFile);
 		}
+	}
+	
+	@Override
+	public FreeFile uploadImage(FreeBoard freeBoard, MultipartFile fileupload, ServletContext context) {
+		
+		//파일이 저장될 경로
+		String storedPath = context.getRealPath("freeUpload");
+		
+		//UUID
+		String uId = UUID.randomUUID().toString().split("-")[4];
+		
+		//저장될 파일의 이름(원본이름 + UUID)
+		String name = fileupload.getOriginalFilename()+"_"+uId;
+		
+		//저장될 파일 객체
+		File dest = new File(storedPath, name);
+		
+		try {
+			fileupload.transferTo(dest); //실제 저장
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		int boardno = 0;
+		
+		if(freeBoard.getBoardno()!=0)
+			boardno = freeBoard.getBoardno();
+		
+		//DB에 저장(업로드 정보 기록)
+		FreeFile freeFile = new FreeFile();
+		freeFile.setBoardno(boardno);
+		freeFile.setOriginname(fileupload.getOriginalFilename());
+		freeFile.setStoredname(name);
+		freeFile.setFilesize((int)fileupload.getSize());
+		
+		freeBoardDao.insertFile(freeFile);
+		
+		return freeFile;
 	}
 
 	@Override

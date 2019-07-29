@@ -10,14 +10,38 @@
 	<select id="selectAll" parameterType="web.util.Paging" resultType="web.dto.FreeBoard">
 		SELECT * FROM (
 		    SELECT rownum rnum, B.* FROM (
-		        SELECT boardno, tag, title, writer, hit, writtendate FROM freeboard_kg
+		        SELECT boardno, tag, title, content, writer, hit, writtendate FROM freeboard_kg
+		        <if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+		        	<choose>
+		        		<when test="searchType == 'total'">
+		        			WHERE title LIKE '%' || '${keyword }' || '%'
+		        			OR content LIKE '%' || '${keyword }' || '%'
+		        			OR writer LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        		<when test="searchType != 'total'">
+		        			WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        	</choose>
+		        </if>
 		        ORDER BY boardno DESC ) B
 		    ORDER BY rnum ) RB
 		WHERE rnum BETWEEN #{startNo } AND #{endNo }
 	</select>
 	
-	<select id="selectCntAll" resultType="int">
+	<select id="selectCntAll" parameterType="web.util.Paging" resultType="int">
 		SELECT count(*) FROM freeboard_kg
+		<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+			<choose>
+				<when test="searchType == 'total'">
+					WHERE title LIKE '%' || '${keyword }' || '%'
+		        	OR content LIKE '%' || '${keyword }' || '%'
+		        	OR writer LIKE '%' || '${keyword }' || '%'
+		        </when>
+		        <when test="searchType != 'total'">
+		        	WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
+		        </when>
+			</choose>
+		</if>
 	</select>
 	
 	<select id="selectBoardByBoardno" parameterType="int" resultType="web.dto.FreeBoard">
@@ -52,8 +76,13 @@
 	</delete>
 	
 	<insert id="insertFile" parameterType="web.dto.FreeFile">
+	
+		<selectKey order="BEFORE" resultType="int" keyProperty="fileno">
+			SELECT freefile_kg_seq.nextval FROM dual
+		</selectKey>
+		
 		INSERT INTO freefile_kg(fileno, boardno, originname, storedname)
-		VALUES(freefile_kg_seq.nextval, #{boardno }, #{originname }, #{storedname })
+		VALUES(#{fileno }, #{boardno }, #{originname }, #{storedname })
 	</insert>
 	
 	<select id="selectFileByBoardno" parameterType="int" resultType="web.dto.FreeFile">

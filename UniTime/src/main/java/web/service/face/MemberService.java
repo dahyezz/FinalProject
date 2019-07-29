@@ -37,7 +37,21 @@ public interface MemberService {
 	
 	public List tastyList(Member member);
 	public List freeList(Member member);
+	public List usedList(Member member);
 
-	public void memberNumberDelete(int[] number);
+	public void tastyDelete(String names);
+	public void freeDelete(String names);
+	public void usedDelete(String names);
+
+	//회원 탈퇴
+	public void memberDelete(Member member) throws Exception;
+
+	public Member getinfo(String email);
+	
+	//비밀번호 수정
+	public void memberModify(Member member) throws Exception;
+	
+	//닉네임 수정
+	public void memberModifyNick(Member member) throws Exception;
 
 }

@@ -16,16 +16,11 @@ public class Paging {
 	
 	private String search; //검색어
 	
-	public String getSearch() {
-		return search;
-	}
-
-	public void setSearch(String search) {
-		this.search = search;
-	}
+	private String searchType;	//게시판 검색 타입
+	private String keyword;	//게시판 검색 키워드
 	
+	public Paging() {	}
 	
-
 	// 총 게시글 수만 입력하는 생성자
 	//	curPage == 1
 	//	pageCount == 10
@@ -103,7 +98,7 @@ public class Paging {
 	public String toString() {
 		return "Paging [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount + ", totalPage="
 				+ totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage=" + endPage
-				+ ", startNo=" + startNo + ", endNo=" + endNo + "]";
+				+ ", startNo=" + startNo + ", endNo=" + endNo + ",searchType=" + searchType + ",keyword=" + keyword + "]";
 	}
 
 	public int getCurPage() {
@@ -176,6 +171,30 @@ public class Paging {
 
 	public void setEndNo(int endNo) {
 		this.endNo = endNo;
+	}
+	
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+	
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 
 }

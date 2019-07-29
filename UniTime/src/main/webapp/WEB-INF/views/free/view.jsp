@@ -57,7 +57,8 @@ $(document).ready(function(){
 				html+= '<div class="commentList">';
     			html+= '<span style="font-weight:bold;">'+this.writer+'</span><br>';
 	            html+= '<span>'+this.content+'</span><br>';
-	            html+= '<span style="color:#ccc;">'+writtendate+'</span>';
+	            html+= '<span style="color:#ccc;">'+writtendate+'</span>&nbsp;&nbsp;';
+	            html+= '<span><a href="/free/report">신고</a></span>';
 	            if(nick == this.writer || nick == 'admin'){
 	            	html+= '<button class="commentDelete" data-commentno="'+this.commentno+'" style="float:right;">삭제</button>';
 	            }
@@ -95,7 +96,7 @@ $(document).ready(function(){
 	
 	//댓글 삭제
 	//댓글 목록은 스크립트로인해 생성된 동적인 HTML코드로, 일반적인 클릭 메소드 .click() 가 아니라 .on() 메소드를 사용
-	$(document).on("click", ".commentDelete",function(){
+	$(document).on("click", ".commentDelete", function(){
 		
 		var deleteConfirm=confirm("댓글을 삭제하시겠습니까?");
 		
@@ -128,16 +129,12 @@ $(document).ready(function(){
 .freeView th{
 	text-align: center;
 	border:1px solid #ccc;
-	background:#ccf;
+	background:#ff7473;
 	width: 15%;
 }
 
 .freeView td{
 	text-align: left;
-}
-
-.freeView button {
-	background:#ccf;
 }
 
 .freeView {
@@ -154,7 +151,7 @@ $(document).ready(function(){
 
 <div class="freeView">
 
-<h1>게시글 내용</h1>
+<h1 >게시글 내용</h1>
 <hr>
 
 <table class="table table-condensed">
@@ -194,11 +191,12 @@ $(document).ready(function(){
 <div class="text-center">	
 	<input type="hidden" id="boardno" value="${board.boardno }">
 	<input type="hidden" id="tag" value="${board.tag }">
-	<button id="btnList" onclick="location.href='/free/list'">목록</button>
+	<button id="btnList" onclick="location.href='/free/list'" class="btn btn-info">목록</button>
 	<c:if test="${nick eq board.writer || nick eq 'admin' }">
-		<button id="btnUpdate">수정</button>
-		<button id="btnDelete">삭제</button>
+		<button id="btnUpdate" class="btn btn-info">수정</button>
+		<button id="btnDelete" class="btn btn-info">삭제</button>
 	</c:if>
+	<button id="btnReport" style="float:right;" class="btn btn-info">신고</button>
 </div>
 
 <!-- 댓글 작성 -->

@@ -31,13 +31,33 @@ public interface MemberDao {
 
 	public List tastyList(Member member);
 	public List freeList(Member member);
-
+	public List usedList(Member member);
+	
 	/**
 	 * 
 	 * @param number 삭제할 회원의 글
 	 */
-	public void memberNumberDelete(HashMap map);
+	public void tastyDelete(HashMap map);
+	public void freeDelete(HashMap map);
+	public void usedDelete(HashMap map);
 
-
-
+	/*
+	 * 회원탈퇴
+	 */
+	public void memberDelete(Member member) throws Exception;
+	
+	/*
+	 * 회원 비밀번호 수정
+	 */
+	public void memberModify(Member member) throws Exception;
+	
+	/*
+	 * 회원 닉네임 수정
+	 */
+	public void memberModifyNick(Member member) throws Exception;
 }
+
+
+
+
+

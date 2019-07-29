@@ -41,7 +41,11 @@ $(document).ready(function() {
 // 				for(var i=files.length-1; i>=0; i--) {
 // 					sendFile(files[i], this);
 // 				}
-			}
+			},
+			onMediaDelete : function(files) {
+	                alert("delete") 
+	                deleteFile(files[0]);
+	        }
 		}
 		
 	});
@@ -69,6 +73,12 @@ $(document).ready(function() {
 			return false;
 		}
 		
+		if(writeForm.score.value==""){
+			alert("별점을 선택해주세요");
+			writeForm.score.focus();
+			return false;
+		}
+		
 		$(this).append($("<input>").attr("type", "hidden").attr("name", "boardno").val(${board.boardno }));
 		var code = $('#summernote').summernote('code');
 	    $('textarea[name="content"]').val(code);
@@ -76,7 +86,10 @@ $(document).ready(function() {
 		
 	});
 	
+	
 });
+
+var newfileno;
 
 function sendFile(file, el){
 	//파일 전송을 위한 폼 데이터 생성
@@ -95,12 +108,9 @@ function sendFile(file, el){
 		, enctype: "multipart/form-data"
 		, processData: false
 		, success: function(data) {
-			console.log("성공");
-			console.log(data);
-			console.log(data.fileno)
-			console.log(data.boardno)
+			newfileno = data.fileno
 
-			$(el).summernote('editor.insertImage', "/tastyUpload?fileno="+data.fileno);
+			$(el).summernote('editor.insertImage', "/tastyImage?fileno="+data.fileno);
 			$('#boardno').val(data.boardno);
 		}
 		, error: function(jqXHR, textStatus, errorThrown) {
@@ -108,7 +118,64 @@ function sendFile(file, el){
 		} 
 	});
 }
+
+function deleteFile(file){
+	
+	console.log(newfileno);
+	console.log($(this))
+}
+
+// -------------- 별점 관련 ----------------------------------
+var locked = 0;
+
+function show(star){ //마우스 오버시 채워진 별로 나타나도록 함
+	if(locked)
+		return;
+	var i;
+	var image;
+	var el;
+	
+	for(i=1; i<=star; i++){
+		image = 'image'+i;
+// 		console.log(image);
+		el = document.getElementById(image);
+// 		console.log(el)
+		el.src = "/image/star.PNG";
+	}
+}
+
+function noshow(star){ //mouse enter
+	if(locked)
+		return;
+	var i;
+	var image;
+	var el;
+	
+	for(i=1; i<=star; i++){
+		image='image'+i;
+		el = document.getElementById(image);
+		el.src = "/image/star0.PNG";
+	}
+}
+
+function mark(star){
+	lock(star);
+// 	alert("선택:"+star);
+	document.getElementById("score").value=star
+}
+
+function lock(star){
+	show(star);
+	locked=1;
+}
+
 </script>
+
+<style type="text/css">
+#starRank img{
+	width: 30px;
+}
+</style>
 
 <input type="hidden" name="boardno" value="0" />
 
@@ -127,14 +194,17 @@ function sendFile(file, el){
 			<option value="밥">밥</option>
 			<option value="카페">카페</option>
 		</select>
-		
-		<select name="score" class="selectpicker" style="height:30px">
-			<option value="5">5</option>
-			<option value="4">4</option>
-			<option value="3">3</option>
-			<option value="2">2</option>
-			<option value="1">1</option>
-		</select>
+
+<!-- 		<div id="rating"> -->
+			<span id="starRank">
+				<img id="image1" onmouseover="show(1)" onclick="mark(1)" onmouseout="noshow(1)" src="/image/star0.PNG" >
+				<img id="image2" onmouseover="show(2)" onclick="mark(2)" onmouseout="noshow(2)" src="/image/star0.PNG" >
+				<img id="image3" onmouseover="show(3)" onclick="mark(3)" onmouseout="noshow(3)" src="/image/star0.PNG" >
+				<img id="image4" onmouseover="show(4)" onclick="mark(4)" onmouseout="noshow(4)" src="/image/star0.PNG" >
+				<img id="image5" onmouseover="show(5)" onclick="mark(5)" onmouseout="noshow(5)" src="/image/star0.PNG" >
+			</span>
+			<input type="hidden" name="score" id="score"/>
+<!-- 		</div> -->
 		
 	</div>
 

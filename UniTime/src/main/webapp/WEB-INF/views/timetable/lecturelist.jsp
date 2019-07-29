@@ -109,9 +109,9 @@ function checkAll() {
 </style>
     
 <hr>
-<h1>시간표 메인 페이지</h1>
+<h1> KH 강의 시간표 </h1>
 <hr>
-
+<div class="container">
 <form>
 <div style="overflow:scroll;width:1000px;height:400px;">
 
@@ -156,7 +156,7 @@ function checkAll() {
 <h3>내 강의 목록</h3>
 <hr>
 <form>
-<div style="overflow:scroll;width:1000px;height:200px;">
+<div style="overflow:scroll;width:1000px;height:200px;" >
 <table id="lectureList">
 <thead>
 	<tr>
@@ -196,6 +196,6 @@ function checkAll() {
 </form>
 <br>
 <button onclick="location.href='/timetable/recommend'">추천 시간표 생성</button>
-
+</div>
 <br><br><br><br>
 

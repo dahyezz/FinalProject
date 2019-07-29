@@ -12,6 +12,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
+import web.dto.BadReport;
 import web.dto.TastyBoard;
 import web.dto.TastyComment;
 import web.dto.TastyFile;
@@ -54,7 +55,7 @@ public class TastyBoardController {
 	}
 	
 	@RequestMapping(value="/tasty/view", method=RequestMethod.GET)
-	public void view(TastyBoard tastyBoard, Model model) {
+	public void view(TastyBoard tastyBoard, BadReport badReport, Model model, HttpSession session) {
 		
 		logger.info(tastyBoard.toString());
 		
@@ -63,6 +64,15 @@ public class TastyBoardController {
 		
 		model.addAttribute("board", tastyBoard);
 		model.addAttribute("commentList", commentList);
+		
+		badReport.setBoardname("tasty");
+		badReport.setNickname(session.getAttribute("nick").toString());
+		logger.info(badReport.toString());
+
+		//신고가 되었는지 체크
+		boolean isDeclare = tastyBoardService.checkReclare(badReport);
+		System.out.println(isDeclare);
+		model.addAttribute("isDeclare", isDeclare);
 	}
 	
 	@RequestMapping(value="/tasty/write", method=RequestMethod.GET)
@@ -76,7 +86,6 @@ public class TastyBoardController {
 		logger.info(tastyBoard.toString());
 		
 		return "redirect:/tasty/list";
-//		return "redirect:/tasty/view?boardno="+tastyBoard.getBoardno();
 	}
 	
 	@RequestMapping(value="/tasty/imageUpload", method=RequestMethod.POST)
@@ -85,23 +94,14 @@ public class TastyBoardController {
 			@RequestParam("file") MultipartFile fileupload,
 			HttpServletResponse resp,
 			HttpServletRequest req
-//			ModelAndView mav
 			) {
-		
-		logger.info(tastyBoard.toString());
-		logger.info("파일 : " + fileupload.getOriginalFilename());
-		logger.info(context.getRealPath("tastyUpload"));
 		
 		//첨부파일 저장
 		TastyFile tastyfile = tastyBoardService.uploadFile(tastyBoard, fileupload, context);
 		logger.info(tastyBoard.toString());
 		logger.info(tastyfile.toString());
-//		String url = tastyfile.getStoredName();
-	
 		
 		try {
-//			resp.getWriter().append("{\"fileno\":"+tastyfile.getFileno()+"}");
-//			resp.getWriter().append("{\"boardno\":"+tastyfile.getBoardno()+"}");
 			resp.getWriter().append("{\"fileno\":"+tastyfile.getFileno()+", \"boardno\":"+tastyfile.getBoardno()+"}");
 			
 		} catch (IOException e) {
@@ -110,10 +110,11 @@ public class TastyBoardController {
 		
 	}
 
-	@RequestMapping(value="/tastyUpload", method=RequestMethod.GET)
-	public void getFiles(ModelAndView mav, TastyFile tastyfile, HttpServletRequest req, HttpServletResponse resp) {
-		
-		logger.info("getfile--------------------------------");
+	
+	// 글 작성 폼에서 이미지 선택 시 summernote에 이미지 뜨도록 하는 메소드 -> temptasty에서 조회
+	@RequestMapping(value="/tastyImage", method=RequestMethod.GET)
+	public void getFiles(TastyFile tastyfile, HttpServletRequest req, HttpServletResponse resp) {
+	
 		logger.info(tastyfile.toString());
 		
 		tastyfile = tastyBoardService.getFile(tastyfile);
@@ -196,16 +197,9 @@ public class TastyBoardController {
 		logger.info(tastyComment.toString());
 		
 		tastyBoardService.writeComment(tastyComment);
-		
+
 		tastyComment = tastyBoardService.getComment(tastyComment);
-//		return "redirect:/tasty/view?boardno="+tastyComment.getBoardno();
-		
-		TastyBoard tastyBoard = new TastyBoard();
-		tastyBoard.setBoardno(tastyComment.getBoardno());
-//		List<TastyComment> commentList = tastyBoardService.getComment(tastyBoard);
-//		model.addAttribute("commentList", commentList);
-		
-		return "redirect:/tasty/comment?boardno="+tastyBoard.getBoardno();
+		return "redirect:/tasty/comment?boardno="+tastyComment.getBoardno();
 	}
 	
 	@RequestMapping(value="/tasty/comment", method=RequestMethod.GET)
@@ -234,12 +228,52 @@ public class TastyBoardController {
 	
 	@RequestMapping(value="/tasty/listDelete", method=RequestMethod.POST)
 	public String deleteList(String names) {
-//		logger.info(names);
 		
 		tastyBoardService.deleteList(names);
 		
 		return "redirect:/tasty/list";
 	}
-
 	
+	
+	@RequestMapping(value="/tasty/updateComment", method=RequestMethod.POST)
+	public String updateComment(TastyComment tastyComment) {
+		logger.info(tastyComment.toString());
+		
+		tastyBoardService.updateComment(tastyComment);
+		
+		tastyComment = tastyBoardService.getComment(tastyComment);
+		return "redirect:/tasty/comment?boardno="+tastyComment.getBoardno();
+	}
+	
+	@RequestMapping(value="/tasty/declare", method=RequestMethod.POST)
+	public void declare(BadReport badReport, HttpServletResponse response) {
+		logger.info(badReport.toString());
+		
+		boolean success = tastyBoardService.declareBoard(badReport);
+		
+		
+		try {
+			response.getWriter().append("{\"success\":"+success+", \"commentno\":"+badReport.getCommentno()+"}");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value="/tasty/imageDelete", method=RequestMethod.POST)
+	public void deleteImage(TastyFile file, HttpServletResponse response) {
+		logger.info(file.toString());
+		
+		tastyBoardService.deleteImage(file);
+		
+		boolean success = true;
+		
+		try {
+			response.getWriter().append("{\"success\":"+success+"}");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@RequestMapping(value="/tasty/declareReason", method=RequestMethod.GET)
+	public void declareReason() { }
 }

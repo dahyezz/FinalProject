@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.TempTable;
 import web.service.face.TimeTableService;
@@ -76,7 +77,6 @@ public class TimeTableController {
 		timeTableService.myListDelete(temp);
 		List mylist = timeTableService.myList(id);
 	
-		
 		model.addAttribute("myList", mylist);
 		
 		
@@ -90,12 +90,13 @@ public class TimeTableController {
 		List mylist = timeTableService.myList(id);
 		model.addAttribute("myList", mylist);
 		
+		
+		
 	}
 	
-	@RequestMapping(value="/timetable/recommendlist", method=RequestMethod.POST)
-	public void recommendList(Model model, HttpSession session
+	@RequestMapping(value="/timetable/recommend", method=RequestMethod.POST)
+	public void recommendLec(Model model, HttpSession session, HttpServletRequest req
 			, @RequestParam("timepriority") String timepriority
-			, @RequestParam("majorNum") int majorNum
 			, @RequestParam("classNum") int classNum
 			) {
 		
@@ -104,6 +105,25 @@ public class TimeTableController {
 		model.addAttribute("myList", mylist);
 		
 		
+		
+		List recommendList = timeTableService.recommendList(req);
+		model.addAttribute("recommendList", recommendList);
+		
+	}
+	
+	
+	@RequestMapping(value="/timetable/ajax/recommendlist", method=RequestMethod.GET)
+	public void recommendList(Model model, HttpSession session, HttpServletRequest req
+			, @RequestParam("timepriority") String timepriority
+			, @RequestParam("classNum") int classNum
+			) {
+		
+		String id= (String) session.getAttribute("email");
+		List mylist = timeTableService.myList(id);
+		model.addAttribute("myList", mylist);
+		
+		List recommendList = timeTableService.recommendList(req);
+		model.addAttribute("recommendList", recommendList);
 		
 		
 	}

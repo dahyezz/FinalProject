@@ -2,6 +2,7 @@ package web.dao.face;
 
 import java.util.List;
 
+import web.dto.BadReport;
 import web.dto.TastyBoard;
 import web.dto.TastyComment;
 import web.dto.TastyFile;
@@ -68,7 +69,9 @@ public interface TastyBoardDao {
 	public int selectBoardno();
 
 	/**
+	 * (수정) temptasty에 insert 하기
 	 * filetable에 insert하기
+	 * 
 	 * 
 	 * @param tastyfile
 	 */
@@ -113,6 +116,40 @@ public interface TastyBoardDao {
 	 * @param tastyBoard - 삭제하려는 게시글 번호
 	 */
 	public void deleteFileByboardno(TastyBoard tastyBoard);
+
+	public void updateComment(TastyComment tastyComment);
+
+	public void insertBadByBoard(BadReport badReport);
+
+	public List<TastyFile> selectFileByBoardno(TastyBoard tastyBoard);
+
+
+	/**
+	 * tastyfile에 데이터 삽입
+	 * 
+	 * @param file
+	 */
+//	public void insertTastyfile(TastyFile file);
+
+
+	public void updateBoardnoToFile(TastyBoard tastyBoard);
+
+	public void deleteFileByfileno(TastyFile file);
+
+	/**
+	 * 신고한 적이 있는지 체크
+	 * 
+	 * @param badReport
+	 * @return true - 신고했음, false - 신고 안했음
+	 */
+	public int selectCntBadReport(BadReport badReport);
+
+	/**
+	 * 신고 취소
+	 * 
+	 * @param badReport
+	 */
+	public void deleteBadByBoard(BadReport badReport);
 
 
 

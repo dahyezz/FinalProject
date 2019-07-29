@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!-- include summernote css/js-->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
@@ -14,6 +16,8 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+
+	mark(${board.score })
 	
 	$('#summernote').summernote({
 		height: 300,
@@ -33,7 +37,19 @@ $(document).ready(function() {
 	        ['insert', ['link', 'hr', 'picture']],
 	        ['view', ['fullscreen', 'codeview']],
 	        ['help', ['help']]
-		]
+		],
+		callbacks: {
+			onImageUpload: function(files, editor){
+				sendFile(files[0], this);
+// 				for(var i=files.length-1; i>=0; i--) {
+// 					sendFile(files[i], this);
+// 				}
+			},
+			onMediaDelete : function(files) {
+// 	                alert("delete") 
+	            deleteFile(files[0]);
+	        }
+		}
 	});
 	
 	//취소 버튼 동작
@@ -44,13 +60,122 @@ $(document).ready(function() {
 	//select태그 동작
 	$('select').selectpicker();
 	
+	
 });
 
 function postForm() {
     $('textarea[name="content"]').val($('#summernote').summernote('code'));
 }
 
+var newfileno;
+
+function sendFile(file, el){
+	//파일 전송을 위한 폼 데이터 생성
+	var data = new FormData();
+	data.append('file', file);
+	data.append("boardno",${board.boardno });
+// 	console.log(${board.boardno })
+	
+	//ajax를 통해 파일 업로드 처리
+	$.ajax({	
+		data: data
+		, dataType: "json"
+		, type: "POST"
+		, url: "/tasty/imageUpload"
+		, cache: false
+		, contentType: false
+		, enctype: "multipart/form-data"
+		, processData: false
+		, success: function(data) {
+			newfileno = data.fileno
+// 			console.log(data.fileno)
+			
+			$(el).summernote('editor.insertImage', "/tastyImage?fileno="+data.fileno);
+			$('#boardno').val(data.boardno);
+		}
+		, error: function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus+"  "+errorThrown)
+		} 
+	});
+}
+
+function deleteFile(file){
+	
+	var str = file.getAttribute('src');
+	var fileno = str.substring(19,21);
+
+	console.log(str);
+	console.log(fileno);
+	console.log(${board.boardno })
+	
+	//ajax를 통해 파일 업로드 처리
+	$.ajax({	
+		type: "POST"
+		, dataType: "json"
+		, data: {
+			"fileno": fileno,
+			"boardno": ${board.boardno }
+		}
+		, url: "/tasty/imageDelete"
+		, success: function(data) {
+			console.log("success")
+		}
+		, error: function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus+"  "+errorThrown)
+		} 
+	});
+}
+
+//-------------- 별점 관련 ----------------------------------
+var locked = 0;
+
+function show(star){ //마우스 오버시 채워진 별로 나타나도록 함
+	if(locked)
+		return;
+	var i;
+	var image;
+	var el;
+	
+	for(i=1; i<=star; i++){
+		image = 'image'+i;
+// 		console.log(image);
+		el = document.getElementById(image);
+// 		console.log(el)
+		el.src = "/image/star.PNG";
+	}
+}
+
+function noshow(star){ //mouse enter
+	if(locked)
+		return;
+	var i;
+	var image;
+	var el;
+	
+	for(i=1; i<=star; i++){
+		image='image'+i;
+		el = document.getElementById(image);
+		el.src = "/image/star0.PNG";
+	}
+}
+
+function mark(star){
+	lock(star);
+// 	alert("선택:"+star);
+	document.getElementById("score").value=star
+}
+
+function lock(star){
+	show(star);
+	locked=1;
+}
 </script>
+
+<style type="text/css">
+#starRank img{
+	width: 30px;
+}
+</style>
 
 <div class="page-header">
 	<h3>게시글 수정</h3>
@@ -67,16 +192,20 @@ function postForm() {
 			<option value="카페">카페</option>
 		</select>
 		
-		<select name="score" class="selectpicker" style="height:30px">
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-		</select>
+		<input type="hidden" name="score" value="${board.score }"/>
+
+<!-- 		<div id="rating"> -->
+			<span id="starRank">
+				<img id="image1" onmouseover="show(1)" onclick="mark(1)" onmouseout="noshow(1)" src="/image/star0.PNG" >
+				<img id="image2" onmouseover="show(2)" onclick="mark(2)" onmouseout="noshow(2)" src="/image/star0.PNG" >
+				<img id="image3" onmouseover="show(3)" onclick="mark(3)" onmouseout="noshow(3)" src="/image/star0.PNG" >
+				<img id="image4" onmouseover="show(4)" onclick="mark(4)" onmouseout="noshow(4)" src="/image/star0.PNG" >
+				<img id="image5" onmouseover="show(5)" onclick="mark(5)" onmouseout="noshow(5)" src="/image/star0.PNG" >
+			</span>
+			<input type="hidden" name="score" id="score"/>
+<!-- 		</div> -->
 		
 	</div>
-
 
 	<div class="input-group">
 		<span class="input-group-addon" id="basic-addon1">음식점이름</span>

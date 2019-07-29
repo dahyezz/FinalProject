@@ -142,9 +142,23 @@ function checkBoardDelete(){
 </table>
 
 <c:if test="${nick eq 'admin'}">
-<button type="button" class="btn btn-primary" onclick="checkBoardDelete();">체크 삭제</button>
+<button type="button" style="float:left;" onclick="checkBoardDelete();">체크 삭제</button>
 </c:if>
 
 </div>
 
 <c:import url="/WEB-INF/views/free/paging.jsp" />
+
+<div class="freeSearch">
+<form action="/free/list" method="get">
+	<select name="searchType">
+		<option value="total" selected>전체</option>
+		<option value="title">제목</option>
+		<option value="content">내용</option>
+		<option value="writer">작성자</option>
+	</select>
+	
+	<input type="text" name="keyword" placeholder="검색어를 입력해주세요."/>
+	<button>검색</button>
+</form>
+</div>

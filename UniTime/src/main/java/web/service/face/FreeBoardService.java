@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dto.FreeBoard;
 import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
+import web.dto.TastyBoard;
+import web.dto.TastyFile;
 import web.dto.FreeComment;
 import web.util.Paging;
 
@@ -43,6 +45,15 @@ public interface FreeBoardService {
 	 * @param context - 서블릿 컨텍스트
 	 */
 	public void write(FreeBoard freeBoard, MultipartFile file, ServletContext context);
+	
+	/**
+	 * 	summernote 이미지 업로드
+	 * @param freeBoard
+	 * @param fileupload
+	 * @param context
+	 * @return
+	 */
+	public FreeFile uploadImage(FreeBoard freeBoard, MultipartFile fileupload, ServletContext context);
 	
 	/**
 	 * 	게시글 수정

@@ -6,6 +6,70 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+<style>
+#btnJoin {
+  background: #ffffff;
+  background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -o-linear-gradient(top, #ffffff, #ffffff);
+  background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #47b8e0;
+  font-size: 15px;
+  padding: 10px 20px 10px 20px;
+  border: solid #47b8e0 1px;
+  text-decoration: none;
+}
+
+#btnJoin:hover {
+  text-decoration: none;
+}
+#btnCancel {
+  background: #47b8e0;
+  background-image: -webkit-linear-gradient(top, #47b8e0, #47b8e0);
+  background-image: -moz-linear-gradient(top, #47b8e0, #47b8e0);
+  background-image: -ms-linear-gradient(top, #47b8e0, #47b8e0);
+  background-image: -o-linear-gradient(top, #47b8e0, #47b8e0);
+  background-image: linear-gradient(to bottom, #47b8e0, #47b8e0);
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 10px 20px 10px 20px;
+  border: solid #ffffff 1px;
+  text-decoration: none;
+}
+
+#btnCancel:hover {
+  text-decoration: none;
+}
+
+#idCheck, #nickCheck {
+  background: #47b8e0;
+  background-image: -webkit-linear-gradient(top, #47b8e0, #47b8e0);
+  background-image: -moz-linear-gradient(top, #47b8e0, #47b8e0);
+  background-image: -ms-linear-gradient(top, #47b8e0, #47b8e0);
+  background-image: -o-linear-gradient(top, #47b8e0, #47b8e0);
+  background-image: linear-gradient(to bottom, #47b8e0, #47b8e0);
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 5px 10px 5px 10px;
+  border: solid #ffffff 1px;
+  text-decoration: none;
+}
+
+</style>
+
 <script type="text/javascript">
 
 function inputCheck() {
@@ -51,13 +115,13 @@ function inputCheck() {
 					console.log(data);
 					
 					if (data == 1) {
-						$(".result .msg").text("사용 불가");
+						$(".result .msg").text("이미 등록된 학번입니다");
 						$(".result .msg").attr("style", "color:#f00");
 
 						$("#btnJoin").attr("disabled", "disabled");
 					} else {
-						$(".result .msg").text("사용 가능");
-						$(".result .msg").attr("style", "color:#00f");
+						$(".result .msg").text("사용 가능한 학번입니다");
+						$(".result .msg").attr("style", "color:#47b8e0");
 
 						$("#btnJoin").removeAttr("disabled");
 					}
@@ -81,12 +145,12 @@ function inputCheck() {
 					console.log(data);
 					
 					if (data == 1) {
-						$(".result1 .msg").text("사용 불가");
+						$(".result1 .msg").text("사용 불가한 닉네임입니다");
 						$(".result1 .msg").attr("style", "color:#f00");
 
 						$("#btnJoin").attr("disabled", "disabled");
 					} else {
-						$(".result1 .msg").text("사용 가능");
+						$(".result1 .msg").text("사용 가능한 닉네임입니다");
 						$(".result1 .msg").attr("style", "color:#00f");
 
 						$("#btnJoin").removeAttr("disabled");
@@ -134,7 +198,7 @@ function inputCheck() {
 			<tr>
 				<th style="width: 100px" scope="row"><label>학번<input
 						id="hakbun" type="text" name="hakbun" placeholder=" 학번을 입력하세요" /></label>
-					<button type="button" class="idCheck">학번 확인</button></th>
+					<button type="button" class="idCheck" id = "idCheck">학번 확인</button></th>
 			</tr>
 			<tr>
 				<th><p class="result">
@@ -152,7 +216,7 @@ function inputCheck() {
 				<th style="width: 100px" scope="row"><label>닉네임<input
 						id="nickname" type="text" name="nickname"
 						placeholder=" 닉네임을 입력하세요" /></label>
-					<button type="button" class="nickCheck">닉네임 확인</button></th>
+					<button type="button" class="nickCheck" id = "nickCheck">닉네임 확인</button></th>
 			</tr>
 			<tr>
 				<th><p class="result1">
