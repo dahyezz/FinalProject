@@ -107,7 +107,7 @@ public interface AdminDao {
 	 */
 	public void badReportDelete(HashMap badno);
 	
-	
+	public void visitInsert(int hakbun);
 	
 	
 

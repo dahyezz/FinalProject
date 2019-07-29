@@ -118,6 +118,18 @@ public class AdminController {
 		return "redirect:/admin/badReport";
 	}
 	
+	// 여기부터 사이트 관리
+	@RequestMapping(value="/admin/site", method = RequestMethod.GET)
+	public void adminSite(Model model) {
+		
+		int member = adminService.memberCntAll();
+		model.addAttribute("member", member);
+		
+		int blackList = adminService.blackListCntAll();
+		model.addAttribute("blackList", blackList);
+		
+		
+	}
 	
 	
 

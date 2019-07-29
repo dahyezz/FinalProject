@@ -172,6 +172,25 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.badReportDelete(map);
 	}
 	
+	// 여기부터 사이트 관리 페이지
+	@Override
+	public int memberCntAll() {
+
+		return adminDao.selectMemberCntAll();
+	}
+	
+	@Override
+	public int blackListCntAll() {
+
+		return adminDao.selectBlackListCntAll();
+	}
+	
+	@Override
+	public void visitInsert(int hakbun) {
+		
+		adminDao.visitInsert(hakbun);
+	}
+	
 
 
 }
