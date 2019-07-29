@@ -129,16 +129,12 @@ $(document).ready(function(){
 .freeView th{
 	text-align: center;
 	border:1px solid #ccc;
-	background:#ccf;
+	background:#ff7473;
 	width: 15%;
 }
 
 .freeView td{
 	text-align: left;
-}
-
-.freeView button {
-	background:#ccf;
 }
 
 .freeView {
@@ -155,7 +151,7 @@ $(document).ready(function(){
 
 <div class="freeView">
 
-<h1>게시글 내용</h1>
+<h1 >게시글 내용</h1>
 <hr>
 
 <table class="table table-condensed">
@@ -195,12 +191,12 @@ $(document).ready(function(){
 <div class="text-center">	
 	<input type="hidden" id="boardno" value="${board.boardno }">
 	<input type="hidden" id="tag" value="${board.tag }">
-	<button id="btnList" onclick="location.href='/free/list'">목록</button>
+	<button id="btnList" onclick="location.href='/free/list'" class="btn btn-info">목록</button>
 	<c:if test="${nick eq board.writer || nick eq 'admin' }">
-		<button id="btnUpdate">수정</button>
-		<button id="btnDelete">삭제</button>
+		<button id="btnUpdate" class="btn btn-info">수정</button>
+		<button id="btnDelete" class="btn btn-info">삭제</button>
 	</c:if>
-	<button id="btnReport" style="float:right;">신고</button>
+	<button id="btnReport" style="float:right;" class="btn btn-info">신고</button>
 </div>
 
 <!-- 댓글 작성 -->
