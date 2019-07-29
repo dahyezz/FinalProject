@@ -124,7 +124,7 @@
 	
 	<insert id="insertBadByBoard" parameterType="web.dto.BadReport">
 		INSERT INTO badreport_kg
-		VALUES (badreport_kg_seq.nextval ,#{boardname }, #{boardno }, #{commentno },#{nickname })
+		VALUES (badreport_kg_seq.nextval ,#{boardname }, #{boardno }, #{commentno },#{reason }, #{nickname })
 	</insert>
 	
 	<select id="selectFileByBoardno" parameterType="web.dto.TastyBoard" resultType="web.dto.TastyFile">

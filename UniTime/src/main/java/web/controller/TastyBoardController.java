@@ -274,5 +274,6 @@ public class TastyBoardController {
 		}
 	}
 
-	
+	@RequestMapping(value="/tasty/declareReason", method=RequestMethod.GET)
+	public void declareReason() { }
 }

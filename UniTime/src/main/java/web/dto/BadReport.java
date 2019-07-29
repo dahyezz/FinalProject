@@ -5,12 +5,13 @@ public class BadReport {
 	private String boardname;
 	private int boardno;
 	private int commentno;
+	private String reason;
 	private String nickname;
 
 	@Override
 	public String toString() {
 		return "BadReport [badno=" + badno + ", boardname=" + boardname + ", boardno=" + boardno + ", commentno="
-				+ commentno + ", nickname=" + nickname + "]";
+				+ commentno + ", reason=" + reason + ", nickname=" + nickname + "]";
 	}
 
 	public int getBadno() {
@@ -43,6 +44,14 @@ public class BadReport {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 	
 
