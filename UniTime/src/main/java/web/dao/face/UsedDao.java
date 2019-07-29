@@ -5,6 +5,7 @@ import java.util.Map;
 
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
+import web.dto.UsedComment;
 import web.util.Paging;
 
 public interface UsedDao {
@@ -100,4 +101,27 @@ public interface UsedDao {
 	 *  @param UsedBoard
 	 */
 	public UsedBoard deleteBoardByBoardno(UsedBoard usedboard);
+	
+	
+	/**
+	 * 댓글 작성 
+	 * 
+	 * @param UsedComment
+	 */
+	public void insertComment(UsedComment usedcmt);
+	
+	/**
+	 *  게시글 번호를 통해 댓글 조회하기 
+	 *  @param UsedBoard
+	 *  @return
+	 */
+	public List<UsedComment> selectAllCommentnoByBoardno(UsedBoard usedboard);
+	
+	
+	/**
+	 *  댓글 번호를 통해 댓글 조회하기 
+	 *  @param UsedComment
+	 *  @return
+	 */
+	public UsedComment selectAllCommentByCommentno(UsedComment usedcmt);
 }

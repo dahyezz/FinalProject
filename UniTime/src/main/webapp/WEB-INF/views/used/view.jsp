@@ -53,7 +53,46 @@ $(document).ready(function() {
 	$('#btnDelete').click(function() {
 		$(location).attr("href", "/used/delete?boardno="+${usedboard.boardno });
 	});
-})
+	
+	$('#cmtWrite').click(function(){ 
+		var boardno = ${usedboard.boardno };
+		var writer = $('#content').val();
+		var content = $('#writer').val();
+		
+		console.log(boardno);
+		console.log(writer);
+		console.log(content);
+		
+		$.ajax({
+			type : "post" ,
+			url : "/used/writeCmt" ,
+			dataType : "html" ,
+			data : {
+				"boardno" : boardno,
+				"content" : content,
+				"writer" : writer
+			},
+			success : function(data){
+				$("#commentdiv").html(data);
+				$("#content").val("");
+			},
+			error : function() {
+				console.log("댓글작성중 error 발생");
+			}
+		});
+	});
+	
+});
+
+
+function enter_submit() {
+	// enter key = 13 (but why 13?)
+	if(event.keyCode == 13){
+		console.log("enter clicked");
+		$('#cmtWrite').click();
+	}
+}
+
 </script>
 	
 		
@@ -111,6 +150,11 @@ $(document).ready(function() {
 			</td>
 		</tr>
 	</table>
+	
+	
+	<!-- 댓글 -->
+	<c:import url="/comment.jsp"/>
+	
 
 	<div id="view-buttons">
 		<button id="btnList" class="btn btn-primary">목록</button>

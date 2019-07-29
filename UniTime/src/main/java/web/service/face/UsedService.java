@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
+import web.dto.UsedComment;
 import web.util.Paging;
 
 public interface UsedService {
@@ -86,5 +87,25 @@ public interface UsedService {
 	 *  @param UsedBoard
 	 */
 	public void delete(UsedBoard usedboard);
+	
+	/**
+	 *  게시판에 댓글을 입력한다.
+	 *  @param UsedComment
+	 */
+	public void writeComment(UsedComment usedcmt);
+	
+	/**
+	 *  게시글 번호를 통해 댓글을 가져온다.
+	 *  @param UsedComment
+	 *  @return 
+	 */
+	public List<UsedComment> getComment(UsedBoard usedboard);
+	
+	/**
+	 *  댓글번호를 통해 댓글 조회하기(댓글 수정/삭제 위함)
+	 *  @param UsedComment
+	 *  @return
+	 */
+	public UsedComment getComment(UsedComment usedcmt);
 	
 }

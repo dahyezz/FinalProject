@@ -137,4 +137,52 @@
 			boardno = #{boardno }
 	</delete>
 	
+	
+	<insert id="insertComment"
+		parameterType="web.dto.UsedComment">
+		
+		<selectKey order="BEFORE" resultType="int"
+			keyProperty="commentno">
+			SELECT usedcomment_kg_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO usedcomment_kg(
+			commentno, boardno, writer, content )
+		VALUES (#{commentno }, #{boardno }, #{writer },
+			#{content } )
+	</insert>
+	
+	<select id="selectAllCommentnoByBoardno"
+		parameterType="web.dto.UsedBoard"
+		resultType="web.dto.UsedComment">
+		
+		SELECT 
+			commentno, boardno, writer, content, writtendate
+		FROM 
+			usedcomment_kg
+		WHERE 
+			boardno = #{boardno }
+		ORDER BY
+			commentno DESC
+		
+	</select>
+	
+	
+	<select id="selectAllCommentByCommentno"
+		parameterType="web.dto.UsedBoard"
+		resultType="web.dto.UsedComment">
+		
+		SELECT 
+			commentno, boardno, writer, content, writtendate
+		FROM
+			usedcomment_kg
+		WHERE 
+			commentno = #{commentno }
+		ORDER BY
+			commentno DESC
+			
+	</select>
+	
+	
+	
 </mapper>
