@@ -11,7 +11,7 @@
  }
  
  /* 제목 길어지면 길이 컷트되는 스타일 코드 */
- #used-view-ttitle {
+ #used-view-title {
  	white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

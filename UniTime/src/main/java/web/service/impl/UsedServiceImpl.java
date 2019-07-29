@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dao.face.UsedDao;
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
+import web.dto.UsedComment;
 import web.service.face.UsedService;
 import web.util.Paging;
 
@@ -167,4 +168,35 @@ public class UsedServiceImpl implements UsedService {
 		// 게시글 수정
 		usedDao.update(usedboard);
 	}
+	
+
+	@Override
+	public void delete(UsedBoard usedboard) {
+		// 게시글 삭제 
+		usedDao.deleteBoardByBoardno(usedboard);
+		
+	}
+	
+
+	@Override
+	public void writeComment(UsedComment usedcmt) {
+		// 작성한 댓글을 DB에 삽입 
+		usedDao.insertComment(usedcmt);
+	}
+
+	
+	@Override
+	public List<UsedComment> getComment(UsedBoard usedboard) {
+		// 게시글 번호로 댓글 조회
+		return usedDao.selectAllCommentnoByBoardno(usedboard);
+	}
+
+	
+	@Override
+	public UsedComment getComment(UsedComment usedcmt) {
+		// 댓글 번호로 댓글 조회 
+		// 댓글 수정,삭제를 위함
+		return usedDao.selectAllCommentByCommentno(usedcmt);
+	}
+	
 }

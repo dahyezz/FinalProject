@@ -5,9 +5,11 @@ import java.util.Map;
 
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
+import web.dto.UsedComment;
 import web.util.Paging;
 
 public interface UsedDao {
+	
 	
 	/**
 	 *  총 게시글 수 가져오기 
@@ -15,6 +17,7 @@ public interface UsedDao {
 	 *  @return int : 총 게시글 수
 	 */
 	public int selectCntAll();
+	
 	
 	/**
 	 *  전체 게시글 불러오기 
@@ -33,6 +36,7 @@ public interface UsedDao {
 	 */
 	public UsedBoard selectBoardByBoardno(int boardno);
 	
+	
 	/**
 	 *  조회수 기능 
 	 *  
@@ -46,6 +50,7 @@ public interface UsedDao {
 	 *  @return int
 	 */
 	public int selectBoardno();
+	
 	
 	/**
 	 * 게시글 작성하기 
@@ -62,6 +67,7 @@ public interface UsedDao {
 	 */
 	public void insertImg(UsedImage usedImage);
 	
+	
 	/**
 	 * 게시글의 파일 조회 
 	 *
@@ -69,6 +75,7 @@ public interface UsedDao {
 	 * @return usedImgNo : 조회된 이미지 정보 객체
 	 */
 	public UsedImage selectImgByBoardno(int boardno);
+	
 	
 	/**
 	 *  파일번호를 이용하여 이미지 정보 조회
@@ -78,11 +85,43 @@ public interface UsedDao {
 	 */
 	public UsedImage selectImgByImgno(int usedImgNo);
 	
+	
 	/**
 	 *  게시글 수정 
 	 *  @param UsedBoard
 	 */
 	public UsedBoard update(UsedBoard usedboard);
 
+	
 	public void updateImgno(Map<String, Object> map);
+	
+	
+	/**
+	 *  게시글 삭제 
+	 *  @param UsedBoard
+	 */
+	public UsedBoard deleteBoardByBoardno(UsedBoard usedboard);
+	
+	
+	/**
+	 * 댓글 작성 
+	 * 
+	 * @param UsedComment
+	 */
+	public void insertComment(UsedComment usedcmt);
+	
+	/**
+	 *  게시글 번호를 통해 댓글 조회하기 
+	 *  @param UsedBoard
+	 *  @return
+	 */
+	public List<UsedComment> selectAllCommentnoByBoardno(UsedBoard usedboard);
+	
+	
+	/**
+	 *  댓글 번호를 통해 댓글 조회하기 
+	 *  @param UsedComment
+	 *  @return
+	 */
+	public UsedComment selectAllCommentByCommentno(UsedComment usedcmt);
 }

@@ -132,9 +132,6 @@ function sendFile(file, el){
 		} 
 	});
 }
-function testing(){
-	console.log(document.getElementById("images").value);
-}
 </script>
 
 
@@ -145,28 +142,28 @@ function testing(){
 	<h2>중고장터에서 거래하기</h2>
 </div>
 
+<hr>
 
-<div class="usedView">
+<div class="usedWrite">
 <form action="/used/write" method="post" name="writeForm" id="used-write" enctype="multipart/form-data">
 <input type="hidden" id="images" name="images" value="">
-<div class="input-group">
-	
-	<span class="input-group-addon" id="input-group-addon1">
-		태그
-	</span>
-	<select id="tag" name="tag" class="selectpicker" 
-		style="width:30px">
+
+<div class="container">
+	<select id="tag" name="tag" class="selectpicker"
+		style="width:50%; align-item:left;">
 		<option value="BUY">BUY</option>
 		<option value="SELL">SELL</option>
 	</select>
-	
-	
-	<span class="input-group-addon" id="input-group-addon1">
+</div>
+
+<div class="input-group">
+	<span class="input-group-addon">
 		제목
 	</span>
 	<input type="text" class="form-control" name="title"
 		style="width:100%" />
 </div>
+
 <div class="input-group">		
 	<span class="input-group-addon" id="input-group-addon1">
 		제품명
@@ -180,18 +177,19 @@ function testing(){
 	<input type="text" class="form-control" name="price"
 		style="width:100%" />
 </div>
-	
+
+<div>
 	<input type="hidden" name="writer" value="${nick }" />
 	<textarea name="content" id="content" 
-		style="display: none;"></textarea>
+		style="display: none; text-align: left;"></textarea>
 	<div id="summernote"></div>
+</div>
 	
 	
 	<div id="text-center">
 	    <button type="submit" id="btnWrite" class="btn btn-info">작성</button>
 	    <button type="button" id="btnCancel" class="btn btn-info">취소</button>
 	</div>
-	<button onclick="testing();">test</button>
 
 </form>
 </div>

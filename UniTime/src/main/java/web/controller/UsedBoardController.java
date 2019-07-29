@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
+import web.dto.UsedComment;
 import web.service.face.UsedService;
 import web.util.Paging;
 
@@ -115,6 +117,39 @@ public class UsedBoardController {
 		
 		return "redirect:/used/list";
 	}
+	
+	
+	/**
+	 *  이미지 저장하기 컨트롤러 
+	 */
+	@RequestMapping(value="/used/productImage", method=RequestMethod.POST)
+	public void productImage(
+			UsedBoard usedboard,
+			@RequestParam("img") MultipartFile fileupload,
+			HttpServletResponse resp
+			) {
+		
+		logger.info(usedboard.toString());
+		logger.info("파일 : " + fileupload.getOriginalFilename());
+		logger.info(context.getRealPath("usedUpload"));
+		
+		
+		
+		//첨부파일 저장
+		UsedImage usedImage = usedService.uploadFile(usedboard, fileupload, context);
+		logger.info(usedboard.toString());
+		logger.info(usedImage.toString());
+	
+		
+		
+		try {
+			resp.getWriter().append("{\"usedimgno\":"+usedImage.getUsedImgNo()+", \"boardno\":"+usedImage.getBoardno()+"}");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	
 	/**
@@ -128,7 +163,7 @@ public class UsedBoardController {
 			HttpServletResponse resp
 		) {
 		
-		logger.info("getfile--------------------------------");
+		logger.info("getfile------------");
 		logger.info(usedImg.toString());
 		
 		usedImg = usedService.getImg(usedImg);
@@ -178,41 +213,13 @@ public class UsedBoardController {
 	}
 	
 	
-	/**
-	 *  이미지 저장하기 컨트롤러 
-	 */
-	@RequestMapping(value="/used/productImage", method=RequestMethod.POST)
-	public void productImage(
-			UsedBoard usedboard,
-			@RequestParam("img") MultipartFile fileupload,
-			HttpServletResponse resp
-			) {
-		
-		logger.info(usedboard.toString());
-		logger.info("파일 : " + fileupload.getOriginalFilename());
-		logger.info(context.getRealPath("usedUpload"));
-		
-		
-		
-		//첨부파일 저장
-		UsedImage usedImage = usedService.uploadFile(usedboard, fileupload, context);
-		logger.info(usedboard.toString());
-		logger.info(usedImage.toString());
-	
-		
-		try {
-			resp.getWriter().append("{\"usedimgno\":"+usedImage.getUsedImgNo()+", \"boardno\":"+usedImage.getBoardno()+"}");
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
 	
 	/**
-	 * used/update 컨트롤러
-	 * 게시글 수정
+	 * 게시글 수정 
+	 * model 이용해서 board에 게시글 삽입
+	 * 
+	 * @param usedboard
+	 * @param model
 	 */
 	@RequestMapping(value="/used/update", method=RequestMethod.GET)
 	public void update(
@@ -227,6 +234,14 @@ public class UsedBoardController {
 		model.addAttribute("usedboard", usedboard);
 	}
 	
+	
+	/**
+	 * 게시글 수정
+	 * 수정한 이후 목록으로 redirect
+	 *  
+	 * @param usedboard
+	 * @return
+	 */
 	@RequestMapping(value="/used/update",
 			method=RequestMethod.POST)
 	public String updatingProc(UsedBoard usedboard) {
@@ -239,13 +254,73 @@ public class UsedBoardController {
 		return "redirect:/used/view?boardno="+usedboard.getBoardno();
 	}
 	
-//	@RequestMapping(value="/used/delete",
-//			method=RequestMethod.GET)
-//	public String delete(UsedBoard usedboard) {
-//		usedService.delete(usedboard.getBoardno());
-//		
-//		return "redirect:/used/list";
-//	}
+	
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param usedboard
+	 * @return
+	 */
+	@RequestMapping(value="/used/delete",
+			method=RequestMethod.GET)
+	public String delete(UsedBoard usedboard) {
+		usedService.delete(usedboard);
+		
+		return "redirect:/used/list";
+	}
+	
+	
+	/**
+	 * 댓글 작성
+	 * 
+	 * @param usedcmt
+	 * @param usedboard
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/used/writeCmt",
+			method=RequestMethod.POST)
+	public String writeComment(
+			UsedComment usedcmt,
+			UsedBoard usedboard,
+			HttpServletResponse response,
+			Model model
+		) {
+		
+		response.setContentType("application/json; charset=UTF-8");
+		
+		logger.info(usedcmt.toString());
+		
+		usedService.writeComment(usedcmt);
+		
+		usedcmt = usedService.getComment(usedcmt);
+		
+		usedboard.setBoardno(usedcmt.getBoardno());
+		
+		
+		return "redirect:/used/comment?boardno="+usedboard.getBoardno();
+	}
+	
+	
+	/**
+	 * 댓글 목록 조회하는 컨트롤러 
+	 * @param usedboard
+	 * @param model
+	 */
+	@RequestMapping(value="/used/commentList",
+			method=RequestMethod.GET)
+	public void commentList(
+			UsedBoard usedboard,
+			Model model
+		) {
+		
+		logger.info("댓글목록 조회");
+		
+		List<UsedComment> commentList = usedService.getComment(usedboard);
+		
+		model.addAttribute("commentList", commentList);
+	}
 	
 	
 }

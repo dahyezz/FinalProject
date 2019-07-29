@@ -37,6 +37,63 @@
 }
 
 </style>	
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$('#btnList').click(function() {
+		$(location).attr("href", "/used/list");
+	});
+
+	$('#btnUpdate').click(function() {
+		$(location).attr("href", "/used/update?boardno="+${usedboard.boardno });
+	});
+
+	$('#btnDelete').click(function() {
+		$(location).attr("href", "/used/delete?boardno="+${usedboard.boardno });
+	});
+	
+	$('#cmtWrite').click(function(){ 
+		var boardno = ${usedboard.boardno };
+		var writer = $('#content').val();
+		var content = $('#writer').val();
+		
+		console.log(boardno);
+		console.log(writer);
+		console.log(content);
+		
+		$.ajax({
+			type : "post" ,
+			url : "/used/writeCmt" ,
+			dataType : "html" ,
+			data : {
+				"boardno" : boardno,
+				"content" : content,
+				"writer" : writer
+			},
+			success : function(data){
+				$("#commentdiv").html(data);
+				$("#content").val("");
+			},
+			error : function() {
+				console.log("댓글작성중 error 발생");
+			}
+		});
+	});
+	
+});
+
+
+function enter_submit() {
+	// enter key = 13 (but why 13?)
+	if(event.keyCode == 13){
+		console.log("enter clicked");
+		$('#cmtWrite').click();
+	}
+}
+
+</script>
 	
 		
 <div class="usedView">
@@ -93,23 +150,28 @@
 			</td>
 		</tr>
 	</table>
-
-<div id="view-buttons">
-	<a href="/used/list">
-		<button class="btn btn-primary">목록</button>
-	</a>
 	
-	<!-- 접속한 회원의 nick이 해당 게시글의 작성자일 경우 -->
-	<c:if test="${nick eq usedboard.writer }">
-		<a href="/used/update?boardno=${usedboard.boardno }">
-			<button class="btn btn-primary">수정</button>
-		</a>
+	
+	<!-- 댓글 -->
+	<c:import url="/comment.jsp"/>
+	
+
+	<div id="view-buttons">
+		<button id="btnList" class="btn btn-primary">목록</button>
 		
-		<a href="/used/delete?boardno=${usedboard.boardno }">
-			<button class="btn btn-primary">삭제</button>
-		</a>
-	</c:if>
-</div>
+		<!-- 접속한 회원의 nick이 해당 게시글의 작성자일 경우 -->
+		<c:if test="${nick eq usedboard.writer }">
+			<button id="btnUpdate" class="btn btn-primary">수정</button>
+			
+			
+			<button id="btnDelete" class="btn btn-warning">삭제</button>
+		</c:if>
+		
+		<!-- 접속한 회원의 nick이 admin일 경우 -->
+		<c:if test="${nick eq 'admin' }">
+			<button id="btnDelete" class="btn btn-warning">삭제</button>
+		</c:if>
+	</div>
 
 </div>
 <br>
