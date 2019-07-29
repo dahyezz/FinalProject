@@ -214,21 +214,43 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/member/modify", method = RequestMethod.GET)
-	public void mypageModify() throws Exception {
+	public void memberModify() throws Exception {
 		logger.info("수정화면");
 	}
 	
 	// 회원정보 수정 post
 	@RequestMapping(value = "/member/modify", method = RequestMethod.POST)
-	public String modifyForm(HttpSession session, Member member) throws Exception {
+	public String memberModifyProc(HttpSession session, Member member) throws Exception {
 		
 	 logger.info("modify 처리");
 	 
 	 memberService.memberModify(member);
 	 
+	 logger.info(member.toString());
+	 
 	 session.invalidate();
 	 
-	 return "redirect:/main";
+	 return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/member/modifyNick", method = RequestMethod.GET)
+	public void memberModifyNick() throws Exception {
+		logger.info("수정화면");
+	}
+	
+	// 회원정보 수정 post
+	@RequestMapping(value = "/member/modifyNick", method = RequestMethod.POST)
+	public String memberModifyNickProc(HttpSession session, Member member) throws Exception {
+		
+	 logger.info("modifyNick 처리");
+	 
+	 memberService.memberModifyNick(member);
+	 
+	 logger.info(member.toString());
+	 
+	 session.invalidate();
+	 
+	 return "redirect:/";
 	}
 }
 

@@ -47,6 +47,7 @@
 		SELECT boardno, tag, store_name storeName, loc, content, writer, hit, score, writtendate
 		FROM tastyBoard_kg
 		WHERE writer = #{nickname }
+		ORDER BY sysdate DESC
 	</select>
 	
 	<select id = "freeList" parameterType = "web.dto.Member" resultType="web.dto.FreeBoard">
@@ -83,10 +84,17 @@
 		WHERE email = #{email }
 	</delete>
 	
-	<!-- 회원정보 수정 --> 
-	<update id="memberModify">
+	<!-- 비밀번호 수정 --> 
+	<update id="memberModify" parameterType = "web.dto.Member">
  		update Member_kg set
    		password = #{password}
-  		where hakbun = #{hakbun}  
+  		where hakbun = #{hakbun}
+	</update>
+	
+	<!-- 닉네임 수정 --> 
+	<update id="memberModifyNick" parameterType = "web.dto.Member">
+ 		update Member_kg set
+   		nickname = #{nickname}
+  		where hakbun = #{hakbun}
 	</update>
 </mapper>

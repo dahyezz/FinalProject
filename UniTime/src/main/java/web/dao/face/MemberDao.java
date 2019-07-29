@@ -47,9 +47,14 @@ public interface MemberDao {
 	public void memberDelete(Member member) throws Exception;
 	
 	/*
-	 * 회원 수정
+	 * 회원 비밀번호 수정
 	 */
 	public void memberModify(Member member) throws Exception;
+	
+	/*
+	 * 회원 닉네임 수정
+	 */
+	public void memberModifyNick(Member member) throws Exception;
 }
 
 
