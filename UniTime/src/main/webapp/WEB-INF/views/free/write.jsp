@@ -3,7 +3,82 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<!-- include summernote css/js-->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
+<script type="text/javascript">
+
+$(document).ready(function() {
+		
+	$('#summernote').summernote({
+		height: 300,
+		minHeight: 300,
+		maxHeight: null,
+		focus: true,
+		lang: 'ko-KR',
+		placeholder: '불건전한 언어 사용, 타인 비방 및 게시판 운영을 방해하는 행위가 확인되면 서비스 이용이 제한될 수 있습니다.',
+		toolbar: [
+			['style', ['style']],
+			['font', ['bold', 'italic', 'underline', 'clear']],
+	        ['fontname', ['fontname']],
+	        ['color', ['color']],
+	        ['para', ['ul', 'ol', 'paragraph']],
+	        ['height', ['height']],
+	        ['table', ['table']],
+	        ['insert', ['link', 'hr', 'picture']],
+	        ['view', ['fullscreen', 'codeview']],
+	        ['help', ['help']]
+		],
+		callbacks: {
+			onImageUpload: function(files, editor){
+				sendFile(files[0], this);
+			}
+		}
+		
+	});
+	
+	//취소 버튼 동작
+	$("#btnCancel").click(function() {
+		history.go(-1);
+	});
+	
+	//select태그 동작
+	//$('select').selectpicker();
+	
+	$("#writeForm").submit(function() {
+		
+		var code = $('#summernote').summernote('code');
+	    $('textarea[name="content"]').val(code);
+		$(this).submit();
+		
+	});
+});
+
+function sendFile(file, el){
+	//파일 전송을 위한 폼 데이터 생성
+	var data = new FormData();
+	data.append("file", file);
+	data.append("boardno",$('#boardno').val());
+	
+	//ajax를 통해 파일 업로드 처리
+	$.ajax({	
+		data: data
+		, dataType: "json"
+		, type: "POST"
+		, url: "/free/imageUpload"
+		, cache: false
+		, contentType: false
+		, enctype: "multipart/form-data"
+		, processData: false
+		, success: function(data) {
+			// 에디터에 이미지 출력
+			$(el).summernote('editor.insertImage', "/freeImage?fileno="+data.fileno);
+        	$('#boardno').val(data.boardno);
+		}
+	});
+}
+</script>
 
 <style type="text/css">
 .freeWrite table {
@@ -33,7 +108,7 @@
 
 <h1>글쓰기</h1>
 
-<form action="/free/write" method="post" enctype="multipart/form-data">
+<form action="/free/write" method="post" id ="writeForm" enctype="multipart/form-data">	
 	<table class="table table-condensed">
 	<tr>
 		<th>작성자</th>
@@ -68,15 +143,17 @@
 	</tr>
 	<tr>
 		<td colspan="4">
-		<textarea id="content" name="content" rows="10" cols="100" ></textarea>
+		<textarea id="summernote" name="content"></textarea>
 		</td>
 	</tr>
 	</table>
 	
 	<div class="text-center">	
-	<button id="btnWrite" >작성</button>
-	<button type="button" id="btnCancel" onclick="history.go(-1)">취소</button>
+	<button type="submit" id="btnWrite" >작성</button>
+	<button type="button" id="btnCancel">취소</button>
 	</div>
+	
+	<input type="hidden" name="boardno" id="boardno" value="1" />
 </form>
 
 </div>

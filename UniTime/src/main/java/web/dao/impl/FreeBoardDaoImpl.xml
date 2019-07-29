@@ -76,8 +76,13 @@
 	</delete>
 	
 	<insert id="insertFile" parameterType="web.dto.FreeFile">
+	
+		<selectKey order="BEFORE" resultType="int" keyProperty="fileno">
+			SELECT freefile_kg_seq.nextval FROM dual
+		</selectKey>
+		
 		INSERT INTO freefile_kg(fileno, boardno, originname, storedname)
-		VALUES(freefile_kg_seq.nextval, #{boardno }, #{originname }, #{storedname })
+		VALUES(#{fileno }, #{boardno }, #{originname }, #{storedname })
 	</insert>
 	
 	<select id="selectFileByBoardno" parameterType="int" resultType="web.dto.FreeFile">

@@ -1,11 +1,17 @@
 package web.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -13,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +30,8 @@ import org.springframework.web.servlet.ModelAndView;
 import web.dto.FreeBoard;
 import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
+import web.dto.TastyBoard;
+import web.dto.TastyFile;
 import web.dto.FreeComment;
 import web.service.face.FreeBoardService;
 import web.util.Paging;
@@ -106,6 +115,74 @@ public class FreeBoardController {
 		}
 		
 		return "redirect:/free/list";
+	}
+	
+	@RequestMapping(value="/free/imageUpload", method=RequestMethod.POST)
+	public void imageUpload(FreeBoard freeBoard,
+							@RequestParam("file") MultipartFile fileupload,
+							HttpServletResponse resp,
+							HttpServletRequest req ) {
+		
+		//첨부파일 저장
+		FreeFile freeFile = freeBoardService.uploadImage(freeBoard, fileupload, context);
+		logger.info(freeBoard.toString());
+		logger.info(freeFile.toString());
+		
+		try {
+			resp.getWriter().append("{\"fileno\":"+freeFile.getFileno()+", \"boardno\":"+freeFile.getBoardno()+"}");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 글 작성 폼에서 이미지 선택 시 summernote에 이미지 뜨도록 하는 메소드 -> tempfree에서 조회
+	@RequestMapping(value="/freeImage", method=RequestMethod.GET)
+	public void getImage(FreeFile freeFile, HttpServletRequest req, HttpServletResponse resp) {
+	
+		freeFile = freeBoardService.getFile(freeFile.getFileno());
+		
+		File src = new File(context.getRealPath("freeUpload"), freeFile.getStoredname());
+		
+		resp.setContentLength((int) src.length());
+		resp.setCharacterEncoding("utf-8");
+		
+		String filename = "";
+		
+		try {
+			filename = URLEncoder.encode(freeFile.getOriginname(), "utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
+		//UTF-8 인코딩 오류 수정 (한글만 바꿔야 하는데 특수기호까지 바꿔서 문제가 생기는것)
+		filename = filename.replace("+", "%20"); //띄어쓰기
+		filename = filename.replace("%5B", "["); 
+		filename = filename.replace("%5D", "]");
+		filename = filename.replace("%21", "!"); 
+		filename = filename.replace("%23", "#"); 
+		filename = filename.replace("%24", "$"); 
+		
+		
+		File origin = new File(context.getRealPath("freeUpload"), freeFile.getStoredname());
+		FileInputStream fis = null;
+		
+		try {
+			fis = new FileInputStream(origin);
+			OutputStream out = resp.getOutputStream();
+	
+			FileCopyUtils.copy(fis, out);
+			
+			out.flush();
+			
+			fis.close();
+			out.close();
+			
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	@RequestMapping(value="/free/update", method=RequestMethod.GET)
