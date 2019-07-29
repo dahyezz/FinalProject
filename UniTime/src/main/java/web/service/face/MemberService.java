@@ -48,7 +48,10 @@ public interface MemberService {
 
 	public Member getinfo(String email);
 	
-	//회원정보 수정
+	//비밀번호 수정
 	public void memberModify(Member member) throws Exception;
+	
+	//닉네임 수정
+	public void memberModifyNick(Member member) throws Exception;
 
 }

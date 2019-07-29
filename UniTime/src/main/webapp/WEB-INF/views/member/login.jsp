@@ -14,12 +14,12 @@
   overflow: hidden;
 }
 #btnLogin {
-  background: #7f7fff;
-  background-image: -webkit-linear-gradient(top, #7f7fff, #7f7fff);
-  background-image: -moz-linear-gradient(top, #7f7fff, #7f7fff);
-  background-image: -ms-linear-gradient(top, #7f7fff, #7f7fff);
-  background-image: -o-linear-gradient(top, #7f7fff, #7f7fff);
-  background-image: linear-gradient(to bottom, #7f7fff, #7f7fff);
+  background:  #47b8e0;
+  background-image: -webkit-linear-gradient(top,  #47b8e0,  #47b8e0);
+  background-image: -moz-linear-gradient(top,  #47b8e0,  #47b8e0);
+  background-image: -ms-linear-gradient(top,  #47b8e0,  #47b8e0);
+  background-image: -o-linear-gradient(top,  #47b8e0,  #47b8e0);
+  background-image: linear-gradient(to bottom,  #47b8e0,  #47b8e0);
   -webkit-border-radius: 5;
   -moz-border-radius: 5;
   border-radius: 5px;
