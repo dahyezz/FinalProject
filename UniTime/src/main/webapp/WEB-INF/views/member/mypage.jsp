@@ -5,6 +5,41 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <script type="text/javascript">
+
+function delete_row() {
+    var grades = document.getElementById('grades');
+    if (grades.rows.length < 1) return;
+    // grades.deleteRow(0); // 상단부터 삭제
+    grades.deleteRow( grades.rows.length-1 ); // 하단부터 삭제
+}
+
+jQuery(function(){
+    var counter = null;
+    jQuery('a.add-author').click(function(event){
+        event.preventDefault();
+
+        var newRow = jQuery('<tr>' +
+        		'<td style="width: 10%"><input type = "text"></td>' +
+        		'<td style="width: 3%">' +
+        		'<select name="grades">' +
+        		'<option value="4.5">A+</option>' +
+        		'<option value="4.0">A</option>' +
+        		'<option value="3.5">B+</option>' +
+        		'<option value="3.0">B</option>' +
+        		'<option value="2.5">C+</option>' +
+        		'<option value="2.0">C</option>' +
+        		'<option value="1.5">D</option>' +
+        		'<option value="0">F</option>' +
+        		'</select></td>' +
+        		'<td style="width: 1%">' +
+        		'<input type="checkbox" name="checkRow"/></td>' +
+        		'</tr>');
+            counter++;
+        jQuery('table.grades').append(newRow);
+
+    });
+});
+
 $(document).ready(function() {
 	
 	// 선택체크 삭제
@@ -86,6 +121,26 @@ $(document).ready(function() {
 	});
 });
 
+$(document).ready(function(){
+	$("#btnGrades").click(function(){
+		
+		var temp    = [];
+	    var obj     = $('select[name="grades"]');
+	    var result  = false;
+	 
+	    // 현재 옵션값 임시 배열에 저장
+	    $(obj)
+	        .each(function(i) {
+				temp[i] = $(this).val();
+				
+				console.log(temp[i]);
+
+	        });
+
+		$("#result").text("모든 성적 : " + temp + "평균 성적 : ");
+	});
+});
+
 </script>
 
 <style type = "text/css">
@@ -116,7 +171,7 @@ background: #ffc952;
   border: solid  #47b8e0 1px;
   text-decoration: none;
 }
-#btnDelete1, #btnDelete2, #btnDelete3 {
+#btnDelete1, #btnDelete2, #btnDelete3, #btnGrades {
   background:  #47b8e0;
   background-image: -webkit-linear-gradient(top,  #47b8e0,  #47b8e0);
   background-image: -moz-linear-gradient(top,  #47b8e0,  #47b8e0);
@@ -312,30 +367,70 @@ background: #ffc952;
 <br>
 <br>
 <br>
-<hr>
+
+<div class="container">
+
+<div class="row">
+
+
+<div class="col order-1">
+<br>
 <div style="text-align: center">
-<h3>학점계산기</h3>
+학점 계산기<br><br>
 </div>
-<table style = "text-align : center; margin : auto;" class = "mypagelist">
+<div>
+<table style = "text-align : center; margin : auto;" class = "grades">
 <thead>
 	<tr>
-		<th style="width: 3%">과목</th>
+		<th style="width: 10%">과목명</th>
 		<th style="width: 3%">점수</th>
-		<th style="width: 3%">학점</th>
-		<th style="width: 3%">전공</th>
+		<th style="width: 1%">전공</th>
 	</tr>
 </thead>
-<tbody>
-<c:forEach items="${usedList }" var="i">
+<tbody id = "grades">
 	<tr>
-		<td style="width: 3%"><input type = "text"></td>
-		<td style="width: 3%"></td>
-		<td style="width: 3%"></td>
+		<td style="width: 10%"><input type = "text"></td>
 		<td style="width: 3%">
-		<input type="checkbox" name="checkRow" value = "${i.boardno }"/></td>
+          <select name="grades">
+                 <option value="4.5">A+</option>
+                 <option value="4.0">A</option>
+                 <option value="3.5">B+</option>
+                 <option value="3.0">B</option>
+                 <option value="2.5">C+</option>
+                 <option value="2.0">C</option>
+                 <option value="1.5">D</option>
+                 <option value="0">F</option>
+             </select></td>
+		<td style="width: 1%">
+		<input type="checkbox" name="checkRow"/></td>
 	</tr>
-	</c:forEach>
+		<tr>
+		<td style="width: 10%"><input type = "text"></td>
+		<td style="width: 3%">
+          <select name="grades">
+                 <option value="4.5">A+</option>
+                 <option value="4.0">A</option>
+                 <option value="3.5">B+</option>
+                 <option value="3.0">B</option>
+                 <option value="2.5">C+</option>
+                 <option value="2.0">C</option>
+                 <option value="1.5">D</option>
+                 <option value="0">F</option>
+             </select></td>
+		<td style="width: 1%">
+		<input type="checkbox" name="checkRow"/></td>
+	</tr>
 </tbody>
 </table>
+</div>
+<a href="#" title="" class="add-author">과목 추가</a>
+<a onclick="delete_row()">과목 삭제</a><br><br>
 
+		<p class="result" id = "result">
+		<span class="msg">성적을 입력해 주세요</span>
+
+<div id="btnBox" class="float-right" style="text-align: right">
+	<button class="grades" id = "btnGrades">계산</button>
+</div>
+</div></div></div>
 

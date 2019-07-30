@@ -175,8 +175,12 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void memberModifyNick(Member member) throws Exception {
 		memberDao.memberModifyNick(member);
-		
-		
+	}
+	
+	@Override
+	public void memberGrades(Member member)  {
+		memberDao.memberGrades(member);
+
 	}
 }
 

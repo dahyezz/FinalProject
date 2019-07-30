@@ -69,7 +69,6 @@
 }
 
 </style>
-
 <script type="text/javascript">
 
 function inputCheck() {
@@ -189,6 +188,7 @@ function inputCheck() {
 <div style="text-align: center">
 	<h3>회원가입</h3>
 </div>
+
 
 <div>
 

@@ -53,5 +53,7 @@ public interface MemberService {
 	
 	//닉네임 수정
 	public void memberModifyNick(Member member) throws Exception;
+	
+	public void memberGrades(Member member);
 
 }
