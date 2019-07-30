@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import web.dto.BadReport;
 import web.dto.FreeBoard;
 import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
@@ -303,5 +304,14 @@ public class FreeBoardController {
 		}
 		
 		return "redirect:/free/list";
+	}
+	
+	@RequestMapping(value="/free/declare", method=RequestMethod.POST)
+	public void declare(BadReport badReport) {
+		
+		logger.info(badReport.toString());
+		
+		freeBoardService.declare(badReport);
+		
 	}
 }

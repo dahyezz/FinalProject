@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.BadReport;
 import web.dto.FreeBoard;
 import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
@@ -130,5 +131,11 @@ public interface FreeBoardService {
 	 * @param boardno - 게시글 번호
 	 */
 	public void deleteNotice(int boardno);
+	
+	/**
+	 * 	게시글 신고
+	 * @param badReport
+	 */
+	public void declare(BadReport badReport);
 
 }

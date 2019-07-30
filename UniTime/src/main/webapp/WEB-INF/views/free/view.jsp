@@ -58,7 +58,9 @@ $(document).ready(function(){
     			html+= '<span style="font-weight:bold;">'+this.writer+'</span><br>';
 	            html+= '<span>'+this.content+'</span><br>';
 	            html+= '<span style="color:#ccc;">'+writtendate+'</span>&nbsp;&nbsp;';
-	            html+= '<span><a href="/free/report">신고</a></span>';
+	            if(nick != this.writer){
+	            html+= '<span><a href="javascript:void(0)" onclick="declare('+boardno+','+this.commentno+')" id="cmtDeclare'+this.commentno+'">신고</a></span>';
+	            }
 	            if(nick == this.writer || nick == 'admin'){
 	            	html+= '<button class="commentDelete" data-commentno="'+this.commentno+'" style="float:right;">삭제</button>';
 	            }
@@ -119,6 +121,76 @@ $(document).ready(function(){
 	});
 		
 });
+
+//신고
+function declare(boardno, commentno){
+
+	var myWindow = null;
+	var check = true;
+	var interval = null;
+	
+	myWindow = window.open("/free/declareReason","신고사유","width=550, height=650, left=100 top=20", "resizable=no");
+
+	interval = window.setInterval(function() {
+		try {
+			if(myWindow == null || myWindow.closed){
+				if(check){
+					check = false;
+					declareProc(boardno, commentno)
+				}
+					
+				if(!check)
+					return;
+			}
+		} catch (e) { }
+	}, 100);
+
+}
+
+function declareProc(boardno, commentno){
+
+	var boardname="tasty";
+	
+	// 신고자정보
+	var nick=document.getElementById('writer').value;
+	var reason = document.getElementById('reason').value;
+
+	$.ajax({
+		type: "post"	
+		, url: "/free/declare"
+		, dataType: "json"
+		, data: {
+			boardname: boardname,
+			boardno: boardno,
+			commentno: commentno,
+			reason: reason,
+			nickname: nick
+		}
+		, success: function(data){
+// 			console.log(data.commentno)
+			if(data.commentno==0){
+				if(data.success){
+					$('#btnDeclare').html('신고완료');
+					$("#btnDeclare").css({ 'pointer-events': 'none' });
+					alert("신고가 완료되었습니다.")
+				} else {
+					$('#btnDeclare').html('신고');
+				}
+			}
+			else {
+				if(data.success){
+					$('#commentno'+data.commentno).html('관리자에 의해 규제된 댓글입니다.')
+				} else {
+					$('#cmtDeclare'+data.commentno).html('신고');
+				}
+				
+			}
+		}
+		, error: function() {
+			console.log("error")
+		}
+	});
+}
 </script>
 
 <style type="text/css">
@@ -196,7 +268,10 @@ $(document).ready(function(){
 		<button id="btnUpdate" class="btn btn-info">수정</button>
 		<button id="btnDelete" class="btn btn-info">삭제</button>
 	</c:if>
-	<button id="btnReport" style="float:right;" class="btn btn-info">신고</button>
+	<c:if test="${nick ne board.writer">
+	<button id="btnReport" style="float:right;" onclick="declare('${board.boardno }')" id="btnDeclare" class="btn btn-info">신고</button>
+	<input type="hidden" id="reason" />
+	</c:if>
 </div>
 
 <!-- 댓글 작성 -->
