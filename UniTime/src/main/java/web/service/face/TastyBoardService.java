@@ -1,6 +1,7 @@
 package web.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -17,10 +18,10 @@ public interface TastyBoardService {
 	/**
 	 * 현재페이지와 총 게시글 수, listCount로 페이징 객체 만들기
 	 * 
-	 * @param curPage - 현재페이지
+	 * @param map - 현재페이지
 	 * @return Paging - 페이징 정보가 담긴 페이징 객체
 	 */
-	public Paging getcurPage(int curPage);
+	public Paging getcurPage(Map<String, Object> map);
 
 	/**
 	 * 전체 게시글 목록 불러오기

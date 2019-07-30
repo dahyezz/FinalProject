@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -43,10 +44,17 @@ public class TastyBoardController {
 	
 	@RequestMapping(value="/tasty/list", method=RequestMethod.GET)
 	public void list(Model model,
-			@RequestParam(defaultValue="1") int curPage
+			@RequestParam(defaultValue="1") int curPage,String searchType, String keyword,
+			Map<String, Object> map 
 			) {
 		
-		Paging paging = tastyBoardService.getcurPage(curPage);
+		map.put("curPage", curPage);
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		
+		Paging paging = tastyBoardService.getcurPage(map);
+	
+		logger.info(paging.toString());
 		
 		List<TastyBoard> boardList = tastyBoardService.list(paging);
 
@@ -69,9 +77,8 @@ public class TastyBoardController {
 		badReport.setNickname(session.getAttribute("nick").toString());
 		logger.info(badReport.toString());
 
-		//신고가 되었는지 체크
+		//신고가 되었는지 체크(게시글)
 		boolean isDeclare = tastyBoardService.checkReclare(badReport);
-		System.out.println(isDeclare);
 		model.addAttribute("isDeclare", isDeclare);
 	}
 	
