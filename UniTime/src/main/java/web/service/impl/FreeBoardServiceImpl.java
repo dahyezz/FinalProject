@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.FreeBoardDao;
+import web.dto.BadReport;
 import web.dto.FreeBoard;
 import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
@@ -246,5 +247,10 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		
 		//게시글 삭제		
 		freeBoardDao.deleteNoticeBoard(boardno);
+	}
+
+	@Override
+	public void declare(BadReport badReport) {
+		freeBoardDao.insertFreeBoardReport(badReport);
 	}
 }

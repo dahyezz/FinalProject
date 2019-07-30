@@ -2,6 +2,7 @@ package web.dao.face;
 
 import java.util.List;
 
+import web.dto.BadReport;
 import web.dto.FreeBoard;
 import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
@@ -96,7 +97,7 @@ public interface FreeBoardDao {
 	
 	/**
 	 * 	게시글에 댓글 입력
-	 * @param comment
+	 * @param FreeComment
 	 */
 	public void insertComment(FreeComment freeComment);
 	
@@ -148,4 +149,16 @@ public interface FreeBoardDao {
 	 * @param boardno
 	 */
 	public void deleteNoticeBoard(int boardno);
+	
+	/**
+	 * 	자유게시판 게시글 신고
+	 * @param badReport - 신고 테이블
+	 */
+	public void insertFreeBoardReport(BadReport badReport);
+	
+	/**
+	 * 	자유게시판 댓글 신고
+	 * @param badReport - 신고 테이블
+	 */
+	public void insertFreeCommentReport(BadReport badReport);
 }
