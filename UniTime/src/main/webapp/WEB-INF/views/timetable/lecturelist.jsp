@@ -33,12 +33,16 @@ $(document).ready(function() {
 			);
 		$(document.body).append($form);
 		$form.submit();
+		
+		if($lectureCheck == false){
+			alert("시간이 중복되었습니다");
+		}
 	});
 	
 	
 	//선택 삭제
 	$("#btnDelete").click(function(){
-		var $checkboxes = $("input:checkbox[name='checkRow2']:checked");
+		var $checkboxes = $("input:checkbox[name='checkMyRow']:checked");
 		
 		//방법1
 		// 체크된 대상들을 하나씩 꺼내서 문자열로 합치기
@@ -90,7 +94,6 @@ function checkAll() {
 }
 
 </script>
-
 
 <style type="text/css">
 #lectureList {
@@ -176,7 +179,7 @@ function checkAll() {
 <tbody>
 <c:forEach items="${myList }" var="mi">
 	<tr>
-		<td><input type="checkbox" name="checkRow2" value="${mi.lecture_code }" /></td>
+		<td><input type="checkbox" name="checkMyRow" value="${mi.lecture_name }" /></td>
 		<td>${mi.grade }</td>
 		<td>${mi.lecture_section }</td>
 		<td>${mi.department_name }</td>
