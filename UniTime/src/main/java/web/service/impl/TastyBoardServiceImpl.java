@@ -3,6 +3,7 @@ package web.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -26,11 +27,16 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	@Autowired TastyBoardDao tastyBoardDao;
 	
 	@Override
-	public Paging getcurPage(int curPage) {
+	public Paging getcurPage(Map<String, Object> map) {
 
 		int totalCount = tastyBoardDao.selectCntAll();
+		int curPage = Integer.parseInt(map.get("curPage").toString());
+		
 		int listCount = 9;
 		Paging paging = new Paging(totalCount, curPage, listCount);
+		
+		paging.setSearchType((String) map.get("searchType"));
+		paging.setKeyword((String) map.get("keyword"));
 		
 		return paging;
 	}

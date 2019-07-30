@@ -10,6 +10,18 @@
 	<select id="selectCntAll" resultType="int">
 		SELECT COUNT(*)
 		FROM tastyboard_kg
+		<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+			<choose>
+		    	<when test="searchType == 'total'">
+		        	WHERE loc LIKE '%' || '${keyword }' || '%'
+		        	OR content LIKE '%' || '${keyword }' || '%'
+		        	OR writer LIKE '%' || '${keyword }' || '%'
+		        	</when>
+		        <when test="searchType != 'total'">
+		        	WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
+		        </when>
+			</choose>
+		</if>
 	</select>
 	
 	<select id="selectAll" parameterType="web.util.Paging" resultType="web.dto.TastyBoard">
@@ -18,6 +30,18 @@
 		FROM (
 			SELECT rownum rnum, B.* FROM (
 				SELECT * FROM tastyboard_kg
+				<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+		        	<choose>
+		        		<when test="searchType == 'total'">
+		        			WHERE loc LIKE '%' || '${keyword }' || '%'
+		        			OR content LIKE '%' || '${keyword }' || '%'
+		        			OR writer LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        		<when test="searchType != 'total'">
+		        			WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        	</choose>
+		        </if>
 				ORDER BY boardno DESC
 				) B
 			ORDER BY rnum
@@ -80,8 +104,11 @@
 	</select>
 	
 	<select id="selectAllCommentByBoardno" parameterType="web.dto.TastyBoard" resultType="web.dto.TastyComment">
-		SELECT commentno, boardno, writer, content, writtendate
-		FROM tastycomment_kg
+		SELECT commentno, boardno, writer, content, writtendate, badCnt 
+		FROM (
+		    SELECT commentno, boardno, writer, content, writtendate,
+		        (SELECT COUNT(*) FROM badreport_kg WHERE commentno = tastycomment_kg.commentno ) AS badCnt
+		    FROM tastycomment_kg)
 		WHERE boardno = #{boardno }
 		ORDER BY commentno
 	</select>

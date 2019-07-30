@@ -40,8 +40,49 @@ $(document).ready(function() {
 		$(document.body).append($form);
 		$form.submit();
 				
+	});
+	
+	//검색 버튼 동작
+	$('#btnSearch').click(function () {
+		
+		var search = document.getElementById('search').value;
+		console.log(search);
 		
 	});
+	
+	$('#searchType').on('change', function() {
+		
+		var selected = $(this).val();
+		console.log(selected);
+		
+		var text = 	document.getElementById('keyword');
+		var select = document.getElementById('tagSelected');
+
+		if(selected == 'tag'){
+			
+			text.setAttribute('name', 'except');
+			text.style.display="none";
+			
+// 			elem.parentNode.removeChild(elem);
+			select.setAttribute('name', 'keyword');
+			select.style.display='inline';
+			
+			
+		}
+		
+		if(selected != 'tag'){
+			
+			if(text.style.display == 'none'){
+				
+				text.setAttribute('name', 'keyword');
+				text.style.display="inline"
+				
+				select.setAttribute('name', 'except');
+				select.style.display="none"
+			}
+			
+		} 
+	})
 	
 });
 
@@ -148,13 +189,23 @@ function checkAll() {
 			<!-- 현재 보고 있는 페이지번호만 강조해주기 -->
 			<c:if test="${paging.curPage eq i}">
 			<li class="active">
-				<a href="/tasty/list?curPage=${i }">${i }</a>
+				<c:if test="${searchType eq null and keyword eq null }">
+					<a href="/tasty/list?curPage=${i }">${i }</a>
+				</c:if>
+				<c:if test="${searchType ne null and keyword ne null }">
+					<a href="/tasty/list?curPage=${i }&searchType=${searchType }&keyword=${keyword }">${i }</a>
+				</c:if>
 			</li>
 			</c:if>
 		
 			<c:if test="${paging.curPage ne i}">
 			<li>
-				<a href="/tasty/list?curPage=${i }">${i }</a>
+				<c:if test="${searchType eq null and keyword eq null }">
+					<a href="/tasty/list?curPage=${i }">${i }</a>
+				</c:if>
+				<c:if test="${searchType ne null and keyword ne null }">
+					<a href="/tasty/list?curPage=${i }&searchType=${searchType }&keyword=${keyword }">${i }</a>
+				</c:if>
 			</li>
 			</c:if>
 			
@@ -169,7 +220,7 @@ function checkAll() {
 
 		<c:if test="${paging.curPage ne paging.totalPage }">
 		<li>
-			<a href="/tasty/list?curPage=${paging.curPage+1 }">
+			<a href="/tasty/list?curPage=${paging.curPage+10 }&searchType=${searchType }&keyword=${keyword }">
 			<span>&raquo;</span>
 		</a>
 		</li>
@@ -177,6 +228,31 @@ function checkAll() {
 	</ul>
 </div>
 
-<div class="text-center">
-	<button id="btnWrite" class="btn btn-primary">글쓰기</button>
+
+
+<div class="tastySearch" id="tastySearch">
+<form action="/tasty/list" method="get">
+	<select name="searchType" id="searchType">
+		<option value="total" selected>전체</option>
+		<option value="tag">종류</option>
+		<option value="loc">위치</option>
+		<option value="content">내용</option>
+		<option value="writer">작성자</option>
+	</select>
+	
+	<select name="except" id="tagSelected" style="display:none;">
+		<option value="술">술</option>
+		<option value="밥">밥</option>
+		<option value="카페">카페</option>
+	</select>
+	
+	<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력해주세요."/>
+	<button>검색</button>
+</form>
 </div>
+
+<div class="tastyWrite">
+	<button id="btnWrite" class="btn btn-primary pull-right">글쓰기</button>
+</div>
+
+<div class="clearfix"></div>

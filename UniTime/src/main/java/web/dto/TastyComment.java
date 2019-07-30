@@ -8,11 +8,12 @@ public class TastyComment {
 	private String writer;
 	private String content;
 	private Date writtendate;
-	
+	private int badCnt; //신고카운트
+
 	@Override
 	public String toString() {
 		return "TastyComment [commentno=" + commentno + ", boardno=" + boardno + ", writer=" + writer + ", content="
-				+ content + ", writtendate=" + writtendate + "]";
+				+ content + ", writtendate=" + writtendate + ", badCnt=" + badCnt + "]";
 	}
 
 	public int getCommentno() {
@@ -54,6 +55,15 @@ public class TastyComment {
 	public void setWrittendate(Date writtendate) {
 		this.writtendate = writtendate;
 	}
+
+	public int getBadCnt() {
+		return badCnt;
+	}
+
+	public void setBadCnt(int badCnt) {
+		this.badCnt = badCnt;
+	}
+	
 	
 	
 
