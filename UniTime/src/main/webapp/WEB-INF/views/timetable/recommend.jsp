@@ -381,7 +381,7 @@ background-color:#ffc952;
 </div>
 
 <div style="width:50%;float:right;padding:10px;">
-<c:import url="/timetable/ajax/recommendlist"></c:import>
+<c:import url="/timetable/showtable/recommendation/recommendlist"></c:import>
 </div>
 
 <!-- <div style="width:50%;float:right;"> -->

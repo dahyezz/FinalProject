@@ -112,7 +112,7 @@ public class TimeTableController {
 	}
 	
 	
-	@RequestMapping(value="/timetable/ajax/recommendlist", method=RequestMethod.GET)
+	@RequestMapping(value="/timetable/showtable/recommendation/recommendlist", method=RequestMethod.GET)
 	public void recommendList(Model model, HttpSession session, HttpServletRequest req
 			, @RequestParam("timepriority") String timepriority
 			, @RequestParam("classNum") int classNum
