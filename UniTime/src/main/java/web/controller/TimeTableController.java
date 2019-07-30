@@ -13,9 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.TempTable;
+import web.dto.TimeTable;
 import web.service.face.TimeTableService;
 
 @Controller
@@ -48,15 +48,35 @@ public class TimeTableController {
 		String id= (String) session.getAttribute("email");
 		
 		TempTable temp = new TempTable();
+		TimeTable timeTable = new TimeTable();
 		
 		temp.setUser_email(id);
 		temp.setLecture_code(Integer.parseInt(names));
 		
-		timeTableService.myListInsert(temp);
-		List mylist = timeTableService.myList(id);
-	
+		timeTable = timeTableService.getTableByTemp(temp);
+		temp.setStart_time(timeTable.getStart_time());
+		temp.setLecture_day(timeTable.getLecture_day());
 		
-		model.addAttribute("myList", mylist);
+		if(timeTableService.checkLecture(temp)) {
+			
+			timeTableService.myListInsert(temp);
+			List mylist = timeTableService.myList(id);
+		
+			
+			model.addAttribute("myList", mylist);
+		}
+		
+		boolean checklec;
+		if(!timeTableService.checkLecture(temp)) {
+			checklec=false;
+			model.addAttribute("lectureCheck", checklec);
+		}
+		
+//		timeTableService.myListInsert(temp);
+//		List mylist = timeTableService.myList(id);
+//	
+//		
+//		model.addAttribute("myList", mylist);
 		
 		
 		return "redirect:/timetable/lecturelist";
@@ -72,12 +92,12 @@ public class TimeTableController {
 		TempTable temp = new TempTable();
 		
 		temp.setUser_email(id);
-		temp.setLecture_code(Integer.parseInt(names));
+		temp.setLecture_name(names);
 		
 		timeTableService.myListDelete(temp);
-		List mylist = timeTableService.myList(id);
+//		List mylist = timeTableService.myList(id);
 	
-		model.addAttribute("myList", mylist);
+//		model.addAttribute("myList", mylist);
 		
 		
 		return "redirect:/timetable/lecturelist";
@@ -104,8 +124,6 @@ public class TimeTableController {
 		List mylist = timeTableService.myList(id);
 		model.addAttribute("myList", mylist);
 		
-		
-		
 		List recommendList = timeTableService.recommendList(req);
 		model.addAttribute("recommendList", recommendList);
 		
@@ -125,6 +143,16 @@ public class TimeTableController {
 		List recommendList = timeTableService.recommendList(req);
 		model.addAttribute("recommendList", recommendList);
 		
+		
+	}
+	
+	@RequestMapping(value="/timetable/insertmytable", method=RequestMethod.POST)
+	public String insertMytable(Model model) {
+		
+		TempTable temp = new TempTable();
+//		timeTableService.mytableInsert(temp);
+		
+		return "redirect:/timetable/recommend";
 		
 	}
 	

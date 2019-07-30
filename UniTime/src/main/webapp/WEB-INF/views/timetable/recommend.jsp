@@ -348,8 +348,8 @@ background-color:#ffc952;
 <form>
 <h5>시간 우선순위 선택</h5>
 <select name="timepriority">
-<option value="am">오전</option>
-<option value="pm">오후</option>
+<option value="0">오전</option>
+<option value="1">오후</option>
 </select>
 <br>
 <!-- <h5>추가할 전공과목 수</h5> -->
