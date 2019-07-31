@@ -373,7 +373,7 @@ background: #ffc952;
 <div class="row">
 
 
-<div class="col order-1">
+<!-- <div class="col order-1"> -->
 <br>
 <div style="text-align: center">
 학점 계산기<br><br>
@@ -432,5 +432,5 @@ background: #ffc952;
 <div id="btnBox" class="float-right" style="text-align: right">
 	<button class="grades" id = "btnGrades">계산</button>
 </div>
-</div></div></div>
+</div></div>
 

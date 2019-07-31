@@ -268,7 +268,7 @@ function declareProc(boardno, commentno){
 		<button id="btnUpdate" class="btn btn-info">수정</button>
 		<button id="btnDelete" class="btn btn-info">삭제</button>
 	</c:if>
-	<c:if test="${nick ne board.writer">
+	<c:if test="${nick ne board.writer }">
 	<button id="btnReport" style="float:right;" onclick="declare('${board.boardno }')" id="btnDeclare" class="btn btn-info">신고</button>
 	<input type="hidden" id="reason" />
 	</c:if>

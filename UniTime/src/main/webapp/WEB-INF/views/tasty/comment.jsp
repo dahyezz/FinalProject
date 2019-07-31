@@ -54,12 +54,21 @@ $(document).ready(function() {
 
 <input type="hidden" id="login" value="${nick }" />
 <c:forEach items="${commentList }" var="i">
-	<div id="commentno${i.commentno }" data-commentno="${i.commentno }" class="comment"> 
-	
+	<div id="commentno${i.commentno }" data-commentno="${i.commentno }" data-refCommentno="${i.refCommentno }" data-dept="${i.dept }" class="comment"> 
+
+		<c:forEach  begin="1" end="${i.dept }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:forEach>
+
+		<c:if test="${i.dept ne 0 }">ㄴ</c:if>
+
 		<span>${i.writer }</span>
 		<span>${i.content }</span>
-		<span><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm:ss" /></span>
+		<span><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm" /></span>
 		
+		
+		
+		<c:if test="${i.dept eq 0 }"><a href="javascript:void(0)" class="recomment">대댓글</a></c:if>
+		
+		<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		<c:if test="${nick eq i.writer }">
 			<a href="javascript:void(0)" onclick="deleteComment('${i.commentno}')" >삭제</a>
 			<a href="javascript:void(0)" onclick="updateComment('${i.commentno}','${i.content }')" >수정</a>
