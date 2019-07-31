@@ -385,7 +385,7 @@ background: #ffc952;
 <div class="row">
 
 
-<div class="col order-1">
+<!-- <div class="col order-1"> -->
 <br>
 <div style="text-align: center">
 <hr>
@@ -446,6 +446,7 @@ background: #ffc952;
 	<button class="grades" id = "btnGrades">계산</button>
 </div>
 </div></div>
+
 <hr>
 내 시간표<br><br>
 </div>

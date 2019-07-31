@@ -205,8 +205,9 @@ public class TastyBoardController {
 		logger.info(tastyComment.toString());
 		
 		tastyBoardService.writeComment(tastyComment);
-
-		tastyComment = tastyBoardService.getComment(tastyComment);
+//		tastyComment = tastyBoardService.getComment(tastyComment);
+//
+//		logger.info(tastyComment.toString());
 		return "redirect:/tasty/comment?boardno="+tastyComment.getBoardno();
 	}
 	
