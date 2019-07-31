@@ -13,12 +13,13 @@ public class TastyBoard {
 	private int score;
 	private Date writtendate;
 	private int commentCnt;
-	
+	private int fileno;
+
 	@Override
 	public String toString() {
 		return "TastyBoard [boardno=" + boardno + ", tag=" + tag + ", storeName=" + storeName + ", loc=" + loc
 				+ ", content=" + content + ", writer=" + writer + ", hit=" + hit + ", score=" + score + ", writtendate="
-				+ writtendate + ", commentCnt=" + commentCnt + "]";
+				+ writtendate + ", commentCnt=" + commentCnt + ", fileno=" + fileno + "]";
 	}
 
 	public int getBoardno() {
@@ -101,6 +102,14 @@ public class TastyBoard {
 		this.commentCnt = commentCnt;
 	}
 
+	public int getFileno() {
+		return fileno;
+	}
+
+	public void setFileno(int fileno) {
+		this.fileno = fileno;
+	}
+	
 
 	
 

@@ -13,6 +13,11 @@ public class MainController {
 	
 	@RequestMapping(value="/main", method=RequestMethod.GET)
 	public void main() { }
+	
+	@RequestMapping(value="/info/termofservice", method=RequestMethod.GET)
+	public void termOfService() { }
 
+	@RequestMapping(value="/info/privacypolicy", method=RequestMethod.GET)
+	public void privacypolicy() { }
 	
 }

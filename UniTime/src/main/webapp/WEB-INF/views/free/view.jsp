@@ -213,8 +213,10 @@ $(document).ready(function(){
 		<button id="btnUpdate" class="btn btn-info">수정</button>
 		<button id="btnDelete" class="btn btn-info">삭제</button>
 	</c:if>
+
 	<c:if test="${nick ne board.writer}">
 	<button id="btnReport" style="float:right;"class="btn btn-info">신고</button>
+
 	</c:if>
 </div>
 

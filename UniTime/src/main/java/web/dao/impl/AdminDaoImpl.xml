@@ -109,6 +109,7 @@
        			<if test="search != null and search != ''">
 		        WHERE nickname LIKE '%'||#{search }||'%'
 		        </if>
+		        ORDER BY badno
 		    ) B
 		ORDER BY rnum)
 		WHERE rnum BETWEEN #{startNo } AND #{endNo }
@@ -131,11 +132,32 @@
 		<foreach collection="badno" item="e" open="(" close=")" separator=",">#{e}</foreach>
 	</delete>
 	
+	<update id="badReportPenalty" parameterType="int">
+		UPDATE member_kg
+		SET penalty = penalty + 1
+		WHERE nickname IN (
+		SELECT nickname FROM badreport_kg
+		WHERE badno IN
+		<foreach collection="nickname" item="e" open="(" close=")" separator=",">#{e}</foreach>
+		)
+		
+	</update>
+	
+	
 	<!-- 여기부터 사이트 관리 페이지 -->
-	<insert id="visitInsert" parameterType="int">
+	<insert id="visitInsert">
 		INSERT INTO visit
-		VALUES (#{hakbun }, sysdate)
+		VALUES (sysdate)
 	</insert>
+	
+	<select id="visitCntAll" resultType="int">
+		SELECT count(*) visit
+	</select>
+	
+	<select id="visitCnt" resultType="int" parameterType="Date">
+		SELECT count(*) visit
+	</select>
+
 	
 
 

@@ -5,6 +5,8 @@ import java.util.Date;
 public class TastyComment {
 	private int commentno;
 	private int boardno;
+	private int refCommentno;
+	private int dept;
 	private String writer;
 	private String content;
 	private Date writtendate;
@@ -12,8 +14,9 @@ public class TastyComment {
 
 	@Override
 	public String toString() {
-		return "TastyComment [commentno=" + commentno + ", boardno=" + boardno + ", writer=" + writer + ", content="
-				+ content + ", writtendate=" + writtendate + ", badCnt=" + badCnt + "]";
+		return "TastyComment [commentno=" + commentno + ", boardno=" + boardno + ", refCommentno=" + refCommentno
+				+ ", dept=" + dept + ", writer=" + writer + ", content=" + content + ", writtendate=" + writtendate
+				+ ", badCnt=" + badCnt + "]";
 	}
 
 	public int getCommentno() {
@@ -62,6 +65,23 @@ public class TastyComment {
 
 	public void setBadCnt(int badCnt) {
 		this.badCnt = badCnt;
+	}
+
+
+	public int getRefCommentno() {
+		return refCommentno;
+	}
+
+	public void setRefCommentno(int refCommentno) {
+		this.refCommentno = refCommentno;
+	}
+
+	public int getDept() {
+		return dept;
+	}
+
+	public void setDept(int dept) {
+		this.dept = dept;
 	}
 	
 	

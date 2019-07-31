@@ -148,7 +148,14 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	
 	@Override
 	public void writeComment(TastyComment tastyComment) {
-		tastyBoardDao.insertComment(tastyComment);
+		if(tastyComment.getCommentno()!=0) {
+			tastyComment.setRefCommentno(tastyComment.getCommentno());
+			tastyComment.setDept(tastyComment.getDept()+1);
+			tastyBoardDao.insertComment(tastyComment);
+		} else {
+			tastyBoardDao.insertComment(tastyComment);
+		}
+		
 	}
 	
 	@Override
@@ -217,7 +224,6 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 		
 		TastyBoard tastyBoard = new TastyBoard();
 		tastyBoard.setBoardno(file.getBoardno());
-//		tastyBoardDao.deleteFileByboardno(tastyBoard);
 		tastyBoardDao.deleteFileByfileno(file);
 	}
 	

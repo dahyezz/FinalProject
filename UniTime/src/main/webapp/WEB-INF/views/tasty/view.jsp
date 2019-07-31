@@ -56,6 +56,49 @@ $(document).ready(function() {
 		$('#btnDeclare').html('신고');
 	}
 	
+	var commentno_re;
+	$('#commentdiv').on('click', ".recomment", function() {
+// 		console.log("clicked")
+
+		
+		
+		$("#recommentdiv").remove();
+		if(commentno_re == $(this).parent().attr("data-commentno")){commentno_re = 0; return false;}
+		commentno_re = $(this).parent().attr("data-commentno");
+		$(this).parent().append(
+				"<div id='recommentdiv'><textarea id='recommentcontent'></textarea><button id='recommentBtn'>댓글입력</button></div>");
+	});
+	
+	$("#commentdiv").on("click", "#recommentBtn", function() {
+// 		console.log("reocomment btn clicked")
+
+// 		var commentno;
+		var dept
+		var boardno = ${board.boardno};
+		var writer = "${nick}";
+		dept = $(this).parent().parent().attr("data-dept");
+		var recommentcontent =  $("#recommentcontent").val();
+		
+		$.ajax({
+			url : "/tasty/writeComment",
+			type : "POST",
+			data : {"boardno":boardno,
+					"content":recommentcontent,
+					"writer":writer,
+					"commentno":commentno_re,
+					"dept":dept},
+			dataType:"html",
+	  		success: function(res){
+	  			console.log(res);
+	  			$("#commentdiv").html(res);
+			} 
+			, error: function(res){
+			}
+			
+		});		
+		
+	})
+	
 });
 
 var updateCount=0;
@@ -270,9 +313,9 @@ function declareProc(boardno, commentno){
 	
 </table>
 
-
+<div id="commentdiv">
 <c:import url="/WEB-INF/views/tasty/comment.jsp" />
-
+</div>
 
 <label>${nick }<textarea id="content" name="content" rows="1" cols="70" onkeypress="JavaScript:enter_check();"></textarea></label>
 <input type="hidden" name="writer" id="writer" value="${nick }" />
