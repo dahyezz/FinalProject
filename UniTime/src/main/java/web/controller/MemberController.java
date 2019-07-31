@@ -252,11 +252,6 @@ public class MemberController {
 	 
 	 return "redirect:/";
 	}
-	
-//	@RequestMapping(value = "/member/mypage", method = RequestMethod.GET)
-//	public void memberGrades() throws Exception {
-//		logger.info("grades");
-//	}
 }
 
 
