@@ -19,7 +19,7 @@
 <delete id="deleteMyList" parameterType="web.dto.TempTable">
 	DELETE FROM temptable
 	WHERE user_email=#{user_email} 
-	and lecture_code = (select lecture_code from timetable_kg where lecture_name=#{lecture_name })
+	and lecture_code = #{lecture_code}
 </delete>
 
 <select id="selectMyList" parameterType="String" resultType="web.dto.TempTable">
@@ -43,7 +43,8 @@ SELECT R.* FROM (
         AND ( lecture_day, start_time ) NOT IN (
             SELECT distinct lecture_day, start_time FROM timetable_kg ttb
             JOIN temptable tb ON ttb.lecture_code=tb.lecture_code
-            WHERE tb.user_email = #{id })     
+            WHERE tb.user_email = #{id })   
+        AND start_time between #{stime } and #{etime }      
     ) RES
     ORDER BY DBMS_RANDOM.VALUE
 ) R

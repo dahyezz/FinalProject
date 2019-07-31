@@ -34,9 +34,7 @@ $(document).ready(function() {
 		$(document.body).append($form);
 		$form.submit();
 		
-		if($lectureCheck == false){
-			alert("시간이 중복되었습니다");
-		}
+		alert('강의 담기 성공!');
 	});
 	
 	
@@ -69,6 +67,8 @@ $(document).ready(function() {
 			);
 		$(document.body).append($form);
 		$form.submit();
+		
+		alert('강의가 삭제됐습니다');
 	});
 });
 
@@ -179,7 +179,7 @@ function checkAll() {
 <tbody>
 <c:forEach items="${myList }" var="mi">
 	<tr>
-		<td><input type="checkbox" name="checkMyRow" value="${mi.lecture_name }" /></td>
+		<td><input type="checkbox" name="checkMyRow" value="${mi.lecture_code }" /></td>
 		<td>${mi.grade }</td>
 		<td>${mi.lecture_section }</td>
 		<td>${mi.department_name }</td>
