@@ -23,6 +23,8 @@
 			<exclude-mapping path="/main"/>
 			<exclude-mapping path="/member/joinEmail" />
 			<exclude-mapping path="/member/joinComplete" />
+			<exclude-mapping path="/info/privacypolicy" />
+			<exclude-mapping path="/info/termofservice" />
 			<beans:bean class="web.interceptor.Interceptor" />
 		</interceptor>
 	</interceptors>
