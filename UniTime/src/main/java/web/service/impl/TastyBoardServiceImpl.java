@@ -200,7 +200,7 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	public boolean declareBoard(BadReport badReport) {
 		
 		if(tastyBoardDao.selectCntBadReport(badReport)>0) {
-			tastyBoardDao.deleteBadByBoard(badReport);
+//			tastyBoardDao.deleteBadByBoard(badReport);
 			
 			return false;
 		}

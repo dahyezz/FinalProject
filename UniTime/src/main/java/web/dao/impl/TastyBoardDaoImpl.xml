@@ -189,11 +189,11 @@
 		AND nickname = #{nickname }
 	</select>
 	
-	<delete id="deleteBadByBoard" parameterType="web.dto.BadReport">
-		DELETE badreport_kg
-		WHERE boardname = #{boardname } 
-		AND boardno = #{boardno }
-		AND commentno = #{commentno }
-		AND nickname = #{nickname }
-	</delete>
+<!-- 	<delete id="deleteBadByBoard" parameterType="web.dto.BadReport"> -->
+<!-- 		DELETE badreport_kg -->
+<!-- 		WHERE boardname = #{boardname }  -->
+<!-- 		AND boardno = #{boardno } -->
+<!-- 		AND commentno = #{commentno } -->
+<!-- 		AND nickname = #{nickname } -->
+<!-- 	</delete> -->
 </mapper>
