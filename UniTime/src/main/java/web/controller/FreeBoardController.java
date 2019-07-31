@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import oracle.jdbc.proxy.annotation.GetProxy;
 import web.dto.BadReport;
 import web.dto.FreeBoard;
 import web.dto.FreeBoardNotice;
@@ -306,12 +308,38 @@ public class FreeBoardController {
 		return "redirect:/free/list";
 	}
 	
-	@RequestMapping(value="/free/declare", method=RequestMethod.POST)
-	public void declare(BadReport badReport) {
+	@RequestMapping(value="/free/report", method=RequestMethod.GET)
+	public void report(BadReport badReport, Model model) {	
 		
 		logger.info(badReport.toString());
+		model.addAttribute("badReport",badReport);
+	}
+	
+	@RequestMapping(value="/free/report", method=RequestMethod.POST)
+	public void reportProc(BadReport badReport, HttpServletResponse resp) {
+	
+		logger.info(badReport.toString());
+
+		freeBoardService.report(badReport);
 		
-		freeBoardService.declare(badReport);
-		
+//		resp.setContentType("text/html;charset=utf-8");
+//		PrintWriter out=null;
+//		try {
+//			out = resp.getWriter();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		if(report) {
+//			out.println("<script type='text/javascript'>");
+//		    out.println("alert('신고 접수 완료되었습니다.');");
+//		    out.println("</script>");
+//		    out.flush();
+//		}else {
+//			out.println("<script type='text/javascript'>");
+//		    out.println("alert('이미 신고 접수 하셨습니다.');");
+//		    out.println("</script>");
+//		    out.flush();
+//		}
 	}
 }

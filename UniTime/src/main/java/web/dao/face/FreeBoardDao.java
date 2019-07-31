@@ -151,14 +151,15 @@ public interface FreeBoardDao {
 	public void deleteNoticeBoard(int boardno);
 	
 	/**
-	 * 	자유게시판 게시글 신고
-	 * @param badReport - 신고 테이블
+	 * 	같은 신고 count
+	 * @param badReport
+	 * @return int - 같은 신고 갯수
 	 */
-	public void insertFreeBoardReport(BadReport badReport);
+	public int selectCntFreeReport(BadReport badReport);
 	
 	/**
-	 * 	자유게시판 댓글 신고
+	 * 	자유게시판 신고
 	 * @param badReport - 신고 테이블
 	 */
-	public void insertFreeCommentReport(BadReport badReport);
+	public void insertFreeReport(BadReport badReport);
 }
