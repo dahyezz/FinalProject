@@ -4,7 +4,7 @@
 <div>
 <h3>추천시간표</h3>
 <br>
-<table class="table table-bordered" style="width:450px;height:350px;">
+<table class="table table-bordered" style="width:500px;height:350px;">
  <thead>
     <tr class="text-center">
      <th scope="col" style="width:100px">시간</th>
