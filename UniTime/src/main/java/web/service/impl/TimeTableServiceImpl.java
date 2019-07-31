@@ -49,7 +49,9 @@ public class TimeTableServiceImpl implements TimeTableService {
 		HttpSession session = req.getSession();
 		Map<String,String> map = new HashMap<String, String>();
 		
-		map.put("time", req.getParameter("timepriority"));
+		
+		map.put("stime", req.getParameter("timepriority"));
+		map.put("etime", Integer.toString(Integer.parseInt(req.getParameter("timepriority"))+3));
 		map.put("classNum", req.getParameter("classNum"));
 		map.put("id",(String)session.getAttribute("email"));
 		

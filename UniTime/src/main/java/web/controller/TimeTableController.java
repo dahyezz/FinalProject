@@ -1,6 +1,8 @@
 package web.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -72,13 +74,6 @@ public class TimeTableController {
 			model.addAttribute("lectureCheck", checklec);
 		}
 		
-//		timeTableService.myListInsert(temp);
-//		List mylist = timeTableService.myList(id);
-//	
-//		
-//		model.addAttribute("myList", mylist);
-		
-		
 		return "redirect:/timetable/lecturelist";
 	}
 	
@@ -86,19 +81,14 @@ public class TimeTableController {
 	@RequestMapping(value="/timetable/deletemylist", method=RequestMethod.POST)
 	public String deleteMylist(Model model, @RequestParam("names") String names, HttpSession session) {
 		
-		System.out.println(names);
 		String id= (String) session.getAttribute("email");
 		
 		TempTable temp = new TempTable();
 		
 		temp.setUser_email(id);
-		temp.setLecture_name(names);
+		temp.setLecture_code(Integer.parseInt(names));
 		
 		timeTableService.myListDelete(temp);
-//		List mylist = timeTableService.myList(id);
-	
-//		model.addAttribute("myList", mylist);
-		
 		
 		return "redirect:/timetable/lecturelist";
 	}
@@ -144,16 +134,23 @@ public class TimeTableController {
 		model.addAttribute("recommendList", recommendList);
 		
 		
+		
+		Map<String, String> newLecturelist = new HashMap<String, String>();
+		
+//		newLecturelist.put("id", id);
+//		newLecturelist.put("lecture_1", ((String)(recommendList.get(1))));
+////		newLecturelist.put("lecture_1", value);
+		
 	}
 	
-	@RequestMapping(value="/timetable/insertmytable", method=RequestMethod.POST)
-	public String insertMytable(Model model) {
-		
-		TempTable temp = new TempTable();
-//		timeTableService.mytableInsert(temp);
-		
-		return "redirect:/timetable/recommend";
-		
-	}
+//	@RequestMapping(value="/timetable/showtable/recommendation/recommendlist", method=RequestMethod.POST)
+//	public void insertMyTable(Model model, HttpSession session, HttpServletRequest req
+//			, @RequestParam("timepriority") String timepriority
+//			, @RequestParam("classNum") int classNum
+//			) {
+//		
+//		
+//		
+//	}
 	
 }

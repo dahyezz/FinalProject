@@ -16,7 +16,7 @@ background-color:#ffc952;
 <div style="width:50%; float:left;padding:10px;">
 <h3>내 시간표</h3>
 <br>
-<table class="table table-bordered" style="width:450px;height:350px;">
+<table class="table table-bordered" style="width:500px;height:350px;">
  <thead>
     <tr class="text-center">
      <th scope="col" style="width:100px">시간</th>
@@ -348,8 +348,8 @@ background-color:#ffc952;
 <form>
 <h5>시간 우선순위 선택</h5>
 <select name="timepriority">
-<option value="0">오전</option>
-<option value="1">오후</option>
+<option value="1">오전</option>
+<option value="4">오후</option>
 </select>
 <br>
 <!-- <h5>추가할 전공과목 수</h5> -->

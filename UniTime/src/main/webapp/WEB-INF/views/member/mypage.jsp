@@ -19,8 +19,8 @@ jQuery(function(){
         event.preventDefault();
 
         var newRow = jQuery('<tr>' +
-        		'<td style="width: 10%"><input type = "text"></td>' +
-        		'<td style="width: 3%">' +
+        		'<th style="width: 5%"><input type = "text"></th>' +
+        		'<th style="width: 3%">' +
         		'<select name="grades">' +
         		'<option value="4.5">A+</option>' +
         		'<option value="4.0">A</option>' +
@@ -30,9 +30,9 @@ jQuery(function(){
         		'<option value="2.0">C</option>' +
         		'<option value="1.5">D</option>' +
         		'<option value="0">F</option>' +
-        		'</select></td>' +
-        		'<td style="width: 1%">' +
-        		'<input type="checkbox" name="checkRow"/></td>' +
+        		'</select></th>' +
+        		'<th style="width: 1%">' +
+        		'<input type="checkbox" name="checkRow"/></th>' +
         		'</tr>');
             counter++;
         jQuery('table.grades').append(newRow);
@@ -127,20 +127,33 @@ $(document).ready(function(){
 		var temp    = [];
 	    var obj     = $('select[name="grades"]');
 	    var result  = false;
-	 
-	    // 현재 옵션값 임시 배열에 저장
+	    var sum		= 0.0;
+		var tt		= "";
+	    // 현재 값 임시 배열에 저장
 	    $(obj)
 	        .each(function(i) {
 				temp[i] = $(this).val();
 				
+				tt = temp[i];
+				tt = Number(tt);
+				sum = sum + tt;
+				avg = sum / temp.length;
 				console.log(temp[i]);
-
 	        });
+	    	console.log(sum);
+	    	console.log(avg);
+/* 	    var sum	= 0;
 
-		$("#result").text("모든 성적 : " + temp + "평균 성적 : ");
+	    for(var i=0; i<score.length; i++)
+	    {
+	    	score[i] = 
+	    	sum = sum + score[i];
+	    } */
+
+		$("#result").text(" 모든 성적 : ( " + temp + " ) " + " 합산 성적 : " + sum + " 평균 성적 : " + avg );
+		$("#result").attr("style", "color:#f00");
 	});
 });
-
 </script>
 
 <style type = "text/css">
@@ -212,13 +225,13 @@ background: #ffc952;
 <div align="left" style="position: relative; left: 20px; ">
 	${nick }님<br><br>
 	학번 : ${hakbun }
-</div>
-</c:if>
-</div>
-<div style="position: relative; right: -380px; ">
+<div style="position: relative; left: 750px; ">
 <button type="button" id = "modifyNick" onclick="location.href='/member/modifyNick'">닉네임수정</button>
 <button type="button" id = "modify" onclick="location.href='/member/modify'">비밀번호수정</button>
 <button type="button" id = "logout" onclick="location.href='/member/logout'">로그아웃</button>
+</div>
+</div>
+</c:if>
 </div>
 </form>
 </div>
@@ -265,10 +278,9 @@ background: #ffc952;
 </div>
 
 </div>
-
-</div>
 <div id="btnBox" class="float-right" style="text-align: right">
 	<button id="btnDelete1">삭제</button>
+</div>
 </div>
 
 <div class="container">
@@ -311,11 +323,11 @@ background: #ffc952;
 </div>
 
 </div>
-
-</div>
 <div id="btnBox" class="float-right" style="text-align: right">
 	<button id="btnDelete2">삭제</button>
 </div>
+</div>
+
 
 <div class="container">
 
@@ -358,11 +370,11 @@ background: #ffc952;
 </div>
 
 </div>
-
-</div>
 <div id="btnBox" class="float-right" style="text-align: right">
 	<button id="btnDelete3">삭제</button>
 </div>
+</div>
+
 
 <br>
 <br>
@@ -376,21 +388,22 @@ background: #ffc952;
 <!-- <div class="col order-1"> -->
 <br>
 <div style="text-align: center">
+<hr>
 학점 계산기<br><br>
 </div>
 <div>
 <table style = "text-align : center; margin : auto;" class = "grades">
 <thead>
 	<tr>
-		<th style="width: 10%">과목명</th>
+		<th style="width: 5%">과목명</th>
 		<th style="width: 3%">점수</th>
 		<th style="width: 1%">전공</th>
 	</tr>
 </thead>
 <tbody id = "grades">
 	<tr>
-		<td style="width: 10%"><input type = "text"></td>
-		<td style="width: 3%">
+		<th style="width: 5%"><input type = "text"></th>
+		<th style="width: 3%">
           <select name="grades">
                  <option value="4.5">A+</option>
                  <option value="4.0">A</option>
@@ -400,13 +413,13 @@ background: #ffc952;
                  <option value="2.0">C</option>
                  <option value="1.5">D</option>
                  <option value="0">F</option>
-             </select></td>
-		<td style="width: 1%">
-		<input type="checkbox" name="checkRow"/></td>
+             </select></th>
+		<th style="width: 1%">
+		<input type="checkbox" name="checkRow"/></th>
 	</tr>
-		<tr>
-		<td style="width: 10%"><input type = "text"></td>
-		<td style="width: 3%">
+	<tr>
+		<th style="width: 10%"><input type = "text"></th>
+		<th style="width: 3%">
           <select name="grades">
                  <option value="4.5">A+</option>
                  <option value="4.0">A</option>
@@ -416,9 +429,9 @@ background: #ffc952;
                  <option value="2.0">C</option>
                  <option value="1.5">D</option>
                  <option value="0">F</option>
-             </select></td>
-		<td style="width: 1%">
-		<input type="checkbox" name="checkRow"/></td>
+             </select></th>
+		<th style="width: 1%">
+		<input type="checkbox" name="checkRow"/></th>
 	</tr>
 </tbody>
 </table>
@@ -433,4 +446,8 @@ background: #ffc952;
 	<button class="grades" id = "btnGrades">계산</button>
 </div>
 </div></div>
+
+<hr>
+내 시간표<br><br>
+</div>
 

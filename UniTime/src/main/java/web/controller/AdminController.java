@@ -112,11 +112,21 @@ public class AdminController {
 	@RequestMapping(value="/admin/badReportDelete", method = RequestMethod.GET)
 	public String adminBadReportDelete(int[] badno) {
 		
-		logger.info("삭제할 학번:" + badno);
+//		logger.info("삭제할 게시글번호:" + badno);
 		adminService.badReportDelete(badno);
 		
 		return "redirect:/admin/badReport";
 	}
+	
+	@RequestMapping(value="/admin/badReportPenalty", method = RequestMethod.GET)
+	public String adminBadReportPenalty(int[] badno) {
+		
+		adminService.badReportPenalty(badno);
+		adminService.badReportDelete(badno);
+		
+		return "redirect:/admin/badReport";
+	}
+	
 	
 	// 여기부터 사이트 관리
 	@RequestMapping(value="/admin/site", method = RequestMethod.GET)
@@ -128,6 +138,8 @@ public class AdminController {
 		int blackList = adminService.blackListCntAll();
 		model.addAttribute("blackList", blackList);
 		
+		int badReport = adminService.badReportCntAll();
+		model.addAttribute("badReport", badReport);
 		
 	}
 	
