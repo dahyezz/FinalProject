@@ -83,9 +83,15 @@ public interface AdminService {
 	
 	/**
 	 * 
-	 * @param hakbun 삭제할 회원의 학번
+	 * @param badno 삭제할 게시판의 번호
 	 */
 	public void badReportDelete(int[] badno);
+	
+	/**
+	 * 
+	 * @param badno 경고부여 할 닉네임이 있는 게시판의 번호
+	 */
+	public void badReportPenalty(int[] badno);
 	
 	
 	// 여기부터 사이트 관리 페이지
@@ -93,7 +99,10 @@ public interface AdminService {
 	
 	public int blackListCntAll();
 	
-	public void visitInsert(int hakbun);
+	public int badReportCntAll();
+	
+	public void visitInsert(HttpServletRequest req);
+	
 	
 	
 

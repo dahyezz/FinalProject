@@ -79,7 +79,6 @@ public interface AdminDao {
 	public void blackListDelete(HashMap email);
 	
 	
-	// 여기부터 블랙리스트 관리 페이지
 	//여기부터 회원관리 페이지
 	
 	/**
@@ -107,7 +106,17 @@ public interface AdminDao {
 	 */
 	public void badReportDelete(HashMap badno);
 	
-	public void visitInsert(int hakbun);
+	public void badReportPenalty(HashMap badno);
+	
+
+	// 여기부터 사이트관리 페이지
+	public void visitInsert();
+	
+	public int visitCntAll();
+	
+	public int visitCnt();
+	
+	
 	
 	
 
