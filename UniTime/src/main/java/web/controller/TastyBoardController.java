@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.BadReport;
 import web.dto.TastyBoard;
@@ -253,17 +254,18 @@ public class TastyBoardController {
 	}
 	
 	@RequestMapping(value="/tasty/declare", method=RequestMethod.POST)
-	public void declare(BadReport badReport, HttpServletResponse response) {
+	public ModelAndView declare(BadReport badReport, ModelAndView mav) {
 		logger.info(badReport.toString());
 		
 		boolean success = tastyBoardService.declareBoard(badReport);
 		
+		mav.addObject("success", success);
+		mav.addObject("commentno",badReport.getCommentno());
 		
-		try {
-			response.getWriter().append("{\"success\":"+success+", \"commentno\":"+badReport.getCommentno()+"}");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		mav.setViewName("jsonView");
+		
+		return mav;
+
 	}
 	
 	@RequestMapping(value="/tasty/imageDelete", method=RequestMethod.POST)

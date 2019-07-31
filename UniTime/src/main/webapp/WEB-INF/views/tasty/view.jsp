@@ -209,6 +209,7 @@ function declareProc(boardno, commentno){
 				else {
 					if(data.success){
 						$('#commentno'+data.commentno).html('관리자에 의해 규제된 댓글입니다.')
+						alert("신고가 완료되었습니다.")
 					} else {
 						$('#cmtDeclare'+data.commentno).html('신고');
 					}
