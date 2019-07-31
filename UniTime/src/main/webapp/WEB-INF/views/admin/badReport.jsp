@@ -49,26 +49,26 @@ $(document).ready(function() {
 		
 		//방법1
 		// 체크된 대상들을 하나씩 꺼내서 문자열로 합치기
-		var email = "";
+		var badno = "";
 		var len = $checkboxes.length;
 		$checkboxes.each( function(idx) {
-			email += $(this).val();
+			badno += $(this).val();
 			
 			if( len-1 != idx ) {
-				email += ",";
+				badno += ",";
 			}
 		});
-		console.log(email);
+		console.log(badno);
 		
 		// 전송 폼
 		var $form = $("<form>")
-			.attr("action", "/admin/memberPenalty")
+			.attr("action", "/admin/badReportPenalty")
 			.attr("method", "get")
 			.append(
 				$("<input>")
 					.attr("type", "hidden")
-					.attr("name", "email")
-					.attr("value", email)
+					.attr("name", "badno")
+					.attr("value", badno)
 			);
 		$(document.body).append($form);
 		$form.submit();
@@ -77,7 +77,7 @@ $(document).ready(function() {
 	
 	// 검색 기능
 	$("#btnSearch").click(function() {
-		location.href="/admin/member?search="+$("#search").val();
+		location.href="/admin/badReport?search="+$("#search").val();
 	});
 });
 
@@ -91,26 +91,30 @@ table, th {
 
 </style>
 
+<div class="form-inline text-center">
+	<input class="form-control" type="text" placeholder="닉네임을 입력하세요." id="search" />
+	<button id="btnSearch" class="btn">검색</button>
+</div>
+
 <table>
 <thead>
 	<tr>
 		<th style="width: 15%;">번호</th>
 		<th style="width: 20%;">게시판종류</th>
-		<th style="width: 20%;">해당 글 보러가기</th>
-		<th style="width: 25%;">학번</th>
+		<th style="width: 15%;">해당 글 보러가기</th>
+		<th style="width: 30%;">신고사유</th>
 		<th style="width: 15%;">닉네임</th>
 		<th style="width: 5%;">
 		</th>
 	</tr>
 </thead>
-
 <tbody>
 <c:forEach items="${list}" var="i">
 	<tr>
 		<td>${i.badno }</td>
 		<td>${i.boardname }</td>
-		<td>${i.boardno }</td>
-		<td>${i.hakbun }</td>
+		<td><a href="../${i.boardname }/view?boardno=${i.boardno }">${i.boardno }</a></td>
+		<td>${i.reason }</td>
 		<td>${i.nickname }</td>
 		<td><input type="checkbox" name="checkRow" value="${i.badno }" /></td>
 	</tr>

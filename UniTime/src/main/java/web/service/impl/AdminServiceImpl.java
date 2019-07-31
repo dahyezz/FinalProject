@@ -21,6 +21,8 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public List memberSelectAll(Paging paging) {
+		
+		adminDao.deletePenalty();
 
 		return adminDao.memberSelectAll(paging);
 	}
@@ -172,6 +174,17 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.badReportDelete(map);
 	}
 	
+	@Override
+	public void badReportPenalty(int[] badno) {
+		
+		HashMap map = new HashMap();
+		map.put("nickname", badno);
+		
+		adminDao.badReportPenalty(map);
+		
+	}
+	
+	
 	// 여기부터 사이트 관리 페이지
 	@Override
 	public int memberCntAll() {
@@ -184,12 +197,19 @@ public class AdminServiceImpl implements AdminService {
 
 		return adminDao.selectBlackListCntAll();
 	}
+	@Override
+	public int badReportCntAll() {
+
+		return adminDao.selectBadReportCntAll();
+	}
 	
 	@Override
-	public void visitInsert(int hakbun) {
+	public void visitInsert(HttpServletRequest req) {
 		
-		adminDao.visitInsert(hakbun);
+		adminDao.visitInsert();
+		
 	}
+	
 	
 
 
