@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +22,6 @@ $(document).ready(function() {
 	$("input:radio").on('click', function(){
 
 		reason = $('input[name="reason"]:checked').val();
-// 		console.log(reason);
 
 		if(reason == '기타'){
 			document.getElementById('reasonText').removeAttribute("disabled");
@@ -29,13 +31,12 @@ $(document).ready(function() {
 			    if($(this).val().length>500){
 			    
 			    	if(count==1){
-			    		document.getElementById("zz").innerHTML += 
-			    			"<span>최대 500자까지 작성 가능합니다</span>"
+			    		document.getElementById("overflow").innerHTML += 
+			    			"<span style='color:red;'>최대 500자까지 작성 가능합니다</span>"
 			    	}
 			    	
 			    	$(this).val($(this).val().substring(0,500));
 			    	count = 0;
-
 			    }
 			});
 			
@@ -57,17 +58,32 @@ $(document).ready(function() {
 		}
 	})
 	
-	$('#declare').click(function() {
+	$('#btnReport').click(function() {
 
 		var result = reason;
-
+		
 		if(reason == '기타')
 			result = textReason;
 
-		opener.document.getElementById("reason").value = result;
+		var reportConfirm=confirm("신고하시겠습니까?");
+		
+		if(reportConfirm){
+			$form=($("<form>")
+					.attr("action", "/free/report")
+					.attr("method", "post")
+					).append(
+							$("<input>").attr("name", "boardname").val($("#boardname").val()),
+							$("<input>").attr("name", "boardno").val($("#boardno").val()),
+							$("<input>").attr("name", "commentno").val($("#commentno").val()),
+							$("<input>").attr("name", "reason").val(result),
+							$("<input>").attr("name", "nickname").val($("#nickname").val())
+					).appendTo($(document.body));
+			
+			$form.submit();
+		}
+		
 		window.close();
-
-	})
+	});
 	
 });
 </script>
@@ -90,6 +106,12 @@ $(document).ready(function() {
 
 
 <div class="reason">
+
+	<input type="hidden" id="boardname" value="free">
+	<input type="hidden" id="boardno" value="${badReport.boardno }">
+	<input type="hidden" id="commentno" value="${badReport.commentno }">
+	<input type="hidden" id="nickname" value="${badReport.nickname }">
+	
 	<h5>신고사유</h5>
 	
 	<label><input type="radio" name="reason" value="영리목적/홍보성" />영리목적/홍보성</label>
@@ -99,22 +121,18 @@ $(document).ready(function() {
 	<label><input type="radio" name="reason" value="개인정보노출" />개인정보노출</label>
 	<label><input type="radio" name="reason" value="같은 내용의 반복 게시(도배)" />같은 내용의 반복 게시(도배)</label><br>
 	<label><input type="radio" name="reason" value="기타" />기타</label><br>
-		<div id="inputReason">
-			<div id="zz"></div>
-			<textarea id="reasonText" rows="3" cols="50" name="reason_input" placeholder="기타 항목 선택 후 입력해주세요(최대 500자)" disabled="disabled"></textarea>
-		</div>
+	
+	<div id="inputReason">
+		<div id="overflow"></div>
+		<textarea id="reasonText" rows="3" cols="50" name="reason" placeholder="기타 항목 선택 후 입력해주세요(최대 500자)" disabled="disabled"></textarea>
+	</div>
 	
 	<p>허위신고일 경우, 신고자의 서비스 활동이 제한될 수 있으니, 유의하시어 신중하게 신고해 주세요</p>
 	<p>신고해주신 내용은 운영정책 및 서비스 약관에 따라 처리됩니다.</p>
 	<p>명예훼손, 저작권 등 신고자의 권리가 침해된 경우에는 권리침해 신고센터로 문의해주세요.</p>
 
-</div>
-
-<div class="closeBtn">
-	<a href="javascript:void(0)" onclick="javascript:window.close();">취소</a>
-</div>
-<div class="declareBtn">
-	<button id="declare">신고</button>
+	<button id="btnCancle" onclick="window.close();">취소</button>
+	<button id="btnReport">신고</button>
 </div>
 </body>
 </html>

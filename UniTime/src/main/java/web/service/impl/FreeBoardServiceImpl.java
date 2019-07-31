@@ -250,7 +250,15 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	}
 
 	@Override
-	public void declare(BadReport badReport) {
-		freeBoardDao.insertFreeBoardReport(badReport);
+	public boolean report(BadReport badReport) {
+		
+		//같은 신고가 들어올 때
+		if(freeBoardDao.selectCntFreeReport(badReport)>0) {
+			return false;	//기존에 있는 신고이면 false
+		} else {
+			freeBoardDao.insertFreeReport(badReport);
+			
+			return true;
+		}
 	}
 }

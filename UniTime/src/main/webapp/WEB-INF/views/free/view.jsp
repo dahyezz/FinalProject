@@ -59,7 +59,7 @@ $(document).ready(function(){
 	            html+= '<span>'+this.content+'</span><br>';
 	            html+= '<span style="color:#ccc;">'+writtendate+'</span>&nbsp;&nbsp;';
 	            if(nick != this.writer){
-	            html+= '<span><a href="javascript:void(0)" onclick="declare('+boardno+','+this.commentno+')" id="cmtDeclare'+this.commentno+'">신고</a></span>';
+	            html+= '<span><a href="javascript:void(0)" id="commentReport" data-commentno="'+this.commentno+'">신고</a></span>';
 	            }
 	            if(nick == this.writer || nick == 'admin'){
 	            	html+= '<button class="commentDelete" data-commentno="'+this.commentno+'" style="float:right;">삭제</button>';
@@ -119,78 +119,23 @@ $(document).ready(function(){
 			});
 		}
 	});
-		
-});
 
-//신고
-function declare(boardno, commentno){
-
-	var myWindow = null;
-	var check = true;
-	var interval = null;
+	var boardno=$('#boardno').val();
+	var nick=$('#nick').val();
 	
-	myWindow = window.open("/free/declareReason","신고사유","width=550, height=650, left=100 top=20", "resizable=no");
-
-	interval = window.setInterval(function() {
-		try {
-			if(myWindow == null || myWindow.closed){
-				if(check){
-					check = false;
-					declareProc(boardno, commentno)
-				}
-					
-				if(!check)
-					return;
-			}
-		} catch (e) { }
-	}, 100);
-
-}
-
-function declareProc(boardno, commentno){
-
-	var boardname="tasty";
-	
-	// 신고자정보
-	var nick=document.getElementById('writer').value;
-	var reason = document.getElementById('reason').value;
-
-	$.ajax({
-		type: "post"	
-		, url: "/free/declare"
-		, dataType: "json"
-		, data: {
-			boardname: boardname,
-			boardno: boardno,
-			commentno: commentno,
-			reason: reason,
-			nickname: nick
-		}
-		, success: function(data){
-// 			console.log(data.commentno)
-			if(data.commentno==0){
-				if(data.success){
-					$('#btnDeclare').html('신고완료');
-					$("#btnDeclare").css({ 'pointer-events': 'none' });
-					alert("신고가 완료되었습니다.")
-				} else {
-					$('#btnDeclare').html('신고');
-				}
-			}
-			else {
-				if(data.success){
-					$('#commentno'+data.commentno).html('관리자에 의해 규제된 댓글입니다.')
-				} else {
-					$('#cmtDeclare'+data.commentno).html('신고');
-				}
-				
-			}
-		}
-		, error: function() {
-			console.log("error")
-		}
+	//게시글 신고
+	$("#btnReport").click(function(){
+		window.open("/free/report?boardno="+boardno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
 	});
-}
+	
+	//댓글 신고
+	$(document).on("click", "#commentReport", function(){
+				
+		var commentno=$(this).attr("data-commentno");
+		
+		window.open("/free/report?boardno="+boardno+"&commentno="+commentno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
+	});
+});
 </script>
 
 <style type="text/css">
@@ -223,7 +168,7 @@ function declareProc(boardno, commentno){
 
 <div class="freeView">
 
-<h1 >게시글 내용</h1>
+<h1>게시글 내용</h1>
 <hr>
 
 <table class="table table-condensed">
@@ -260,7 +205,7 @@ function declareProc(boardno, commentno){
 	</tr>
 </table>
 
-<div class="text-center">	
+<div class="text-center">
 	<input type="hidden" id="boardno" value="${board.boardno }">
 	<input type="hidden" id="tag" value="${board.tag }">
 	<button id="btnList" onclick="location.href='/free/list'" class="btn btn-info">목록</button>
@@ -268,9 +213,8 @@ function declareProc(boardno, commentno){
 		<button id="btnUpdate" class="btn btn-info">수정</button>
 		<button id="btnDelete" class="btn btn-info">삭제</button>
 	</c:if>
-	<c:if test="${nick ne board.writer">
-	<button id="btnReport" style="float:right;" onclick="declare('${board.boardno }')" id="btnDeclare" class="btn btn-info">신고</button>
-	<input type="hidden" id="reason" />
+	<c:if test="${nick ne board.writer}">
+	<button id="btnReport" style="float:right;"class="btn btn-info">신고</button>
 	</c:if>
 </div>
 

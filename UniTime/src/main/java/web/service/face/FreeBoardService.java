@@ -135,7 +135,8 @@ public interface FreeBoardService {
 	/**
 	 * 	게시글 신고
 	 * @param badReport
+	 * @return boolean - 신고 가능 true/false
 	 */
-	public void declare(BadReport badReport);
+	public boolean report(BadReport badReport);
 
 }
