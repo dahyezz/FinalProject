@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -200,23 +198,7 @@ public class UsedBoardController {
 		resp.setContentLength((int)file.length());
 		resp.setCharacterEncoding("utf-8");
 		
-//		String filename = "";
-//		
-//		try {
-//			filename = URLEncoder.encode(usedimg.getOriginName(), "utf-8");
-//		} catch (UnsupportedEncodingException e1) {
-//			e1.printStackTrace();
-//		}
-//		
-//		//UTF-8 인코딩 오류 수정 (한글만 바꿔야 하는데 특수기호까지 바꿔서 문제가 생기는것)
-//		filename = filename.replace("+", "%20"); //띄어쓰기
-//		filename = filename.replace("%5B", "["); 
-//		filename = filename.replace("%5D", "]");
-//		filename = filename.replace("%21", "!"); 
-//		filename = filename.replace("%23", "#"); 
-//		filename = filename.replace("%24", "$"); 
-		
-//		File origin = new File(context.getRealPath("/usedUpload"), usedimg.getStoredName());
+
 		FileInputStream fis = null;
 		logger.info(context.getRealPath("usedUpload"));
 		try {
@@ -234,27 +216,6 @@ public class UsedBoardController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-	}
-
-	
-	/**
-	 *  댓글 작성 컨트롤러 
-	 * @param comment
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value="/board/writecomment",
-			method=RequestMethod.POST)
-	public String writeComment(
-			UsedComment comment,
-			Model model) {
-		usedService.writeCmt(comment);
-
-		List<UsedComment> list = usedService.getCmt(
-			comment.getBoardno());
-		model.addAttribute("commentList", list);
-
-		return "used/commentList";
 	}
 	
 	
@@ -281,6 +242,49 @@ public class UsedBoardController {
 	
 	
 	/**
+	 *  댓글 작성 컨트롤러 
+	 * @param comment
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/used/writecomment",
+			method=RequestMethod.POST)
+	public String writeComment(
+			UsedComment usdedcmt,
+			Model model) {
+		
+		usedService.writeCmt(usdedcmt);
+		
+		List<UsedComment> list = usedService.getCmt(usdedcmt.getBoardno());
+		model.addAttribute("commentList", list);
+
+		return "/used/comment";
+	}
+	
+	/**
+	 *  댓글 수정하는 컨트롤러 
+	 * @param usedComment
+	 * @param model
+	 */
+	@RequestMapping(value="/used/updateComment", method=RequestMethod.GET)
+	public void updateComment(
+			UsedComment usedComment,
+			Model model
+		) {
+	
+		logger.info("댓글 수정중");
+		usedService.updateCmt(usedComment);
+		
+		UsedBoard usedboard = new UsedBoard();
+		int boardno = usedboard.getBoardno();
+		
+		List<UsedComment> list = usedService.getCmt(boardno);
+		model.addAttribute("commentList", list);
+		
+	}
+	
+	
+	/**
 	 *  댓글 삭제하는 컨트롤러 
 	 * @param usedComment
 	 * @param response
@@ -288,7 +292,8 @@ public class UsedBoardController {
 	@RequestMapping(value="/used/deleteComment", method=RequestMethod.POST)
 	public void deleteComment(
 			UsedComment usedComment,
-			Model model) {
+			Model model
+		) {
 		logger.info(usedComment.toString());
 		
 		usedService.deleteCmt(usedComment);

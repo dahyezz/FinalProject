@@ -234,6 +234,7 @@ public class UsedServiceImpl implements UsedService {
 	public void writeCmt(UsedComment usedcmt) {
 		// 작성한 댓글을 DB에 삽입 
 		usedDao.insertComment(usedcmt);
+		logger.info(usedcmt.toString());
 	}
 
 	
@@ -241,13 +242,6 @@ public class UsedServiceImpl implements UsedService {
 	public List<UsedComment> getCmt(int boardno) {
 		// 게시글 번호로 댓글 조회
 		return usedDao.selectAllCommentnoByBoardno(boardno);
-	}
-
-	@Override
-	public UsedComment getCmt(UsedComment usedcmt) {
-		// 댓글 번호로 댓글 조회 
-		// 댓글 수정,삭제를 위함
-		return usedDao.selectAllCommentByCommentno(usedcmt);
 	}
 
 	@Override

@@ -122,14 +122,6 @@ public interface UsedDao {
 	
 	
 	/**
-	 *  댓글 번호를 통해 댓글 조회하기 
-	 *  @param UsedComment
-	 *  @return
-	 */
-	public UsedComment selectAllCommentByCommentno(UsedComment usedcmt);
-	
-	
-	/**
 	 * 댓글 번호를 통해 게시글 조회하기
 	 * @param usedcmt
 	 * @return

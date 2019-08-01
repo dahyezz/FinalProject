@@ -136,13 +136,6 @@ public interface UsedService {
 	
 	
 	/**
-	 *  댓글번호를 통해 댓글 조회하기(댓글 수정/삭제 위함)
-	 *  @param UsedComment
-	 *  @return
-	 */
-	public UsedComment getCmt(UsedComment usedcmt);
-	
-	/**
 	 *  댓글 객체에서 게시글 번호 가져오기
 	 * @param usedComment
 	 * @return

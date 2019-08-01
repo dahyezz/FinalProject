@@ -7,7 +7,6 @@
 <div id="commentdiv">
 	<h4>댓글</h4>
 	
-		
 	<c:forEach items="${commentList }" var="i">
 		<div id="commentno${i.commentno }" data-commentno="${i.commentno }" class="comment"> 
 			<span>${i.writer }</span>

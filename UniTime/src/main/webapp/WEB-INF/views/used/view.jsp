@@ -67,7 +67,7 @@ $(document).ready(function() {
 		
 		$.ajax({
 			type : "post" ,
-			url : "/used/writeCmt" ,
+			url : "/used/writecomment" ,
 			dataType : "html" ,
 			data : {
 				"boardno" : boardno,
@@ -155,7 +155,7 @@ function enterPressAlert(e, textarea) {
 	
 	<br>
 	<!-- 댓글 -->
-	<div id="commentDiv">
+	<div id="commentdiv">
 		<c:import url="/WEB-INF/views/used/comment.jsp"/>
 	</div>
 	
