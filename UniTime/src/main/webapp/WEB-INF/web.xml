@@ -30,7 +30,12 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
+	<!-- SessionListener -->
+	<listener>
+		<listener-class>web.dao.impl.AdminVisitDaoImpl</listener-class>
+	</listener>
 
+	
 	<!-- Processes application requests -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>

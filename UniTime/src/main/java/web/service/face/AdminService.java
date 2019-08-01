@@ -101,8 +101,10 @@ public interface AdminService {
 	
 	public int badReportCntAll();
 	
-	public void visitInsert(HttpServletRequest req);
+	public int visitCntAll();
 	
+	public int visitCnt();
+
 	
 	
 

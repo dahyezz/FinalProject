@@ -53,10 +53,14 @@ $(document).ready(function() {
 </script>
     
 <style type="text/css">
-table, th {
+.list table, th {
 	text-align: center;
 }
 
+.list {
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
+}
 </style>
 
 <div class="form-inline text-center">
@@ -64,8 +68,8 @@ table, th {
 	<button id="btnSearch" class="btn">검색</button>
 </div> 
 
-
-<table>
+<div class="list">
+<table class="table table-striped table-hover table-condensed">
 <thead>
 	<tr>
 		<th style="width: 20%;">학번</th>
@@ -86,6 +90,7 @@ table, th {
 </c:forEach>
 </tbody>
 </table>
+</div>
 
 
 <div class="text-center">
