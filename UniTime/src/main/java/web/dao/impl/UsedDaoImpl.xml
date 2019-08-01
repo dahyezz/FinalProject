@@ -13,6 +13,7 @@
 	    FROM UsedBoard_KG
 	</select>
 	
+	
 	<select id="selectAll"
 	    resultType="web.dto.UsedBoard"
 	    parameterType="web.util.Paging">
@@ -31,10 +32,12 @@
 	         rnum BETWEEN #{startNo } AND #{endNo }
 	</select>
 	
-	<select id="selectBoardno"
+	
+	<select id="getBoardno"
 	    resultType="int">
 	    SELECT usedboard_kg_seq.nextval FROM dual
 	</select>
+	
 	
 	<update id="updateHit"
 	    parameterType="web.dto.UsedBoard">
@@ -42,6 +45,7 @@
 	    SET hit = hit + 1
 	    WHERE boardno = #{boardno }
 	</update>
+	
 	
 	<select id="selectBoardByBoardno"
 	    parameterType="int"
@@ -55,6 +59,7 @@
 		WHERE 
 		    boardno = #{boardno }
 	</select>
+	
 	
 	<insert id="write"
 	    parameterType="web.dto.UsedBoard">
@@ -74,6 +79,7 @@
 	    )
 	</insert>
 	
+	
 	<insert id="insertImg"
 		parameterType="web.dto.UsedImage">
 		
@@ -83,10 +89,11 @@
 		</selectKey>
 		
 		INSERT INTO UsedImg_KG(usedimgno,
-			originname, storedname)
+			originname, storedname, imgsize)
 		VALUES(#{usedImgNo },
-			#{originName }, #{storedName })
+			#{originName }, #{storedName }, #{imgSize })
 	</insert>
+	
 	
 	<select id="selectImgByBoardno"
 		parameterType="int"
@@ -94,6 +101,7 @@
 		SELECT * FROM UsedImg_KG
 		WHERE boardno = #{boardno }
 	</select>
+	
 	
 	<select id="selectImgByImgno"
 		parameterType="int"
@@ -115,20 +123,23 @@
 			boardno=#{boardno }
 	</update>
 	
+	
 	<update id="updateImgno" parameterType="Map">
 		UPDATE 
-		    USEDIMG_KG
+		    usedimg_kg
 		SET
-		    boardno = #{boardno}
+		    boardno = #{boardno }
 		WHERE
 			usedimgno IN
-			<foreach collection="images" separator="," open="(" close=")" item="val">
+			<foreach collection="images" separator="," 
+				open="(" close=")" item="val">
 			${val}
 			</foreach>
 	</update>
 	
+	
 	<delete id="deleteBoardByBoardno" 
-		parameterType="web.dto.UsedBoard">
+		parameterType="int">
 		DELETE 
 		
 		FROM
@@ -151,6 +162,7 @@
 		VALUES (#{commentno }, #{boardno }, #{writer },
 			#{content } )
 	</insert>
+	
 	
 	<select id="selectAllCommentnoByBoardno"
 		parameterType="web.dto.UsedBoard"
@@ -180,9 +192,89 @@
 			commentno = #{commentno }
 		ORDER BY
 			commentno DESC
-			
 	</select>
 	
+	
+	<select id="selectBoardByCommentno"
+		parameterType="web.dto.UsedBoard"
+		resultType="web.dto.UsedComment">
+		
+		SELECT
+			boardno, tag, title, product, 
+		    content, writer, hit, 
+		    price, writtendate
+		FROM
+			usedboard_kg
+		WHERE
+			commentno = #{commentno }
+		ORDER BY
+			commentno DESC
+	</select>
+	
+	
+	<update id="updateComment"
+		parameterType="web.dto.UsedComment">
+		UPDATE
+		 	usedcomment_kg
+		SET
+			content = #{content }
+		WHERE	
+			boardno = #{boardno } AND
+			commentno = #{commentno }
+	</update>
+	
+	
+	<delete id="deleteComment"
+		parameterType="web.dto.UsedComment">
+		DELETE
+		FROM
+			usedcomment_kg
+		WHERE
+			commentno = #{commentno }
+	</delete>
+	
+	
+	<delete id="deleteCommentByBoardno"
+		parameterType="int">
+		
+		DELETE
+	
+		FROM
+			usedcomment_kg
+		WHERE
+			boardno = #{boardno }
+			
+	</delete>
+	
+	
+	<delete id="deleteImgByBoardno"
+		parameterType="int">
+		
+		DELETE
+	
+		FROM
+			usedimg_kg
+		WHERE
+			boardno = #{boardno }
+			
+	</delete> 
+	
+	
+	<update id="updateUsedImg_KG"
+		parameterType="Map">
+		UPDATE
+			usedimg_kg
+		SET
+			boardno = #{boardno }
+		WHERE
+			usedimgno 
+		IN
+		<foreach collection="images" 
+			open="(" separator="," close=")"
+			item="i" >
+			${i }
+		</foreach>
+	</update>
 	
 	
 </mapper>

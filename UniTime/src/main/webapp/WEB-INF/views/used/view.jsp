@@ -54,7 +54,9 @@ $(document).ready(function() {
 		$(location).attr("href", "/used/delete?boardno="+${usedboard.boardno });
 	});
 	
-	$('#cmtWrite').click(function(){ 
+	$('#cmtWrite').click(writeComment);
+	
+	function writeComment(){ 
 		var boardno = ${usedboard.boardno };
 		var writer = $('#content').val();
 		var content = $('#writer').val();
@@ -80,16 +82,15 @@ $(document).ready(function() {
 				console.log("댓글작성중 error 발생");
 			}
 		});
-	});
+	}
 	
 });
 
 
-function enter_submit() {
-	// enter key = 13 (but why 13?)
-	if(event.keyCode == 13){
-		console.log("enter clicked");
-		$('#cmtWrite').click();
+function enterPressAlert(e, textarea) {
+	var code = (e.KeyCode ? e.keyCode : e.which);
+	if(code == 13) {
+		alert('입력버튼을 클릭하여 댓글을 완성하세요.');
 	}
 }
 
@@ -152,18 +153,34 @@ function enter_submit() {
 	</table>
 	
 	
+	<br>
 	<!-- 댓글 -->
-	<c:import url="/comment.jsp"/>
+	<div id="commentDiv">
+		<c:import url="/WEB-INF/views/used/comment.jsp"/>
+	</div>
+	
+	
+	<!-- 댓글 작성창 -->
+	<br>	
+	<label>${nick }&nbsp;&nbsp;
+		<textarea id="content" name="content" rows="1" cols="70" 
+			onKeyPress="enterPressAlert(event, this)">
+		</textarea>
+	</label>
+	
+	
+	<input type="hidden" name="writer" id="writer" value="${nick }" />
+	
+	<button id="cmtWrite" name="cmtWrite" class="btn">입력</button>
 	
 
+	<!-- 게시판 버튼 ( 목록/수정/삭제 ) -->
 	<div id="view-buttons">
 		<button id="btnList" class="btn btn-primary">목록</button>
 		
 		<!-- 접속한 회원의 nick이 해당 게시글의 작성자일 경우 -->
 		<c:if test="${nick eq usedboard.writer }">
 			<button id="btnUpdate" class="btn btn-primary">수정</button>
-			
-			
 			<button id="btnDelete" class="btn btn-warning">삭제</button>
 		</c:if>
 		

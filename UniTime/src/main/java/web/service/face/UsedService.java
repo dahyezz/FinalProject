@@ -1,5 +1,6 @@
 package web.service.face;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -44,7 +45,8 @@ public interface UsedService {
 	 * @return usedBoard : 반환할 게시글 
 	 */
 	public void write(
-			UsedBoard usedboard,String images
+			UsedBoard usedboard,
+			String images
 		);
 	
 	
@@ -64,15 +66,14 @@ public interface UsedService {
 	 *  @param usedBoard : 조회할 게시글의 게시글번호 
 	 *  @return UsedBoard : 조회된 게시글 객체 
 	 */
-	public UsedBoard view(
-			int boardno
-		);
-	
+	public UsedBoard view(int boardno);
+
 	
 	/**
-	 *  게시글 이미지 가져오기 
+	 *  조회수 증가시키기 
+	 * @param boardno
 	 */
-	public UsedImage getImg(UsedImage usedimg);
+	public void hitview(int boardno);
 	
 	
 	/**
@@ -86,26 +87,78 @@ public interface UsedService {
 	 *  게시글을 삭제한다.
 	 *  @param UsedBoard
 	 */
-	public void delete(UsedBoard usedboard);
+	public void delete(int boardno);
+	
+	
+	/**
+	 *  사진 저장
+	 * @param usedimg
+	 * @param img
+	 * @param context
+	 * @return
+	 */
+	public UsedImage storeImg(
+			UsedImage usedimg,
+			MultipartFile img,
+			ServletContext context);
+	
+	/**
+	 *  사진 조회 
+	 * @param usedimg
+	 * @return
+	 */
+	public UsedImage getImg(UsedImage usedimg);
+	
+	/**
+	 * 
+	 * @param usedimg
+	 * @param context
+	 * @return
+	 */
+	public File findImg(
+			UsedImage usedimg,
+			ServletContext context
+			);
+	
 	
 	/**
 	 *  게시판에 댓글을 입력한다.
 	 *  @param UsedComment
 	 */
-	public void writeComment(UsedComment usedcmt);
+	public void writeCmt(UsedComment usedcmt);
 	
 	/**
 	 *  게시글 번호를 통해 댓글을 가져온다.
 	 *  @param UsedComment
 	 *  @return 
 	 */
-	public List<UsedComment> getComment(UsedBoard usedboard);
+	public List<UsedComment> getCmt(int boardno);
+	
 	
 	/**
 	 *  댓글번호를 통해 댓글 조회하기(댓글 수정/삭제 위함)
 	 *  @param UsedComment
 	 *  @return
 	 */
-	public UsedComment getComment(UsedComment usedcmt);
+	public UsedComment getCmt(UsedComment usedcmt);
+	
+	/**
+	 *  댓글 객체에서 게시글 번호 가져오기
+	 * @param usedComment
+	 * @return
+	 */
+	public UsedComment getBoardno(UsedComment usedComment);
+	
+	/**
+	 * 댓글 삭제하기 
+	 * @param usedComment
+	 */
+	public void deleteCmt(UsedComment usedComment);
+	
+	/**
+	 *  댓글 수정하기 
+	 * @param usedComment
+	 */
+	public void updateCmt(UsedComment usedComment);
 	
 }

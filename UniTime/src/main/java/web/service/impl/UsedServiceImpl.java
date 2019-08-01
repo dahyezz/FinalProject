@@ -26,6 +26,7 @@ import web.util.Paging;
 public class UsedServiceImpl implements UsedService {
 	
 	@Autowired UsedDao usedDao;
+	@Autowired ServletContext context;
 	
 	// 테스트 코드 위한 Logger 객체 생성 
 	private static final Logger logger
@@ -53,36 +54,17 @@ public class UsedServiceImpl implements UsedService {
 	// 게시글 작성하기 ('used/write')
 	@Override
 	public void write(
-			UsedBoard usedboard,String images
+			UsedBoard usedboard,
+			String images
 		) {
-		
-		
-		// 게시글 시퀀스 번호 조회
-		int boardno = usedDao.selectBoardno();
-		
-		
-		// 게시글 작성
-		if(usedboard!=null) {
-			// 게시판 db에 boardno 저장 
-			usedboard.setBoardno(boardno);
-			
-			if((usedboard.getTitle()==null)
-				|| "".equals(usedboard.getTitle())) {
-				usedboard.setTitle("(제목없음)");
-			}
-			
-			usedDao.write(usedboard);
-			logger.info(""+usedboard.getBoardno());
-			if(images != null && !"".equals(images)) {
-				Map<String,Object> map = new HashMap<String,Object>();
-//				map.put("images", images);
-				String[] imagelist = images.split(",");
-				map.put("images", imagelist);
-				map.put("boardno",usedboard.getBoardno());
-				usedDao.updateImgno(map);
-			}
+		usedDao.write(usedboard);
+		if(images != null && !"".equals(images)) {
+			String[] imglist = images.split(",");
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("boardno",usedboard.getBoardno());
+			map.put("images",imglist);
+			usedDao.updateUsedImg_KG(map);
 		}
-		
 	}
 
 //	@Override
@@ -151,52 +133,137 @@ public class UsedServiceImpl implements UsedService {
 	// 게시글 상세보기 ('used/view')
 	@Override
 	public UsedBoard view(int boardno) {
-		usedDao.updateHit(boardno);
-		
 		return usedDao.selectBoardByBoardno(boardno);
 	}
 	
-
 	@Override
-	public UsedImage getImg(UsedImage usedimg) {
-		return usedDao.selectImgByImgno(usedimg.getUsedImgNo());
+	public void hitview(int boardno) {
+		usedDao.updateHit(boardno);
+		
 	}
 	
 	
 	@Override
 	public void update(UsedBoard usedboard) {
+		
 		// 게시글 수정
 		usedDao.update(usedboard);
 	}
 	
 
 	@Override
-	public void delete(UsedBoard usedboard) {
-		// 게시글 삭제 
-		usedDao.deleteBoardByBoardno(usedboard);
+	public void delete(int boardno) {
+	
 		
+		//  댓글 삭제
+		usedDao.deleteCommentByBoardno(boardno);
+		
+		// 이미지 삭제 
+		List<UsedImage> list = usedDao.selectImgByBoardno(boardno);
+	      
+	      for(UsedImage i : list) {
+	         String fileName = i.getStoredName();
+	         String fileDir = context.getRealPath("/usedUpload");
+	         File file = new File(fileDir,fileName);
+	         if(file.exists()) {file.delete();}
+	      };
+	      
+	      // DB에서 이미지 삭제 
+	      usedDao.deleteImgByBoardno(boardno);
+		
+		// 게시글 삭제
+		usedDao.deleteBoardByBoardno(boardno);
+	}
+	
+	
+	
+	@Override
+	public UsedImage storeImg(
+			UsedImage usedimg,
+			MultipartFile img,
+			ServletContext context
+			) {
+		String storedPath = context.getRealPath("/usedUpload");
+		String uuId = UUID.randomUUID().toString().split("-")[4];
+		
+		// 저장되는 파일의 이름 
+		String name = img.getOriginalFilename()+"_"+uuId;
+		
+		// 저장될 파일 객체 
+		File dest = new File(storedPath, name);
+		
+		// 파일 저장 
+		try {
+			img.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		UsedImage upimage = new UsedImage();
+	
+		upimage.setOriginName(img.getOriginalFilename());
+		upimage.setStoredName(name);
+		upimage.setImgSize((int)img.getSize());
+		
+		usedDao.insertImg(upimage);
+		logger.info(upimage.toString());
+		
+		return upimage;
+	}
+	
+	@Override
+	public UsedImage getImg(UsedImage usedimg) {
+		return usedDao.selectImgByImgno(usedimg.getUsedImgNo());
+	}
+	
+	@Override
+	public File findImg(
+			UsedImage usedimg,
+			ServletContext context
+			) {
+		File file = new File(context.getRealPath("/usedUpload"), usedimg.getStoredName());
+		
+		return file;
 	}
 	
 
+
 	@Override
-	public void writeComment(UsedComment usedcmt) {
+	public void writeCmt(UsedComment usedcmt) {
 		// 작성한 댓글을 DB에 삽입 
 		usedDao.insertComment(usedcmt);
 	}
 
 	
 	@Override
-	public List<UsedComment> getComment(UsedBoard usedboard) {
+	public List<UsedComment> getCmt(int boardno) {
 		// 게시글 번호로 댓글 조회
-		return usedDao.selectAllCommentnoByBoardno(usedboard);
+		return usedDao.selectAllCommentnoByBoardno(boardno);
 	}
 
-	
 	@Override
-	public UsedComment getComment(UsedComment usedcmt) {
+	public UsedComment getCmt(UsedComment usedcmt) {
 		// 댓글 번호로 댓글 조회 
 		// 댓글 수정,삭제를 위함
 		return usedDao.selectAllCommentByCommentno(usedcmt);
+	}
+
+	@Override
+	public UsedComment getBoardno(UsedComment usedComment) {
+		return usedDao.selectBoardByCommentno(usedComment);
+	}
+
+	@Override
+	public void deleteCmt(UsedComment usedComment) {
+		usedDao.deleteComment(usedComment);
+		
+	}
+
+	@Override
+	public void updateCmt(UsedComment usedComment) {
+		usedDao.updateComment(usedComment);
 	}
 	
 }

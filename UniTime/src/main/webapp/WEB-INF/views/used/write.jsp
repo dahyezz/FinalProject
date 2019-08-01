@@ -32,8 +32,7 @@ $(document).ready(function() {
 
 
 <script type="text/javascript">
-var images = "";
-var isfirst = true;
+
 $(document).ready(function() {
 		
 	$('#summernote').summernote({
@@ -87,15 +86,16 @@ $(document).ready(function() {
 		}
 		
 		
-		$(this).append($("<input>").attr("type", "hidden").attr("name", "boardno").val(${usedboard.boardno }));
-		var code = $('#summernote').summernote('code');
-	    $('textarea[name="content"]').val(code);
-		$(this).submit();
+// 		$(this).append($("<input>").attr("type", "hidden").attr("name", "boardno").val(${usedboard.boardno });
+// 		var code = $('#summernote').summernote('code');
+// 	    $('textarea[name="content"]').val(code);
+// 		$(this).submit();
 		
 	});
 	
 });
-
+var images = "";
+var isfirst = true;
 function sendFile(file, el){
 	//파일 전송을 위한 폼 데이터 생성
 	var data = new FormData();
@@ -106,7 +106,7 @@ function sendFile(file, el){
 		data: data
 		, dataType: "json"
 		, type: "POST"
-		, url: "/used/productImage"
+		, url: "/used/imgUpload"
 		, cache: false
 		, contentType: false
 		, enctype: "multipart/form-data"
@@ -114,18 +114,19 @@ function sendFile(file, el){
 		, success: function(data) {
 			console.log("성공");
 			console.log(data);
-			console.log(data.usedimgno)
+			console.log(data.usedImgNo)
 			console.log(data.boardno)
+			
 			if(isfirst){
-				images = images+data.usedimgno;
+				images = images+data.usedImgNo;
 				document.getElementById("images").value = images;
 				isfirst = false;
 			}else{
-				images = images + "," + data.usedimgno;	
+				images = images + "," + data.usedImgNo;	
 				document.getElementById("images").value = images;
 			}
 			
-			$(el).summernote('editor.insertImage', "/usedUpload?usedImgNo="+data.usedimgno);
+			$(el).summernote('editor.insertImage', "/usedImage?usedImgNo="+data.usedImgNo);
 		}
 		, error: function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus+"  "+errorThrown)
@@ -180,9 +181,9 @@ function sendFile(file, el){
 
 <div>
 	<input type="hidden" name="writer" value="${nick }" />
-	<textarea name="content" id="content" 
+	<textarea name="content" id="summernote" 
 		style="display: none; text-align: left;"></textarea>
-	<div id="summernote"></div>
+	<!-- <div id="summernote"></div> -->
 </div>
 	
 	
