@@ -7,6 +7,7 @@
     
 <!-- 여기부터 회원관리 페이지 -->
     
+    
 <mapper namespace="web.dao.face.AdminDao">
 
 	<resultMap type="web.dto.Member" id="Member">
@@ -18,7 +19,7 @@
 		    SELECT rownum rnum, B.* FROM (
 		        SELECT * FROM member_kg
        			<if test="search != null and search != ''">
-		        WHERE nickname LIKE '%'||#{search }||'%'
+		        WHERE name LIKE '%'||#{search }||'%'
 		        </if>
 		        ORDER BY hakbun
 		    ) B
@@ -34,7 +35,7 @@
 	
 	<select id="selectMemberSearchCntAll" resultType="int" parameterType="String">
 		SELECT count(*) FROM member_kg
-		WHERE nickname LIKE '%'||#{search }||'%'
+		WHERE name LIKE '%'||#{search }||'%'
 	</select>
 	
 	<delete id="memberDelete" parameterType="String">
@@ -143,21 +144,16 @@
 		
 	</update>
 	
-	
-	<!-- 여기부터 사이트 관리 페이지 -->
-	<insert id="visitInsert">
-		INSERT INTO visit
-		VALUES (sysdate)
-	</insert>
-	
 	<select id="visitCntAll" resultType="int">
-		SELECT count(*) visit
+		SELECT count(*) FROM visit 
+	
 	</select>
 	
-	<select id="visitCnt" resultType="int" parameterType="Date">
-		SELECT count(*) visit
+	<select id="visitCnt" resultType="int">
+		SELECT count(*) FROM visit
+		WHERE TO_DATE(visit_date) = TO_DATE(sysdate)
 	</select>
-
+	
 	
 
 

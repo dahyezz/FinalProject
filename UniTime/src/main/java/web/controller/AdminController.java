@@ -141,6 +141,13 @@ public class AdminController {
 		int badReport = adminService.badReportCntAll();
 		model.addAttribute("badReport", badReport);
 		
+		int visitTodayCnt = adminService.visitCnt();
+		model.addAttribute("visitTodayCnt", visitTodayCnt);
+		
+		int visitCntAll = adminService.visitCntAll();
+		model.addAttribute("visitCntAll", visitCntAll);
+		
+		
 	}
 	
 	

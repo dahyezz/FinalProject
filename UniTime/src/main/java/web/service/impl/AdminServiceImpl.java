@@ -1,22 +1,28 @@
 package web.service.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.AdminDao;
+import web.dbutil.DBConn;
 import web.service.face.AdminService;
 import web.util.Paging;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-	
+
 	@Autowired AdminDao adminDao;
-	
+
 	// 여기부터 회원관리 페이지
 	
 	@Override
@@ -204,12 +210,19 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public void visitInsert(HttpServletRequest req) {
+	public int visitCntAll() {
 		
-		adminDao.visitInsert();
-		
+		return adminDao.visitCntAll();
 	}
 	
+	@Override
+	public int visitCnt() {
+		
+		return adminDao.visitCnt();
+	}
+	
+	
+
 	
 
 
