@@ -55,6 +55,8 @@ public interface MemberDao {
 	 * 회원 닉네임 수정
 	 */
 	public void memberModifyNick(Member member) throws Exception;
+	
+	public void memberGrades(Member member);
 }
 
 

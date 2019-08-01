@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.BadReport;
 import web.dto.TastyBoard;
@@ -43,10 +45,17 @@ public class TastyBoardController {
 	
 	@RequestMapping(value="/tasty/list", method=RequestMethod.GET)
 	public void list(Model model,
-			@RequestParam(defaultValue="1") int curPage
+			@RequestParam(defaultValue="1") int curPage,String searchType, String keyword,
+			Map<String, Object> map 
 			) {
 		
-		Paging paging = tastyBoardService.getcurPage(curPage);
+		map.put("curPage", curPage);
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		
+		Paging paging = tastyBoardService.getcurPage(map);
+	
+		logger.info(paging.toString());
 		
 		List<TastyBoard> boardList = tastyBoardService.list(paging);
 
@@ -69,9 +78,8 @@ public class TastyBoardController {
 		badReport.setNickname(session.getAttribute("nick").toString());
 		logger.info(badReport.toString());
 
-		//신고가 되었는지 체크
+		//신고가 되었는지 체크(게시글)
 		boolean isDeclare = tastyBoardService.checkReclare(badReport);
-		System.out.println(isDeclare);
 		model.addAttribute("isDeclare", isDeclare);
 	}
 	
@@ -197,8 +205,9 @@ public class TastyBoardController {
 		logger.info(tastyComment.toString());
 		
 		tastyBoardService.writeComment(tastyComment);
-
-		tastyComment = tastyBoardService.getComment(tastyComment);
+//		tastyComment = tastyBoardService.getComment(tastyComment);
+//
+//		logger.info(tastyComment.toString());
 		return "redirect:/tasty/comment?boardno="+tastyComment.getBoardno();
 	}
 	
@@ -246,17 +255,18 @@ public class TastyBoardController {
 	}
 	
 	@RequestMapping(value="/tasty/declare", method=RequestMethod.POST)
-	public void declare(BadReport badReport, HttpServletResponse response) {
+	public ModelAndView declare(BadReport badReport, ModelAndView mav) {
 		logger.info(badReport.toString());
 		
 		boolean success = tastyBoardService.declareBoard(badReport);
 		
+		mav.addObject("success", success);
+		mav.addObject("commentno",badReport.getCommentno());
 		
-		try {
-			response.getWriter().append("{\"success\":"+success+", \"commentno\":"+badReport.getCommentno()+"}");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		mav.setViewName("jsonView");
+		
+		return mav;
+
 	}
 	
 	@RequestMapping(value="/tasty/imageDelete", method=RequestMethod.POST)

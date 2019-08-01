@@ -51,13 +51,53 @@ $(document).ready(function() {
 	if(${isDeclare}){
 		$('#btnDeclare').html('신고완료');
 		$("#btnDeclare").css({ 'pointer-events': 'none' });
-		
-// 		$('#commentno'+commentno).html('관리자에 의해 규제된 댓글입니다.')
+
 	} else {
 		$('#btnDeclare').html('신고');
-// 		$('#cmtDeclare').html('신고취소');
-	
 	}
+	
+	var commentno_re;
+	$('#commentdiv').on('click', ".recomment", function() {
+// 		console.log("clicked")
+
+		
+		
+		$("#recommentdiv").remove();
+		if(commentno_re == $(this).parent().attr("data-commentno")){commentno_re = 0; return false;}
+		commentno_re = $(this).parent().attr("data-commentno");
+		$(this).parent().append(
+				"<div id='recommentdiv'><textarea id='recommentcontent'></textarea><button id='recommentBtn'>댓글입력</button></div>");
+	});
+	
+	$("#commentdiv").on("click", "#recommentBtn", function() {
+// 		console.log("reocomment btn clicked")
+
+// 		var commentno;
+		var dept
+		var boardno = ${board.boardno};
+		var writer = "${nick}";
+		dept = $(this).parent().parent().attr("data-dept");
+		var recommentcontent =  $("#recommentcontent").val();
+		
+		$.ajax({
+			url : "/tasty/writeComment",
+			type : "POST",
+			data : {"boardno":boardno,
+					"content":recommentcontent,
+					"writer":writer,
+					"commentno":commentno_re,
+					"dept":dept},
+			dataType:"html",
+	  		success: function(res){
+	  			console.log(res);
+	  			$("#commentdiv").html(res);
+			} 
+			, error: function(res){
+			}
+			
+		});		
+		
+	})
 	
 });
 
@@ -160,7 +200,7 @@ function declare(boardno, commentno){
 	var interval = null;
 	
 	myWindow = window.open("http://localhost:8088/tasty/declareReason","신고사유","width=550, height=650, left="+100+", top="+20+", resizable=no");
-
+	
 	interval = window.setInterval(function() {
 		try {
 			if(myWindow == null || myWindow.closed){
@@ -184,42 +224,47 @@ function declareProc(boardno, commentno){
 	// 신고자정보
 	var nick=document.getElementById('writer').value;
 	var reason = document.getElementById('reason').value;
+	console.log(reason)
+	
+	if(reason != null && reason != ""){
+		$.ajax({
+			type: "post"	
+			, url: "/tasty/declare"
+			, dataType: "json"
+			, data: {
+				boardname: boardname,
+				boardno: boardno,
+				commentno: commentno,
+				reason: reason,
+				nickname: nick
+			}
+			, success: function(data){
+//	 			console.log(data.commentno)
+				if(data.commentno==0){
+					if(data.success){
+						$('#btnDeclare').html('신고완료');
+						$("#btnDeclare").css({ 'pointer-events': 'none' });
+						alert("신고가 완료되었습니다.")
+					} else {
+						$('#btnDeclare').html('신고');
+					}
+				}
+				else {
+					if(data.success){
+						$('#commentno'+data.commentno).html('관리자에 의해 규제된 댓글입니다.')
+						alert("신고가 완료되었습니다.")
+					} else {
+						$('#cmtDeclare'+data.commentno).html('신고');
+					}
+					
+				}
+			}
+			, error: function() {
+				console.log("error")
+			}
+		});
+	}
 
-	$.ajax({
-		type: "post"	
-		, url: "/tasty/declare"
-		, dataType: "json"
-		, data: {
-			boardname: boardname,
-			boardno: boardno,
-			commentno: commentno,
-			reason: reason,
-			nickname: nick
-		}
-		, success: function(data){
-// 			console.log(data.commentno)
-			if(data.commentno==0){
-				if(data.success){
-					$('#btnDeclare').html('신고완료');
-					$("#btnDeclare").css({ 'pointer-events': 'none' });
-					alert("신고가 완료되었습니다.")
-				} else {
-					$('#btnDeclare').html('신고');
-				}
-			}
-			else {
-				if(data.success){
-					$('#commentno'+data.commentno).html('관리자에 의해 규제된 댓글입니다.')
-				} else {
-					$('#cmtDeclare'+data.commentno).html('신고');
-				}
-				
-			}
-		}
-		, error: function() {
-			console.log("error")
-		}
-	});
 }
 </script>
 
@@ -228,8 +273,7 @@ function declareProc(boardno, commentno){
 	<h3>테이스티로드</h3>
 </div>
 
-<c:if test="${nick ne board.writer }">
-<!-- 	<button id="btnDeclare" class="btn pull-right" >신고</button> -->
+<c:if test="${nick ne board.writer && nick ne 'admin'}">
 	<a href="javascript:void(0)" onclick="declare('${board.boardno }')" style="float: right;" id="btnDeclare">신고</a>
 	<input type="hidden" id="reason" />
 </c:if>
@@ -269,9 +313,9 @@ function declareProc(boardno, commentno){
 	
 </table>
 
-
+<div id="commentdiv">
 <c:import url="/WEB-INF/views/tasty/comment.jsp" />
-
+</div>
 
 <label>${nick }<textarea id="content" name="content" rows="1" cols="70" onkeypress="JavaScript:enter_check();"></textarea></label>
 <input type="hidden" name="writer" id="writer" value="${nick }" />

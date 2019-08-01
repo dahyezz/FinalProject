@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.FreeBoardDao;
+import web.dto.BadReport;
 import web.dto.FreeBoard;
 import web.dto.FreeBoardNotice;
 import web.dto.FreeFile;
@@ -246,5 +247,18 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		
 		//게시글 삭제		
 		freeBoardDao.deleteNoticeBoard(boardno);
+	}
+
+	@Override
+	public boolean report(BadReport badReport) {
+		
+		//같은 신고가 들어올 때
+		if(freeBoardDao.selectCntFreeReport(badReport)>0) {
+			return false;	//기존에 있는 신고이면 false
+		} else {
+			freeBoardDao.insertFreeReport(badReport);
+			
+			return true;
+		}
 	}
 }

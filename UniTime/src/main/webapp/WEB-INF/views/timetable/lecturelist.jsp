@@ -33,12 +33,14 @@ $(document).ready(function() {
 			);
 		$(document.body).append($form);
 		$form.submit();
+		
+		alert('강의 담기 성공!');
 	});
 	
 	
 	//선택 삭제
 	$("#btnDelete").click(function(){
-		var $checkboxes = $("input:checkbox[name='checkRow2']:checked");
+		var $checkboxes = $("input:checkbox[name='checkMyRow']:checked");
 		
 		//방법1
 		// 체크된 대상들을 하나씩 꺼내서 문자열로 합치기
@@ -65,6 +67,8 @@ $(document).ready(function() {
 			);
 		$(document.body).append($form);
 		$form.submit();
+		
+		alert('강의가 삭제됐습니다');
 	});
 });
 
@@ -90,7 +94,6 @@ function checkAll() {
 }
 
 </script>
-
 
 <style type="text/css">
 #lectureList {
@@ -176,7 +179,7 @@ function checkAll() {
 <tbody>
 <c:forEach items="${myList }" var="mi">
 	<tr>
-		<td><input type="checkbox" name="checkRow2" value="${mi.lecture_code }" /></td>
+		<td><input type="checkbox" name="checkMyRow" value="${mi.lecture_code }" /></td>
 		<td>${mi.grade }</td>
 		<td>${mi.lecture_section }</td>
 		<td>${mi.department_name }</td>

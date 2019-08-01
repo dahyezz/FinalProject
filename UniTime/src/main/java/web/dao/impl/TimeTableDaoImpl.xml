@@ -18,7 +18,8 @@
 
 <delete id="deleteMyList" parameterType="web.dto.TempTable">
 	DELETE FROM temptable
-	WHERE user_email=#{user_email} and lecture_code in (#{lecture_code})
+	WHERE user_email=#{user_email} 
+	and lecture_code = #{lecture_code}
 </delete>
 
 <select id="selectMyList" parameterType="String" resultType="web.dto.TempTable">
@@ -43,10 +44,23 @@ SELECT R.* FROM (
             SELECT distinct lecture_day, start_time FROM timetable_kg ttb
             JOIN temptable tb ON ttb.lecture_code=tb.lecture_code
             WHERE tb.user_email = #{id })   
+        AND start_time between #{stime } and #{etime }      
     ) RES
+    ORDER BY DBMS_RANDOM.VALUE
 ) R
 WHERE rank = 1
     AND rownum BETWEEN 1 AND #{classNum }
-ORDER BY DBMS_RANDOM.VALUE
 </select>
+
+<select id="lectureCheck" parameterType="web.dto.TempTable" resultType="int">
+    SELECT count(*) FROM 
+    temptable tb left join timetable_kg ttb on tb.lecture_code=ttb.lecture_code
+	WHERE user_email= #{user_email } AND (start_time=#{start_time } and lecture_day=#{lecture_day })
+</select>
+
+<select id="getTableByTemp" parameterType="web.dto.TempTable" resultType="web.dto.TimeTable">
+	SELECT * FROM timetable_kg
+	WHERE lecture_code=#{lecture_code }
+</select>
+
 </mapper>

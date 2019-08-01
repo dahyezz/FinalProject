@@ -48,6 +48,7 @@ $(document).ready(function() {
 	
 	$("#writeForm").submit(function() {
 		
+		$(this).append($("<input>").attr("type", "hidden").attr("name", "boardno").val(${board.boardno }));
 		var code = $('#summernote').summernote('code');
 	    $('textarea[name="content"]').val(code);
 		$(this).submit();

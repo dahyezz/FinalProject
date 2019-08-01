@@ -5,6 +5,41 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <script type="text/javascript">
+
+function delete_row() {
+    var grades = document.getElementById('grades');
+    if (grades.rows.length < 1) return;
+    // grades.deleteRow(0); // 상단부터 삭제
+    grades.deleteRow( grades.rows.length-1 ); // 하단부터 삭제
+}
+
+jQuery(function(){
+    var counter = null;
+    jQuery('a.add-author').click(function(event){
+        event.preventDefault();
+
+        var newRow = jQuery('<tr>' +
+        		'<th style="width: 5%"><input type = "text"></th>' +
+        		'<th style="width: 3%">' +
+        		'<select name="grades">' +
+        		'<option value="4.5">A+</option>' +
+        		'<option value="4.0">A</option>' +
+        		'<option value="3.5">B+</option>' +
+        		'<option value="3.0">B</option>' +
+        		'<option value="2.5">C+</option>' +
+        		'<option value="2.0">C</option>' +
+        		'<option value="1.5">D</option>' +
+        		'<option value="0">F</option>' +
+        		'</select></th>' +
+        		'<th style="width: 1%">' +
+        		'<input type="checkbox" name="checkRow"/></th>' +
+        		'</tr>');
+            counter++;
+        jQuery('table.grades').append(newRow);
+
+    });
+});
+
 $(document).ready(function() {
 	
 	// 선택체크 삭제
@@ -86,6 +121,39 @@ $(document).ready(function() {
 	});
 });
 
+$(document).ready(function(){
+	$("#btnGrades").click(function(){
+		
+		var temp    = [];
+	    var obj     = $('select[name="grades"]');
+	    var result  = false;
+	    var sum		= 0.0;
+		var tt		= "";
+	    // 현재 값 임시 배열에 저장
+	    $(obj)
+	        .each(function(i) {
+				temp[i] = $(this).val();
+				
+				tt = temp[i];
+				tt = Number(tt);
+				sum = sum + tt;
+				avg = sum / temp.length;
+				console.log(temp[i]);
+	        });
+	    	console.log(sum);
+	    	console.log(avg);
+/* 	    var sum	= 0;
+
+	    for(var i=0; i<score.length; i++)
+	    {
+	    	score[i] = 
+	    	sum = sum + score[i];
+	    } */
+
+		$("#result").text(" 모든 성적 : ( " + temp + " ) " + " 합산 성적 : " + sum + " 평균 성적 : " + avg );
+		$("#result").attr("style", "color:#f00");
+	});
+});
 </script>
 
 <style type = "text/css">
@@ -116,7 +184,7 @@ background: #ffc952;
   border: solid  #47b8e0 1px;
   text-decoration: none;
 }
-#btnDelete1, #btnDelete2, #btnDelete3 {
+#btnDelete1, #btnDelete2, #btnDelete3, #btnGrades {
   background:  #47b8e0;
   background-image: -webkit-linear-gradient(top,  #47b8e0,  #47b8e0);
   background-image: -moz-linear-gradient(top,  #47b8e0,  #47b8e0);
@@ -157,13 +225,13 @@ background: #ffc952;
 <div align="left" style="position: relative; left: 20px; ">
 	${nick }님<br><br>
 	학번 : ${hakbun }
-</div>
-</c:if>
-</div>
-<div style="position: relative; right: -380px; ">
+<div style="position: relative; left: 750px; ">
 <button type="button" id = "modifyNick" onclick="location.href='/member/modifyNick'">닉네임수정</button>
 <button type="button" id = "modify" onclick="location.href='/member/modify'">비밀번호수정</button>
 <button type="button" id = "logout" onclick="location.href='/member/logout'">로그아웃</button>
+</div>
+</div>
+</c:if>
 </div>
 </form>
 </div>
@@ -210,10 +278,9 @@ background: #ffc952;
 </div>
 
 </div>
-
-</div>
 <div id="btnBox" class="float-right" style="text-align: right">
 	<button id="btnDelete1">삭제</button>
+</div>
 </div>
 
 <div class="container">
@@ -256,11 +323,11 @@ background: #ffc952;
 </div>
 
 </div>
-
-</div>
 <div id="btnBox" class="float-right" style="text-align: right">
 	<button id="btnDelete2">삭제</button>
 </div>
+</div>
+
 
 <div class="container">
 
@@ -303,39 +370,84 @@ background: #ffc952;
 </div>
 
 </div>
-
-</div>
 <div id="btnBox" class="float-right" style="text-align: right">
 	<button id="btnDelete3">삭제</button>
 </div>
+</div>
+
 
 <br>
 <br>
 <br>
-<hr>
+
+<div class="container">
+
+<div class="row">
+
+
+<!-- <div class="col order-1"> -->
+<br>
 <div style="text-align: center">
-<h3>학점계산기</h3>
+<hr>
+학점 계산기<br><br>
 </div>
-<table style = "text-align : center; margin : auto;" class = "mypagelist">
+<div>
+<table style = "text-align : center; margin : auto;" class = "grades">
 <thead>
 	<tr>
-		<th style="width: 3%">과목</th>
+		<th style="width: 5%">과목명</th>
 		<th style="width: 3%">점수</th>
-		<th style="width: 3%">학점</th>
-		<th style="width: 3%">전공</th>
+		<th style="width: 1%">전공</th>
 	</tr>
 </thead>
-<tbody>
-<c:forEach items="${usedList }" var="i">
+<tbody id = "grades">
 	<tr>
-		<td style="width: 3%"><input type = "text"></td>
-		<td style="width: 3%"></td>
-		<td style="width: 3%"></td>
-		<td style="width: 3%">
-		<input type="checkbox" name="checkRow" value = "${i.boardno }"/></td>
+		<th style="width: 5%"><input type = "text"></th>
+		<th style="width: 3%">
+          <select name="grades">
+                 <option value="4.5">A+</option>
+                 <option value="4.0">A</option>
+                 <option value="3.5">B+</option>
+                 <option value="3.0">B</option>
+                 <option value="2.5">C+</option>
+                 <option value="2.0">C</option>
+                 <option value="1.5">D</option>
+                 <option value="0">F</option>
+             </select></th>
+		<th style="width: 1%">
+		<input type="checkbox" name="checkRow"/></th>
 	</tr>
-	</c:forEach>
+	<tr>
+		<th style="width: 10%"><input type = "text"></th>
+		<th style="width: 3%">
+          <select name="grades">
+                 <option value="4.5">A+</option>
+                 <option value="4.0">A</option>
+                 <option value="3.5">B+</option>
+                 <option value="3.0">B</option>
+                 <option value="2.5">C+</option>
+                 <option value="2.0">C</option>
+                 <option value="1.5">D</option>
+                 <option value="0">F</option>
+             </select></th>
+		<th style="width: 1%">
+		<input type="checkbox" name="checkRow"/></th>
+	</tr>
 </tbody>
 </table>
+</div>
+<a href="#" title="" class="add-author">과목 추가</a>
+<a onclick="delete_row()">과목 삭제</a><br><br>
 
+		<p class="result" id = "result">
+		<span class="msg">성적을 입력해 주세요</span>
+
+<div id="btnBox" class="float-right" style="text-align: right">
+	<button class="grades" id = "btnGrades">계산</button>
+</div>
+</div></div>
+
+<hr>
+내 시간표<br><br>
+</div>
 

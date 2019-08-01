@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import web.dto.TempTable;
+import web.dto.TimeTable;
 
 public interface TimeTableDao {
 
@@ -19,4 +20,8 @@ public interface TimeTableDao {
 	public List recommend(String lec);
 	
 	public List recommendTmp(Map<String, String> map);
+
+	public int lectureCheck(TempTable temp);
+	
+	public TimeTable getTableByTemp(TempTable temp);
 }

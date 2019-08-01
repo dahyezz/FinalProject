@@ -1,6 +1,8 @@
 package web.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,9 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.TempTable;
+import web.dto.TimeTable;
 import web.service.face.TimeTableService;
 
 @Controller
@@ -48,16 +50,29 @@ public class TimeTableController {
 		String id= (String) session.getAttribute("email");
 		
 		TempTable temp = new TempTable();
+		TimeTable timeTable = new TimeTable();
 		
 		temp.setUser_email(id);
 		temp.setLecture_code(Integer.parseInt(names));
 		
-		timeTableService.myListInsert(temp);
-		List mylist = timeTableService.myList(id);
-	
+		timeTable = timeTableService.getTableByTemp(temp);
+		temp.setStart_time(timeTable.getStart_time());
+		temp.setLecture_day(timeTable.getLecture_day());
 		
-		model.addAttribute("myList", mylist);
+		if(timeTableService.checkLecture(temp)) {
+			
+			timeTableService.myListInsert(temp);
+			List mylist = timeTableService.myList(id);
 		
+			
+			model.addAttribute("myList", mylist);
+		}
+		
+		boolean checklec;
+		if(!timeTableService.checkLecture(temp)) {
+			checklec=false;
+			model.addAttribute("lectureCheck", checklec);
+		}
 		
 		return "redirect:/timetable/lecturelist";
 	}
@@ -66,7 +81,6 @@ public class TimeTableController {
 	@RequestMapping(value="/timetable/deletemylist", method=RequestMethod.POST)
 	public String deleteMylist(Model model, @RequestParam("names") String names, HttpSession session) {
 		
-		System.out.println(names);
 		String id= (String) session.getAttribute("email");
 		
 		TempTable temp = new TempTable();
@@ -75,10 +89,6 @@ public class TimeTableController {
 		temp.setLecture_code(Integer.parseInt(names));
 		
 		timeTableService.myListDelete(temp);
-		List mylist = timeTableService.myList(id);
-	
-		model.addAttribute("myList", mylist);
-		
 		
 		return "redirect:/timetable/lecturelist";
 	}
@@ -104,8 +114,6 @@ public class TimeTableController {
 		List mylist = timeTableService.myList(id);
 		model.addAttribute("myList", mylist);
 		
-		
-		
 		List recommendList = timeTableService.recommendList(req);
 		model.addAttribute("recommendList", recommendList);
 		
@@ -126,6 +134,23 @@ public class TimeTableController {
 		model.addAttribute("recommendList", recommendList);
 		
 		
+		
+		Map<String, String> newLecturelist = new HashMap<String, String>();
+		
+//		newLecturelist.put("id", id);
+//		newLecturelist.put("lecture_1", ((String)(recommendList.get(1))));
+////		newLecturelist.put("lecture_1", value);
+		
 	}
+	
+//	@RequestMapping(value="/timetable/showtable/recommendation/recommendlist", method=RequestMethod.POST)
+//	public void insertMyTable(Model model, HttpSession session, HttpServletRequest req
+//			, @RequestParam("timepriority") String timepriority
+//			, @RequestParam("classNum") int classNum
+//			) {
+//		
+//		
+//		
+//	}
 	
 }

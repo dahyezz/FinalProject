@@ -152,5 +152,23 @@
 		DELETE FROM freeboard_notice_kg
 		WHERE boardno=#{boardno }
 	</delete>
+	
+	<select id="selectCntFreeReport" parameterType="web.dto.BadReport" resultType="int">
+		SELECT COUNT(*) FROM badreport_kg
+		WHERE boardname = #{boardname } 
+			AND boardno = #{boardno }
+			AND commentno = #{commentno }
+			AND nickname = #{nickname }
+	</select>
+	
+	<insert id="insertFreeReport" parameterType="web.dto.BadReport">
+	
+		<selectKey order="BEFORE" resultType="int" keyProperty="badno">
+			SELECT badreport_kg_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO badreport_kg(badno, boardname, boardno, commentno, reason, nickname)
+		VALUES (#{badno }, #{boardname }, #{boardno }, #{commentno }, #{reason }, #{nickname })
+	</insert>
 
 </mapper>

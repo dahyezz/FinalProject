@@ -58,7 +58,9 @@ $(document).ready(function(){
     			html+= '<span style="font-weight:bold;">'+this.writer+'</span><br>';
 	            html+= '<span>'+this.content+'</span><br>';
 	            html+= '<span style="color:#ccc;">'+writtendate+'</span>&nbsp;&nbsp;';
-	            html+= '<span><a href="/free/report">신고</a></span>';
+	            if(nick != this.writer){
+	            html+= '<span><a href="javascript:void(0)" id="commentReport" data-commentno="'+this.commentno+'">신고</a></span>';
+	            }
 	            if(nick == this.writer || nick == 'admin'){
 	            	html+= '<button class="commentDelete" data-commentno="'+this.commentno+'" style="float:right;">삭제</button>';
 	            }
@@ -117,7 +119,22 @@ $(document).ready(function(){
 			});
 		}
 	});
+
+	var boardno=$('#boardno').val();
+	var nick=$('#nick').val();
+	
+	//게시글 신고
+	$("#btnReport").click(function(){
+		window.open("/free/report?boardno="+boardno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
+	});
+	
+	//댓글 신고
+	$(document).on("click", "#commentReport", function(){
+				
+		var commentno=$(this).attr("data-commentno");
 		
+		window.open("/free/report?boardno="+boardno+"&commentno="+commentno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
+	});
 });
 </script>
 
@@ -151,7 +168,7 @@ $(document).ready(function(){
 
 <div class="freeView">
 
-<h1 >게시글 내용</h1>
+<h1>게시글 내용</h1>
 <hr>
 
 <table class="table table-condensed">
@@ -188,7 +205,7 @@ $(document).ready(function(){
 	</tr>
 </table>
 
-<div class="text-center">	
+<div class="text-center">
 	<input type="hidden" id="boardno" value="${board.boardno }">
 	<input type="hidden" id="tag" value="${board.tag }">
 	<button id="btnList" onclick="location.href='/free/list'" class="btn btn-info">목록</button>
@@ -196,7 +213,11 @@ $(document).ready(function(){
 		<button id="btnUpdate" class="btn btn-info">수정</button>
 		<button id="btnDelete" class="btn btn-info">삭제</button>
 	</c:if>
-	<button id="btnReport" style="float:right;" class="btn btn-info">신고</button>
+
+	<c:if test="${nick ne board.writer}">
+	<button id="btnReport" style="float:right;"class="btn btn-info">신고</button>
+
+	</c:if>
 </div>
 
 <!-- 댓글 작성 -->

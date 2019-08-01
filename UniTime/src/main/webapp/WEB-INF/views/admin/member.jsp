@@ -77,7 +77,7 @@ $(document).ready(function() {
 	
 	// 검색 기능
 	$("#btnSearch").click(function() {
-		location.href="/admin/member?search="+$("#search").val();
+		location.href="/admin/badReport?search="+$("#search").val();
 	});
 });
 

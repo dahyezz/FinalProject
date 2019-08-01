@@ -3,6 +3,7 @@ package web.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -26,11 +27,16 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	@Autowired TastyBoardDao tastyBoardDao;
 	
 	@Override
-	public Paging getcurPage(int curPage) {
+	public Paging getcurPage(Map<String, Object> map) {
 
 		int totalCount = tastyBoardDao.selectCntAll();
+		int curPage = Integer.parseInt(map.get("curPage").toString());
+		
 		int listCount = 9;
 		Paging paging = new Paging(totalCount, curPage, listCount);
+		
+		paging.setSearchType((String) map.get("searchType"));
+		paging.setKeyword((String) map.get("keyword"));
 		
 		return paging;
 	}
@@ -142,7 +148,14 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	
 	@Override
 	public void writeComment(TastyComment tastyComment) {
-		tastyBoardDao.insertComment(tastyComment);
+		if(tastyComment.getCommentno()!=0) {
+			tastyComment.setRefCommentno(tastyComment.getCommentno());
+			tastyComment.setDept(tastyComment.getDept()+1);
+			tastyBoardDao.insertComment(tastyComment);
+		} else {
+			tastyBoardDao.insertComment(tastyComment);
+		}
+		
 	}
 	
 	@Override
@@ -194,7 +207,7 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	public boolean declareBoard(BadReport badReport) {
 		
 		if(tastyBoardDao.selectCntBadReport(badReport)>0) {
-			tastyBoardDao.deleteBadByBoard(badReport);
+//			tastyBoardDao.deleteBadByBoard(badReport);
 			
 			return false;
 		}
@@ -211,7 +224,6 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 		
 		TastyBoard tastyBoard = new TastyBoard();
 		tastyBoard.setBoardno(file.getBoardno());
-//		tastyBoardDao.deleteFileByboardno(tastyBoard);
 		tastyBoardDao.deleteFileByfileno(file);
 	}
 	

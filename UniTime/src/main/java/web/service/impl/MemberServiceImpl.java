@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import web.dao.face.FreeBoardDao;
 import web.dao.face.MemberDao;
 import web.dao.face.TastyBoardDao;
+import web.dao.face.UsedDao;
 import web.dto.FreeBoard;
 import web.dto.MailUtils;
 import web.dto.Member;
@@ -24,6 +25,7 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired private JavaMailSender mailSender;
 	@Autowired TastyBoardDao tastyBoardDao;
 	@Autowired FreeBoardDao freeBoardDao;
+	@Autowired UsedDao usedDao;
 	
 	@Override
 	public boolean loginCheck(Member member) {
@@ -149,6 +151,8 @@ public class MemberServiceImpl implements MemberService{
 	         
 	         usedBoard.setBoardno(deleteList[i]);
 	         
+	         usedDao.deleteBoardByBoardno(usedBoard);
+	         
 	      }
 	}
 
@@ -175,8 +179,12 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void memberModifyNick(Member member) throws Exception {
 		memberDao.memberModifyNick(member);
-		
-		
+	}
+	
+	@Override
+	public void memberGrades(Member member)  {
+		memberDao.memberGrades(member);
+
 	}
 }
 

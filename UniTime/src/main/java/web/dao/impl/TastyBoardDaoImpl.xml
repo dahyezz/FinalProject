@@ -10,14 +10,39 @@
 	<select id="selectCntAll" resultType="int">
 		SELECT COUNT(*)
 		FROM tastyboard_kg
+		<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+			<choose>
+		    	<when test="searchType == 'total'">
+		        	WHERE loc LIKE '%' || '${keyword }' || '%'
+		        	OR content LIKE '%' || '${keyword }' || '%'
+		        	OR writer LIKE '%' || '${keyword }' || '%'
+		        	</when>
+		        <when test="searchType != 'total'">
+		        	WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
+		        </when>
+			</choose>
+		</if>
 	</select>
 	
 	<select id="selectAll" parameterType="web.util.Paging" resultType="web.dto.TastyBoard">
 		SELECT boardno, tag, store_name storeName, loc, content, writer, hit, score, writtendate,
-			 ( SELECT COUNT(*) FROM tastycomment_kg WHERE boardno = tastyboard_kg.boardno ) AS commentCnt
+			 ( SELECT COUNT(*) FROM tastycomment_kg WHERE boardno = tastyboard_kg.boardno ) AS commentCnt,
+			 ( SELECT min(fileno) FROM tastyfile_kg WHERE boardno = tastyboard_kg.boardno ) AS fileno
 		FROM (
 			SELECT rownum rnum, B.* FROM (
 				SELECT * FROM tastyboard_kg
+				<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+		        	<choose>
+		        		<when test="searchType == 'total'">
+		        			WHERE loc LIKE '%' || '${keyword }' || '%'
+		        			OR content LIKE '%' || '${keyword }' || '%'
+		        			OR writer LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        		<when test="searchType != 'total'">
+		        			WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        	</choose>
+		        </if>
 				ORDER BY boardno DESC
 				) B
 			ORDER BY rnum
@@ -80,23 +105,28 @@
 	</select>
 	
 	<select id="selectAllCommentByBoardno" parameterType="web.dto.TastyBoard" resultType="web.dto.TastyComment">
-		SELECT commentno, boardno, writer, content, writtendate
-		FROM tastycomment_kg
+		SELECT commentno, boardno, refCommentno, dept, writer, content, writtendate, badCnt 
+		FROM (
+		    SELECT commentno, boardno, ref_commentno refCommentno, dept, writer, content, writtendate,
+		        (SELECT COUNT(*) FROM badreport_kg WHERE commentno = tastycomment_kg.commentno ) AS badCnt
+		    FROM tastycomment_kg)
 		WHERE boardno = #{boardno }
-		ORDER BY commentno
+		START WITH refCommentno = 0 
+		CONNECT BY PRIOR commentno = refCommentno
+<!-- 		ORDER BY commentno -->
 	</select>
 	
 	<insert id="insertComment" parameterType="web.dto.TastyComment">
-		<selectKey order="BEFORE" resultType="int" keyProperty="commentno">
-			SELECT tastycomment_kg_seq.nextval FROM dual
-		</selectKey>
+<!-- 		<selectKey order="BEFORE" resultType="int" keyProperty="commentno"> -->
+<!-- 			SELECT tastycomment_kg_seq.nextval FROM dual -->
+<!-- 		</selectKey> -->
 	
-		INSERT INTO tastycomment_kg(commentno, boardno, writer, content)
-		VALUES (#{commentno }, #{boardno }, #{writer }, #{content } )
+		INSERT INTO tastycomment_kg(commentno, boardno, ref_commentno, dept, writer, content)
+		VALUES (tastycomment_kg_seq.nextval, #{boardno }, #{refCommentno }, #{dept }, #{writer }, #{content } )
 	</insert>
 	
 	<select id="selectBoardnoByCommentno" parameterType="web.dto.TastyComment" resultType="web.dto.TastyComment">
-		SELECT commentno, boardno, writer, content, writtendate
+		SELECT commentno, boardno, ref_commentno refCommentno, dept, writer, content, writtendate
 		FROM tastycomment_kg
 		WHERE commentno = #{commentno }
 	</select>
@@ -162,11 +192,11 @@
 		AND nickname = #{nickname }
 	</select>
 	
-	<delete id="deleteBadByBoard" parameterType="web.dto.BadReport">
-		DELETE badreport_kg
-		WHERE boardname = #{boardname } 
-		AND boardno = #{boardno }
-		AND commentno = #{commentno }
-		AND nickname = #{nickname }
-	</delete>
+<!-- 	<delete id="deleteBadByBoard" parameterType="web.dto.BadReport"> -->
+<!-- 		DELETE badreport_kg -->
+<!-- 		WHERE boardname = #{boardname }  -->
+<!-- 		AND boardno = #{boardno } -->
+<!-- 		AND commentno = #{commentno } -->
+<!-- 		AND nickname = #{nickname } -->
+<!-- 	</delete> -->
 </mapper>

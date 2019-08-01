@@ -144,12 +144,12 @@ public interface TastyBoardDao {
 	 */
 	public int selectCntBadReport(BadReport badReport);
 
-	/**
-	 * 신고 취소
-	 * 
-	 * @param badReport
-	 */
-	public void deleteBadByBoard(BadReport badReport);
+//	/**
+//	 * 신고 취소
+//	 * 
+//	 * @param badReport
+//	 */
+//	public void deleteBadByBoard(BadReport badReport);
 
 
 
