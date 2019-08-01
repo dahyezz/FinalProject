@@ -145,6 +145,7 @@ public class UsedServiceImpl implements UsedService {
 	
 	@Override
 	public void update(UsedBoard usedboard) {
+		
 		// 게시글 수정
 		usedDao.update(usedboard);
 	}

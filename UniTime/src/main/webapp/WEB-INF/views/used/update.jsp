@@ -72,15 +72,16 @@ $(document).ready(function() {
 		}
 		
 		
-		$(this).append($("<input>").attr("type", "hidden").attr("name", "boardno").val(${usedboard.boardno }));
-		var code = $('#summernote').summernote('code');
-	    $('textarea[name="content"]').val(code);
-		$(this).submit();
+// 		$(this).append($("<input>").attr("type", "hidden").attr("name", "boardno").val("${usedboard.boardno }");
+// 		var code = $('#summernote').summernote('code');
+// 	    $('textarea[name="content"]').val(code);
+// 		$(this).submit();
 		
 	});
 	
 });
-
+var images = "";
+var isfirst = true;
 function sendFile(file, el){
 	//파일 전송을 위한 폼 데이터 생성
 	var data = new FormData();
@@ -99,10 +100,19 @@ function sendFile(file, el){
 		, success: function(data) {
 			console.log("성공");
 			console.log(data);
-			console.log(data.usedimgno)
+			console.log(data.usedImgNo)
 			console.log(data.boardno)
-
-			$(el).summernote('editor.insertImage', "/usedUpload?usedImgNo="+data.usedimgno);
+			
+			if(isfirst){
+				images = images+data.usedImgNo;
+				document.getElementById("images").value = images;
+				isfirst = false;
+			}else{
+				images = images + "," + data.usedImgNo;	
+				document.getElementById("images").value = images;
+			}
+			
+			$(el).summernote('editor.insertImage', "/usedImage?usedImgNo="+data.usedImgNo);
 		}
 		, error: function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus+"  "+errorThrown)
@@ -121,7 +131,8 @@ function sendFile(file, el){
 
 <div class="usedUpdate">
 <form action="/used/update" method="post" name="writeForm" id="used-update" enctype="multipart/form-data" >
-<input type="hidden" id="images" name="images" value="${usedboard.boardno }">
+<input type="hidden" id="images" name="images" value="">
+<input type="hidden" id="boardno" name="boardno" value="${usedboard.boardno }">
 
 <div class="container">
 	<select id="tag" name="tag" class="selectpicker"

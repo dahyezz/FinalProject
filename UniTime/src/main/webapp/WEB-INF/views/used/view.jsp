@@ -155,14 +155,19 @@ function enterPressAlert(e, textarea) {
 	
 	<br>
 	<!-- 댓글 -->
-	<c:import url="/WEB-INF/views/used/comment.jsp"/>
-	<br>
+	<div id="commentDiv">
+		<c:import url="/WEB-INF/views/used/comment.jsp"/>
+	</div>
 	
+	
+	<!-- 댓글 작성창 -->
+	<br>	
 	<label>${nick }&nbsp;&nbsp;
 		<textarea id="content" name="content" rows="1" cols="70" 
 			onKeyPress="enterPressAlert(event, this)">
 		</textarea>
 	</label>
+	
 	
 	<input type="hidden" name="writer" id="writer" value="${nick }" />
 	

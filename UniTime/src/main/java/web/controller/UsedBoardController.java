@@ -134,6 +134,7 @@ public class UsedBoardController {
 		UsedBoard usedboard = usedService.view(boardno); 
 		
 		model.addAttribute("usedboard", usedboard);
+		model.addAttribute("boardno", boardno);
 	}
 	
 	

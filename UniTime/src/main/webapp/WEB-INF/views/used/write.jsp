@@ -32,8 +32,7 @@ $(document).ready(function() {
 
 
 <script type="text/javascript">
-var images = "";
-var isfirst = true;
+
 $(document).ready(function() {
 		
 	$('#summernote').summernote({
@@ -87,15 +86,16 @@ $(document).ready(function() {
 		}
 		
 		
-		$(this).append($("<input>").attr("type", "hidden").attr("name", "boardno").val(${usedboard.boardno }));
-		var code = $('#summernote').summernote('code');
-	    $('textarea[name="content"]').val(code);
-		$(this).submit();
+// 		$(this).append($("<input>").attr("type", "hidden").attr("name", "boardno").val(${usedboard.boardno });
+// 		var code = $('#summernote').summernote('code');
+// 	    $('textarea[name="content"]').val(code);
+// 		$(this).submit();
 		
 	});
 	
 });
-
+var images = "";
+var isfirst = true;
 function sendFile(file, el){
 	//파일 전송을 위한 폼 데이터 생성
 	var data = new FormData();
