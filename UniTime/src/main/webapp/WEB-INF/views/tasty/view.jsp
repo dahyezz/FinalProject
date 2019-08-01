@@ -268,32 +268,63 @@ function declareProc(boardno, commentno){
 }
 </script>
 
+<style type="text/css">
+.clearfix::after{display:block;content:"";clear:both}
+.inbox {margin: 14px; border: 1px solid #ccc;}
+.tit-box {
+	margin: 10px;
+	overflow: hidden;
+	
+}
 
-<div class="ed board-header padding-horizontal-small@s margin-bottom-small">
-	<h3>테이스티로드</h3>
+.tit-box .storename {
+/* 	display: inline-block; */
+	float: left;
+}
+.tit-box .writtendate {
+/* 	display: inline-block; */
+	float: right;
+}
+.board-box-line-dashed {
+	border-color: #666666;
+	border-bottom-style: dashed;
+	border-bottom-width: 1px;
+	opacity: 0.3;
+	height: 3px;
+	font-size: 0;
+	margin: 0;
+	padding: 0;
+}
+.user-info {
+	overflow: hidden;
+	text-align: left;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+.article-head a {
+	text-decoration: none !important;
+	color: black;
+}
+.commentdiv {
+	overflow: hidden;
+}
+</style>
+
+
+<div class="article-head margin-bottom-large" style="text-align: left;">
+	<h2 class="margin-bottom-xsmall">
+		<a class="link text-bold" href="/tasty/view?boardno=${board.boardno }">${board.storeName }</a></h2>
 </div>
 
-<c:if test="${nick ne board.writer && nick ne 'admin'}">
-	<a href="javascript:void(0)" onclick="declare('${board.boardno }')" style="float: right;" id="btnDeclare">신고</a>
-	<input type="hidden" id="reason" />
-</c:if>
+<div>
+	<span>${board.writer }</span>
+	<span><fmt:formatDate value="${board.writtendate }" pattern="yyyy-MM-dd" /></span>
+	<span>조회수 ${board.hit }</span>
+</div>
 
-<table class="table table-bordered" style="text-align: center;">
+<table>
 	<tr>
-		<td class="info">글번호</td><td colspan="3">${board.boardno }</td>
-	</tr>
-	
-	<tr>
-		<td class="info">음식점이름</td><td colspan="3">${board.storeName }</td>
-	</tr>
-	
-	<tr>
-		<td class="info">닉네임</td><td>${board.writer }</td>
-	</tr>
-	
-	<tr>
-		<td class="info">조회수</td><td>${board.hit }</td>
-		<td class="info">별점</td>
+		<th>평점</th>
 		<td id="recommend" style="color: gold;">
 			<c:if test="${board.score eq 1 }">★</c:if>
 			<c:if test="${board.score eq 2 }">★★</c:if>
@@ -302,20 +333,87 @@ function declareProc(boardno, commentno){
 			<c:if test="${board.score eq 5 }">★★★★★</c:if>
 		</td>
 	</tr>
-	
 	<tr>
-		<td class="info">작성일</td><td colspan="3"><fmt:formatDate value="${board.writtendate }" pattern="yyyy-MM-dd" /></td>
+		<th>위치</th>
+		<td>${board.loc }</td>
 	</tr>
-	
-	
-	<tr><td class="info" colspan="4">본문</td></tr>
-	<tr><td colspan="4">${board.content }</td></tr>
-	
+	<tr>
+		<th>종류</th>
+		<td>${board.tag }</td>
+	</tr>
 </table>
 
-<div id="commentdiv">
-<c:import url="/WEB-INF/views/tasty/comment.jsp" />
+
+<div>
+	${board.content }
 </div>
+
+<!-- <div class="inbox"> -->
+
+<!-- 	<div class="tit-box"> -->
+<!-- 		<div class="storename"> -->
+<%-- 			<span>${board.storeName }</span> --%>
+<!-- 		</div> -->
+		
+<!-- 		<div class="writtendate"> -->
+<%-- 			<span><fmt:formatDate value="${board.writtendate }" pattern="yyyy-MM-dd" /></span> --%>
+<!-- 		</div> -->
+<!-- 	</div> -->
+	
+<!-- 	<div class="board-box-line-dashed"></div> -->
+	
+<!-- 	<div class="user-info"> -->
+<%-- 		${board.writer } --%>
+<!-- 	</div> -->
+	
+
+
+<!-- <table class="table table-bordered" style="text-align: center;"> -->
+<!-- 	<tr> -->
+<%-- 		<td class="info">글번호</td><td colspan="3">${board.boardno }</td> --%>
+<!-- 	</tr> -->
+	
+<!-- 	<tr> -->
+<%-- 		<td class="info">음식점이름</td><td colspan="3">${board.storeName }</td> --%>
+<!-- 	</tr> -->
+	
+<!-- 	<tr> -->
+<%-- 		<td class="info">닉네임</td><td>${board.writer }</td> --%>
+<!-- 	</tr> -->
+	
+<!-- 	<tr> -->
+<%-- 		<td class="info">조회수</td><td>${board.hit }</td> --%>
+<!-- 		<td class="info">별점</td> -->
+<!-- 		<td id="recommend" style="color: gold;"> -->
+<%-- 			<c:if test="${board.score eq 1 }">★</c:if> --%>
+<%-- 			<c:if test="${board.score eq 2 }">★★</c:if> --%>
+<%-- 			<c:if test="${board.score eq 3 }">★★★</c:if> --%>
+<%-- 			<c:if test="${board.score eq 4 }">★★★★</c:if> --%>
+<%-- 			<c:if test="${board.score eq 5 }">★★★★★</c:if> --%>
+<!-- 		</td> -->
+<!-- 	</tr> -->
+	
+<!-- 	<tr> -->
+<%-- 		<td class="info">작성일</td><td colspan="3"><fmt:formatDate value="${board.writtendate }" pattern="yyyy-MM-dd" /></td> --%>
+<!-- 	</tr> -->
+	
+	
+<!-- 	<tr><td class="info" colspan="4">본문</td></tr> -->
+<%-- 	<tr><td colspan="4">${board.content }</td></tr> --%>
+	
+<!-- </table> -->
+<!-- </div> -->
+
+<div class="clearfix"></div>
+
+<c:if test="${nick ne board.writer && nick ne 'admin'}">
+	<a href="javascript:void(0)" onclick="declare('${board.boardno }')" style="float: right;" id="btnDeclare">신고</a>
+	<input type="hidden" id="reason" />
+</c:if>
+
+<!-- <div id="commentdiv"> -->
+<c:import url="/WEB-INF/views/tasty/comment.jsp" />
+<!-- </div> -->
 
 <label>${nick }<textarea id="content" name="content" rows="1" cols="70" onkeypress="JavaScript:enter_check();"></textarea></label>
 <input type="hidden" name="writer" id="writer" value="${nick }" />
