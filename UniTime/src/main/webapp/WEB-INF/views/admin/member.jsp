@@ -77,7 +77,7 @@ $(document).ready(function() {
 	
 	// 검색 기능
 	$("#btnSearch").click(function() {
-		location.href="/admin/badReport?search="+$("#search").val();
+		location.href="/admin/member?search="+$("#search").val();
 	});
 });
 
@@ -85,20 +85,27 @@ $(document).ready(function() {
 </script>
     
 <style type="text/css">
-table, th {
+.list table, th {
 	text-align: center;
 }
 
+.list {
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
+}
+
 </style>
+
+	 
 <div class="form-inline text-center">
 	<input type="button" value="신고리스트" onclick="location.href='/admin/badReport'"/>
-	
-	<input class="form-control" type="text" placeholder="이름을 입력하세요." id="search" />
+	<input type="text" placeholder="이름을 입력하세요." id="search" />
 	<button id="btnSearch" class="btn">검색</button>
-	
 </div> 
 
-<table>
+<div class="list">
+
+<table class="table table-striped table-hover table-condensed">
 <thead>
 	<tr>
 		<th style="width: 15%;">학과코드</th>
@@ -126,7 +133,7 @@ table, th {
 </c:forEach>
 </tbody>
 </table>
-
+</div>
 
 <div class="text-center">
 	<ul class="pagination pagination-sm">

@@ -9,6 +9,7 @@ public interface AdminDao {
 	
 	//여기부터 회원관리 페이지
 	
+	
 	/**
 	 * 
 	 * @return 멤버테이블 전체조회 리스트
@@ -110,7 +111,6 @@ public interface AdminDao {
 	
 
 	// 여기부터 사이트관리 페이지
-	public void visitInsert();
 	
 	public int visitCntAll();
 	
