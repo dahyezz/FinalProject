@@ -91,7 +91,7 @@ function sendFile(file, el){
 		data: data
 		, dataType: "json"
 		, type: "POST"
-		, url: "/used/productImage"
+		, url: "/used/imgUpload"
 		, cache: false
 		, contentType: false
 		, enctype: "multipart/form-data"
@@ -120,7 +120,7 @@ function sendFile(file, el){
 <hr>
 
 <div class="usedUpdate">
-<form action="/used/update" method="post" name="writeForm" id="used-write" enctype="multipart/form-data" >
+<form action="/used/update" method="post" name="writeForm" id="used-update" enctype="multipart/form-data" >
 <input type="hidden" id="images" name="images" value="${usedboard.boardno }">
 
 <div class="container">
@@ -154,12 +154,11 @@ function sendFile(file, el){
 
 <div>
 	<input type="hidden" name="writer" value="${nick }" />
-	<textarea name="content" id="content" 
+	<textarea name="content" id="summernote" 
 		style="display: none; text-align: left;">
 		${usedboard.content }
 			
 	</textarea>
-	<div id="summernote"></div>
 </div>
 	
 	

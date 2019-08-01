@@ -29,12 +29,10 @@ public interface UsedDao {
 	
 	
 	/**
-	 *  게시글 조회하기 
-	 *  
-	 *  @param usedBoard : 조회할 게시글 번호
-	 *  @return usedBoard : 조회된 게시글 정보 반환
+	 *  게시글번호 가져오기
+	 * @return
 	 */
-	public UsedBoard selectBoardByBoardno(int boardno);
+	public int getBoardno();
 	
 	
 	/**
@@ -46,10 +44,15 @@ public interface UsedDao {
 	
 	
 	/**
-	 *  새 게시글의 번호 조회 
-	 *  @return int
+	 *  게시글 조회하기 
+	 *  
+	 *  @param usedBoard : 조회할 게시글 번호
+	 *  @return usedBoard : 조회된 게시글 정보 반환
 	 */
-	public int selectBoardno();
+	public UsedBoard selectBoardByBoardno(int boardno);
+	
+
+
 	
 	
 	/**
@@ -74,23 +77,22 @@ public interface UsedDao {
 	 * @param boardno : 게시글 번호
 	 * @return usedImgNo : 조회된 이미지 정보 객체
 	 */
-	public UsedImage selectImgByBoardno(int boardno);
+	public List<UsedImage> selectImgByBoardno(int boardno);
 	
 	
 	/**
-	 *  파일번호를 이용하여 이미지 정보 조회
-	 *  
-	 *  @param usedImgNo : 조회할 이미지 번호
-	 *  @return UsedImg : 조회된 파일 정보 객체
+	 *  사진번호로 사진 조회 
+	 * @param usedimgno
+	 * @return
 	 */
-	public UsedImage selectImgByImgno(int usedImgNo);
+	public UsedImage selectImgByImgno(int usedimgno);
 	
 	
 	/**
 	 *  게시글 수정 
 	 *  @param UsedBoard
 	 */
-	public UsedBoard update(UsedBoard usedboard);
+	public void update(UsedBoard usedboard);
 
 	
 	public void updateImgno(Map<String, Object> map);
@@ -100,7 +102,7 @@ public interface UsedDao {
 	 *  게시글 삭제 
 	 *  @param UsedBoard
 	 */
-	public UsedBoard deleteBoardByBoardno(UsedBoard usedboard);
+	public void deleteBoardByBoardno(int boardno);
 	
 	
 	/**
@@ -110,12 +112,13 @@ public interface UsedDao {
 	 */
 	public void insertComment(UsedComment usedcmt);
 	
+	
 	/**
 	 *  게시글 번호를 통해 댓글 조회하기 
 	 *  @param UsedBoard
 	 *  @return
 	 */
-	public List<UsedComment> selectAllCommentnoByBoardno(UsedBoard usedboard);
+	public List<UsedComment> selectAllCommentnoByBoardno(int boardno);
 	
 	
 	/**
@@ -124,4 +127,47 @@ public interface UsedDao {
 	 *  @return
 	 */
 	public UsedComment selectAllCommentByCommentno(UsedComment usedcmt);
+	
+	
+	/**
+	 * 댓글 번호를 통해 게시글 조회하기
+	 * @param usedcmt
+	 * @return
+	 */
+	public UsedComment selectBoardByCommentno(UsedComment usedcmt);
+	
+	
+	/**
+	 *  댓글 삭제 
+	 * @param usedcmt
+	 */
+	public void deleteComment(UsedComment usedcmt);
+	
+	
+	/**
+	 * 댓글 수정
+	 * @param usedcmt
+	 */
+	public void updateComment(UsedComment usedcmt);
+	
+	
+	/**
+	 *  게시글 삭제시 댓글도 함께 삭제
+	 * @param usedboard
+	 */
+	public void deleteCommentByBoardno(int boardno);
+	
+	
+	/**
+	 *  게시글 번호로 이미지 삭제 
+	 * @param boardno
+	 */
+	public void deleteImgByBoardno(int boardno);
+
+	
+	/**
+	 *  이미지 번호 조회하여 이미지에 게시글 번호 삽입,
+	 * @param map
+	 */
+	public void updateUsedImg_KG(Map<String, Object> map);
 }
