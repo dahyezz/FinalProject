@@ -10,22 +10,20 @@ $(document).ready(function(){
 	//게시글 수정 버튼
 	$("#btnUpdate").click(function(){
 		
-		var tag=$("#tag").val();
 		var boardno=$("#boardno").val();
 		
-		$(location).attr("href","/free/update?tag="+tag+"&boardno="+boardno);
+		$(location).attr("href","/lecture/update?boardno="+boardno);
 	});
 	
 	//게시글 삭제 버튼
 	$("#btnDelete").click(function(){
 		
-		var tag=$("#tag").val();
 		var boardno=$("#boardno").val();
 		
 		var deleteConfirm=confirm("정말 삭제하시겠습니까?");
 		
 		if(deleteConfirm){
-			$(location).attr("href","/free/delete?tag="+tag+"&boardno="+boardno);
+			$(location).attr("href","/lecture/delete?boardno="+boardno);
 		}
 	});
 	
@@ -44,7 +42,7 @@ $(document).ready(function(){
 		//$.getJSON : 비동기식 JSON 데이터를 가져오는 메소드
 		//첫 번째 매개변수 url : JSON 파일을 로드
 		//두 번째 매개변수 callback 함수 : JSON 파일을 이용하여 로드된 데이터를 처리한다
-		$.getJSON("/free/commentview?boardno="+boardno, function(data){
+		$.getJSON("/lecture/commentview?boardno="+boardno, function(data){
 			
 			var html='';
 			
@@ -68,7 +66,7 @@ $(document).ready(function(){
 	            html+= '</div>';
 			});
 			
-			$(".freeViewCommentList").html(html);
+			$(".lectureViewCommentList").html(html);
 		});
 	}
 	
@@ -80,7 +78,7 @@ $(document).ready(function(){
 		var comment=$("#comment").val();
 		
 		$.ajax({
-			url:"/free/commentwrite",
+			url:"/lecture/commentwrite",
 			type:"post",
 			data:{
 				boardno:boardno,
@@ -105,7 +103,7 @@ $(document).ready(function(){
 		if(deleteConfirm){
 			
 			$.ajax({
-				url: "/free/commentdelete",
+				url: "/lecture/commentdelete",
 				type: "post",
 				data: {
 					commentno: $(this).attr("data-commentno")
@@ -125,7 +123,7 @@ $(document).ready(function(){
 	
 	//게시글 신고
 	$("#btnReport").click(function(){
-		window.open("/free/report?boardno="+boardno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
+		window.open("/lecture/report?boardno="+boardno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
 	});
 	
 	//댓글 신고
@@ -133,28 +131,28 @@ $(document).ready(function(){
 				
 		var commentno=$(this).attr("data-commentno");
 		
-		window.open("/free/report?boardno="+boardno+"&commentno="+commentno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
+		window.open("/lecture/report?boardno="+boardno+"&commentno="+commentno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
 	});
 });
 </script>
 
 <style type="text/css">
-.freeView table {
+.lectureView table {
 	border:1px solid #ccc;
 }
 
-.freeView th{
+.lectureView th{
 	text-align: center;
 	border:1px solid #ccc;
 	background:#ff7473;
 	width: 15%;
 }
 
-.freeView td{
+.lectureView td{
 	text-align: left;
 }
 
-.freeView {
+.lectureView {
 	border-left: 1px solid #eee;
 	border-right: 1px solid #eee;
 }
@@ -166,7 +164,7 @@ $(document).ready(function(){
 }
 </style>
 
-<div class="freeView">
+<div class="lectureView">
 
 <h1>게시글 내용</h1>
 <hr>
@@ -177,16 +175,20 @@ $(document).ready(function(){
 		<td colspan="3">${board.boardno }</td>
 	</tr>
 	<tr>
-		<th>태그</th>
-		<td colspan="3">${board.tag }</td>
+		<th>전공/교양</th>
+		<td colspan="3">${timetable.lecture_section }</td>
 	</tr>
 	<tr>
-		<th>제목</th>
-		<td colspan="3">${board.title }</td>
+		<th>강의명</th>
+		<td colspan="3">${timetable.lecture_name }</td>
 	</tr>
 	<tr>
-		<th>작성자</th>
-		<td>${board.writer }</td>
+		<th>강의교수</th>
+		<td colspan="3">${timetable.professor_name }</td>
+	</tr>
+	<tr>
+		<th>조별과제</th>
+		<td colspan="3">${board.team_project }</td>
 	</tr>
 	<tr>
 		<th>조회수</th>
@@ -199,16 +201,11 @@ $(document).ready(function(){
 	<tr>
 		<td colspan="4" style="height:300px;">${board.content }</td>
 	</tr>
-	<tr>
-		<th>첨부파일</th>
-		<td colspan="3"><a href="/free/download?fileno=${viewFile.fileno }">${viewFile.originname }</a></td>
-	</tr>
 </table>
 
 <div class="text-center">
 	<input type="hidden" id="boardno" value="${board.boardno }">
-	<input type="hidden" id="tag" value="${board.tag }">
-	<button id="btnList" onclick="location.href='/free/list'" class="btn btn-info">목록</button>
+	<button id="btnList" onclick="location.href='/lecture/list'" class="btn btn-info">목록</button>
 	<c:if test="${nick eq board.writer || nick eq 'admin' }">
 		<button id="btnUpdate" class="btn btn-info">수정</button>
 		<button id="btnDelete" class="btn btn-info">삭제</button>
@@ -221,9 +218,7 @@ $(document).ready(function(){
 </div>
 
 <!-- 댓글 작성 -->
-<c:if test="${board.tag ne '공지'}">
-
-<div class="freeCommentWrite">
+<div class="lectureCommentWrite">
 	<h3 style="float:left;">Comments</h3><span id="commentCnt"></span>
 	<hr>
 	
@@ -244,8 +239,6 @@ $(document).ready(function(){
 </div>
 
 <!-- 댓글 목록 -->
-<div class="freeViewCommentList" ></div>
-
-</c:if>
+<div class="lectureViewCommentList" ></div>
 
 </div>
