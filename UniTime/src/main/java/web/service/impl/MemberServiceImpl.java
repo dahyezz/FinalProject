@@ -151,7 +151,7 @@ public class MemberServiceImpl implements MemberService{
 	         
 	         usedBoard.setBoardno(deleteList[i]);
 	         
-	         usedDao.deleteBoardByBoardno(usedBoard);
+//	         usedDao.deleteBoardByBoardno(usedBoard);
 	         
 	      }
 	}
