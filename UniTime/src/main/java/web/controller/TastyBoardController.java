@@ -81,6 +81,8 @@ public class TastyBoardController {
 		//신고가 되었는지 체크(게시글)
 		boolean isDeclare = tastyBoardService.checkReclare(badReport);
 		model.addAttribute("isDeclare", isDeclare);
+		
+		model.addAttribute("cmtCount", commentList.size());
 	}
 	
 	@RequestMapping(value="/tasty/write", method=RequestMethod.GET)
@@ -131,7 +133,7 @@ public class TastyBoardController {
 		File src = new File(context.getRealPath("tastyUpload"), tastyfile.getStoredName());
 		
 		resp.setContentLength((int) src.length());
-		resp.setCharacterEncoding("utf-8");
+		resp.setCharacterEncoding("utf-8"); 
 		
 		String filename = "";
 		
@@ -216,6 +218,7 @@ public class TastyBoardController {
 		
 		List<TastyComment> commentList = tastyBoardService.getComment(tastyBoard);
 		model.addAttribute("commentList", commentList);
+		model.addAttribute("cmtCount", commentList.size());
 	}
 	
 	@RequestMapping(value="/tasty/deleteComment", method=RequestMethod.POST)

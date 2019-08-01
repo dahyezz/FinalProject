@@ -9,12 +9,21 @@
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;subset=devanagari,latin-ext" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css">
 
+<!-- select태그 부트스트랩 적용 -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 
 <script type="text/javascript">
 $(document).ready(function() {
+	
+	$('#searchType').selectpicker();
 	
 	$('#btnWrite').click(function() {
 		$(location).attr("href","/tasty/write");
@@ -74,6 +83,8 @@ $(document).ready(function() {
 			
 // 			elem.parentNode.removeChild(elem);
 			select.setAttribute('name', 'keyword');
+// 			select.className='selectpicker';
+// 			select.setAttribute('class','selectpicker');
 			select.style.display='inline';
 			
 			
@@ -118,111 +129,112 @@ function checkAll() {
 </script>
 
 <style type="text/css">
-
-.tastylist th {
-	text-align: center;
+.tasty .pagination>li:first-child {
+	border-radius: 500px 0 0 500px;
+}
+.tasty .pagination>li {
+	display: inline-block;
+	margin: 0;
+	background-color: #f8f8f8;
 }
 
+tasty .pagination {
+	border-radius: 500px !important;
+}
+
+#btnWrite {
+  background: #ffffff;
+  background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
+  background-image: -o-linear-gradient(top, #ffffff, #ffffff);
+  background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #47b8e0;
+  font-size: 13	px;
+  padding: 10px 20px 10px 20px;
+  border: solid #47b8e0 1px;
+  text-decoration: none;
+}
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
+	width: 80px;
+}
+.bootstrap-select>.dropdown-toggle {
+	width: 80px !important;
+}
+.bootstrap-select .dropdown-menu {
+	min-width: 80px !important;
+}
+.form-control {
+	display: inline;
+	width: 200px;
+}
 </style>
 
-<div class="ed board-header padding-horizontal-small@s margin-bottom-small">
+<div class="ed board-header padding-horizontal-small@s margin-bottom-small" style="text-align: left;">
 	<h3>테이스티로드</h3>
+	<span>숨겨진 맛집을 찾아서!</span>
 </div>
 
-<div id="content">
+<div class="clearfix"></div>
 
 <div class="card-columns">
 <c:forEach items="${list }" var="i">
-	
-	<div class="card-wrap">
+	 
+<!-- 	<div class="card-wrap"> -->
 <%-- 		<a class="overlay overlay-fill overlay-top" href="/tasty/view?boardno=${i.boardno }" ></a> --%>
 	<div class="card" onclick="location.href='/tasty/view?boardno=${i.boardno}'">
 
 		<div class="card-image">
 		<c:if test="${i.fileno eq 0 }">
-			<img src="/image/default.jpg" alt="Card image cap">	
+			<img id="thumbnail" class="card-image-top img-fluid" src="/image/default.jpg" alt="Card image cap">	
 		</c:if>
 
 		<c:if test="${i.fileno ne 0 }">
-			<img alt="Card image cap" src="/tastyImage?fileno=${i.fileno }">
+			<img id="thumbnail" class="card-image-top img-fluid" alt="Card image cap" src="/tastyImage?fileno=${i.fileno }">
 		</c:if>
 		</div>
 		
 		<div class="card-block">
-			<h2 class="card-title">${i.storeName }</h2>
-			<h4 style="color:gold;" class="text-bold text-row-medium margin-bottom-small">
+			
+			<h2 style="color:gold;" class="text-bold text-row-medium margin-bottom-small">
 				<c:if test="${i.score eq 1 }">★</c:if>
 				<c:if test="${i.score eq 2 }">★★</c:if>
 				<c:if test="${i.score eq 3 }">★★★</c:if>
 				<c:if test="${i.score eq 4 }">★★★★</c:if>
 				<c:if test="${i.score eq 5 }">★★★★★</c:if>
-			</h4>
-			<p class="card-text">
-				${i.loc }
-			</p>
-			<p class="card-text">
-				${i.writer }
-			</p>
-			<p class="card-text"><img src="/image/comment.PNG" style="width:20px; height: 20px;"> ${i.commentCnt }</p>
+			</h2>
+			
+			<h4 class="card-title">${i.storeName }</h4>
+			<span class="text-small" style="color:#ff7473;">
+				<center>${i.loc }</center>
+			</span>
+			<span class="text-small"><center>${i.writer }</center>
+			</span>
+			<p class="cmt"><img src="/image/comment.PNG" style="width:20px; height: 20px;"> ${i.commentCnt }</p>
 			
 		</div>
 	</div>
-	</div>
+<!-- 	</div> -->
 	
 </c:forEach>
 </div>
-<!-- <table style="text-align: center; margin: auto;" class="tastylist"> -->
-<!-- 	<tr> -->
-<%-- 		<c:if test="${nick eq 'admin' }"> --%>
-<!-- 		<th style="width: 5%"><input type="checkbox" id="checkAll" onclick="checkAll();" /></th> -->
-<%-- 		</c:if> --%>
-<!-- 		<th style="width: 5%">글번호</th> -->
-<!-- 		<th style="width: 10%">태그</th> -->
-<!-- 		<th style="width: 20%">음식점이름</th> -->
-<!-- 		<th style="width: 10%">위치</th> -->
-<!-- 		<th style="width: 5%">작성자</th> -->
-<!-- 		<th style="width: 5%">조회수</th> -->
-<!-- 		<th style="width: 5%">별점</th> -->
-<!-- 		<th style="width: 5%">댓글</th> -->
-<!-- 		<th style="width: 10%">작성일</th> -->
-<!-- 	</tr> -->
-	
-<%-- 	<c:forEach items="#{list }" var="i"> --%>
-<!-- 	<tr> -->
-<%-- 		<c:if test="${nick eq 'admin' }"> --%>
-<%-- 			<td><input type="checkbox" name="checkRow" value="${i.boardno }" /></td> --%>
-<%-- 		</c:if> --%>
-<%-- 		<td>${i.boardno }</td> --%>
-<%-- 		<td>${i.tag }</td> --%>
-<%-- 		<td><a href="/tasty/view?boardno=${i.boardno }">${i.storeName }</a></td> --%>
-<%-- 		<td>${i.loc }</td> --%>
-<%-- 		<td>${i.writer }</td> --%>
-<%-- 		<td>${i.hit }</td> --%>
-<!-- 		<td style="color: gold;"> -->
-<%-- 			<c:if test="${i.score eq 1 }">★</c:if> --%>
-<%-- 			<c:if test="${i.score eq 2 }">★★</c:if> --%>
-<%-- 			<c:if test="${i.score eq 3 }">★★★</c:if> --%>
-<%-- 			<c:if test="${i.score eq 4 }">★★★★</c:if> --%>
-<%-- 			<c:if test="${i.score eq 5 }">★★★★★</c:if> --%>
-<!-- 		</td> -->
-<%-- 		<td>${i.commentCnt }</td> --%>
-<%-- 		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td> --%>
-<!-- 	</tr> -->
-<%-- 	</c:forEach> --%>
-<!-- </table> -->
-
 
 <c:if test="${nick eq 'admin' }">
 <button id="btnDelete" class="btn btn-warning pull-left">삭제</button>
 <div class="clearfix"></div>
 </c:if>
 
-<div class="content text-center pagination-container">
-	<ul class="pagination pagination-sm">
+<!-- <div class="content text-center pagination-container"> -->
+<div class="pagination-container padding-horizontal-small@s">
+	<ul class="tasty pagination pagination-sm">
 		<!-- 이전 페이지 -->
 		<!-- 첫 페이지라면 버튼 동작 안 되게 만들기 -->
 		<c:if test="${paging.curPage eq 1 }">
-		<li class="disabled">
+		<li class="disabled prev">
 			<span>&laquo;</span>
 		</li>
 		</c:if>
@@ -284,7 +296,7 @@ function checkAll() {
 
 <div class="tastySearch" id="tastySearch">
 <form action="/tasty/list" method="get">
-	<select name="searchType" id="searchType">
+	<select name="searchType" id="searchType" class="selectpicker" style="vertical-align: middle;">
 		<option value="total" selected>전체</option>
 		<option value="tag">종류</option>
 		<option value="loc">위치</option>
@@ -292,19 +304,19 @@ function checkAll() {
 		<option value="writer">작성자</option>
 	</select>
 	
-	<select name="except" id="tagSelected" style="display:none;">
+	<select name="except" id="tagSelected" style="display:none; vertical-align: middle;" >
 		<option value="술">술</option>
 		<option value="밥">밥</option>
 		<option value="카페">카페</option>
 	</select>
 	
-	<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력해주세요."/>
-	<button>검색</button>
+	<input type="text" name="keyword" id="keyword" class="form-control" style="vertical-align: middle;"/>
+	<button class="btn btn-secondary">검색</button>
 </form>
 </div>
 
 <div class="tastyWrite">
 	<button id="btnWrite" class="btn btn-primary pull-right">글쓰기</button>
 </div>
-</div>
+
 <div class="clearfix"></div>
