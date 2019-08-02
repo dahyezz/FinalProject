@@ -51,28 +51,20 @@ $(document).ready(function() {
 	});
 
 	$('#btnDelete').click(function() {
-		var delete_confirm; /* 삭제확인 메세지 : boolean */
+		var delete_confirm; // 삭제확인 메세지 : boolean
 		
 		if(confirm("정말 삭제하시겠습니까?")) {
-			delete_confirm = true;
-		} else {
-			delete_confirm = false;
-		}
-		
-		if(delete_confirm){
+			//delete_confirm = true;   확인 
 			$(location).attr("href", "/used/delete?boardno="+${usedboard.boardno });
 			alert("삭제되었습니다!");
 		}
-	});
-	/* function myFunction() {
-		  var txt;
-		  if (confirm("Press a button!")) {
-		    txt = "You pressed OK!";
-		  } else {
-		    txt = "You pressed Cancel!";
-		  }
-		  document.getElementById("demo").innerHTML = txt;
+		
+/* 		if(delete_confirm){
+			$(location).attr("href", "/used/delete?boardno="+${usedboard.boardno });
+			alert("삭제되었습니다!");
 		} */
+	});
+
 	
 	$('#cmtWrite').click(writeComment);
 	
