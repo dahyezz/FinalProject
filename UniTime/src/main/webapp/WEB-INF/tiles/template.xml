@@ -10,6 +10,7 @@
 	<definition name="tasty/comment" template="/WEB-INF/views/tasty/comment.jsp" />
 	<definition name="tasty/declareReason" template="/WEB-INF/views/tasty/declareReason.jsp" />
 	<definition name="free/report" template="/WEB-INF/views/free/report.jsp" />
+	<definition name="unitime" template="/WEB-INF/views/unitime.jsp" />
 	
 	<definition name="tilesbase" template="/WEB-INF/tiles/layout.jsp">
 		<put-attribute name="header" value="/WEB-INF/tiles/layout/header.jsp" />
