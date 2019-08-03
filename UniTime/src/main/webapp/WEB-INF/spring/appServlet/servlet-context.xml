@@ -26,6 +26,8 @@
 			<exclude-mapping path="/info/privacypolicy" />
 			<exclude-mapping path="/info/termofservice" />
 			<exclude-mapping path="/main_no" />
+			<exclude-mapping path="/unitime" />
+			
 			<beans:bean class="web.interceptor.Interceptor" />
 		</interceptor>
 	</interceptors>

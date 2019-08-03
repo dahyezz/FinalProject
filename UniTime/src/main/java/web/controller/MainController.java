@@ -28,6 +28,9 @@ public class MainController {
 		}
 	}
 	
+	@RequestMapping(value="/unitime", method=RequestMethod.GET)
+	public void unitime() {}
+	
 	@RequestMapping(value="/main_no", method = RequestMethod.GET)
 	public void main_no() { 
 //		logger.info("test");

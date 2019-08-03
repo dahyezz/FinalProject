@@ -8,6 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <title>슬기로운 대학생활</title>
+<link rel="shortcut icon" type="image/x-icon" href="/image/logo.png" />
+
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
