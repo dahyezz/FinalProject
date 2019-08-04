@@ -4,11 +4,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style type="text/css">
+.header_wrap {
+	background-color: #ffc952;
+}
 .header a{
 	font-size: 30px;
 	text-decoration: none;
 	
-	color: black;
+	color: #34314c;
+}
+.nav-justified>li>a {
+	color: #34314c;
 }
 .header {
 	text-align: center;
@@ -19,13 +25,16 @@
 }
 .loginstatus a{
 	font-size: 15px;
-	color: black;
+	color: #34314c;
 	text-decoration: none;
 }
-
+.nav>li>a:focus, .nav>li>a:hover { 
+	background-color: #ffc952;
+}
 
 </style>
 
+<div class="header_wrap">
 <div class="loginstatus">
 	<c:if test="${login }">
 		<a href="/member/logout">로그아웃</a>
@@ -43,7 +52,7 @@
 </div>
 
 <div class="header">
-	<a href="/main">슬기로운 대학생활</a>
+	<a href="/kg_main">슬기로운 대학생활</a>
 	<p>KH대학교 커뮤니티</p>
 </div>
 
@@ -72,3 +81,4 @@
 	</ul>
 </div>
 
+</div>

@@ -50,15 +50,24 @@ $(document).ready(function() {
 <style type="text/css">
 .comment-list {
 	text-align: left;
+	padding: 15px;
+	background-color: #ffc9521a;
+	margin-bottom: 15px;
 }
+
 .comment-header {
 	text-align: left;
+	margin-top: 30px;
+}
+.comment-header>h4 {
+	font-size: 20px;
+	line-height: 1.4;
 }
 .comment-update {
 	text-align: right;
 }
 .comment {
-	margin-bottom: 10px;
+/* 	margin-bottom: 10px; */
 }
 .comment-update {
 	box-sizing: inherit;
@@ -68,12 +77,55 @@ $(document).ready(function() {
 .comment-writer-info {
 	display: inline-block;
 	box-sizing: inherit;
+	vertical-align: -webkit-baseline-middle;
 }
 .comment-clearfix {
 	width: 25px;
 /* 	height: 50px; */
 /* 	margin: 10px; */
 	display: inline-block;
+}
+.comment_writer_nick {
+	font-size: 14px;
+	font-weight: 700;
+	margin-bottom: 15px;
+	margin-right: 10px;
+}
+.comment_writtendate {
+	color: #585353;
+}
+.eq_writer {
+	text-indent: -1px;
+	letter-spacing: -1px;
+	display: inline-block;
+	font-size: 11px;
+	width: 45px;
+	margin: 0 8px 0 -5px;
+	border: 1px solid;
+	border-radius: 8px;
+	text-align: center;
+	height: 14px;
+	color: #ff7473;
+}
+.comment-writer-info>a, .comment-update>a, .up>a  {
+	text-decoration: none;
+	color: black;
+}
+.recomment {
+	margin-left: 5px;
+}
+.comment-content>span {
+	margin-left: 37px;
+}
+.form-control {
+	
+}
+.comment_hr {
+	height: 1px;
+	padding: 0;
+	margin: 10px 0;
+	border: 0;
+	border-top: 1px dotted #9e9e9e;
 }
 </style>
 
@@ -95,8 +147,11 @@ $(document).ready(function() {
 			<c:if test="${i.dept ne 0 }"><div class="comment-clearfix"></div></c:if>
 	
 			<div class="comment-writer-info">
-				<span style="font-weight: 600">${i.writer }</span>
-				<span><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm" /></span>
+				<span class="comment_writer_nick" >${i.writer }</span>
+				<c:if test="${i.writer eq board.writer }">
+					<span class="eq_writer">작성자</span>
+				</c:if>
+				<span class="comment_writtendate"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm" /></span>
 				
 				<c:if test="${i.dept eq 0 }"><a href="javascript:void(0)" class="recomment">댓글</a></c:if>			
 			</div>
@@ -118,7 +173,16 @@ $(document).ready(function() {
 				<span>${i.content }</span>
 			</div>
 
+			<hr class="comment_hr">
 		</div>
 	</c:forEach>
+	
+	
+		<label style="vertical-align: -webkit-baseline-middle;"><textarea id="content" name="content" rows="1" cols="70" onkeypress="JavaScript:enter_check();"></textarea></label>
+		<input type="hidden" name="writer" id="writer" value="${nick }" />
+		
+		<button id="cmtWrite" name="cmtWrite" class="btn">입력</button>
 </div>
+
+
 </div>

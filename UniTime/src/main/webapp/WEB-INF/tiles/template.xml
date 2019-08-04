@@ -6,7 +6,7 @@
        
 <tiles-definitions>
 
-	<definition name="main_no" template="/WEB-INF/views/main_no.jsp" />
+	<definition name="main" template="/WEB-INF/views/main.jsp" />
 	<definition name="tasty/comment" template="/WEB-INF/views/tasty/comment.jsp" />
 	<definition name="tasty/declareReason" template="/WEB-INF/views/tasty/declareReason.jsp" />
 	<definition name="free/report" template="/WEB-INF/views/free/report.jsp" />
