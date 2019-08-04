@@ -55,11 +55,11 @@ public class MemberController {
 			if(member.getNickname().equals("admin")) {
 				redirectUrl = "/admin/main";
 			} else {
-				redirectUrl = "/main";
+				redirectUrl = "/kg_main";
 			}
 			
 		} else {
-			redirectUrl = "/member/login";
+			redirectUrl = "/main";
 		}
 		
 		return "redirect:" + redirectUrl;

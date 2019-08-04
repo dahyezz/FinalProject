@@ -20,13 +20,15 @@
 			<exclude-mapping path="/member/join" />
 			<exclude-mapping path="/member/idCheck" />
 			<exclude-mapping path="/member/nickCheck" />
-			<exclude-mapping path="/main"/>
+			
 			<exclude-mapping path="/member/joinEmail" />
 			<exclude-mapping path="/member/joinComplete" />
 			<exclude-mapping path="/info/privacypolicy" />
 			<exclude-mapping path="/info/termofservice" />
-			<exclude-mapping path="/main_no" />
+			<exclude-mapping path="/main"/>
+			<exclude-mapping path="/kg_main" />
 			<exclude-mapping path="/unitime" />
+			<exclude-mapping path="/image/**"/>
 			
 			<beans:bean class="web.interceptor.Interceptor" />
 		</interceptor>

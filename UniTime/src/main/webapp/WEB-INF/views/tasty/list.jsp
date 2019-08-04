@@ -129,6 +129,13 @@ function checkAll() {
 </script>
 
 <style type="text/css">
+.ed>h3 {
+	font-weight: bold;
+	font-size: 30px;
+}
+.ed>span {
+	font-size: 20px;
+}
 .tasty .pagination>li:first-child {
 	border-radius: 500px 0 0 500px;
 }
@@ -141,24 +148,37 @@ function checkAll() {
 tasty .pagination {
 	border-radius: 500px !important;
 }
+.pagination-sm>li>a, .pagination-sm>li>span{
+	border-radius: 15px;
+}
 
 #btnWrite {
-  background: #ffffff;
-  background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
-  background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
-  background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
-  background-image: -o-linear-gradient(top, #ffffff, #ffffff);
-  background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+  background-color: #ffc952;
   -webkit-border-radius: 5;
   -moz-border-radius: 5;
   border-radius: 5px;
-  font-family: Arial;
-  color: #47b8e0;
+  color: #34314c;
   font-size: 13	px;
-  padding: 10px 20px 10px 20px;
-  border: solid #47b8e0 1px;
+  padding: 5px 10px;
+  margin: 5px;
+  float: right;
+  border: none;
   text-decoration: none;
 }
+#btnSearch {
+  background-color: #ffc952;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #34314c;
+  font-size: 13	px;
+  padding: 7px 10px;
+/*   margin: 5px; */
+  border: none;
+  text-decoration: none;
+}
+
+
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
 	width: 80px;
 }
@@ -172,16 +192,28 @@ tasty .pagination {
 	display: inline;
 	width: 200px;
 }
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+	color: #34314c;
+	background-color: #ffc952;
+	border-color: #ffc952;
+}
+.pagination>li>a, .pagination>li>span {
+	color: #34314c;
+	border: none;
+}
+
 </style>
 
 <div class="ed board-header padding-horizontal-small@s margin-bottom-small" style="text-align: left;">
 	<h3>테이스티로드</h3>
 	<span>숨겨진 맛집을 찾아서!</span>
+	<button id="btnWrite">글쓰기</button>
 </div>
 
 <div class="clearfix"></div>
 
 <div class="card-columns">
+
 <c:forEach items="${list }" var="i">
 	 
 <!-- 	<div class="card-wrap"> -->
@@ -235,14 +267,21 @@ tasty .pagination {
 		<!-- 첫 페이지라면 버튼 동작 안 되게 만들기 -->
 		<c:if test="${paging.curPage eq 1 }">
 		<li class="disabled prev">
-			<span>&laquo;</span>
+			<span>&lt;</span>
 		</li>
 		</c:if>
 
 		<c:if test="${paging.curPage ne 1 }">
-		<li>
-			<a href="/tasty/list?curPage=${paging.curPage-1 }"><span>&laquo;</span></a>
-	    </li>
+			<c:if test="${paging.curPage >= 1 && paging.curPage <=10 }">
+			<li>
+				<a href="/tasty/list?curPage=${paging.curPage-1 }"><span>&lt;</span></a>
+	   	 	</li>
+			</c:if>
+			<c:if test="${paging.curPage > 10 }">
+			<li>
+				<a href="/tasty/list?curPage=${paging.curPage-10 }"><span>&lt;</span></a>
+	   	 	</li>
+			</c:if>
 	    </c:if>
 
 		<!-- 페이징 리스트 -->
@@ -278,14 +317,14 @@ tasty .pagination {
 		<!-- 다음 페이지 -->
 		<c:if test="${paging.curPage eq paging.totalPage }">
 		<li class="disabled">
-			<span>&raquo;</span>
+			<span>&gt;</span>
 		</li>
 		</c:if>
 
 		<c:if test="${paging.curPage ne paging.totalPage }">
 		<li>
 			<a href="/tasty/list?curPage=${paging.curPage+10 }&searchType=${searchType }&keyword=${keyword }">
-			<span>&raquo;</span>
+			<span>&gt;</span>
 		</a>
 		</li>
 		</c:if>
@@ -311,12 +350,9 @@ tasty .pagination {
 	</select>
 	
 	<input type="text" name="keyword" id="keyword" class="form-control" style="vertical-align: middle;"/>
-	<button class="btn btn-secondary">검색</button>
+	<button id="btnSearch">검색</button>
 </form>
 </div>
 
-<div class="tastyWrite">
-	<button id="btnWrite" class="btn btn-primary pull-right">글쓰기</button>
-</div>
 
 <div class="clearfix"></div>

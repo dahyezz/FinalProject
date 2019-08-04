@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>슬기로운 대학생활</title>
 <link rel="shortcut icon" type="image/x-icon" href="/image/logo.png" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
 
 
 <!-- jQuery 2.2.4 -->
@@ -21,6 +22,9 @@
 
 
 <style type="text/css">
+h1, h2, h3, h4, h5, span, p, a {
+	font-family: 'NanumSquare', sans-serif;
+}
 .wrap {
 	width: 80%;
 
