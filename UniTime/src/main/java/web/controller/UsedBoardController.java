@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.BadReport;
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
 import web.dto.UsedComment;
@@ -65,7 +66,9 @@ public class UsedBoardController {
 	@RequestMapping(value="/used/view", method=RequestMethod.GET)
 	public void view(
 			@RequestParam int boardno,
-			Model model
+			Model model,
+			BadReport bad,
+			HttpSession session
 		) {
 		
 		usedService.hitview(boardno);
@@ -75,6 +78,16 @@ public class UsedBoardController {
 		
 		List<UsedComment> commentList = usedService.getCmt(boardno);
 		model.addAttribute("commentList", commentList);
+		
+		// 신고 접수
+		bad.setBoardname("used");
+		bad.setNickname(session.getAttribute("nick").toString());
+		logger.info(bad.toString());
+		
+		// 신고 게시글인지 체크 
+		boolean isReport = usedService.checkReport(bad);
+		model.addAttribute("isReport", isReport);
+		model.addAttribute("cmtCount", commentList.size());
 	}
 	
 	
@@ -257,7 +270,7 @@ public class UsedBoardController {
 		List<UsedComment> commentList = usedService.getCmt(usdedcmt.getBoardno());
 		model.addAttribute("commentList", commentList);
 
-		return "redirect:/used/commentList?boardno="+usdedcmt.getBoardno();
+		return "used/commentList";
 	}
 	
 	
@@ -275,13 +288,12 @@ public class UsedBoardController {
 		logger.info("댓글 수정중");
 		usedService.updateCmt(usdedcmt);
 		
-		UsedBoard usedboard = new UsedBoard();
-		int boardno = usedboard.getBoardno();
+		int boardno = usdedcmt.getBoardno();
 		
 		List<UsedComment> commentList = usedService.getCmt(boardno);
 		model.addAttribute("commentList", commentList);
-		
-		return "redirect:/used/commentList?boardno="+usdedcmt.getBoardno();
+
+		return "used/commentList";
 	}
 	
 	
@@ -301,8 +313,8 @@ public class UsedBoardController {
 		
 		List<UsedComment> commentList = usedService.getCmt(usedComment.getBoardno());
 		model.addAttribute("commentList", commentList);
-		
-		return "redirect:/used/commentList?boardno="+usedComment.getBoardno();
+
+		return "used/commentList";
 	}
 	
 	

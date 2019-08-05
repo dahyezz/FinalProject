@@ -24,7 +24,7 @@
 			
 			<!-- 작성자가 아닌 유저/관리자가 신고할 때 -->
 			<c:if test="${nick ne i.writer && nick ne 'admin' }">
-				<a href="javascript:void(0)" onclick="declare('${i.boardno}','${i.commentno }')" id="cmtDeclare${i.commentno }">신고</a>
+				<a href="javascript:void(0)" onclick="report('${i.boardno}','${i.commentno }')" id="cmtReport${i.commentno }">신고</a>
 			</c:if>
 			
 		</div>

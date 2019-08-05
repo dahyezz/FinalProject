@@ -58,16 +58,22 @@ $(document).ready(function() {
 			$(location).attr("href", "/used/delete?boardno="+${usedboard.boardno });
 			alert("삭제되었습니다!");
 		}
-	
 		
 	});
+	
+	if(${isReport }) {
+		$('#btnReport').html('신고완료');
+		$('#btnReport').css('pointer-events':'none');
+		
+	} else {
+		$('#btnReport').html('신고');
+	}
 	
 });
 	
 	
 	// 댓글 작성 함수
 	function writeComment(){ 
-		
 		
 		var writer = $('#writer').val();
 		var content = $('#content').val();
@@ -260,6 +266,12 @@ $(document).ready(function() {
 		<!-- 접속한 회원의 nick이 admin일 경우 -->
 		<c:if test="${nick eq 'admin' }">
 			<button id="btnDelete" class="btn btn-warning">삭제</button>
+		</c:if>
+		
+		<!-- 신고 기능 -->
+		<c:if test="${nick ne 'admin' && nick ne usedboard.writer }">
+			<a href="JavaScript:void(0)" onclick="declare('${usedboard.boardno}')" id="btnReport">신고</a>
+			<input type="hidden" id="reason"/>
 		</c:if>
 	</div>
 

@@ -263,4 +263,25 @@
 	</update>
 	
 	
+	<insert id="reportByBoard"
+		parameterType="web.dto.BadReport">
+		
+		INSERT INTO badreport_kg
+	    VALUES
+	    (badreport_kg_seq.nextval, #{boardname }, #{boardno }, #{commetno }, #{reason }, #{nickname })
+	</insert>
+	
+	
+	<select id="selectCntBadReport"
+	 parameterType="web.dto.BadReport"
+	 resultType="int">
+	 	SELECT 
+	 	    COUNT(*)
+	 	FROM
+	 	    BADREPORT_KG
+	 	WHERE
+	 	    boardno = #{boardno }
+	</select>
+	
+	
 </mapper>

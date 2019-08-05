@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.UsedDao;
+import web.dto.BadReport;
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
 import web.dto.UsedComment;
@@ -258,6 +259,25 @@ public class UsedServiceImpl implements UsedService {
 	@Override
 	public void updateCmt(UsedComment usedComment) {
 		usedDao.updateComment(usedComment);
+	}
+
+	@Override
+	public boolean reportBoard(BadReport bad) {
+		if(usedDao.selectCntBadReport(bad)!=0) {
+			return false;
+		} else {
+			usedDao.reportByBoard(bad);
+			return true;
+		}
+	}
+
+	@Override
+	public boolean checkReport(BadReport bad) {
+		if(usedDao.selectCntBadReport(bad)!=0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }
