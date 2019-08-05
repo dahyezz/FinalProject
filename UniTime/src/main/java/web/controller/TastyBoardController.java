@@ -216,25 +216,30 @@ public class TastyBoardController {
 	@RequestMapping(value="/tasty/comment", method=RequestMethod.GET)
 	public void commentList(TastyBoard tastyBoard, Model model) {
 		
+//		logger.info(tastyBoard.toString());
+		tastyBoard = tastyBoardService.getBoardWriter(tastyBoard);
+		
 		List<TastyComment> commentList = tastyBoardService.getComment(tastyBoard);
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("cmtCount", commentList.size());
+		model.addAttribute("board", tastyBoard);
 	}
 	
 	@RequestMapping(value="/tasty/deleteComment", method=RequestMethod.POST)
-	public void deleteComment(TastyComment tastyComment, HttpServletResponse response) {
+	public ModelAndView deleteComment(TastyComment tastyComment, ModelAndView mav, String loginUser) {
 		logger.info(tastyComment.toString());
-		
+		logger.info(loginUser);
 		tastyComment = tastyBoardService.getBoardno(tastyComment);
-		tastyBoardService.deleteComment(tastyComment);
+		int status = tastyBoardService.deleteComment(tastyComment, loginUser);
 		
 		boolean success = true;
+
+		mav.addObject("success", success);
+		mav.addObject("status", status);
+		mav.addObject("commentno", tastyComment.getCommentno());
+		mav.setViewName("jsonView");
 		
-		try {
-			response.getWriter().append("{\"success\":"+success+"}");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return mav;
 
 	}
 	

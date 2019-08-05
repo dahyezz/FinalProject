@@ -58,13 +58,14 @@ $(document).ready(function() {
 	
 	var commentno_re;
 	$('#commentdiv').on('click', ".recomment", function() {
-// 		console.log("clicked")
-		
+
 		$("#recommentdiv").remove();
-		if(commentno_re == $(this).parent().attr("data-commentno")){commentno_re = 0; return false;}
-		commentno_re = $(this).parent().attr("data-commentno");
-		$(this).parent().append(
-				"<div id='recommentdiv'><textarea id='recommentcontent'></textarea><button id='recommentBtn'>댓글입력</button></div>");
+// 		console.log($(this).parent().parent().attr("data-commentno"))
+		if(commentno_re == $(this).parent().parent().attr("data-commentno")){commentno_re = 0; return false;}
+		commentno_re = $(this).parent().parent().attr("data-commentno");
+		$(this).parent().parent().append(
+				"<div id='recommentdiv'><a href='javascript:void(0)' id='recommentBtn' >입력</a><textarea class='form-control' id='recommentcontent' rows='1' cols='40'></textarea></div>");
+		
 	});
 	
 	$("#commentdiv").on("click", "#recommentBtn", function() {
@@ -77,6 +78,7 @@ $(document).ready(function() {
 		dept = $(this).parent().parent().attr("data-dept");
 		var recommentcontent =  $("#recommentcontent").val();
 		
+// 		console.log(dept)
 		$.ajax({
 			url : "/tasty/writeComment",
 			type : "POST",
@@ -87,7 +89,7 @@ $(document).ready(function() {
 					"dept":dept},
 			dataType:"html",
 	  		success: function(res){
-	  			console.log(res);
+// 	  			console.log(res);
 	  			$("#commentdiv").html(res);
 			} 
 			, error: function(res){
@@ -155,21 +157,31 @@ function updateProc(commentno){
 
 
 //댓글 삭제
-function deleteComment(commentno){
+function deleteComment(commentno, loginUser){
 	
 // 	console.log(commentno)
+	console.log(loginUser);
+	
 	$.ajax({
 		type: "post"
 		, url: "/tasty/deleteComment"
 		, dataType: "json"
 		, data: {
-			commentno: commentno
+			commentno: commentno,
+			loginUser: loginUser
 		}
 		, success: function(data){
+			console.log(data.status)
 			if(data.success){
-				$("[data-commentno='"+commentno+"']").remove();
+				if(data.status==1){
+					$('#commentno'+data.commentno).children('.comment-writer-info').html('알수없음')
+					$('#commentno'+data.commentno).children('.comment-content').html('삭제된 댓글입니다.')
+					
+				} else {
+					$("[data-commentno='"+commentno+"']").remove();
+				}
 			} else {
-				alert("댓글 삭제 실패");
+// 				alert("댓글 삭제 실패");
 			}
 		}
 		, error: function() {
@@ -197,7 +209,7 @@ function declare(boardno, commentno){
 	var check = true;
 	var interval = null;
 	
-	myWindow = window.open("http://localhost:8088/tasty/declareReason","신고사유","width=550, height=650, left="+100+", top="+20+", resizable=no");
+	myWindow = window.open("http://localhost:8088/tasty/declareReason","신고사유","width=550, height=570, left="+100+", top="+20+", resizable=no");
 	
 	interval = window.setInterval(function() {
 		try {
@@ -345,37 +357,46 @@ function declareProc(boardno, commentno){
 	border: none;
 }
 #cmtWrite, #btnList {
-	background-color: #ffc952;
+	background-color: #47b8e0;
   -webkit-border-radius: 5;
   -moz-border-radius: 5;
   border-radius: 5px;
-  color: #34314c;
+  color: #fff;
   font-size: 13	px;
   padding: 5px 10px;
   border: none;
   text-decoration: none;
+  
+  margin-left: 7px;
+  margin-bottom: 2px;
 }
 #btnDelete, #btnUpdate {
 background-color: #ff7473;
   -webkit-border-radius: 5;
   -moz-border-radius: 5;
   border-radius: 5px;
-  color: #34314c;
+  color: #fff ;
   font-size: 13	px;
   padding: 5px 10px;
   border: none;
   text-decoration: none;
 }
 #content{
+	width: 100%;
 	padding: 6px 12px;
 	font-size: 14px;
-	line-height: 1.4px;
+/* 	line-height: 1.4px; */
 	height: 30px; 
 	color: #555;
 	background-color: #fff;
 	border: 1px solid #ccc;
-	border-radius: 4px;
+/* 	border-radius: 4px; */
 	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+#recommentBtn{
+	text-decoration: none;
+	float: right;
+	color: black;
 }
 </style>
 
@@ -421,18 +442,10 @@ background-color: #ff7473;
 
 <c:if test="${nick ne board.writer && nick ne 'admin'}">
 	<a href="javascript:void(0)" onclick="declare('${board.boardno }')" style="float: right;" id="btnDeclare">신고</a>
-	<input type="hidden" id="reason" />
 </c:if>
+<input type="hidden" id="reason" />
 
-<!-- <div id="commentdiv"> -->
 <c:import url="/WEB-INF/views/tasty/comment.jsp" />
-<!-- </div> -->
-
-<!-- <label style="vertical-align: -webkit-baseline-middle;"><textarea id="content" name="content" rows="1" cols="70" onkeypress="JavaScript:enter_check();"></textarea></label> -->
-<%-- <input type="hidden" name="writer" id="writer" value="${nick }" /> --%>
-
-<!-- <button id="cmtWrite" name="cmtWrite" class="btn">입력</button> -->
-
 
 <div class="text-center">
 	<button id="btnList">목록</button>

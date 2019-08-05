@@ -81,8 +81,9 @@ public interface TastyBoardService {
 	 * 댓글 삭제하기
 	 * 
 	 * @param tastyComment - 삭제할 댓글 객체
+	 * @param loginUser 
 	 */
-	public void deleteComment(TastyComment tastyComment);
+	public int deleteComment(TastyComment tastyComment, String loginUser);
 
 	public TastyComment getBoardno(TastyComment tastyComment);
 
@@ -132,5 +133,7 @@ public interface TastyBoardService {
 	 * @return
 	 */
 	public boolean checkReclare(BadReport badReport);
+
+	public TastyBoard getBoardWriter(TastyBoard tastyBoard);
 
 }
