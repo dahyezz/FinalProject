@@ -87,6 +87,7 @@ $(document).ready(function() {
 				"writer" : writer
 			},
 			success : function(data){
+				console.log(data);
 				$("#commentdiv").html(data);
 				$("#content").val("");
 			},
@@ -168,7 +169,7 @@ function enterPressAlert(e, textarea) {
 	<br>
 	<!-- 댓글 -->
 	<div id="commentdiv">
-		<c:import url="/WEB-INF/views/used/comment.jsp"/>
+		<c:import url="/WEB-INF/views/used/commentList.jsp"/>
 	</div>
 	
 	

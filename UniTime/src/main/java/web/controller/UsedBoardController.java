@@ -255,10 +255,10 @@ public class UsedBoardController {
 		
 		usedService.writeCmt(usdedcmt);
 		
-		List<UsedComment> list = usedService.getCmt(usdedcmt.getBoardno());
-		model.addAttribute("commentList", list);
+		List<UsedComment> commentList = usedService.getCmt(usdedcmt.getBoardno());
+		model.addAttribute("commentList", commentList);
 
-		return "/used/comment";
+		return "redirect:/used/commentList?boardno="+usdedcmt.getBoardno();
 	}
 	
 	
@@ -279,8 +279,8 @@ public class UsedBoardController {
 		UsedBoard usedboard = new UsedBoard();
 		int boardno = usedboard.getBoardno();
 		
-		List<UsedComment> list = usedService.getCmt(boardno);
-		model.addAttribute("commentList", list);
+		List<UsedComment> commentList = usedService.getCmt(boardno);
+		model.addAttribute("commentList", commentList);
 		
 	}
 	
@@ -299,8 +299,8 @@ public class UsedBoardController {
 		
 		usedService.deleteCmt(usedComment);
 		
-		List<UsedComment> list = usedService.getCmt(usedComment.getBoardno());
-		model.addAttribute("commentList", list);
+		List<UsedComment> commentList = usedService.getCmt(usedComment.getBoardno());
+		model.addAttribute("commentList", commentList);
 	}
 	
 	
