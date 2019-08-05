@@ -34,7 +34,13 @@ $(document).ready(function() {
 		$(document.body).append($form);
 		$form.submit();
 		
-		alert('강의 담기 성공!');
+// 		if ( lectureCheck ==false ){
+// 			alert('시간이 중복되었습니다!');
+// 		}
+// 		else {
+			alert('강의 담기 성공!');
+// 			}
+		
 	});
 	
 	
@@ -151,6 +157,7 @@ function checkAll() {
 
 </tbody>
 </table>
+<input type="hidden" name="lectureCheck" value="${lectureCheck }" />
 </div>
 <br>
 <button id="btnContain">강의담기</button>

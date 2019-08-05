@@ -46,33 +46,40 @@ public class TimeTableController {
 	@RequestMapping(value="/timetable/containmylist", method=RequestMethod.POST)
 	public String viewMylist(Model model, @RequestParam("names") String names, HttpSession session) {
 		
-		System.out.println(names);
 		String id= (String) session.getAttribute("email");
 		
 		TempTable temp = new TempTable();
 		TimeTable timeTable = new TimeTable();
 		
 		temp.setUser_email(id);
-		temp.setLecture_code(Integer.parseInt(names));
 		
-		timeTable = timeTableService.getTableByTemp(temp);
-		temp.setStart_time(timeTable.getStart_time());
-		temp.setLecture_day(timeTable.getLecture_day());
-		
-		if(timeTableService.checkLecture(temp)) {
+		String[] nameList = names.split(",");
+		int insertList[] = new int[nameList.length];
+		for(int i=0; i<nameList.length; i++) {
+			insertList[i] = Integer.parseInt(nameList[i]);	
+			temp.setLecture_code(insertList[i]);
 			
-			timeTableService.myListInsert(temp);
-			List mylist = timeTableService.myList(id);
-		
+			timeTable = timeTableService.getTableByTemp(temp);
+			temp.setStart_time(timeTable.getStart_time());
+			temp.setLecture_day(timeTable.getLecture_day());
 			
-			model.addAttribute("myList", mylist);
+			if(timeTableService.checkLecture(temp)) {
+				
+				timeTableService.myListInsert(temp);
+				
+				List mylist = timeTableService.myList(id);
+			
+				
+				model.addAttribute("myList", mylist);
+			}
+			
+			boolean checklec;
+			if(!timeTableService.checkLecture(temp)) {
+				checklec=false;
+				model.addAttribute("lectureCheck", checklec);
+			}
 		}
-		
-		boolean checklec;
-		if(!timeTableService.checkLecture(temp)) {
-			checklec=false;
-			model.addAttribute("lectureCheck", checklec);
-		}
+
 		
 		return "redirect:/timetable/lecturelist";
 	}
@@ -86,9 +93,15 @@ public class TimeTableController {
 		TempTable temp = new TempTable();
 		
 		temp.setUser_email(id);
-		temp.setLecture_code(Integer.parseInt(names));
+
+		String[] nameList = names.split(",");
+		int deleteList[] = new int[nameList.length];
+		for(int i=0; i<nameList.length; i++) {
+			deleteList[i] = Integer.parseInt(nameList[i]);
+			temp.setLecture_code(deleteList[i]);
+			timeTableService.myListDelete(temp);
+		}
 		
-		timeTableService.myListDelete(temp);
 		
 		return "redirect:/timetable/lecturelist";
 	}
