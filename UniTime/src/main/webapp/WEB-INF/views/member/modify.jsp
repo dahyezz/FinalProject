@@ -10,14 +10,14 @@ margin-left: 0px;
 margin-bottom: 30px;
 width: 200px;
 height:300px;
-background:#ffc952;
+background:#47b8e017;
 }
 .menubar2{
 margin-left: 220px;
 margin-bottom: 30px;
 width: 900px;
 height:300px;
-background:#ffc952;
+background:#47b8e017;
 }
 #memberDelete {
   background: #ffffff;
