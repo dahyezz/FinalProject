@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.BadReport;
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
 import web.dto.UsedComment;
@@ -67,7 +66,9 @@ public class UsedBoardController {
 	@RequestMapping(value="/used/view", method=RequestMethod.GET)
 	public void view(
 			@RequestParam int boardno,
-			Model model
+			Model model,
+			BadReport bad,
+			HttpSession session
 		) {
 		
 		usedService.hitview(boardno);
@@ -77,6 +78,16 @@ public class UsedBoardController {
 		
 		List<UsedComment> commentList = usedService.getCmt(boardno);
 		model.addAttribute("commentList", commentList);
+		
+		// 신고 접수
+		bad.setBoardname("used");
+		bad.setNickname(session.getAttribute("nick").toString());
+		logger.info(bad.toString());
+		
+		// 신고 게시글인지 체크 
+		boolean isReport = usedService.checkReport(bad);
+		model.addAttribute("isReport", isReport);
+		model.addAttribute("cmtCount", commentList.size());
 	}
 	
 	
@@ -200,23 +211,7 @@ public class UsedBoardController {
 		resp.setContentLength((int)file.length());
 		resp.setCharacterEncoding("utf-8");
 		
-//		String filename = "";
-//		
-//		try {
-//			filename = URLEncoder.encode(usedimg.getOriginName(), "utf-8");
-//		} catch (UnsupportedEncodingException e1) {
-//			e1.printStackTrace();
-//		}
-//		
-//		//UTF-8 인코딩 오류 수정 (한글만 바꿔야 하는데 특수기호까지 바꿔서 문제가 생기는것)
-//		filename = filename.replace("+", "%20"); //띄어쓰기
-//		filename = filename.replace("%5B", "["); 
-//		filename = filename.replace("%5D", "]");
-//		filename = filename.replace("%21", "!"); 
-//		filename = filename.replace("%23", "#"); 
-//		filename = filename.replace("%24", "$"); 
-		
-//		File origin = new File(context.getRealPath("/usedUpload"), usedimg.getStoredName());
+
 		FileInputStream fis = null;
 		logger.info(context.getRealPath("usedUpload"));
 		try {
@@ -234,27 +229,6 @@ public class UsedBoardController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-	}
-
-	
-	/**
-	 *  댓글 작성 컨트롤러 
-	 * @param comment
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value="/board/writecomment",
-			method=RequestMethod.POST)
-	public String writeComment(
-			UsedComment comment,
-			Model model) {
-		usedService.writeCmt(comment);
-
-		List<UsedComment> list = usedService.getCmt(
-			comment.getBoardno());
-		model.addAttribute("commentList", list);
-
-		return "used/commentList";
 	}
 	
 	
@@ -281,20 +255,66 @@ public class UsedBoardController {
 	
 	
 	/**
+	 *  댓글 작성 컨트롤러 
+	 * @param comment
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/used/writecomment", method=RequestMethod.POST)
+	public String writeComment(
+			UsedComment usdedcmt,
+			Model model) {
+		
+		usedService.writeCmt(usdedcmt);
+		
+		List<UsedComment> commentList = usedService.getCmt(usdedcmt.getBoardno());
+		model.addAttribute("commentList", commentList);
+
+		return "used/commentList";
+	}
+	
+	
+	/**
+	 *  댓글 수정하는 컨트롤러 
+	 * @param usedComment
+	 * @param model
+	 */
+	@RequestMapping(value="/used/updateComment", method=RequestMethod.POST)
+	public String updateComment(
+			UsedComment usdedcmt,
+			Model model
+		) {
+	
+		logger.info("댓글 수정중");
+		usedService.updateCmt(usdedcmt);
+		
+		int boardno = usdedcmt.getBoardno();
+		
+		List<UsedComment> commentList = usedService.getCmt(boardno);
+		model.addAttribute("commentList", commentList);
+
+		return "used/commentList";
+	}
+	
+	
+	/**
 	 *  댓글 삭제하는 컨트롤러 
 	 * @param usedComment
 	 * @param response
 	 */
 	@RequestMapping(value="/used/deleteComment", method=RequestMethod.POST)
-	public void deleteComment(
+	public String deleteComment(
 			UsedComment usedComment,
-			Model model) {
+			Model model
+		) {
 		logger.info(usedComment.toString());
 		
 		usedService.deleteCmt(usedComment);
 		
-		List<UsedComment> list = usedService.getCmt(usedComment.getBoardno());
-		model.addAttribute("commentList", list);
+		List<UsedComment> commentList = usedService.getCmt(usedComment.getBoardno());
+		model.addAttribute("commentList", commentList);
+
+		return "used/commentList";
 	}
 	
 	

@@ -3,6 +3,7 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.BadReport;
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
 import web.dto.UsedComment;
@@ -122,14 +123,6 @@ public interface UsedDao {
 	
 	
 	/**
-	 *  댓글 번호를 통해 댓글 조회하기 
-	 *  @param UsedComment
-	 *  @return
-	 */
-	public UsedComment selectAllCommentByCommentno(UsedComment usedcmt);
-	
-	
-	/**
 	 * 댓글 번호를 통해 게시글 조회하기
 	 * @param usedcmt
 	 * @return
@@ -170,4 +163,18 @@ public interface UsedDao {
 	 * @param map
 	 */
 	public void updateUsedImg_KG(Map<String, Object> map);
+	
+	
+	/**
+	 *  게시글 신고 
+	 * @param bad
+	 */
+	public void reportByBoard(BadReport bad);
+	
+	/**
+	 *  게시글의 신고횟수 조회
+	 * @param bad
+	 * @return
+	 */
+	public int selectCntBadReport(BadReport bad);
 }

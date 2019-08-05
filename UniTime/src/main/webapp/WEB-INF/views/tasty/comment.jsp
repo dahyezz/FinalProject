@@ -191,7 +191,7 @@ $(document).ready(function() {
 	</c:forEach>
 	
 	
-		<label style="vertical-align: -webkit-baseline-middle;"><textarea id="content" name="content" rows="1" cols="70" onkeypress="JavaScript:enter_check();"></textarea></label>
+		<label style="vertical-align: -webkit-baseline-middle;"><textarea id="content" name="content" rows="1" cols="70" onkeypress="JavaScript:enter_check()"></textarea></label>
 		<input type="hidden" name="writer" id="writer" value="${nick }" />
 		
 		<button id="cmtWrite" name="cmtWrite" class="btn">입력</button>

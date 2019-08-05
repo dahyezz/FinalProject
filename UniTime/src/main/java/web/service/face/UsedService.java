@@ -7,9 +7,10 @@ import javax.servlet.ServletContext;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.BadReport;
 import web.dto.UsedBoard;
-import web.dto.UsedImage;
 import web.dto.UsedComment;
+import web.dto.UsedImage;
 import web.util.Paging;
 
 public interface UsedService {
@@ -110,7 +111,7 @@ public interface UsedService {
 	public UsedImage getImg(UsedImage usedimg);
 	
 	/**
-	 * 
+	 *  이미지(첨부파일) 조회 
 	 * @param usedimg
 	 * @param context
 	 * @return
@@ -136,13 +137,6 @@ public interface UsedService {
 	
 	
 	/**
-	 *  댓글번호를 통해 댓글 조회하기(댓글 수정/삭제 위함)
-	 *  @param UsedComment
-	 *  @return
-	 */
-	public UsedComment getCmt(UsedComment usedcmt);
-	
-	/**
 	 *  댓글 객체에서 게시글 번호 가져오기
 	 * @param usedComment
 	 * @return
@@ -160,5 +154,19 @@ public interface UsedService {
 	 * @param usedComment
 	 */
 	public void updateCmt(UsedComment usedComment);
+	
+	/**
+	 *  게시글 신고
+	 * @param bad : 게시글 번호, 작성자 이름 
+	 * @return true : 신고완료, false : 신고취소 
+	 */
+	public boolean reportBoard(BadReport bad);
+	
+	/**
+	 *  신고글인지 확인
+	 * @param bad
+	 * @return
+	 */
+	public boolean checkReport(BadReport bad);
 	
 }
