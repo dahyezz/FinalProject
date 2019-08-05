@@ -55,5 +55,11 @@ public interface MemberService {
 	public void memberModifyNick(Member member) throws Exception;
 	
 	public void memberGrades(Member member);
+	
+	//시간표 불러오기
+	public List list();
+	
+	//로그인한 이메일에 맞는 시간표 불러오기
+	public List myList(String id);
 
 }

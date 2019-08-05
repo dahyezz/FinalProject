@@ -55,11 +55,11 @@ public class MemberController {
 			if(member.getNickname().equals("admin")) {
 				redirectUrl = "/admin/main";
 			} else {
-				redirectUrl = "/main";
+				redirectUrl = "/kg_main";
 			}
 			
 		} else {
-			redirectUrl = "/member/login";
+			redirectUrl = "/main";
 		}
 		
 		return "redirect:" + redirectUrl;
@@ -89,7 +89,7 @@ public class MemberController {
 	@RequestMapping(value = "/member/joinEmail", method = RequestMethod.GET)
 	public void joinEmail() {
 		
-	}
+	} 
 	
 	@RequestMapping(value = "/member/joinComplete", method = RequestMethod.GET)
 	public void joinComplete() {
@@ -154,6 +154,14 @@ public class MemberController {
 		
 		model.addAttribute("usedList", usedList);
 	
+		List list = memberService.list();
+		
+		model.addAttribute("lectureList",list);
+		
+		String id= (String) session.getAttribute("email");
+		List mylist = memberService.myList(id);
+		
+		model.addAttribute("myList", mylist);
 	}
 	
 	@RequestMapping(value = "/member/mypage/delete1", method = RequestMethod.GET)
@@ -252,6 +260,7 @@ public class MemberController {
 	 
 	 return "redirect:/";
 	}
+		
 }
 
 

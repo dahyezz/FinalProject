@@ -21,6 +21,7 @@ License:https://www.wowfreebies.net/page/license
 
 .card-columns img {
 	max-width:100%;
+	height: 300px !important;
 }
 
 .card-columns .card-image {

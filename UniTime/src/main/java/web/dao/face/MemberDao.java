@@ -57,6 +57,12 @@ public interface MemberDao {
 	public void memberModifyNick(Member member) throws Exception;
 	
 	public void memberGrades(Member member);
+	
+	//시간표불러오기
+	public List selectAll();
+	
+	//로그인한 이메일과 같은
+	public List selectMyList(String id);
 }
 
 

@@ -59,8 +59,6 @@ $(document).ready(function() {
 	var commentno_re;
 	$('#commentdiv').on('click', ".recomment", function() {
 // 		console.log("clicked")
-
-		
 		
 		$("#recommentdiv").remove();
 		if(commentno_re == $(this).parent().attr("data-commentno")){commentno_re = 0; return false;}
@@ -111,11 +109,11 @@ function updateComment(commentno, content){
 	if(updateCount==0){
 		
 		htmls.innerHTML += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">'
-			+ '<span style="padding-left: 7px; font-size: 9pt">'
+			+ '<span class="up" style="padding-left: 7px; font-size: 9pt">'
 		 	+ '<a href="javascript:void(0)" onclick="updateProc('+ commentno+')" style="padding-right:5px">저장</a>'
 	 		+ '<a href="javascript:void(0)" onclick="showList('+commentno+')">취소<a>'
 		 	+ '</span>'
-		 	+ '<textarea name="editContent" id="editContent" class="form-control" rows="1" cols="70">'+content+'</textarea>'
+		 	+ '<textarea name="editContent" id="editContent" class="form-control" rows="1" cols="40">'+content+'</textarea>'
 		 	+ '</p>';
 
 		updateCount=1;
@@ -269,6 +267,26 @@ function declareProc(boardno, commentno){
 </script>
 
 <style type="text/css">
+.article-head > h2 {
+	font-size: 30px;
+}
+.writer_info {
+	text-align: left;
+	margin-bottom: 30px;
+}
+.writer_info>span {
+	font-size: 15px;
+	margin-right: 20px;
+}
+#writer_nick {
+	font-weight: 800;
+}
+#hit_info {
+	margin-right: 5px;
+}
+#hit_count {
+	font-weight: 800;
+}
 .clearfix::after{display:block;content:"";clear:both}
 .inbox {margin: 14px; border: 1px solid #ccc;}
 .tit-box {
@@ -308,6 +326,57 @@ function declareProc(boardno, commentno){
 .commentdiv {
 	overflow: hidden;
 }
+.tasty_tb {
+	margin-top: 60px;
+	font-size: 14px;
+	line-height: 1.5;
+	border: none;
+	margin-bottom: 15px;
+}
+.tasty_tb tr th {
+	min-width: 100px;
+	font-weight: 700;
+	white-space: nowrap;
+}
+.tasty_tb tr th, .tasty_tb tr td {
+	color: #34314c;
+	text-align: left;
+	padding: 10px 10px 0 0;
+	border: none;
+}
+#cmtWrite, #btnList {
+	background-color: #ffc952;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #34314c;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+}
+#btnDelete, #btnUpdate {
+background-color: #ff7473;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #34314c;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+}
+#content{
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.4px;
+	height: 30px; 
+	color: #555;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
 </style>
 
 
@@ -316,13 +385,13 @@ function declareProc(boardno, commentno){
 		<a class="link text-bold" href="/tasty/view?boardno=${board.boardno }">${board.storeName }</a></h2>
 </div>
 
-<div>
-	<span>${board.writer }</span>
-	<span><fmt:formatDate value="${board.writtendate }" pattern="yyyy-MM-dd" /></span>
-	<span>조회수 ${board.hit }</span>
+<div class="writer_info">
+	<span id="writer_nick">${board.writer }</span>
+	<span><fmt:formatDate value="${board.writtendate }" pattern="yyyy.MM.dd" /></span>
+	<span id="hit_info">조회수</span><span id="hit_count">${board.hit }</span>
 </div>
 
-<table>
+<table class="tasty_tb">
 	<tr>
 		<th>평점</th>
 		<td id="recommend" style="color: gold;">
@@ -348,62 +417,6 @@ function declareProc(boardno, commentno){
 	${board.content }
 </div>
 
-<!-- <div class="inbox"> -->
-
-<!-- 	<div class="tit-box"> -->
-<!-- 		<div class="storename"> -->
-<%-- 			<span>${board.storeName }</span> --%>
-<!-- 		</div> -->
-		
-<!-- 		<div class="writtendate"> -->
-<%-- 			<span><fmt:formatDate value="${board.writtendate }" pattern="yyyy-MM-dd" /></span> --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
-	
-<!-- 	<div class="board-box-line-dashed"></div> -->
-	
-<!-- 	<div class="user-info"> -->
-<%-- 		${board.writer } --%>
-<!-- 	</div> -->
-	
-
-
-<!-- <table class="table table-bordered" style="text-align: center;"> -->
-<!-- 	<tr> -->
-<%-- 		<td class="info">글번호</td><td colspan="3">${board.boardno }</td> --%>
-<!-- 	</tr> -->
-	
-<!-- 	<tr> -->
-<%-- 		<td class="info">음식점이름</td><td colspan="3">${board.storeName }</td> --%>
-<!-- 	</tr> -->
-	
-<!-- 	<tr> -->
-<%-- 		<td class="info">닉네임</td><td>${board.writer }</td> --%>
-<!-- 	</tr> -->
-	
-<!-- 	<tr> -->
-<%-- 		<td class="info">조회수</td><td>${board.hit }</td> --%>
-<!-- 		<td class="info">별점</td> -->
-<!-- 		<td id="recommend" style="color: gold;"> -->
-<%-- 			<c:if test="${board.score eq 1 }">★</c:if> --%>
-<%-- 			<c:if test="${board.score eq 2 }">★★</c:if> --%>
-<%-- 			<c:if test="${board.score eq 3 }">★★★</c:if> --%>
-<%-- 			<c:if test="${board.score eq 4 }">★★★★</c:if> --%>
-<%-- 			<c:if test="${board.score eq 5 }">★★★★★</c:if> --%>
-<!-- 		</td> -->
-<!-- 	</tr> -->
-	
-<!-- 	<tr> -->
-<%-- 		<td class="info">작성일</td><td colspan="3"><fmt:formatDate value="${board.writtendate }" pattern="yyyy-MM-dd" /></td> --%>
-<!-- 	</tr> -->
-	
-	
-<!-- 	<tr><td class="info" colspan="4">본문</td></tr> -->
-<%-- 	<tr><td colspan="4">${board.content }</td></tr> --%>
-	
-<!-- </table> -->
-<!-- </div> -->
-
 <div class="clearfix"></div>
 
 <c:if test="${nick ne board.writer && nick ne 'admin'}">
@@ -415,21 +428,21 @@ function declareProc(boardno, commentno){
 <c:import url="/WEB-INF/views/tasty/comment.jsp" />
 <!-- </div> -->
 
-<label>${nick }<textarea id="content" name="content" rows="1" cols="70" onkeypress="JavaScript:enter_check();"></textarea></label>
-<input type="hidden" name="writer" id="writer" value="${nick }" />
+<!-- <label style="vertical-align: -webkit-baseline-middle;"><textarea id="content" name="content" rows="1" cols="70" onkeypress="JavaScript:enter_check();"></textarea></label> -->
+<%-- <input type="hidden" name="writer" id="writer" value="${nick }" /> --%>
 
-<button id="cmtWrite" name="cmtWrite" class="btn">입력</button>
+<!-- <button id="cmtWrite" name="cmtWrite" class="btn">입력</button> -->
 
 
 <div class="text-center">
-	<button id="btnList" class="btn btn-primary">목록</button>
+	<button id="btnList">목록</button>
 	
 	<c:if test="${nick eq 'admin' }">
-		<button id="btnDelete" class="btn btn-warning">삭제</button>
+		<button id="btnDelete">삭제</button>
 	</c:if>
 
 	<c:if test="${nick eq board.writer }">
-		<button id="btnUpdate" class="btn btn-warning">수정</button>
-		<button id="btnDelete" class="btn btn-warning">삭제</button>
+		<button id="btnUpdate">수정</button>
+		<button id="btnDelete">삭제</button>
 	</c:if>
 </div>
