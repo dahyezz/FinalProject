@@ -1,7 +1,10 @@
 package web.service.impl;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -60,6 +63,7 @@ public class MemberServiceImpl implements MemberService{
 	      // mail 작성 관련 
 	      MailUtils sendMail = new MailUtils(mailSender);
 	      
+	
 	      sendMail.setSubject("슬기로운 대학생활 회원가입 이메일 인증입니다.");
 	      sendMail.setText(new StringBuffer().append("<h1>슬기로운 대학생활 이메일 인증입니다.</h1>")
 	            .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
@@ -192,14 +196,23 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public List list() {
-		return memberDao.selectAll();
-	}
-
-	@Override
 	public List myList(String id) {
 		return memberDao.selectMyList(id);
 	}
+
+	@Override
+	public boolean pwFind(Member member) {
+		if(memberDao.selectCntMemberPwfind(member) >= 1)
+			return true;
+		else
+			return false;
+	}
+
+	@Override
+	public Member getPwfind(Member member) {
+		return memberDao.selectMemberPwfind(member);
+	}
+	
 }
 
 

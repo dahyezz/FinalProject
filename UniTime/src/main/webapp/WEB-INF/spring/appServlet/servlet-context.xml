@@ -29,6 +29,7 @@
 			<exclude-mapping path="/kg_main" />
 			<exclude-mapping path="/unitime" />
 			<exclude-mapping path="/image/**"/>
+			<exclude-mapping path="/member/pwFind"/>
 			
 			<beans:bean class="web.interceptor.Interceptor" />
 		</interceptor>

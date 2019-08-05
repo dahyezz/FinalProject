@@ -165,7 +165,7 @@ margin-left: 0px;
 margin-bottom: 30px;
 width: 1100px;
 height: 130px;
-background: #ffc952;
+background: #47b8e017;
 }
 #modify, #logout, #modifyNick {
   background: #ffffff;
@@ -200,6 +200,23 @@ background: #ffc952;
   padding: 10px 20px 10px 20px;
   border: solid #ffffff 1px;
   text-decoration: none;
+}
+
+.row2 {
+
+    width: 45%;
+    display: inline-block;
+    float: left;
+}
+.row1 {
+
+    width: 45%;
+    display: inline-block;
+    float: right;
+}
+.rowAll {
+	margin-left: 15px;
+	margin-right: 15px;
 }
 </style>
 
@@ -328,7 +345,6 @@ background: #ffc952;
 </div>
 </div>
 
-
 <div class="container">
 
 <div class="row">
@@ -381,13 +397,10 @@ background: #ffc952;
 <br>
 
 <div class="container">
+<div class = "rowAll" style="position: relative">
+<div class="row1">
 
-<div class="row">
-
-
-<!-- <div class="col order-1"> -->
-<br>
-<div style="text-align: center">
+<div style="text-align: center;">
 <hr>
 학점 계산기<br><br>
 </div>
@@ -447,6 +460,10 @@ background: #ffc952;
 </div>
 </div></div>
 
+<div class="container">
+
+<div class="row2">
+
 <hr>
 내 시간표<br><br>
 
@@ -461,5 +478,564 @@ background: #ffc952;
      <th scope="col" style="width:300px">금</th>
    </tr>
  </thead>
- </table>
+ <tbody class="text-center">
+<%--  <c:forEach items="${recommendList }" var="ri"> --%>
+ <tr><th>09:00-10:00</th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 1}">
+ <c:if test="${ri.lecture_day eq '월' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 1}">
+ <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+ </c:if> 
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 1 }">
+ <c:if test="${ri.lecture_day eq '화' }">${ri.lecture_name }</c:if>
+ </c:if>
+  </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 1 }">
+ <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 1 }">
+ <c:if test="${ri.lecture_day eq '수' }">${ri.lecture_name }</c:if>
+ </c:if>
+  </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 1 }">
+ <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 1 }">
+ <c:if test="${ri.lecture_day eq '목' }">${ri.lecture_name }</c:if>
+ </c:if>
+  </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 1 }">
+ <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 1 }">
+ <c:if test="${ri.lecture_day eq '금' }">${ri.lecture_name }</c:if>
+ </c:if>
+  </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 1 }">
+ <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ </tr>
+ <tr><th>10:00-11:00</th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 2 || ri.start_time eq 1 }">
+ <c:if test="${ri.lecture_day eq '월' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
+ <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 2 || ri.start_time eq 1 }">
+ <c:if test="${ri.lecture_day eq '화' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
+ <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th> 
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 2 || ri.start_time eq 1 }">
+ <c:if test="${ri.lecture_day eq '수' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
+ <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 2 || ri.start_time eq 1 }">
+ <c:if test="${ri.lecture_day eq '목' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
+ <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 2 || ri.start_time eq 1 }">
+ <c:if test="${ri.lecture_day eq '금' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
+ <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ </tr>
+ <tr><th>11:00-12:00</th>
+ <th> 
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 3 || ri.end_time eq 3 }">
+ <c:if test="${ri.lecture_day eq '월' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
+ <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 3 || ri.end_time eq 3 }">
+ <c:if test="${ri.lecture_day eq '화' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
+ <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach></th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 3 || ri.end_time eq 3 }">
+ <c:if test="${ri.lecture_day eq '수' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
+ <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+ </c:if> 
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 3 || ri.end_time eq 3 }">
+ <c:if test="${ri.lecture_day eq '목' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
+ <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 3 || ri.end_time eq 3 }">
+ <c:if test="${ri.lecture_day eq '금' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
+ <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ </tr>
+ <tr><th>12:00-13:00</th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 4 || ri.end_time eq 4 }">
+ <c:if test="${ri.lecture_day eq '월' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
+ <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 4 || ri.end_time eq 4 }">
+ <c:if test="${ri.lecture_day eq '화' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
+ <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 4 || ri.end_time eq 4 }">
+ <c:if test="${ri.lecture_day eq '수' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
+ <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 4 || ri.end_time eq 4 }">
+ <c:if test="${ri.lecture_day eq '목' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
+ <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 4 || ri.end_time eq 4 }">
+ <c:if test="${ri.lecture_day eq '금' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
+ <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ </tr>
+ <tr><th>13:00-14:00</th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 5 || ri.end_time eq 6 }">
+ <c:if test="${ri.lecture_day eq '월' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
+ <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 5 || ri.end_time eq 6 }">
+ <c:if test="${ri.lecture_day eq '화' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
+ <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach></th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 5 || ri.end_time eq 6 }">
+ <c:if test="${ri.lecture_day eq '수' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
+ <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 5 || ri.end_time eq 6 }">
+ <c:if test="${ri.lecture_day eq '목' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
+ <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 5 || ri.end_time eq 6 }">
+ <c:if test="${ri.lecture_day eq '금' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
+ <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th> </tr>
+ <tr><th>14:00-15:00</th>
+  <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 6 || ri.end_time eq 6 }">
+ <c:if test="${ri.lecture_day eq '월' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
+ <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 6 || ri.end_time eq 6 }">
+ <c:if test="${ri.lecture_day eq '화' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
+ <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach></th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 6 || ri.end_time eq 6 }">
+ <c:if test="${ri.lecture_day eq '수' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
+ <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 6 || ri.end_time eq 6 }">
+ <c:if test="${ri.lecture_day eq '목' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
+ <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 6 || ri.end_time eq 6 }">
+ <c:if test="${ri.lecture_day eq '금' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
+ <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ </tr>
+ <tr><th>15:00-16:00</th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 7 || ri.end_time > 6 }">
+ <c:if test="${ri.lecture_day eq '월' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
+ <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 7 || ri.end_time > 6 }">
+ <c:if test="${ri.lecture_day eq '화' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
+ <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach></th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 7 || ri.end_time > 6 }">
+ <c:if test="${ri.lecture_day eq '수' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
+ <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 7 || ri.end_time > 6 }">
+ <c:if test="${ri.lecture_day eq '목' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
+ <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 7 || ri.end_time > 6 }">
+ <c:if test="${ri.lecture_day eq '금' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
+ <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th> 
+ </tr>
+ <tr><th>16:00-17:00</th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 8 || ri.end_time > 7 }">
+ <c:if test="${ri.lecture_day eq '월' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
+ <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 8 || ri.end_time > 7 }">
+ <c:if test="${ri.lecture_day eq '화' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
+ <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach></th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 8 || ri.end_time > 7 }">
+ <c:if test="${ri.lecture_day eq '수' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
+ <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 8 || ri.end_time > 7 }">
+ <c:if test="${ri.lecture_day eq '목' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
+ <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 8 || ri.end_time > 7 }">
+ <c:if test="${ri.lecture_day eq '금' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
+ <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ </tr>
+ <tr><th>17:00-18:00</th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 9 || ri.end_time > 8 }">
+ <c:if test="${ri.lecture_day eq '월' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
+ <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 9 || ri.end_time > 8 }">
+ <c:if test="${ri.lecture_day eq '화' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
+ <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach></th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 9 || ri.end_time > 8 }">
+ <c:if test="${ri.lecture_day eq '수' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
+ <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 9 || ri.end_time > 8 }">
+ <c:if test="${ri.lecture_day eq '목' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
+ <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ <th>
+
+ <c:forEach items="${recommendList }" var="ri">
+ <c:if test="${ri.start_time eq 9 || ri.end_time > 8 }">
+ <c:if test="${ri.lecture_day eq '금' }">${ri.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ <c:forEach items="${myList }" var="mi">
+ <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
+ <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+ </c:if>
+ </c:forEach>
+ </th>
+ </tr>
+ </tbody>
+</table>
+</div>
+</div>
+</div>
 

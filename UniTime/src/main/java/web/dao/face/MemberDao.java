@@ -3,6 +3,10 @@ package web.dao.face;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.Session;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import web.dto.Member;
 import web.dto.TastyBoard;
 
@@ -58,11 +62,16 @@ public interface MemberDao {
 	
 	public void memberGrades(Member member);
 	
-	//시간표불러오기
-	public List selectAll();
 	
 	//로그인한 이메일과 같은
 	public List selectMyList(String id);
+	
+	// 비밀번호 찾기
+		public String find_pw(String email) throws Exception;
+
+		public int selectCntMemberPwfind(Member member);
+
+		public Member selectMemberPwfind(Member member);
 }
 
 
