@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import web.dao.face.MemberDao;
 import web.dao.face.TimeTableDao;
+import web.dto.TastyBoard;
 import web.dto.TempTable;
 import web.dto.TimeTable;
 import web.service.face.TimeTableService;
@@ -31,6 +32,8 @@ public class TimeTableServiceImpl implements TimeTableService {
 	public void myListInsert(TempTable temp) {
 		timeTableDao.insertMyList(temp);
 	}
+	
+	
 
 	@Override
 	public void myListDelete(TempTable temp) {
@@ -78,6 +81,6 @@ public class TimeTableServiceImpl implements TimeTableService {
 	public TimeTable getTableByTemp(TempTable temp) {
 		return timeTableDao.getTableByTemp(temp);
 	}
-	
+
 
 }
