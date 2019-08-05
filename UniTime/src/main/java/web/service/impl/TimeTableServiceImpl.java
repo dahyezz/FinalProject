@@ -50,15 +50,28 @@ public class TimeTableServiceImpl implements TimeTableService {
 	public List recommendList(HttpServletRequest req) {
 		
 		HttpSession session = req.getSession();
+		String id=(String)session.getAttribute("email");
 		Map<String,String> map = new HashMap<String, String>();
 		
 		
 		map.put("stime", req.getParameter("timepriority"));
 		map.put("etime", Integer.toString(Integer.parseInt(req.getParameter("timepriority"))+3));
 		map.put("classNum", req.getParameter("classNum"));
-		map.put("id",(String)session.getAttribute("email"));
+		map.put("id",id);
 		
-		List reclist = timeTableDao.recommendTmp(map);
+//		List reclist = timeTableDao.recommendTmp(map);
+		
+		String recCode[] = timeTableDao.recCode(map);
+		TempTable temp = new TempTable();
+		temp.setUser_email(id);
+		timeTableDao.deleteRec(temp);
+		
+		for(int i=0;i<recCode.length;i++) {
+			temp.setLecture_code(Integer.parseInt(recCode[i]));
+			timeTableDao.insertRec(temp);
+		}
+		
+		List reclist = timeTableDao.selectRec(id);
 		
 		return reclist;
 	}
@@ -80,6 +93,11 @@ public class TimeTableServiceImpl implements TimeTableService {
 	@Override
 	public TimeTable getTableByTemp(TempTable temp) {
 		return timeTableDao.getTableByTemp(temp);
+	}
+
+	@Override
+	public void setMytable(String id) {
+		timeTableDao.insertMytable(id);
 	}
 
 

@@ -146,24 +146,18 @@ public class TimeTableController {
 		List recommendList = timeTableService.recommendList(req);
 		model.addAttribute("recommendList", recommendList);
 		
-		
-		
-		Map<String, String> newLecturelist = new HashMap<String, String>();
-		
-//		newLecturelist.put("id", id);
-//		newLecturelist.put("lecture_1", ((String)(recommendList.get(1))));
-////		newLecturelist.put("lecture_1", value);
-		
 	}
 	
-//	@RequestMapping(value="/timetable/showtable/recommendation/recommendlist", method=RequestMethod.POST)
-//	public void insertMyTable(Model model, HttpSession session, HttpServletRequest req
-//			, @RequestParam("timepriority") String timepriority
-//			, @RequestParam("classNum") int classNum
-//			) {
-//		
-//		
-//		
-//	}
+	@RequestMapping(value="/timetable/showtable/recommendation/recommendlist", method=RequestMethod.POST)
+	public String insertMytable(HttpSession session) {
+
+		String id= (String) session.getAttribute("email");
+
+		timeTableService.setMytable(id);
+		
+		
+		return "redirect:/timetable/recommend";
+	}
+
 	
 }
