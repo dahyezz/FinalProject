@@ -24,4 +24,15 @@ public interface TimeTableDao {
 	public int lectureCheck(TempTable temp);
 	
 	public TimeTable getTableByTemp(TempTable temp);
+
+	public String[] recCode(Map<String, String> map);
+
+	public void insertRec(TempTable temp);
+
+	public void deleteRec(TempTable temp);
+
+	public List selectRec(String id);
+
+	public void insertMytable();
+	
 }

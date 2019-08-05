@@ -52,6 +52,27 @@ WHERE rank = 1
     AND rownum BETWEEN 1 AND #{classNum }
 </select>
 
+<select id="recCode" parameterType="Map" resultType="String">
+SELECT R.lecture_code FROM (
+    SELECT
+        rank() over( partition by lecture_day, start_time order by RAN ) rank,
+        RES.*    
+    FROM (
+        SELECT T.*, DBMS_RANDOM.VALUE RAN FROM timetable_kg T
+        WHERE 1=1
+        AND department_name in ('정보통신공학과', '공통') 
+        AND ( lecture_day, start_time ) NOT IN (
+            SELECT distinct lecture_day, start_time FROM timetable_kg ttb
+            JOIN temptable tb ON ttb.lecture_code=tb.lecture_code
+            WHERE tb.user_email = #{id })   
+        AND start_time between #{stime } and #{etime }      
+    ) RES
+    ORDER BY DBMS_RANDOM.VALUE
+) R
+WHERE rank = 1
+    AND rownum BETWEEN 1 AND #{classNum }
+</select>
+
 <select id="lectureCheck" parameterType="web.dto.TempTable" resultType="int">
     SELECT count(*) FROM 
     temptable tb left join timetable_kg ttb on tb.lecture_code=ttb.lecture_code
@@ -62,5 +83,24 @@ WHERE rank = 1
 	SELECT * FROM timetable_kg
 	WHERE lecture_code=#{lecture_code }
 </select>
+
+<insert id="insertRec" parameterType="web.dto.TempTable">
+	INSERT INTO mytable(user_email, lecture_code)
+	VALUES (#{user_email}, #{lecture_code})
+</insert>
+
+<delete id="deleteRec" parameterType="web.dto.TempTable">
+	DELETE FROM mytable
+	WHERE user_email=#{user_email}
+</delete>
+
+<select id="selectRec" parameterType="String" resultType="web.dto.TempTable">
+	SELECT * FROM timetable_kg ttb JOIN mytable mb ON ttb.lecture_code=mb.lecture_code
+	WHERE mb.user_email = #{email}
+</select>
+
+<insert id="insertMytable">
+	INSERT INTO temptable (select * from mytable);
+</insert>
 
 </mapper>

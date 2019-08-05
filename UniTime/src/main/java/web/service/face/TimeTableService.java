@@ -22,7 +22,9 @@ public interface TimeTableService {
 
 	public boolean checkLecture(TempTable temp);
 
-	public TimeTable getTableByTemp(TempTable temp); 
+	public TimeTable getTableByTemp(TempTable temp);
+
+	public void setMytable(); 
 	
 
 }

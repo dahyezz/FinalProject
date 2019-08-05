@@ -574,8 +574,9 @@
 </table>
 
 <br>
-<button onclick="location.href='/timetable/insertmytable'">내 시간표로 담기</button>
-
+<!-- <form action="/timetable/showtable/recommendation/recommendlist" method="post" > -->
+<!-- <button id="insertMy" onclick="location.href='/timetable/showtable/recommendation/recommendlist'">내 시간표로 담기</button> -->
+<!-- </form> -->
 <br><br>
 <button onclick="location.href='/timetable/lecturelist'">강의 목록으로</button>
 </div>
