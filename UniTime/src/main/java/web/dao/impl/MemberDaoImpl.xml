@@ -97,4 +97,13 @@
    		nickname = #{nickname}
   		where hakbun = #{hakbun}
 	</update>
+	
+	<select id="selectAll" resultType="web.dto.TimeTable">
+		SELECT * FROM timetable_kg ORDER BY lecture_code
+	</select>
+
+	<select id="selectMyList" parameterType="String" resultType="web.dto.TempTable">
+		SELECT * FROM timetable_kg ttb JOIN temptable tb ON ttb.lecture_code=tb.lecture_code
+		WHERE tb.user_email = #{email}
+	</select>
 </mapper>

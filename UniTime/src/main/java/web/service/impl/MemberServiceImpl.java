@@ -151,7 +151,11 @@ public class MemberServiceImpl implements MemberService{
 	         
 	         usedBoard.setBoardno(deleteList[i]);
 	         
-//	         usedDao.deleteBoardByBoardno(usedBoard);
+		    // DB에서 이미지 삭제 
+		    usedDao.deleteImgByBoardno(deleteList[i]);
+			
+			// 게시글 삭제
+			usedDao.deleteBoardByBoardno(deleteList[i]);
 	         
 	      }
 	}
@@ -185,6 +189,16 @@ public class MemberServiceImpl implements MemberService{
 	public void memberGrades(Member member)  {
 		memberDao.memberGrades(member);
 
+	}
+
+	@Override
+	public List list() {
+		return memberDao.selectAll();
+	}
+
+	@Override
+	public List myList(String id) {
+		return memberDao.selectMyList(id);
 	}
 }
 

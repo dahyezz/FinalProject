@@ -449,5 +449,17 @@ background: #ffc952;
 
 <hr>
 내 시간표<br><br>
-</div>
+
+<table class="table table-bordered" style="width:500px;height:350px;">
+ <thead>
+    <tr class="text-center">
+     <th scope="col" style="width:100px">시간</th>
+     <th scope="col" style="width:300px">월</th>
+     <th scope="col" style="width:300px">화</th>
+     <th scope="col" style="width:300px">수</th>
+     <th scope="col" style="width:300px">목</th>
+     <th scope="col" style="width:300px">금</th>
+   </tr>
+ </thead>
+ </table>
 
