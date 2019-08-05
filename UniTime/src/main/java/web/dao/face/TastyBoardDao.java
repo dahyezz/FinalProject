@@ -144,6 +144,10 @@ public interface TastyBoardDao {
 	 */
 	public int selectCntBadReport(BadReport badReport);
 
+	public int selectCntRecomment(TastyComment tastyComment);
+
+	public void updateDeletedComment(TastyComment tastyComment);
+
 //	/**
 //	 * 신고 취소
 //	 * 

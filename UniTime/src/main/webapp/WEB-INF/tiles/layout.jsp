@@ -32,6 +32,10 @@ h1, h2, h3, h4, h5, span, p, a {
 	margin: 10px 10%;
   
 }
+
+body {
+	background-color: #47b8e017;
+}
 </style>
 </head>
 <body>

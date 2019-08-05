@@ -192,6 +192,18 @@
 		AND nickname = #{nickname }
 	</select>
 	
+	<select id="selectCntRecomment" parameterType="web.dto.TastyComment" resultType="int">
+		SELECT count(*)
+		FROM tastycomment_kg
+		WHERE ref_commentno=#{commentno }
+	</select>
+	
+	<update id="updateDeletedComment" parameterType="web.dto.TastyComment">
+		UPDATE tastycomment_kg
+		SET writer = '알수없음', content = '삭제된 댓글입니다.', writtendate = ''
+		WHERE commentno = #{commentno }
+	</update>
+	
 <!-- 	<delete id="deleteBadByBoard" parameterType="web.dto.BadReport"> -->
 <!-- 		DELETE badreport_kg -->
 <!-- 		WHERE boardname = #{boardname }  -->
