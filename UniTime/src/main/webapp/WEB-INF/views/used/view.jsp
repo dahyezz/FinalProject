@@ -40,6 +40,7 @@
 
 
 <script type="text/javascript">
+var boardno = ${usedboard.boardno };
 $(document).ready(function() {
 
 	$('#btnList').click(function() {
@@ -51,27 +52,25 @@ $(document).ready(function() {
 	});
 
 	$('#btnDelete').click(function() {
-		var delete_confirm; // 삭제확인 메세지 : boolean
 		
 		if(confirm("정말 삭제하시겠습니까?")) {
 			//delete_confirm = true;   확인 
 			$(location).attr("href", "/used/delete?boardno="+${usedboard.boardno });
 			alert("삭제되었습니다!");
 		}
+	
 		
-/* 		if(delete_confirm){
-			$(location).attr("href", "/used/delete?boardno="+${usedboard.boardno });
-			alert("삭제되었습니다!");
-		} */
 	});
-
 	
-	$('#cmtWrite').click(writeComment);
+});
 	
+	
+	// 댓글 작성 함수
 	function writeComment(){ 
-		var boardno = ${usedboard.boardno };
-		var writer = $('#content').val();
-		var content = $('#writer').val();
+		
+		
+		var writer = $('#writer').val();
+		var content = $('#content').val();
 		
 		console.log(boardno);
 		console.log(writer);
@@ -87,25 +86,88 @@ $(document).ready(function() {
 				"writer" : writer
 			},
 			success : function(data){
-				console.log(data);
+				$("#commentdiv").html(data);
+				$("#content").val("");
+				console.log("댓글작성!");
+			},
+			error : function() {
+				console.log("error occured.");
+			}
+		});
+	}
+
+	// enter 키로 댓글 작성
+	function enter_writeCmt() {
+		var code = (e.KeyCode ? e.keyCode : e.which);
+		if(code == 13) {
+			$('cmtWrite').click();
+		}
+	}
+
+
+	// 댓글 수정 함수 
+	var updateCount = 0;
+	function updateComment(commentno,content){
+		var htmls = document.getElementById("commentre"+commentno);
+		if(updateCount==0) {
+			htmls.innerHTML += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">'
+				+ '<span class="up" style="padding-left: 7px; font-size: 9pt">'
+			 	+ '<a href="javascript:void(0)" onclick="updateCmtProc('+ commentno+')" style="padding-right:5px">저장</a>'
+		 		+ '<a href="javascript:void(0)" onclick="showList('+commentno+')">취소<a>'
+			 	+ '</span>'
+			 	+ '<textarea name="editContent" id="editContent" class="form-control" rows="1" cols="40">'+content+'</textarea>'
+			 	+ '</p>';
+
+			updateCount=1;
+		}
+		
+		htmls.style.display = "block";
+	}
+
+	function updateCmtProc(commentno) {
+		var editContent = $('#editContent').val();
+		
+		$.ajax({
+			type : "post",
+			url : "/used/updateComment",
+			dataType : "html",
+			data : {
+				"commentno" : commentno,
+				"content" : editContent,
+				"boardno" : boardno
+			},
+			success : function(data) {
 				$("#commentdiv").html(data);
 				$("#content").val("");
 			},
 			error : function() {
-				console.log("댓글작성중 error 발생");
+				console.log("error occured.");
 			}
 		});
 	}
-	
-});
 
-
-function enterPressAlert(e, textarea) {
-	var code = (e.KeyCode ? e.keyCode : e.which);
-	if(code == 13) {
-		alert('입력버튼을 클릭하여 댓글을 완성하세요.');
+	// 댓글 삭제 함수 
+	function deleteComment(commentno){
+		
+		if(confirm("정말 삭제하시겠습니까?")) {		
+			$.ajax({
+				type: "post"
+				, url: "/used/deleteComment"
+				, dataType: "html"
+				, data: {
+					"commentno": commentno,
+					"boardno" : boardno
+				}
+				, success: function(data){
+					$("#commentdiv").html(data);
+					alert("댓글이 삭제되었습니다.");
+				}
+				, error: function() {
+					console.log("error occured.")
+				}
+			});
+		} 
 	}
-}
 
 </script>
 	
@@ -175,16 +237,14 @@ function enterPressAlert(e, textarea) {
 	
 	<!-- 댓글 작성창 -->
 	<br>	
-	<label>${nick }&nbsp;&nbsp;
-		<textarea id="content" name="content" rows="1" cols="70" 
-			onKeyPress="enterPressAlert(event, this)">
-		</textarea>
+	<label>${nick }
+		<textarea id="content" name="content" rows="1" cols="70" onKeyPress="JavaScript:enter_writeCmt();"></textarea>
 	</label>
 	
 	
 	<input type="hidden" name="writer" id="writer" value="${nick }" />
 	
-	<button id="cmtWrite" name="cmtWrite" class="btn">입력</button>
+	<button id="cmtWrite" name="cmtWrite" class="btn" onclick="writeComment();">입력</button>
 	
 
 	<!-- 게시판 버튼 ( 목록/수정/삭제 ) -->

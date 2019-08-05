@@ -247,8 +247,7 @@ public class UsedBoardController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/used/writecomment",
-			method=RequestMethod.POST)
+	@RequestMapping(value="/used/writecomment", method=RequestMethod.POST)
 	public String writeComment(
 			UsedComment usdedcmt,
 			Model model) {
@@ -267,14 +266,14 @@ public class UsedBoardController {
 	 * @param usedComment
 	 * @param model
 	 */
-	@RequestMapping(value="/used/updateComment", method=RequestMethod.GET)
-	public void updateComment(
-			UsedComment usedComment,
+	@RequestMapping(value="/used/updateComment", method=RequestMethod.POST)
+	public String updateComment(
+			UsedComment usdedcmt,
 			Model model
 		) {
 	
 		logger.info("댓글 수정중");
-		usedService.updateCmt(usedComment);
+		usedService.updateCmt(usdedcmt);
 		
 		UsedBoard usedboard = new UsedBoard();
 		int boardno = usedboard.getBoardno();
@@ -282,6 +281,7 @@ public class UsedBoardController {
 		List<UsedComment> commentList = usedService.getCmt(boardno);
 		model.addAttribute("commentList", commentList);
 		
+		return "redirect:/used/commentList?boardno="+usdedcmt.getBoardno();
 	}
 	
 	
@@ -291,7 +291,7 @@ public class UsedBoardController {
 	 * @param response
 	 */
 	@RequestMapping(value="/used/deleteComment", method=RequestMethod.POST)
-	public void deleteComment(
+	public String deleteComment(
 			UsedComment usedComment,
 			Model model
 		) {
@@ -301,6 +301,8 @@ public class UsedBoardController {
 		
 		List<UsedComment> commentList = usedService.getCmt(usedComment.getBoardno());
 		model.addAttribute("commentList", commentList);
+		
+		return "redirect:/used/commentList?boardno="+usedComment.getBoardno();
 	}
 	
 	

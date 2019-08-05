@@ -10,15 +10,15 @@
 	
 	<c:forEach items="${commentList }" var="i">
 		<div id="commentno${i.commentno }" data-commentno="${i.commentno }" class="comment"> 
-			<span>${i.writer }</span>&nbsp;&nbsp;
-			<span>${i.content }</span>&nbsp;&nbsp;
-			<span><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm:ss" /></span>&nbsp;&nbsp;
+			<span>${i.writer }</span>
+			<span>${i.content }</span>
+			<span><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm:ss" /></span>
 			
 			<c:if test="${nick eq i.writer }">
 				<a href="javascript:void(0)" onclick="updateComment('${i.commentno }', '${i.content }')">수정</a>
 				<a href="javascript:void(0)" onclick="deleteComment(${i.commentno })">삭제</a>
 				
-				<div id="commentno${i.commentno }" style="display:none;"></div>
+				<div id="commentre${i.commentno }" style="display:none;"></div>
 			</c:if>
 			
 			
