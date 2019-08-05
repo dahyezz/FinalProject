@@ -5,7 +5,7 @@
 
 <style type="text/css">
 .header_wrap {
-	background-color: #ffc952;
+	background-color: #47b8e054;
 }
 .header a{
 	font-size: 30px;
@@ -29,7 +29,7 @@
 	text-decoration: none;
 }
 .nav>li>a:focus, .nav>li>a:hover { 
-	background-color: #ffc952;
+	background-color: #47b8e054;
 }
 
 </style>

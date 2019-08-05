@@ -13,6 +13,7 @@ $(document).ready(function() {
 		var json = new Object();
 		json.serverId="${c.commentno }";
 		json.serverName="${c.badCnt }";
+		json.serverWriter="${c.writer }";
 		result.push(json);
 	</c:forEach>
 
@@ -29,7 +30,13 @@ $(document).ready(function() {
 				commentno = result[i].serverId;
 				$('#commentno'+commentno).html('관리자에 의해 규제된 댓글입니다.')
 			}
+			
+// 			if(result[i].serverWriter == '알수없음'){
+// 				commentno = result[i].serverId;
+// 				$('#commentno'+commentno).html('삭제된 댓글입니다. <br>')
+// 			}
 		}
+
 	}
 	
 	if(loginUser == 'admin'){
@@ -51,7 +58,7 @@ $(document).ready(function() {
 .comment-list {
 	text-align: left;
 	padding: 15px;
-	background-color: #ffc9521a;
+	background-color: #ffffff4a;
 	margin-bottom: 15px;
 }
 
@@ -81,9 +88,10 @@ $(document).ready(function() {
 }
 .comment-clearfix {
 	width: 25px;
-/* 	height: 50px; */
-/* 	margin: 10px; */
 	display: inline-block;
+	font-size: 12px;
+	color: #ff7473;
+	text-align: right;
 }
 .comment_writer_nick {
 	font-size: 14px;
@@ -114,12 +122,6 @@ $(document).ready(function() {
 .recomment {
 	margin-left: 5px;
 }
-.comment-content>span {
-	margin-left: 37px;
-}
-.form-control {
-	
-}
 .comment_hr {
 	height: 1px;
 	padding: 0;
@@ -127,10 +129,12 @@ $(document).ready(function() {
 	border: 0;
 	border-top: 1px dotted #9e9e9e;
 }
+.comment-list>label {
+	width: 93%;
+}
 </style>
 
 <input type="hidden" id="login" value="${nick }" />
-
 
 <div id="commentdiv">
 <%-- <input type="hidden" name="count" value="${commentList.size }" /> --%>
@@ -144,7 +148,7 @@ $(document).ready(function() {
 	
 <%-- 			<c:forEach  begin="1" end="${i.dept }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:forEach> --%>
 	
-			<c:if test="${i.dept ne 0 }"><div class="comment-clearfix"></div></c:if>
+			<c:if test="${i.dept ne 0 }"><div class="comment-clearfix">&nbsp;&nbsp;&nbsp;ㄴ</div></c:if>
 	
 			<div class="comment-writer-info">
 				<span class="comment_writer_nick" >${i.writer }</span>
@@ -153,23 +157,32 @@ $(document).ready(function() {
 				</c:if>
 				<span class="comment_writtendate"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd hh:mm" /></span>
 				
-				<c:if test="${i.dept eq 0 }"><a href="javascript:void(0)" class="recomment">댓글</a></c:if>			
+				<c:if test="${i.dept eq 0 && i.writer ne '알수없음'}"><a href="javascript:void(0)" class="recomment">댓글</a></c:if>			
 			</div>
 			
+			<c:set var="s" value="1" />
 			<div class="comment-update">
 				<c:if test="${nick eq i.writer }">
 					<a href="javascript:void(0)" onclick="updateComment('${i.commentno}','${i.content }')" >수정</a>
-					<a href="javascript:void(0)" onclick="deleteComment('${i.commentno}')" >삭제</a>
+					<c:set var="s" value="2" />
+					<a href="javascript:void(0)" onclick="deleteComment('${i.commentno}','${nick }')" >삭제</a>
 						<div id="commentre${i.commentno }" style="display:none;"></div>
 				</c:if>
 				
-				<c:if test="${nick ne i.writer && nick ne 'admin'}">
+				<c:if test="${nick eq 'admin' && s eq '1'}">
+					<a href="javascript:void(0)" onclick="deleteComment('${i.commentno}','${nick }')" >삭제</a>
+				</c:if>
+				
+				<c:if test="${nick ne i.writer && nick ne 'admin'&& i.writer ne '알수없음'}">
 					<a href="javascript:void(0)" onclick="declare('${i.boardno}','${i.commentno }')" id="cmtDeclare${i.commentno }">신고</a>
 				</c:if>
+				
+				
 			</div>
 				
 			
 			<div class="comment-content">
+				<c:if test="${i.dept ne 0 }"><div class="comment-clearfix"></div></c:if>
 				<span>${i.content }</span>
 			</div>
 

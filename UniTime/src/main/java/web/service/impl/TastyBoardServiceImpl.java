@@ -54,6 +54,11 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	}
 	
 	@Override
+	public TastyBoard getBoardWriter(TastyBoard tastyBoard) {
+		return tastyBoardDao.selectBoardByBoardno(tastyBoard);
+	}
+	
+	@Override
 	public void write(TastyBoard tastyBoard) {
 		
 //		if(tastyBoard.getBoardno()==0)
@@ -159,8 +164,21 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	}
 	
 	@Override
-	public void deleteComment(TastyComment tastyComment) {
-		tastyBoardDao.deleteComment(tastyComment);
+	public int deleteComment(TastyComment tastyComment, String loginUser) {
+		
+		if(loginUser.equals("admin")) {
+			tastyBoardDao.deleteComment(tastyComment);
+			return 0;
+		}
+		
+		if(tastyBoardDao.selectCntRecomment(tastyComment) > 0) {
+			tastyBoardDao.updateDeletedComment(tastyComment);
+			return 1;
+			
+		} else {
+			tastyBoardDao.deleteComment(tastyComment);
+			return 0;
+		}
 	}
 	
 	@Override

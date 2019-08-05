@@ -153,11 +153,11 @@ tasty .pagination {
 }
 
 #btnWrite {
-  background-color: #ffc952;
+  background-color: #47b8e0;
   -webkit-border-radius: 5;
   -moz-border-radius: 5;
   border-radius: 5px;
-  color: #34314c;
+  color: #fff;
   font-size: 13	px;
   padding: 5px 10px;
   margin: 5px;
@@ -166,11 +166,11 @@ tasty .pagination {
   text-decoration: none;
 }
 #btnSearch {
-  background-color: #ffc952;
+  background-color: #47b8e0;
   -webkit-border-radius: 5;
   -moz-border-radius: 5;
   border-radius: 5px;
-  color: #34314c;
+  color: #fff;
   font-size: 13	px;
   padding: 7px 10px;
 /*   margin: 5px; */
@@ -194,8 +194,15 @@ tasty .pagination {
 }
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
 	color: #34314c;
-	background-color: #ffc952;
-	border-color: #ffc952;
+	background-color: #47b8e0;
+	border-color: #47b8e0;
+}
+.pagination-sm>li:first-child>a, .pagination-sm>li:first-child>span {
+	border-radius: 15px;
+/* 	background-color: #47b8e017; */
+}
+.pagination-sm>li:last-child>a, .pagination-sm>li:last-child>span {
+	border-radius: 15px;
 }
 .pagination>li>a, .pagination>li>span {
 	color: #34314c;
@@ -246,7 +253,7 @@ tasty .pagination {
 			</span>
 			<span class="text-small"><center>${i.writer }</center>
 			</span>
-			<p class="cmt"><img src="/image/comment.PNG" style="width:20px; height: 20px;"> ${i.commentCnt }</p>
+			<p class="cmt"><img id="cmt" src="/image/comment.PNG"> ${i.commentCnt }</p>
 			
 		</div>
 	</div>
