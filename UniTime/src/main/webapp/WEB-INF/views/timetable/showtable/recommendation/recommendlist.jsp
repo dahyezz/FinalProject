@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>      
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#insertMy").click(function(){
+		alert('내 시간표로 저장되었습니다');
+	});
+});
+</script>
+   
 <div>
 <h3>추천시간표</h3>
 <br>
@@ -574,9 +583,10 @@
 </table>
 
 <br>
-<!-- <form action="/timetable/showtable/recommendation/recommendlist" method="post" > -->
-<!-- <button id="insertMy" onclick="location.href='/timetable/showtable/recommendation/recommendlist'">내 시간표로 담기</button> -->
-<!-- </form> -->
+<!--  onclick="location.href='/timetable/showtable/recommendation/recommendlist'" -->
+<form action="/timetable/showtable/recommendation/recommendlist" method="post" >
+<button id="insertMy">내 시간표로 담기</button>
+</form>
 <br><br>
 <button onclick="location.href='/timetable/lecturelist'">강의 목록으로</button>
 </div>

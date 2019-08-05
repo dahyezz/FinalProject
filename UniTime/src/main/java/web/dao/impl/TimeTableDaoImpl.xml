@@ -12,18 +12,18 @@
 </select>
 
 <insert id="insertMyList" parameterType="web.dto.TempTable">
-	INSERT INTO temptable(user_email, lecture_code)
+	INSERT INTO mytable(user_email, lecture_code)
 	VALUES (#{user_email}, #{lecture_code})
 </insert>
 
 <delete id="deleteMyList" parameterType="web.dto.TempTable">
-	DELETE FROM temptable
+	DELETE FROM mytable
 	WHERE user_email=#{user_email} 
 	and lecture_code = #{lecture_code}
 </delete>
 
 <select id="selectMyList" parameterType="String" resultType="web.dto.TempTable">
-	SELECT * FROM timetable_kg ttb JOIN temptable tb ON ttb.lecture_code=tb.lecture_code
+	SELECT * FROM timetable_kg ttb JOIN mytable tb ON ttb.lecture_code=tb.lecture_code
 	WHERE tb.user_email = #{email}
 </select>
 
@@ -42,7 +42,7 @@ SELECT R.* FROM (
         AND department_name in ('정보통신공학과', '공통') 
         AND ( lecture_day, start_time ) NOT IN (
             SELECT distinct lecture_day, start_time FROM timetable_kg ttb
-            JOIN temptable tb ON ttb.lecture_code=tb.lecture_code
+            JOIN mytable tb ON ttb.lecture_code=tb.lecture_code
             WHERE tb.user_email = #{id })   
         AND start_time between #{stime } and #{etime }      
     ) RES
@@ -63,7 +63,7 @@ SELECT R.lecture_code FROM (
         AND department_name in ('정보통신공학과', '공통') 
         AND ( lecture_day, start_time ) NOT IN (
             SELECT distinct lecture_day, start_time FROM timetable_kg ttb
-            JOIN temptable tb ON ttb.lecture_code=tb.lecture_code
+            JOIN mytable tb ON ttb.lecture_code=tb.lecture_code
             WHERE tb.user_email = #{id })   
         AND start_time between #{stime } and #{etime }      
     ) RES
@@ -75,7 +75,7 @@ WHERE rank = 1
 
 <select id="lectureCheck" parameterType="web.dto.TempTable" resultType="int">
     SELECT count(*) FROM 
-    temptable tb left join timetable_kg ttb on tb.lecture_code=ttb.lecture_code
+    mytable tb left join timetable_kg ttb on tb.lecture_code=ttb.lecture_code
 	WHERE user_email= #{user_email } AND (start_time=#{start_time } and lecture_day=#{lecture_day })
 </select>
 
@@ -85,22 +85,22 @@ WHERE rank = 1
 </select>
 
 <insert id="insertRec" parameterType="web.dto.TempTable">
-	INSERT INTO mytable(user_email, lecture_code)
+	INSERT INTO temptable(user_email, lecture_code)
 	VALUES (#{user_email}, #{lecture_code})
 </insert>
 
 <delete id="deleteRec" parameterType="web.dto.TempTable">
-	DELETE FROM mytable
+	DELETE FROM temptable
 	WHERE user_email=#{user_email}
 </delete>
 
 <select id="selectRec" parameterType="String" resultType="web.dto.TempTable">
-	SELECT * FROM timetable_kg ttb JOIN mytable mb ON ttb.lecture_code=mb.lecture_code
+	SELECT * FROM timetable_kg ttb JOIN temptable mb ON ttb.lecture_code=mb.lecture_code
 	WHERE mb.user_email = #{email}
 </select>
 
-<insert id="insertMytable">
-	INSERT INTO temptable (select * from mytable);
+<insert id="insertMytable" parameterType="String">
+	INSERT INTO mytable (select * from temptable WHERE user_email=#{email })
 </insert>
 
 </mapper>

@@ -24,7 +24,7 @@ public interface TimeTableService {
 
 	public TimeTable getTableByTemp(TempTable temp);
 
-	public void setMytable(); 
+	public void setMytable(String id); 
 	
 
 }

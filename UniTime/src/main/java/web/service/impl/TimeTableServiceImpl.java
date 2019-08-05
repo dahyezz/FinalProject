@@ -96,8 +96,8 @@ public class TimeTableServiceImpl implements TimeTableService {
 	}
 
 	@Override
-	public void setMytable() {
-		timeTableDao.insertMytable();
+	public void setMytable(String id) {
+		timeTableDao.insertMytable(id);
 	}
 
 

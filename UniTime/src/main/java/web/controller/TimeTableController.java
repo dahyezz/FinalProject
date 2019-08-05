@@ -149,21 +149,15 @@ public class TimeTableController {
 	}
 	
 	@RequestMapping(value="/timetable/showtable/recommendation/recommendlist", method=RequestMethod.POST)
-	public void insertMytable() {
+	public String insertMytable(HttpSession session) {
+
+		String id= (String) session.getAttribute("email");
+
+		timeTableService.setMytable(id);
 		
-		timeTableService.setMytable();
 		
+		return "redirect:/timetable/recommend";
 	}
-	
-	
-//	@RequestMapping(value="/timetable/showtable/recommendation/recommendlist", method=RequestMethod.POST)
-//	public void insertMyTable(Model model, HttpSession session, HttpServletRequest req
-//			, @RequestParam("timepriority") String timepriority
-//			, @RequestParam("classNum") int classNum
-//			) {
-//		
-//		
-//		
-//	}
+
 	
 }

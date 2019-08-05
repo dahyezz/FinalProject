@@ -33,6 +33,6 @@ public interface TimeTableDao {
 
 	public List selectRec(String id);
 
-	public void insertMytable();
+	public void insertMytable(String id);
 	
 }
