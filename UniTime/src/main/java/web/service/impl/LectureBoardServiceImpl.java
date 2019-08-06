@@ -125,4 +125,9 @@ public class LectureBoardServiceImpl implements LectureBoardService{
 			return true;
 		}
 	}
+
+	@Override
+	public List<TimeTable> getTimeTable() {
+		return lectureBoardDao.selectTimeTable();
+	}
 }

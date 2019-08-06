@@ -162,6 +162,15 @@ $(document).ready(function(){
 	width:98%;
 	margin-left: 10px;
 }
+
+.yellowStar{
+	color:yellow;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.whiteStar{
+	color:white;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
 </style>
 
 <div class="lectureView">
@@ -188,7 +197,22 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<th>조별과제</th>
-		<td colspan="3">${board.team_project }</td>
+		<td colspan="3">
+		<c:set var="five" value="5" />
+		<span class="yellowStar"><c:forEach begin="1" end="${board.team_project }">★&nbsp;</c:forEach></span>
+		<span class="whiteStar"><c:forEach begin="1" end="${five - board.team_project }">★&nbsp;</c:forEach></span></td>
+	</tr>
+	<tr>
+		<th>과제량</th>
+		<td colspan="3">
+		<span class="yellowStar"><c:forEach begin="1" end="${board.homework }">★&nbsp;</c:forEach></span>
+		<span class="whiteStar"><c:forEach begin="1" end="${five - board.homework }">★&nbsp;</c:forEach></span></td>
+	</tr>
+	<tr>
+		<th>총점</th>
+		<td colspan="3">
+		<span class="yellowStar"><c:forEach begin="1" end="${board.total_score }">★&nbsp;</c:forEach></span>
+		<span class="whiteStar"><c:forEach begin="1" end="${five - board.total_score }">★&nbsp;</c:forEach></span></td>
 	</tr>
 	<tr>
 		<th>조회수</th>

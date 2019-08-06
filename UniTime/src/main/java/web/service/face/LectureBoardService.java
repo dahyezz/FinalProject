@@ -83,4 +83,10 @@ public interface LectureBoardService {
 	 * @return boolean - 신고 가능 true/false
 	 */
 	public boolean report(BadReport badReport);
+	
+	/**
+	 * 	강의 시간표 리스트 가져오기
+	 * @return List
+	 */
+	public List<TimeTable> getTimeTable();
 }

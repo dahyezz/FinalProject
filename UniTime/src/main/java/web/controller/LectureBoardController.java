@@ -52,11 +52,12 @@ public class LectureBoardController {
 	@RequestMapping(value="/lecture/view", method=RequestMethod.GET)
 	public void view(LectureBoard lectureBoard, TimeTable timeTable, Model model) {
 		
-		//게시글 번호 파싱
+		//파라미터에서 게시글 번호 파싱
 		int boardno = lectureBoard.getBoardno();
 			
 		lectureBoard=lectureBoardService.view(boardno);
 		
+		//가져온 lectureBoard에서 강의 코드 파싱
 		int department_code=lectureBoard.getDepartment_code();
 		
 		timeTable=lectureBoardService.getTimeTable(department_code);
@@ -67,13 +68,24 @@ public class LectureBoardController {
 	}
 	
 	@RequestMapping(value="/lecture/write", method=RequestMethod.GET)
-	public void write() {	}
+	public void write(Model model) {	
+		
+		List<TimeTable> timeTableList=lectureBoardService.getTimeTable();
+		
+		model.addAttribute("timetableList",timeTableList);
+	}
 	
 	@RequestMapping(value="/lecture/write", method=RequestMethod.POST)
 	public String writeProc(HttpSession session, LectureBoard lectureBoard) {
 		
 		//세션 정보 넣어주기
 		lectureBoard.setWriter((String)session.getAttribute("nick"));
+		
+		if(lectureBoard.getDepartment_code()<=131) {
+			lectureBoard.setTag("전공");
+		}else if(132<=lectureBoard.getDepartment_code() && lectureBoard.getDepartment_code()<=168) {
+			lectureBoard.setTag("교양");
+		}
 		
 		//게시글 작성
 		lectureBoardService.write(lectureBoard);
@@ -82,11 +94,15 @@ public class LectureBoardController {
 	}
 	
 	@RequestMapping(value="/lecture/update", method=RequestMethod.GET)
-	public void update(LectureBoard lectureBoard, Model model) {
+	public void update(LectureBoard lectureBoard, TimeTable timeTable, Model model) {
 		
 		//게시글 정보 가져오기
 		lectureBoard=lectureBoardService.view(lectureBoard.getBoardno());
 		model.addAttribute("board", lectureBoard);
+		
+		//게시글의 강의 정보 가져오기
+		timeTable=lectureBoardService.getTimeTable(lectureBoard.getDepartment_code());
+		model.addAttribute("timetable",timeTable);
 	}
 	
 	@RequestMapping(value="/lecture/update", method=RequestMethod.POST)
