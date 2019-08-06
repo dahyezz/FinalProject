@@ -85,6 +85,14 @@ function checkBoardDelete(){
 	border-right: 1px solid #eee;
 }
 
+.yellowStar{
+	color:yellow;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.whiteStar{
+	color:white;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
 </style>
 
 <div class="lectureList">
@@ -107,13 +115,14 @@ function checkBoardDelete(){
 		<th style="width:30%;">강의명</th>
 		<th style="width:10%;">강의 교수</th>
 		<th style="width:10%;">조별과제</th>
-		<th style="width:10%;">과제</th>
+		<th style="width:10%;">과제량</th>
 		<th style="width:10%;">총점</th>
 		<th style="width:5%;">조회수</th>
 		<th style="width:20%;">작성일</th>
 	</tr>
 </thead>
 
+<c:set var="five" value="5" />
 <c:forEach items="${list}" var="i">
 	<tr>
 		<c:if test="${nick eq 'admin' }">
@@ -123,9 +132,15 @@ function checkBoardDelete(){
 		<td>${i.lecture_section }</td>
 		<td><a href="/lecture/view?boardno=${i.boardno }">${i.lecture_name }</a></td>
 		<td>${i.professor_name }</td>
-		<td>${i.team_project }</td>
-		<td>${i.homework }</td>
-		<td>${i.total_score }</td>
+		<td>
+		<span class="yellowStar"><c:forEach begin="1" end="${i.team_project }">★</c:forEach></span>
+		<span class="whiteStar"><c:forEach begin="1" end="${five - i.team_project }">★</c:forEach></span></td>
+		<td>
+		<span class="yellowStar"><c:forEach begin="1" end="${i.homework }">★</c:forEach></span>
+		<span class="whiteStar"><c:forEach begin="1" end="${five - i.homework }">★</c:forEach></span></td>
+		<td>
+		<span class="yellowStar"><c:forEach begin="1" end="${i.total_score }">★</c:forEach></span>
+		<span class="whiteStar"><c:forEach begin="1" end="${five - i.total_score }">★</c:forEach></span></td>
 		<td>${i.hit }</td>
 		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
 	</tr>
