@@ -52,6 +52,17 @@ public class UsedServiceImpl implements UsedService {
 	}
 	
 	
+	@Override
+	public int getTotal(Paging search) {
+		return usedDao.countSearch(search);
+	}
+	
+	@Override
+	public List<UsedBoard> getSearchPagingList(Paging search) {
+		return usedDao.selectPageSearch(search);
+	}
+	
+	
 	// 게시글 작성하기 ('used/write')
 	@Override
 	public void write(
@@ -67,16 +78,6 @@ public class UsedServiceImpl implements UsedService {
 			usedDao.updateUsedImg_KG(map);
 		}
 	}
-
-//	@Override
-//	public UsedImage viewImg(int boardno) {
-//		return usedDao.selectImgByBoardno(boardno);
-//	}
-//
-//	@Override
-//	public UsedImage getImg(int usedImgNo) {
-//		return usedDao.selectImgByImgno(usedImgNo);
-//	}
 
 
 	@Override

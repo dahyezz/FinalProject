@@ -28,10 +28,16 @@
 	<hr>
 </div>
 
-<div id="list-buttons" style="float: right;">
-	<a href="/used/write">
+
+<div class="searchbox-writebutton">
+	<span id="searchbox" style="float: left">
+		<c:import url="/WEB-INF/views/used/search.jsp" />
+	</span>
+	<span id="list-buttons" style="float: right">
+		<a href="/used/write">
 		<button class="btn btn-info">글쓰기</button>
 	</a>
+</span>
 </div>
 <br><br>
 
@@ -73,4 +79,6 @@
 <div id="pagingbox" align="center">
 	<c:import url="/WEB-INF/views/used/paging.jsp" />
 </div>
+
+
 

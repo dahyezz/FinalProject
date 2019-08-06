@@ -45,18 +45,23 @@ public class UsedBoardController {
 	 *  used/List 페이지 컨트롤러
 	 */
 	@RequestMapping(value="/used/list", method=RequestMethod.GET)
-	public void list(
-			Model model,
-			@RequestParam(defaultValue="1") int curPage 
-			) {
+	public String list(
+			@RequestParam(defaultValue="1") int curPage,
+			Paging search,
+			Model model
+		) {
 		
-		Paging paging = usedService.getPage(curPage);
+		int totalCount = usedService.getTotal(search);
+		
+		// 페이징 생성 
+		Paging paging = new Paging(totalCount, curPage);
+		paging.setSearch(search.getSearch());
 		model.addAttribute("paging", paging);
 		
-		List<UsedBoard> boardList
-		= usedService.list(paging);
+		List<UsedBoard> boardList = usedService.getSearchPagingList(paging);
 		model.addAttribute("list", boardList);
 		
+		return "used/list";
 	}
 	
 	
@@ -316,6 +321,7 @@ public class UsedBoardController {
 
 		return "used/commentList";
 	}
+	
 	
 	
 }
