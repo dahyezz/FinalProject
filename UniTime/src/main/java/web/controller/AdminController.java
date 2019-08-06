@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,22 +27,32 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/main", method=RequestMethod.GET)
 	public void adminMain() { }
-	
+	@RequestMapping(value = "/admin/error", method = RequestMethod.GET)
+	public void error() { }
 	
 	// 여기부터 회원관리 페이지 
 	
 	@RequestMapping(value = "/admin/member", method = RequestMethod.GET)
-	public void adminMember(Model model, HttpServletRequest req) {
+	public String adminMember(Model model, HttpServletRequest req, HttpSession session) {
 		
-		//요청파라미터에서 curPage 얻어오기
-		Paging paging = adminService.getMemberCurPage(req);
+		if(session.getAttribute("nick").equals("admin")) {
 		
-		//MODEL로 Paging 객체 넣기
-		model.addAttribute("paging", paging);
-		
-		List list = adminService.memberSelectAll(paging);
-		
-		model.addAttribute("list", list);
+			//요청파라미터에서 curPage 얻어오기
+			Paging paging = adminService.getMemberCurPage(req);
+			
+			//MODEL로 Paging 객체 넣기
+			model.addAttribute("paging", paging);
+			
+			List list = adminService.memberSelectAll(paging);
+			
+			model.addAttribute("list", list);
+			
+			return "/admin/member";
+		} else {
+			logger.info("실험2");
+			
+			return "redirect:/admin/error";
+		}
 		
 	}
 	
@@ -69,8 +80,9 @@ public class AdminController {
 	// 여기부터 블랙리스트 관리 페이지
 	
 	@RequestMapping(value = "/admin/black", method = RequestMethod.GET)
-	public void blackList(Model model, HttpServletRequest req) {
+	public String blackList(Model model, HttpServletRequest req, HttpSession session) {
 		
+		if(session.getAttribute("nick").equals("admin")) {
 		//요청파라미터에서 curPage 얻어오기
 		Paging paging = adminService.getBlackListCurPage(req);
 		
@@ -80,6 +92,12 @@ public class AdminController {
 		List list = adminService.blackListSelectAll(paging);
 		
 		model.addAttribute("list", list);
+		
+		return "/admin/black";
+		
+		} else {
+			return "redirect:/admin/error";
+		}
 		
 	}
 	
@@ -96,8 +114,9 @@ public class AdminController {
 	// 여기부터 신고리스트 관리 페이지
 	
 	@RequestMapping(value="/admin/badReport", method = RequestMethod.GET)
-	public void adminBadreport(Model model, HttpServletRequest req) {
+	public String adminBadreport(Model model, HttpServletRequest req, HttpSession session) {
 		
+		if(session.getAttribute("nick").equals("admin")) {
 		//요청파라미터에서 curPage 얻어오기
 		Paging paging = adminService.getBadReportCurPage(req);
 		
@@ -107,6 +126,11 @@ public class AdminController {
 		List list = adminService.badReportSelectAll(paging);
 		
 		model.addAttribute("list", list);
+		
+		return "/admin/badReport";
+		} else {
+			return "redirect:/admin/error";
+		}
 	}
 	
 	@RequestMapping(value="/admin/badReportDelete", method = RequestMethod.GET)
@@ -130,23 +154,31 @@ public class AdminController {
 	
 	// 여기부터 사이트 관리
 	@RequestMapping(value="/admin/site", method = RequestMethod.GET)
-	public void adminSite(Model model) {
+	public String adminSite(Model model, HttpSession session) {
 		
-		int member = adminService.memberCntAll();
-		model.addAttribute("member", member);
-		
-		int blackList = adminService.blackListCntAll();
-		model.addAttribute("blackList", blackList);
-		
-		int badReport = adminService.badReportCntAll();
-		model.addAttribute("badReport", badReport);
-		
-		int visitTodayCnt = adminService.visitCnt();
-		model.addAttribute("visitTodayCnt", visitTodayCnt);
-		
-		int visitCntAll = adminService.visitCntAll();
-		model.addAttribute("visitCntAll", visitCntAll);
-		
+		if(session.getAttribute("nick").equals("admin")) {
+			int member = adminService.memberCntAll();
+			model.addAttribute("member", member);
+			
+			int blackList = adminService.blackListCntAll();
+			model.addAttribute("blackList", blackList);
+			
+			int badReport = adminService.badReportCntAll();
+			model.addAttribute("badReport", badReport);
+			
+			int visitTodayCnt = adminService.visitCnt();
+			model.addAttribute("visitTodayCnt", visitTodayCnt);
+			
+			int visitCntAll = adminService.visitCntAll();
+			model.addAttribute("visitCntAll", visitCntAll);
+			
+			return "/admin/site";
+			
+			} else {
+				
+				return "redirect:/admin/error";
+			
+		}
 		
 	}
 	
