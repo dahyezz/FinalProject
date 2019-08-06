@@ -20,8 +20,11 @@
 		        			AND tt.lecture_name LIKE '%' || '${keyword }' || '%'
 		        			OR tt.professor_name LIKE '%' || '${keyword }' || '%'
 		        		</when>
-		        		<when test="searchType != 'total'">
-		        			WHERE tt.${searchType } LIKE '%' || '${keyword }' || '%'
+		        		<when test="searchType == 'lecture_name'">
+		        			AND tt.lecture_name LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        		<when test="searchType == 'professor_name'">
+		        			AND tt.professor_name LIKE '%' || '${keyword }' || '%'
 		        		</when>
 		        	</choose>
 		        </if>
@@ -31,18 +34,25 @@
 	</select>
 	
 	<select id="selectCntAll" parameterType="web.util.Paging" resultType="int">
-		SELECT count(*) FROM lectureboard_kg
-		<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
-			<choose>
-				<when test="searchType == 'total'">
-					WHERE tag LIKE '%' || '${keyword }' || '%'
-		        	OR department_code LIKE '%' || '${keyword }' || '%'
-		        </when>
-		        <when test="searchType != 'total'">
-		        	WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
-		        </when>
-			</choose>
-		</if>
+		SELECT count(*) FROM (
+			SELECT boardno,tt.lecture_section,tt.lecture_name,tt.professor_name,team_project,homework,total_score,writer,hit,writtendate 
+			FROM lectureboard_kg lb, timetable_kg tt
+			WHERE lb.department_code=tt.lecture_code
+	        <if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+	        	<choose>
+	        		<when test="searchType == 'total'">
+	        			AND tt.lecture_name LIKE '%' || '${keyword }' || '%'
+	        			OR tt.professor_name LIKE '%' || '${keyword }' || '%'
+	        		</when>
+	        		<when test="searchType == 'lecture_name'">
+	        			AND tt.lecture_name LIKE '%' || '${keyword }' || '%'
+	        		</when>
+	        		<when test="searchType == 'professor_name'">
+	        			AND tt.professor_name LIKE '%' || '${keyword }' || '%'
+	        		</when>
+	        	</choose>
+	        </if>
+	        )
 	</select>
 	
 	<select id="selectBoardByBoardno" parameterType="int" resultType="web.dto.LectureBoard">
@@ -71,7 +81,7 @@
 	
 	<update id="updateBoard" parameterType="web.dto.LectureBoard">
 		UPDATE lectureboard_kg
-		SET tag=#{tag }, content=#{content }, #{team_project }, #{homework }, #{total_score }
+		SET content=#{content }, team_project=#{team_project }, homework=#{homework }, total_score=#{total_score }
 		WHERE boardno=#{boardno }
 	</update>
 	
@@ -118,5 +128,9 @@
 		INSERT INTO badreport_kg(badno, boardname, boardno, commentno, reason, nickname)
 		VALUES (#{badno }, #{boardname }, #{boardno }, #{commentno }, #{reason }, #{nickname })
 	</insert>
+	
+	<select id="selectTimeTable" resultType="web.dto.TimeTable">
+		SELECT * FROM timetable_kg
+	</select>
 
 </mapper>

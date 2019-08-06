@@ -99,4 +99,10 @@ public interface LectureBoardDao {
 	 * @param badReport - 신고 테이블
 	 */
 	public void insertLectureReport(BadReport badReport);
+	
+	/**
+	 * 	강의 시간표 조회
+	 * @return List
+	 */
+	public List<TimeTable> selectTimeTable();
 }
