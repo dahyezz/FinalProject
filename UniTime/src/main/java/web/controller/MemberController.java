@@ -291,32 +291,22 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/member/pwFind", method = RequestMethod.POST)
-	public void pwFindProc(HttpServletRequest req, HttpServletResponse resp) {
+	public ModelAndView pwFindProc(Member member, ModelAndView mav) throws Exception {
 		
-				
-				Member member = new Member();
-				
-				member.setEmail(req.getParameter("email"));
-
-				
+				logger.info(member.toString());
 				boolean pwFind = memberService.pwFind(member);
 
-				PrintWriter out = null;
-				try {
-					out = resp.getWriter();
-				} catch (IOException e) {
-					e.printStackTrace();
+				if(pwFind) {
+					member = memberService.getPwfind(member);
 				}
 				
-				if(pwFind) {	//비밀번호가 있으면
-					
-					Member mem = memberService.getPwfind(member);
-					
-					out.println("사용자의 비밀번호는 ["+mem.getPassword()+"] 입니다");
-				} else {	//비밀번호가 없으면
-					out.println("이름과 이메일과 아이디와 일치하는 비밀번호가 없습니다");
-				}
+				mav.addObject("success", pwFind);
+				mav.addObject("password", member.getPassword());
+				mav.setViewName("jsonView");
+				
+				return mav;
 	}
+
 }
 
 

@@ -65,20 +65,29 @@ public interface MemberDao {
 	 */
 	public void memberModifyNick(Member member) throws Exception;
 	
+	/*
+	 * public void tastyUpdateNick(Member member);
+	 * 
+	 * public void freeUpdateNick(Member member);
+	 * 
+	 * public void usedUpdateNick(Member member);
+	 * 
+	 * public void lectureUpdateNick(Member member);
+	 */
+	
 	public void memberGrades(Member member);
 	
 	
 	//로그인한 이메일과 같은
 	public List selectMyList(String id);
 	
-	// 비밀번호 찾기
+		// 비밀번호 찾기
 		public String find_pw(String email) throws Exception;
 
-		public int selectCntMemberPwfind(Member member);
+		public int selectCntMemberPwFind(Member member);
 
 		public Member selectMemberPwfind(Member member);
 
-		
 }
 
 

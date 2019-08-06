@@ -123,19 +123,26 @@
    		nickname = #{nickname}
   		where hakbun = #{hakbun}
 	</update>
+	
+	<!-- 닉네임 수정 --> 
+<!-- 	<update id="tastyUpdateNick" parameterType = "web.dto.Member">
+ 		update tastyboard_kg set
+ 		writer = #{nickname}
+		WHERE writer = {nickname};
+	</update> -->
 
 	<select id="selectMyList" parameterType="String" resultType="web.dto.TempTable">
-		SELECT * FROM timetable_kg ttb JOIN temptable tb ON ttb.lecture_code=tb.lecture_code
+		SELECT * FROM timetable_kg ttb JOIN mytable tb ON ttb.lecture_code=tb.lecture_code
 		WHERE tb.user_email = #{email}
 	</select>
 	
-	<select id="selectselectCntMemberPwfind" parameterType="web.dto.Member" resultType="web.dto.Member">
+	<select id="selectCntMemberPwFind" parameterType="web.dto.Member" resultType="int">
 		SELECT count(*) FROM member_kg 
 		WHERE email = #{email}
 	</select>
 	
 	<select id="selectMemberPwfind" parameterType="web.dto.Member" resultType="web.dto.Member">
-		SELECT userpw FROM member_kg
+		SELECT * FROM member_kg
 		WHERE email = #{email}
 
 	</select>
