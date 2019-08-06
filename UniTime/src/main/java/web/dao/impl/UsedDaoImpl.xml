@@ -50,12 +50,13 @@
 	<select id="selectBoardByBoardno"
 	    parameterType="int"
 	    resultType="web.dto.UsedBoard">
-		SELECT  
+	    <include refid="selectBoard"/>
+		<!-- SELECT  
 		    boardno, tag, title, product, 
 		    content, writer, hit, 
 		    price, writtendate
 		FROM 
-		    UsedBoard_KG
+		    UsedBoard_KG -->
 		WHERE 
 		    boardno = #{boardno }
 	</select>
@@ -283,5 +284,52 @@
 	 	    boardno = #{boardno }
 	</select>
 	
+	
+	
+	
+	
+	<sql id="selectBoard">
+		SELECT  
+		    boardno, tag, title, product, 
+		    content, writer, hit, 
+		    price, writtendate
+		FROM 
+		    UsedBoard_KG
+	</sql>
+	
+	
+	<sql id="selectSearch">
+		SELECT rownum rnum, B.* FROM (
+			<include refid="selectBoard" />
+			WHERE 1=1
+			<if test="search != null and search != ''">
+				AND title LIKE '%' || #{search } || '%' 
+			</if>
+			ORDER BY boardno DESC
+		) B
+		ORDER BY rnum
+	</sql>
+	
+	
+	<select id="selectPageSearch"
+		 parameterType="web.util.Paging"
+		 resultType="web.dto.UsedBoard">
+		 
+		SELECT * FROM (
+			<include refid="selectSearch" />
+		) R
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+		
+	</select>
+
+	<select id="countSearch"
+		 parameterType="web.util.Paging"
+		 resultType="int">
+		 
+		SELECT COUNT(*) FROM (
+			<include refid="selectSearch" />
+		) CNT
+		
+	</select>
 	
 </mapper>

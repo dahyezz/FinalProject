@@ -52,16 +52,14 @@ $(document).ready(function() {
 	});
 
 	$('#btnDelete').click(function() {
-		
 		if(confirm("정말 삭제하시겠습니까?")) {
-			//delete_confirm = true;   확인 
+			// delete_confirm = true;   확인 
 			$(location).attr("href", "/used/delete?boardno="+${usedboard.boardno });
 			alert("삭제되었습니다!");
 		}
-		
 	});
 	
-	if(${isReport }) {
+	if( ${isReport } ) {
 		$('#btnReport').html('신고완료');
 		$('#btnReport').css('pointer-events':'none');
 		

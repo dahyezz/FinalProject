@@ -40,6 +40,20 @@ public interface UsedService {
 	
 	
 	/**
+	 *  검색어 적용 게시글 수 조회 
+	 * @param search
+	 * @return
+	 */
+	public int getTotal(Paging search);
+	
+	/**
+	 *  검색결과에 페이징 처리한 게시글 목록 
+	 * @param search - 페이징, 검색어 정보 
+	 * @return List - 검색되고 페이징처리된 게시글 
+	 */
+	public List<UsedBoard> getSearchPagingList(Paging search);
+	
+	/**
 	 * 게시글 작성하기 
 	 * 
 	 * @param usedBoard : 작성할 게시글
@@ -168,5 +182,6 @@ public interface UsedService {
 	 * @return
 	 */
 	public boolean checkReport(BadReport bad);
+	
 	
 }
