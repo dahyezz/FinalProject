@@ -39,38 +39,10 @@ jQuery(function(){
 
     });
 });
-var paging;
-$(document).ready(function() {
-	var nickname = $('#nickname').val();
-	console.log(nickname);
-	
-	$.ajax({
-		type: "get"
-		, url: "/member/tastyList"
-		, dataType: "json"
-		, data: {
-			"nickname":nickname
-		}
-		, success: function(data){
-			paging = data.paging;
-			console.log(paging);
-			var results = data.tastyList;
-			var str = '<tr>';
-			$.each(results, function(i){
-				str += "<td><input type='checkbox' name='checkRow' value = " + results[i].boardno + "/>"+results[i].boardno+"</td>";
-				str += "<td style='width: 3%'>" + results[i].tag + "</td>";
-				str += "<td style='width: 3%'><a href='/tasty/view?boardno=" + results[i].boardno + "'>" + results[i].storeName+"</a></td>";
-				str += "<td style='width: 3%'>"+results[i].hit+"</td>";
-				str += " </tr>";
-			});  
 
-			$('#tastyResult').append(str);	
-			page(paging);
-		}
-		, error: function() {
-			console.log("error")
-		}
-	})
+$(document).ready(function() {
+	
+	getFreePage(1);
 	
 	// 선택체크 삭제
 	$("#btnDelete1").click(function() {
@@ -187,41 +159,25 @@ $(document).ready(function(){
 
 //게시판 토글
 function select(board) {
+	
 	$('.container').hide();
 	document.getElementById(board).style.display = "block";
-}
 
-function page() {
+	if(board == 'tasty'){
+		getTastyPage(1);
+	}
 	
-// 	console.log(paging);
+	if(board == 'free'){
+		getFreePage(1);
+	}
 	
-// 	if(paging.curPage != 1){            // 페이지가 1페이지 가아니면
-//     	$(".pagination").append("<li><a href='/member/tastyList'</a></li>");        //첫페이지로가는버튼 활성화
-//     }else{
-//     	$(".pagination").append("<li class=\"disabled\"><a><<</a></li>");        //첫페이지로가는버튼 비활성화
-//     }
-
-    for(var i=paging.startPage ; i<=paging.endPage ; i++){        //시작페이지부터 종료페이지까지 반복문
-    	if(paging.curPage == i){                            //현재페이지가 반복중인 페이지와 같다면
-            	$(".pagination").append("<li class=\"disabled active\"><a>"+i+"</a></li>");    //버튼 비활성화
-    	}else{
-    		$(".pagination").append("<li class=\"goPage\" data-page=\""+i+"\"><a>"+i+"</a></li>"); //버튼 활성화
-    	}
-    }
-
-
-//   if(paging.curPage < paging.totalPage){                //현재페이지가 전체페이지보다 작을때
-// 		$(".pagination").append("<li class=\"goLastPage\"><a>>></a></li>");    //마지막페이지로 가기 버튼 활성화
-// 	}else{
-// 		$(".pagination").append("<li class=\"disabled\"><a>>></a></li>");        //마지막페이지로 가기 버튼 비활성화
-// 	}
-
-	$('.goPage').click(function(){
-		console.log("clicked")
-	});
-
-
-
+	if(board == 'lecture'){
+		getLecturePage(1);
+	}
+	
+	if(board == 'used'){
+		getUsedPage(1);
+	}
 }
 </script>
 
@@ -290,9 +246,10 @@ background: #47b8e017;
 .container {
 	display: none;
 }
-#tasty {
+#free {
 	display: block;
 }
+
 </style>
 
 <input type="hidden" name="nickname" id="nickname" value="${nick }" />
@@ -382,24 +339,12 @@ background: #47b8e017;
 		<th style="width: 3%">번호</th>
 		<th style="width: 3%">태그</th>
 		<th style="width: 3%">제목</th>
-		<th style="width: 3%">작성자</th>
 		<th style="width: 3%">조회수</th>
 		<th style="width: 3%">작성일</th>
 	</tr>
 </thead>
 
-<tbody>
-	<c:forEach items="${freeList }" var="i">
-	<tr>
-		<td style="width: 3%"><input type="checkbox" name="checkRow" value = "${i.boardno }"/>${i.boardno }</td>
-		<td style="width: 3%">${i.tag }</td>
-		<td style="width: 3%"><a href="/free/view?tag=${i.tag }&boardno=${i.boardno }">${i.title }</a></td>
-		<td style="width: 3%">${i.writer }</td>
-		<td style="width: 3%">${i.hit }</td>
-		<td style="width: 3%"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
-	</tr>
-	</c:forEach>
-</tbody>
+<tbody id="freeResult"></tbody>
 
 </table>
 </div>
@@ -427,24 +372,23 @@ background: #47b8e017;
 		<th style="width: 3%">글번호</th>
 		<th style="width: 3%">태그</th>
 		<th style="width: 3%">제목</th>
-		<th style="width: 3%">작성자</th>
 		<th style="width: 3%">가격</th>
 		<th style="width: 3%">작성일</th>
 	</tr>
 </thead>
 
-<tbody>
-	<c:forEach items="${usedList }" var="i">
-	<tr>
-		<td style="width: 3%">
-		<input type="checkbox" name="checkRow" value = "${i.boardno }"/>${i.boardno }</td>
-		<td style="width: 3%">${i.tag }</td>
-			<td style="width: 3%"><a href="/used/view?boardno=${i.boardno }">${i.product }</a></td>
-		<td style="width: 3%">${i.writer }</td>
-		<td style="width: 3%">${i.hit }</td>
-		<td style="width: 3%"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
-	</tr>
-	</c:forEach>
+<tbody id="usedResult">
+<%-- 	<c:forEach items="${usedList }" var="i"> --%>
+<!-- 	<tr> -->
+<!-- 		<td style="width: 3%"> -->
+<%-- 		<input type="checkbox" name="checkRow" value = "${i.boardno }"/>${i.boardno }</td> --%>
+<%-- 		<td style="width: 3%">${i.tag }</td> --%>
+<%-- 			<td style="width: 3%"><a href="/used/view?boardno=${i.boardno }">${i.product }</a></td> --%>
+<%-- 		<td style="width: 3%">${i.writer }</td> --%>
+<%-- 		<td style="width: 3%">${i.hit }</td> --%>
+<%-- 		<td style="width: 3%"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td> --%>
+<!-- 	</tr> -->
+<%-- 	</c:forEach> --%>
 </tbody>
 
 </table>
@@ -471,23 +415,22 @@ background: #47b8e017;
 		<th style="width: 3%">번호</th>
 		<th style="width: 3%">태그</th>
 		<th style="width: 3%">제목</th>
-		<th style="width: 3%">작성자</th>
 		<th style="width: 3%">조회수</th>
 		<th style="width: 3%">작성일</th>
 	</tr>
 </thead>
 
-<tbody>
-	<c:forEach items="${lectureList }" var="i">
-	<tr>
-		<td style="width: 3%"><input type="checkbox" name="checkRow" value = "${i.boardno }"/>${i.boardno }</td>
-		<td style="width: 3%">${i.tag }</td>
-		<td style="width: 3%"><a href="/free/view?tag=${i.tag }&boardno=${i.boardno }">${i.title }</a></td>
-		<td style="width: 3%">${i.writer }</td>
-		<td style="width: 3%">${i.hit }</td>
-		<td style="width: 3%"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
-	</tr>
-	</c:forEach>
+<tbody id="lectureResult">
+<%-- 	<c:forEach items="${lectureList }" var="i"> --%>
+<!-- 	<tr> -->
+<%-- 		<td style="width: 3%"><input type="checkbox" name="checkRow" value = "${i.boardno }"/>${i.boardno }</td> --%>
+<%-- 		<td style="width: 3%">${i.tag }</td> --%>
+<%-- 		<td style="width: 3%"><a href="/free/view?tag=${i.tag }&boardno=${i.boardno }">${i.title }</a></td> --%>
+<%-- 		<td style="width: 3%">${i.writer }</td> --%>
+<%-- 		<td style="width: 3%">${i.hit }</td> --%>
+<%-- 		<td style="width: 3%"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td> --%>
+<!-- 	</tr> -->
+<%-- 	</c:forEach> --%>
 </tbody>
 
 </table>

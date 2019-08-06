@@ -2,6 +2,7 @@ package web.dao.face;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.Session;
 
@@ -38,9 +39,9 @@ public interface MemberDao {
 	public Member nickCheck(String nickname) throws Exception;
 
 	public List<TastyBoard> tastyList(Paging paging);
-	public List<FreeBoard> freeList(Member member);
-	public List<UsedBoard> usedList(Member member);
-	public List<LectureBoard> lectureList(Member member);
+	public List<FreeBoard> freeList(Paging paging);
+	public List<UsedBoard> usedList(Paging paging);
+	public List<LectureBoard> lectureList(Paging paging);
 	
 	/**
 	 * 
@@ -81,12 +82,20 @@ public interface MemberDao {
 	//로그인한 이메일과 같은
 	public List selectMyList(String id);
 	
-		// 비밀번호 찾기
-		public String find_pw(String email) throws Exception;
+	// 비밀번호 찾기
+	public String find_pw(String email) throws Exception;
 
-		public int selectCntMemberPwFind(Member member);
+	public int selectCntMemberPwFind(Member member);
 
-		public Member selectMemberPwfind(Member member);
+	public Member selectMemberPwfind(Member member);
+
+	public int selectTastyCntAllByNick(Map<String, Object> map);
+
+	public int selectFreeCntAllByNick(Map<String, Object> map);
+
+	public int selectLectureCntAllByNick(Map<String, Object> map);
+
+	public int selectUsedCntAllByNick(Map<String, Object> map);
 
 }
 

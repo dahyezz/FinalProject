@@ -143,24 +143,7 @@ public class MemberController {
 	public void mypage(Model model, Member member, HttpSession session,
 			@RequestParam(defaultValue = "1") int curPage, Map<String, Object> map
 			) {
-		
-//		member.setNickname((String) session.getAttribute("nick"));
-//		map.put("curPage",curPage);
-//		
-//		Paging tastyPaging = memberService.getTastycurPage(map);
-//		List<TastyBoard> tastyList = memberService.tastyList(tastyPaging);
-//		model.addAttribute("tastyList", tastyList);
-//		model.addAttribute("paging", tastyPaging);
-//
-//		List<FreeBoard> freeList = memberService.freeList(member);
-//		model.addAttribute("freeList", freeList);
-//
-//		List<UsedBoard> usedList = memberService.usedList(member);
-//		model.addAttribute("usedList", usedList);
-//		
-//		List<LectureBoard> lectureList = memberService.lectureList(member);
-//		model.addAttribute("lectureList", lectureList);
-		
+
 		String id= (String) session.getAttribute("email");
 		List mylist = memberService.myList(id);
 		
@@ -168,15 +151,16 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/member/tastyList", method=RequestMethod.GET)
-	public ModelAndView freeList(ModelAndView mav, Member member, HttpSession session,
-			@RequestParam(defaultValue = "1") int curPage, Map<String, Object> map
+	public ModelAndView tastyList(ModelAndView mav, Member member, HttpSession session,
+			Paging paging, Map<String, Object> map
 			) {
 		
-		map.put("curPage",curPage);
+		
+		map.put("curPage",paging.getCurPage());
 		map.put("writer", member.getNickname());
 		logger.info(member.toString());
 		
-		Paging paging = memberService.getTastycurPage(map);
+		paging = memberService.getTastycurPage(map);
 		paging.setKeyword((String) session.getAttribute("nick"));
 		
 		List<TastyBoard> tastyList = memberService.tastyList(paging);
@@ -184,9 +168,70 @@ public class MemberController {
 		mav.addObject("tastyList", tastyList);
 		mav.addObject("paging", paging);
 		mav.setViewName("jsonView");
-		
+		logger.info(paging.toString());
 		return mav;
 	}
+	
+	@RequestMapping(value="/member/freeList", method=RequestMethod.GET)
+	public ModelAndView freeList(ModelAndView mav, Member member, HttpSession session,
+			Paging paging, Map<String, Object> map
+			) {
+		
+		map.put("curPage",paging.getCurPage());
+		map.put("writer", member.getNickname());
+		logger.info(member.toString());
+		
+		paging = memberService.getFreecurPage(map);
+		paging.setKeyword((String) session.getAttribute("nick"));
+		
+		List<FreeBoard> freeList = memberService.freeList(paging);
+		
+		mav.addObject("freeList", freeList);
+		mav.addObject("paging", paging);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	@RequestMapping(value="/member/lectureList", method=RequestMethod.GET)
+	public ModelAndView lectureList(ModelAndView mav, Member member, HttpSession session,
+			Paging paging, Map<String, Object> map
+			) {
+		
+		map.put("curPage",paging.getCurPage());
+		map.put("writer", member.getNickname());
+		logger.info(member.toString());
+		
+		paging = memberService.getLecturecurPage(map);
+		paging.setKeyword((String) session.getAttribute("nick"));
+		
+		List<LectureBoard> lectureList = memberService.lectureList(paging);
+		
+		mav.addObject("lectureList", lectureList);
+		mav.addObject("paging", paging);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	@RequestMapping(value="/member/usedList", method=RequestMethod.GET)
+	public ModelAndView usedList(ModelAndView mav, Member member, HttpSession session,
+			Paging paging, Map<String, Object> map
+			) {
+		
+		map.put("curPage",paging.getCurPage());
+		map.put("writer", member.getNickname());
+		logger.info(member.toString());
+		
+		paging = memberService.getUsedcurPage(map);
+		paging.setKeyword((String) session.getAttribute("nick"));
+		
+		List<UsedBoard> usedList = memberService.usedList(paging);
+		
+		mav.addObject("usedList", usedList);
+		mav.addObject("paging", paging);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
 		
 	@RequestMapping(value = "/member/mypage/delete1", method = RequestMethod.GET)
 	public String tastyDelete(String names) {
