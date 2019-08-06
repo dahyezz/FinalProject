@@ -43,11 +43,31 @@
 	</select>
 	
 	<!-- 내가 작성한 목록 불러오기 -->
-	<select id = "tastyList" parameterType = "web.dto.Member" resultType="web.dto.TastyBoard">
-		SELECT boardno, tag, store_name storeName, loc, content, writer, hit, score, writtendate
-		FROM tastyBoard_kg
-		WHERE writer = #{nickname }
-		ORDER BY sysdate DESC
+	<select id = "tastyList" parameterType = "web.util.Paging" resultType="web.dto.TastyBoard">
+		SELECT boardno, tag, store_name storeName, loc, content, writer, hit, score, writtendate,
+			 ( SELECT COUNT(*) FROM tastycomment_kg WHERE boardno = tastyboard_kg.boardno ) AS commentCnt,
+			 ( SELECT min(fileno) FROM tastyfile_kg WHERE boardno = tastyboard_kg.boardno ) AS fileno
+		FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT * FROM tastyboard_kg
+				<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+		        	<choose>
+		        		<when test="searchType == 'total'">
+		        			WHERE loc LIKE '%' || '${keyword }' || '%'
+		        			OR content LIKE '%' || '${keyword }' || '%'
+		        			OR writer LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        		<when test="searchType != 'total'">
+		        			WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        	</choose>
+		        </if>
+				ORDER BY boardno DESC
+				) B
+			ORDER BY rnum
+		) tastyboard_kg
+<!-- 		WHERE rnum BETWEEN #{startNo } AND #{endNo } -->
+
 	</select>
 	
 	<select id = "freeList" parameterType = "web.dto.Member" resultType="web.dto.FreeBoard">
@@ -59,6 +79,12 @@
 	<select id = "usedList" parameterType = "web.dto.Member" resultType="web.dto.UsedBoard">
 		SELECT *
 		FROM usedBoard_kg
+		WHERE writer = #{nickname }
+	</select>
+	
+	<select id="lectureList" parameterType="web.dto.Member" resultType="web.dto.UsedBoard">
+		SELECT *
+		FROM lectureboard_kg
 		WHERE writer = #{nickname }
 	</select>
 	

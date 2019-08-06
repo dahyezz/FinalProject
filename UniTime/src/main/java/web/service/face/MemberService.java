@@ -1,12 +1,17 @@
 package web.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import web.dto.FreeBoard;
+import web.dto.LectureBoard;
 import web.dto.Member;
 import web.dto.TastyBoard;
+import web.dto.UsedBoard;
+import web.util.Paging;
 
 public interface MemberService {
 
@@ -36,10 +41,11 @@ public interface MemberService {
 	public Member idCheck(String hakbun) throws Exception;
 	public Member nickCheck(String nickname) throws Exception;
 	
-	public List tastyList(Member member);
-	public List freeList(Member member);
-	public List usedList(Member member);
-
+	public List<TastyBoard> tastyList(Paging tastyPaging);
+	public List<FreeBoard> freeList(Member member);
+	public List<UsedBoard> usedList(Member member);
+	public List<LectureBoard> lectureList(Member member);
+	
 	public void tastyDelete(String names);
 	public void freeDelete(String names);
 	public void usedDelete(String names);
@@ -62,4 +68,8 @@ public interface MemberService {
 	public boolean pwFind(Member member);
 
 	public Member getPwfind(Member member) throws Exception;
+
+
+	public Paging getTastycurPage(Map<String, Object> map);
+
 }

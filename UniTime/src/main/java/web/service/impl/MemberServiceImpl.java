@@ -3,25 +3,31 @@ package web.service.impl;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.crypto.Data;
+import javax.servlet.http.HttpSession;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.FreeBoardDao;
+import web.dao.face.LectureBoardDao;
 import web.dao.face.MemberDao;
 import web.dao.face.TastyBoardDao;
 import web.dao.face.UsedDao;
 import web.dto.FreeBoard;
+import web.dto.LectureBoard;
 import web.dto.MailUtils;
 import web.dto.Member;
 import web.dto.TastyBoard;
 import web.dto.UsedBoard;
 import web.service.face.MemberService;
+import web.util.Paging;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -31,6 +37,7 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired TastyBoardDao tastyBoardDao;
 	@Autowired FreeBoardDao freeBoardDao;
 	@Autowired UsedDao usedDao;
+	@Autowired LectureBoardDao lectureBoardDao;
 	
 	@Override
 	public boolean loginCheck(Member member) {
@@ -89,18 +96,24 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public List tastyList(Member member) {
-		return memberDao.tastyList(member);
+	public List<TastyBoard> tastyList(Paging paging) {
+		return memberDao.tastyList(paging);
+//		return tastyBoardDao.selectAll(paging);
 	}
 
 	@Override
-	public List freeList(Member member) {
+	public List<FreeBoard> freeList(Member member) {
 		return memberDao.freeList(member);
 	}
 	
 	@Override
-	public List usedList(Member member) {
+	public List<UsedBoard> usedList(Member member) {
 		return memberDao.usedList(member);
+	}
+	
+	@Override
+	public List<LectureBoard> lectureList(Member member) {
+		return memberDao.lectureList(member);
 	}
 
 
@@ -184,6 +197,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void memberModify(Member member) throws Exception {
 		memberDao.memberModify(member);
+
 	}
 	
 	@Override
@@ -234,6 +248,19 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.selectMemberPwfind(member);
 	}
 	
+	@Override
+	public Paging getTastycurPage(Map<String, Object> map) {
+	
+		int totalCount = tastyBoardDao.selectCntAll();
+		int curPage = Integer.parseInt(map.get("curPage").toString());
+		int listCount = 10;
+		
+		Paging paging = new Paging(totalCount, curPage, listCount);
+		paging.setSearchType("total");	
+//		paging.setKeyword();
+//		System.out.println(paging);
+		return paging;
+	}
 }
 
 

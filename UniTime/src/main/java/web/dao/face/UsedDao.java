@@ -52,9 +52,20 @@ public interface UsedDao {
 	 */
 	public UsedBoard selectBoardByBoardno(int boardno);
 	
-
-
 	
+	/**
+	 *  검색어 적용한 게시글 수 
+	 * @param search : 페이징 정보 
+	 * @return int : 검색된 게시글 수 
+	 */
+	public int countSearch(Paging search);
+	
+	/**
+	 *  검색어 적용한 게시글 목록 조회 
+	 * @param search : 검색어 
+	 * @return List : 검색되어 페이징처리된 게시글 
+	 */
+	public List<UsedBoard> selectPageSearch(Paging search);
 	
 	/**
 	 * 게시글 작성하기 
@@ -177,4 +188,6 @@ public interface UsedDao {
 	 * @return
 	 */
 	public int selectCntBadReport(BadReport bad);
+	
+	
 }
