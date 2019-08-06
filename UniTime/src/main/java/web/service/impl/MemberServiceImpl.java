@@ -3,23 +3,31 @@ package web.service.impl;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
+import javax.servlet.http.HttpSession;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.FreeBoardDao;
+import web.dao.face.LectureBoardDao;
 import web.dao.face.MemberDao;
 import web.dao.face.TastyBoardDao;
 import web.dao.face.UsedDao;
 import web.dto.FreeBoard;
+import web.dto.LectureBoard;
 import web.dto.MailUtils;
 import web.dto.Member;
 import web.dto.TastyBoard;
 import web.dto.UsedBoard;
 import web.service.face.MemberService;
+import web.util.Paging;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -29,6 +37,7 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired TastyBoardDao tastyBoardDao;
 	@Autowired FreeBoardDao freeBoardDao;
 	@Autowired UsedDao usedDao;
+	@Autowired LectureBoardDao lectureBoardDao;
 	
 	@Override
 	public boolean loginCheck(Member member) {
@@ -60,20 +69,20 @@ public class MemberServiceImpl implements MemberService{
 		
 		memberDao.insert(member);
 		
-	      // mail 작성 관련 
-	      MailUtils sendMail = new MailUtils(mailSender);
+	    // mail 작성 관련 
+	    MailUtils sendMail = new MailUtils(mailSender);
 	      
 	
-	      sendMail.setSubject("슬기로운 대학생활 회원가입 이메일 인증입니다.");
-	      sendMail.setText(new StringBuffer().append("<h1>슬기로운 대학생활 이메일 인증입니다.</h1>")
-	            .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-	            .append("<p>인증를 완료하시면 슬기로운 대학생활의 서비스를 이용하실 수 있습니다.</p>")
-	            .append("<a href='http://192.168.30.169:8080/member/joinComplete'")
-	            .append(">이메일 인증 확인</a>")
-	            .toString());
-	      sendMail.setFrom("gjflrhlanf1@gmail.com", "hyunwoo");
-	      sendMail.setTo(member.getEmail());
-	      sendMail.send();
+	    sendMail.setSubject("슬기로운 대학생활 회원가입 이메일 인증입니다.");
+	    sendMail.setText(new StringBuffer().append("<h1>슬기로운 대학생활 이메일 인증입니다.</h1>")
+	          .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
+	          .append("<p>인증를 완료하시면 슬기로운 대학생활의 서비스를 이용하실 수 있습니다.</p>")
+	          .append("<a href='http://192.168.30.169:8080/member/joinComplete'")
+	          .append(">이메일 인증 확인</a>")
+	          .toString());
+	    sendMail.setFrom("gjflrhlanf1@gmail.com", "hyunwoo");
+	    sendMail.setTo(member.getEmail());
+	    sendMail.send();
 		
 	}
 
@@ -87,18 +96,24 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public List tastyList(Member member) {
-		return memberDao.tastyList(member);
+	public List<TastyBoard> tastyList(Paging paging) {
+		return memberDao.tastyList(paging);
+//		return tastyBoardDao.selectAll(paging);
 	}
 
 	@Override
-	public List freeList(Member member) {
+	public List<FreeBoard> freeList(Member member) {
 		return memberDao.freeList(member);
 	}
 	
 	@Override
-	public List usedList(Member member) {
+	public List<UsedBoard> usedList(Member member) {
 		return memberDao.usedList(member);
+	}
+	
+	@Override
+	public List<LectureBoard> lectureList(Member member) {
+		return memberDao.lectureList(member);
 	}
 
 
@@ -182,17 +197,21 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void memberModify(Member member) throws Exception {
 		memberDao.memberModify(member);
+
 	}
 	
 	@Override
 	public void memberModifyNick(Member member) throws Exception {
-		memberDao.memberModifyNick(member);
+		/*
+		 * memberDao.memberModifyNick(member); memberDao.tastyUpdateNick(member);
+		 * memberDao.freeUpdateNick(member); memberDao.usedUpdateNick(member);
+		 * memberDao.lectureUpdateNick(member);
+		 */
 	}
 	
 	@Override
 	public void memberGrades(Member member)  {
 		memberDao.memberGrades(member);
-
 	}
 
 	@Override
@@ -202,17 +221,46 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public boolean pwFind(Member member) {
-		if(memberDao.selectCntMemberPwfind(member) >= 1)
+		if(memberDao.selectCntMemberPwFind(member) >= 1)
 			return true;
 		else
 			return false;
 	}
 
 	@Override
-	public Member getPwfind(Member member) {
+	public Member getPwfind(Member member) throws Exception {
+		
+	    // mail 작성 관련 
+	    MailUtils sendMail = new MailUtils(mailSender);
+	      
+	    member =  memberDao.selectMemberPwfind(member);
+	    
+	    sendMail.setSubject("슬기로운 대학생활 비밀번호 찾기 이메일 인증입니다.");
+	    sendMail.setText(new StringBuffer().append("<h1>슬기로운 대학생활 비밀번호 찾기 이메일 인증입니다.</h1>")
+		      .append(member.getNickname()+" 님의 ")
+	          .append("비밀번호는 "+member.getPassword()+" 입니다</p>")
+	          .append("<p>비밀번호를 변경해주세요</p>")
+	          .toString());
+	    sendMail.setFrom("gjflrhlanf1@gmail.com", "hyunwoo");
+	    sendMail.setTo(member.getEmail());
+	    sendMail.send();
+		
 		return memberDao.selectMemberPwfind(member);
 	}
 	
+	@Override
+	public Paging getTastycurPage(Map<String, Object> map) {
+	
+		int totalCount = tastyBoardDao.selectCntAll();
+		int curPage = Integer.parseInt(map.get("curPage").toString());
+		int listCount = 10;
+		
+		Paging paging = new Paging(totalCount, curPage, listCount);
+		paging.setSearchType("total");	
+//		paging.setKeyword();
+//		System.out.println(paging);
+		return paging;
+	}
 }
 
 

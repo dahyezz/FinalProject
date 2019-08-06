@@ -6,46 +6,40 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <script type="text/javascript">
-var httpRequest = null;
-//httpRequest 객체 생성
-function getXMLHttpRequest(){
- var httpRequest = null;
- if(window.ActiveXObject){
-     try{
-         httpRequest = new ActiveXObject("Msxml2.XMLHTTP");    
-     } catch(e) {
-         try{
-             httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-         } catch (e2) { httpRequest = null; }
-     }
- }
- else if(window.XMLHttpRequest){
-     httpRequest = new window.XMLHttpRequest();
- }
- return httpRequest;    
-}
-function pwFind(){
-	var email=document.getElementById("email").value;
-	
-	if(!email){
-		alert("이름을 입력하지 않았습니다");
-		return false;
-	} else{
-		var param="username="+username+"&email="+email+"&userid="+userid;
-		httpRequest=getXMLHttpRequest();
-		httpRequest.onreadystatechange=callback;
-		httpRequest.open("POST","/member/pwFind",true);
-		httpRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-		httpRequest.send(param);
-	}
-}
-function callback(){
-	if(httpRequest.readyState==4){
-		var resultText=httpRequest.responseText;
+$(document).ready(function() {
+
+	$(".emailCheck").click(function() {
+		var query = {
+			email : $("#email").val()
+		};
 		
-		document.getElementById("result").innerHTML=resultText;
-	}
-}
+		console.log( $("#email").val() );
+		
+		var email = $("#email").val();
+		
+		$.ajax({
+			type: "post"
+			, url: "/member/pwFind"
+			, dataType: "json"
+			, data: {
+				email: email
+			}
+			, success: function(data){
+				console.log(data.success)
+				if(data.success){
+					if(data.success){
+						$(".result .msg").text("메일이 발송되었습니다");
+						$(".result .msg").attr("style", "color:#47b8e0");
+						
+					} else {
+						$(".result .msg").text("없는 이메일입니다");
+						$(".result .msg").attr("style", "color:#f00");
+					}
+				}
+			}
+		});
+	});
+})
 </script>
 
 <style type="text/css">
@@ -76,10 +70,10 @@ function callback(){
 	background-color:#0080ff;
 	border:#0080ff;
 	color:white;
-	font-size:15px;
+	font-size:12px;
 	font-weight:bold;
 	border-radius: 5px;
-	padding: 15px;
+	padding: 10px;
 	cursor:pointer;
 }
 #result{
@@ -99,11 +93,13 @@ function callback(){
 <form action="/member/pwFind" method="post">
 
 	<label for="email">이메일</label><br>
-	<input type="text" id="email" name="email" placeholder="이메일을 입력하세요"/><br>
-	
-	<input type="button" value="비밀번호 찾기" onclick="pwFind()"/>
+	<input type="text" id="email" name="email" placeholder="이메일을 입력하세요"/><br><br>
+	<p class="result"><span class="msg">이메일을 확인해 주십시오.</span>
+	<input type="button" value="비밀번호 찾기" class="emailCheck">
 </form>
 
 <div id="result"></div> 
 
 </div>
+
+

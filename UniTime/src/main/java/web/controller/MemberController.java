@@ -2,9 +2,8 @@ package web.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,16 +16,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import web.dto.FreeBoard;
+import web.dto.LectureBoard;
 import web.dto.Member;
 import web.dto.TastyBoard;
 import web.dto.UsedBoard;
 import web.service.face.FreeBoardService;
 import web.service.face.MemberService;
-import web.service.face.TastyBoardService;
+import web.util.Paging;
 
 @Controller
 public class MemberController {
@@ -138,23 +140,26 @@ public class MemberController {
 		}
 	
 	@RequestMapping(value = "/member/mypage", method = RequestMethod.GET)
-	public void mypage(Model model, Member member, HttpSession session) {
+	public void mypage(Model model, Member member, HttpSession session,
+			@RequestParam(defaultValue = "1") int curPage, Map<String, Object> map
+			) {
 		
-		member.setNickname((String) session.getAttribute("nick"));
-		
-		List<TastyBoard> tastyList = memberService.tastyList(member);
-		
-		model.addAttribute("tastyList", tastyList);
-		
-		member.setNickname((String) session.getAttribute("nick"));
-		
-		List<FreeBoard> freeList = memberService.freeList(member);
-		
-		model.addAttribute("freeList", freeList);
-		
-		member.setNickname((String) session.getAttribute("nick"));
-		
-		List<UsedBoard> usedList = memberService.usedList(member);
+//		member.setNickname((String) session.getAttribute("nick"));
+//		map.put("curPage",curPage);
+//		
+//		Paging tastyPaging = memberService.getTastycurPage(map);
+//		List<TastyBoard> tastyList = memberService.tastyList(tastyPaging);
+//		model.addAttribute("tastyList", tastyList);
+//		model.addAttribute("paging", tastyPaging);
+//
+//		List<FreeBoard> freeList = memberService.freeList(member);
+//		model.addAttribute("freeList", freeList);
+//
+//		List<UsedBoard> usedList = memberService.usedList(member);
+//		model.addAttribute("usedList", usedList);
+//		
+//		List<LectureBoard> lectureList = memberService.lectureList(member);
+//		model.addAttribute("lectureList", lectureList);
 		
 		String id= (String) session.getAttribute("email");
 		List mylist = memberService.myList(id);
@@ -162,6 +167,27 @@ public class MemberController {
 		model.addAttribute("myList", mylist);
 	}
 	
+	@RequestMapping(value="/member/tastyList", method=RequestMethod.GET)
+	public ModelAndView freeList(ModelAndView mav, Member member, HttpSession session,
+			@RequestParam(defaultValue = "1") int curPage, Map<String, Object> map
+			) {
+		
+		map.put("curPage",curPage);
+		map.put("writer", member.getNickname());
+		logger.info(member.toString());
+		
+		Paging paging = memberService.getTastycurPage(map);
+		paging.setKeyword((String) session.getAttribute("nick"));
+		
+		List<TastyBoard> tastyList = memberService.tastyList(paging);
+		
+		mav.addObject("tastyList", tastyList);
+		mav.addObject("paging", paging);
+		mav.setViewName("jsonView");
+		
+		return mav;
+	}
+		
 	@RequestMapping(value = "/member/mypage/delete1", method = RequestMethod.GET)
 	public String tastyDelete(String names) {
 		
@@ -265,32 +291,22 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/member/pwFind", method = RequestMethod.POST)
-	public void pwFindProc(HttpServletRequest req, HttpServletResponse resp) {
+	public ModelAndView pwFindProc(Member member, ModelAndView mav) throws Exception {
 		
-				
-				Member member = new Member();
-				
-				member.setEmail(req.getParameter("email"));
-
-				
+				logger.info(member.toString());
 				boolean pwFind = memberService.pwFind(member);
 
-				PrintWriter out = null;
-				try {
-					out = resp.getWriter();
-				} catch (IOException e) {
-					e.printStackTrace();
+				if(pwFind) {
+					member = memberService.getPwfind(member);
 				}
 				
-				if(pwFind) {	//비밀번호가 있으면
-					
-					Member mem = memberService.getPwfind(member);
-					
-					out.println("사용자의 비밀번호는 ["+mem.getPassword()+"] 입니다");
-				} else {	//비밀번호가 없으면
-					out.println("이름과 이메일과 아이디와 일치하는 비밀번호가 없습니다");
-				}
+				mav.addObject("success", pwFind);
+				mav.addObject("password", member.getPassword());
+				mav.setViewName("jsonView");
+				
+				return mav;
 	}
+
 }
 
 

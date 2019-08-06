@@ -7,8 +7,12 @@ import javax.mail.Session;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import web.dto.FreeBoard;
+import web.dto.LectureBoard;
 import web.dto.Member;
 import web.dto.TastyBoard;
+import web.dto.UsedBoard;
+import web.util.Paging;
 
 public interface MemberDao {
 
@@ -33,9 +37,10 @@ public interface MemberDao {
 	public Member idCheck(String hakbun) throws Exception;
 	public Member nickCheck(String nickname) throws Exception;
 
-	public List tastyList(Member member);
-	public List freeList(Member member);
-	public List usedList(Member member);
+	public List<TastyBoard> tastyList(Paging paging);
+	public List<FreeBoard> freeList(Member member);
+	public List<UsedBoard> usedList(Member member);
+	public List<LectureBoard> lectureList(Member member);
 	
 	/**
 	 * 
@@ -60,18 +65,29 @@ public interface MemberDao {
 	 */
 	public void memberModifyNick(Member member) throws Exception;
 	
+	/*
+	 * public void tastyUpdateNick(Member member);
+	 * 
+	 * public void freeUpdateNick(Member member);
+	 * 
+	 * public void usedUpdateNick(Member member);
+	 * 
+	 * public void lectureUpdateNick(Member member);
+	 */
+	
 	public void memberGrades(Member member);
 	
 	
 	//로그인한 이메일과 같은
 	public List selectMyList(String id);
 	
-	// 비밀번호 찾기
+		// 비밀번호 찾기
 		public String find_pw(String email) throws Exception;
 
-		public int selectCntMemberPwfind(Member member);
+		public int selectCntMemberPwFind(Member member);
 
 		public Member selectMemberPwfind(Member member);
+
 }
 
 
