@@ -61,5 +61,5 @@ public interface MemberService {
 
 	public boolean pwFind(Member member);
 
-	public Member getPwfind(Member member);
+	public Member getPwfind(Member member) throws Exception;
 }
