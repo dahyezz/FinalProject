@@ -3,6 +3,7 @@ package web.service.face;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import web.dto.Member;
 import web.dto.TastyBoard;
@@ -55,11 +56,10 @@ public interface MemberService {
 	public void memberModifyNick(Member member) throws Exception;
 	
 	public void memberGrades(Member member);
-	
-	//시간표 불러오기
-	public List list();
-	
-	//로그인한 이메일에 맞는 시간표 불러오기
+
 	public List myList(String id);
 
+	public boolean pwFind(Member member);
+
+	public Member getPwfind(Member member);
 }

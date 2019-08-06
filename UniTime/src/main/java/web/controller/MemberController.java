@@ -1,6 +1,10 @@
 package web.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -152,12 +156,6 @@ public class MemberController {
 		
 		List<UsedBoard> usedList = memberService.usedList(member);
 		
-		model.addAttribute("usedList", usedList);
-	
-		List list = memberService.list();
-		
-		model.addAttribute("lectureList",list);
-		
 		String id= (String) session.getAttribute("email");
 		List mylist = memberService.myList(id);
 		
@@ -260,7 +258,39 @@ public class MemberController {
 	 
 	 return "redirect:/";
 	}
+
+	@RequestMapping(value = "/member/pwFind", method = RequestMethod.GET)
+	public void pwFind() {
 		
+	}
+	
+	@RequestMapping(value = "/member/pwFind", method = RequestMethod.POST)
+	public void pwFindProc(HttpServletRequest req, HttpServletResponse resp) {
+		
+				
+				Member member = new Member();
+				
+				member.setEmail(req.getParameter("email"));
+
+				
+				boolean pwFind = memberService.pwFind(member);
+
+				PrintWriter out = null;
+				try {
+					out = resp.getWriter();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				if(pwFind) {	//비밀번호가 있으면
+					
+					Member mem = memberService.getPwfind(member);
+					
+					out.println("사용자의 비밀번호는 ["+mem.getPassword()+"] 입니다");
+				} else {	//비밀번호가 없으면
+					out.println("이름과 이메일과 아이디와 일치하는 비밀번호가 없습니다");
+				}
+	}
 }
 
 
