@@ -12,7 +12,7 @@
 		<![CDATA[
 			SELECT boardno, tag, title, writer, hit, writtendate FROM freeboard_notice_kg
 			WHERE rownum <= 3
-			ORDER BY writtendate
+			ORDER BY writtendate DESC
 		]]>
 	</select>
 	
@@ -20,7 +20,7 @@
 		<![CDATA[
 			SELECT boardno, tag, title, writer, hit, writtendate FROM freeboard_kg
 			WHERE rownum <= 5
-			ORDER BY writtendate
+			ORDER BY writtendate DESC
 		]]>
 	</select>
 	
@@ -31,7 +31,7 @@
 			( SELECT min(fileno) FROM tastyfile_kg WHERE boardno = tastyboard_kg.boardno ) AS fileno
 		FROM tastyboard_kg
 		WHERE rownum <= 5
-		ORDER BY writtendate
+		ORDER BY writtendate DESC
 		]]>
 	</select>
 	
@@ -40,8 +40,16 @@
 		<![CDATA[
 			SELECT * FROM usedboard_kg
 			WHERE rownum <= 5
-			ORDER BY writtendate
+			ORDER BY writtendate DESC
 		]]>
+	</select>
+	
+	<select id="timeTable" resultType="web.dto.TimeTable" parameterType="String">
+		SELECT lecture_name, lecture_day, start_time, end_time FROM timetable_kg
+		WHERE lecture_code IN 
+		(SELECT lecture_code FROM mytable
+		WHERE user_email = #{email })
+	
 	</select>
 
 
