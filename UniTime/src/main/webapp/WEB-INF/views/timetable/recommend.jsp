@@ -2,15 +2,20 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style type="text/css">
-h1{
-background-color:#ffc952;
+/* h1{ */
+/* background-color:#ffc952; */
+/* } */
+td, th{
+ padding:10px 30px;
+ border-radius: 10px;
 }
+
 </style>
 
 <div class="container">
 
 <hr>
-<h1> ${email }님의 시간표 추천 </h1>
+<h1> ${nick }님의 시간표 추천 </h1>
 <hr>
 
 <div style="width:50%; float:left;padding:10px;">

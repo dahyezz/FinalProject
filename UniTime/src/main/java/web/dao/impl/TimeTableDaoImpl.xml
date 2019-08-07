@@ -60,7 +60,7 @@ SELECT R.lecture_code FROM (
     FROM (
         SELECT T.*, DBMS_RANDOM.VALUE RAN FROM timetable_kg T
         WHERE 1=1
-        AND department_name in ('정보통신공학과', '공통') 
+        AND department_name in (#{d_name }, '공통') 
         AND ( lecture_day, start_time ) NOT IN (
             SELECT distinct lecture_day, start_time FROM timetable_kg ttb
             JOIN mytable tb ON ttb.lecture_code=tb.lecture_code
@@ -102,5 +102,9 @@ WHERE rank = 1
 <insert id="insertMytable" parameterType="String">
 	INSERT INTO mytable (select * from temptable WHERE user_email=#{email })
 </insert>
-
+<select id="selectDepartname" parameterType="web.dto.Member" resultType="String">
+SELECT department_name
+		FROM member_kg m join department_kg d on m.department_code=d.department_code
+		WHERE email=#{email}
+</select>
 </mapper>
