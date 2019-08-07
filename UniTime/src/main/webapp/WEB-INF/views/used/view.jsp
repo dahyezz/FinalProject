@@ -90,25 +90,17 @@ $(document).ready(function() {
 	});
 	
 	
-/* 	if( ${isReport } ) {
+/*  	if( ${isReport } ) {
 		$('#btnReport').html('신고완료');
 		$('#btnReport').css('pointer-events':'none');
 		
 	} else {
 		$('#btnReport').html('신고');
-	} 
+	}  
 */
+
 	
 });
-
-
-/* // enter 키로 댓글 작성
-function enter_writeCmt() {
-	var code = (e.KeyCode ? e.keyCode : e.which);
-	if(code == 13) {
-		$('cmtWrite').click();
-	}
-} */
 
 
 	// 댓글 수정 함수 
@@ -131,7 +123,6 @@ function enter_writeCmt() {
 	}
 	
 	function showList(commentno){
-//	 console.log("commentno"+commentno);
 		document.getElementById("commentre"+commentno).style.display="none";
 	}
 
@@ -180,7 +171,8 @@ function enter_writeCmt() {
 		} 
 	}
 	
-/* 	//신고
+	
+ 	//신고
 	function report(boardno, commentno){
 
 		var myWindow = null;
@@ -203,9 +195,9 @@ function enter_writeCmt() {
 			} catch (e) { }
 		}, 100);
 
-	} */
+	}
 
-/* 	function reportProc(boardno, commentno){
+ 	function reportProc(boardno, commentno){
 
 		var boardname="used";
 		
@@ -231,15 +223,15 @@ function enter_writeCmt() {
 						if(data.success){
 							$('#btnReport').html('신고완료');
 							$("#btnReport").css({ 'pointer-events': 'none' });
-							alert("신고가 완료되었습니다.")
+							alert("신고가 완료되었습니다.");
 						} else {
 							$('#btnReport').html('신고');
 						}
 					}
 					else {
 						if(data.success){
-							$('#commentno'+data.commentno).html('관리자에 의해 규제된 댓글입니다.')
-							alert("신고가 완료되었습니다.")
+							$('#commentno'+data.commentno).html('관리자에 의해 규제된 댓글입니다.');
+							alert("신고가 완료되었습니다.");
 						} else {
 							$('#cmtReport'+data.commentno).html('신고');
 						}
@@ -252,7 +244,7 @@ function enter_writeCmt() {
 			});
 		}
 
-	} */
+	}
 
 </script>
 	
@@ -323,6 +315,13 @@ function enter_writeCmt() {
 	<!-- 게시판 버튼 ( 목록/수정/삭제 ) -->
 	<div id="view-buttons">
 		<button id="btnList" class="btn btn-primary">목록</button>
+		<!-- 신고버튼 --> 
+		<c:if test="${nick ne writer}">
+			<a href="javascript:void(0)" onclick="report('${usedboard.boardno }')" style="float: right;" id="btnReport">
+				<button id="btnReport" class="btn btn-warning">신고</button>
+			</a>
+			<input type="hidden" id="reason" />
+		</c:if>
 		
 		<!-- 접속한 회원의 nick이 해당 게시글의 작성자일 경우 -->
 		<c:if test="${nick eq usedboard.writer }">
@@ -333,12 +332,10 @@ function enter_writeCmt() {
 		<!-- 접속한 회원의 nick이 admin일 경우 -->
 		<c:if test="${nick eq 'admin' }">
 			<button id="btnDelete" class="btn btn-warning">삭제</button>
-		</c:if>
-		
-		<!-- 신고 기능 -->
-		<c:if test="${nick ne 'admin' && nick ne usedboard.writer }">
-			<a href="JavaScript:void(0)" onclick="declare('${usedboard.boardno}')" id="btnReport">신고</a>
-			<input type="hidden" id="reason"/>
+			<a href="javascript:void(0)" onclick="report('${usedboard.boardno }')" style="float: right;" id="btnReport">
+				<button id="btnReport" class="btn btn-warning">신고</button>
+			</a>
+			<input type="hidden" id="reason" />
 		</c:if>
 	</div>
 

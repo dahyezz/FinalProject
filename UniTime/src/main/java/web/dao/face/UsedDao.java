@@ -189,5 +189,5 @@ public interface UsedDao {
 	 */
 	public int selectCntBadReport(BadReport bad);
 	
-	
+
 }

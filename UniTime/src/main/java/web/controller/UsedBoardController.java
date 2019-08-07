@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.BadReport;
 import web.dto.UsedBoard;
@@ -321,6 +322,26 @@ public class UsedBoardController {
 		return "used/commentList";
 	}
 	
+	
+	
+	@RequestMapping(value="/used/report", method=RequestMethod.POST)
+	public ModelAndView report(BadReport badReport, ModelAndView mav) {
+		
+		logger.info(badReport.toString());
+		
+		boolean success = usedService.reportBoard(badReport);
+		
+		mav.addObject("success", success);
+		mav.addObject("commentno",badReport.getCommentno());
+		
+		mav.setViewName("jsonView");
+		
+		return mav;
+
+	}
+	
+	@RequestMapping(value="/tasty/reportReason", method=RequestMethod.GET)
+	public void declareReason() { }
 	
 	
 }
