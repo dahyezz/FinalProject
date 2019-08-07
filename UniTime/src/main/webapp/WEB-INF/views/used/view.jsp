@@ -48,31 +48,20 @@ $(document).ready(function() {
 	});
 
 	$('#btnUpdate').click(function() {
-		$(location).attr("href", "/used/update?boardno="+${usedboard.boardno });
+		$(location).attr("href", "/used/update?boardno="+boardno);
 	});
 
 	$('#btnDelete').click(function() {
 		if(confirm("정말 삭제하시겠습니까?")) {
 			// delete_confirm = true;   확인 
-			$(location).attr("href", "/used/delete?boardno="+${usedboard.boardno });
+			$(location).attr("href", "/used/delete?boardno="+boardno);
 			alert("삭제되었습니다!");
 		}
 	});
 	
-	if( ${isReport } ) {
-		$('#btnReport').html('신고완료');
-		$('#btnReport').css('pointer-events':'none');
-		
-	} else {
-		$('#btnReport').html('신고');
-	}
-	
-});
-	
 	
 	// 댓글 작성 함수
-	function writeComment(){ 
-		
+	$('#cmtWrite').click(function writeComment(){ 
 		var writer = $('#writer').val();
 		var content = $('#content').val();
 		
@@ -98,15 +87,28 @@ $(document).ready(function() {
 				console.log("error occured.");
 			}
 		});
-	}
+	});
+	
+	
+/* 	if( ${isReport } ) {
+		$('#btnReport').html('신고완료');
+		$('#btnReport').css('pointer-events':'none');
+		
+	} else {
+		$('#btnReport').html('신고');
+	} 
+*/
+	
+});
 
-	// enter 키로 댓글 작성
-	function enter_writeCmt() {
-		var code = (e.KeyCode ? e.keyCode : e.which);
-		if(code == 13) {
-			$('cmtWrite').click();
-		}
+
+/* // enter 키로 댓글 작성
+function enter_writeCmt() {
+	var code = (e.KeyCode ? e.keyCode : e.which);
+	if(code == 13) {
+		$('cmtWrite').click();
 	}
+} */
 
 
 	// 댓글 수정 함수 
@@ -126,6 +128,11 @@ $(document).ready(function() {
 		}
 		
 		htmls.style.display = "block";
+	}
+	
+	function showList(commentno){
+//	 console.log("commentno"+commentno);
+		document.getElementById("commentre"+commentno).style.display="none";
 	}
 
 	function updateCmtProc(commentno) {
@@ -172,6 +179,80 @@ $(document).ready(function() {
 			});
 		} 
 	}
+	
+/* 	//신고
+	function report(boardno, commentno){
+
+		var myWindow = null;
+		var check = true;
+		var interval = null;
+		
+		myWindow = window.open("http://localhost:8081/used/reportReason","신고사유","width=550, height=630, left="+100+", top="+20+", resizable=no");
+		
+		interval = window.setInterval(function() {
+			try {
+				if(myWindow == null || myWindow.closed){
+					if(check){
+						check = false;
+						reportProc(boardno, commentno)
+					}
+						
+					if(!check)
+						return;
+				}
+			} catch (e) { }
+		}, 100);
+
+	} */
+
+/* 	function reportProc(boardno, commentno){
+
+		var boardname="used";
+		
+		// 신고자정보
+		var nick=document.getElementById('writer').value;
+		var reason = document.getElementById('reason').value;
+		console.log(reason)
+		
+		if(reason != null && reason != ""){
+			$.ajax({
+				type: "post"	
+				, url: "/used/report"
+				, dataType: "json"
+				, data: {
+					boardname: boardname,
+					boardno: boardno,
+					commentno: commentno,
+					reason: reason,
+					nickname: nick
+				}
+				, success: function(data){
+					if(data.commentno==0){
+						if(data.success){
+							$('#btnReport').html('신고완료');
+							$("#btnReport").css({ 'pointer-events': 'none' });
+							alert("신고가 완료되었습니다.")
+						} else {
+							$('#btnReport').html('신고');
+						}
+					}
+					else {
+						if(data.success){
+							$('#commentno'+data.commentno).html('관리자에 의해 규제된 댓글입니다.')
+							alert("신고가 완료되었습니다.")
+						} else {
+							$('#cmtReport'+data.commentno).html('신고');
+						}
+						
+					}
+				}
+				, error: function() {
+					console.log("error")
+				}
+			});
+		}
+
+	} */
 
 </script>
 	
@@ -237,18 +318,6 @@ $(document).ready(function() {
 	<div id="commentdiv">
 		<c:import url="/WEB-INF/views/used/commentList.jsp"/>
 	</div>
-	
-	
-	<!-- 댓글 작성창 -->
-	<br>	
-	<label>${nick }
-		<textarea id="content" name="content" rows="1" cols="70" onKeyPress="JavaScript:enter_writeCmt();"></textarea>
-	</label>
-	
-	
-	<input type="hidden" name="writer" id="writer" value="${nick }" />
-	
-	<button id="cmtWrite" name="cmtWrite" class="btn" onclick="writeComment();">입력</button>
 	
 
 	<!-- 게시판 버튼 ( 목록/수정/삭제 ) -->

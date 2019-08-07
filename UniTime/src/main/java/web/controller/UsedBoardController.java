@@ -45,7 +45,7 @@ public class UsedBoardController {
 	 *  used/List 페이지 컨트롤러
 	 */
 	@RequestMapping(value="/used/list", method=RequestMethod.GET)
-	public String list(
+	public void list(
 			@RequestParam(defaultValue="1") int curPage,
 			Paging search,
 			Model model
@@ -61,7 +61,6 @@ public class UsedBoardController {
 		List<UsedBoard> boardList = usedService.getSearchPagingList(paging);
 		model.addAttribute("list", boardList);
 		
-		return "used/list";
 	}
 	
 	
