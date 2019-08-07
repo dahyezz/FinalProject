@@ -340,7 +340,7 @@ public class UsedBoardController {
 
 	}
 	
-	@RequestMapping(value="/tasty/reportReason", method=RequestMethod.GET)
+	@RequestMapping(value="/used/reportReason", method=RequestMethod.GET)
 	public void declareReason() { }
 	
 	
