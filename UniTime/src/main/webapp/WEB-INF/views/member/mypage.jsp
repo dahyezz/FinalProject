@@ -39,38 +39,11 @@ jQuery(function(){
 
     });
 });
-var paging;
-$(document).ready(function() {
-	var nickname = $('#nickname').val();
-	console.log(nickname);
-	
-	$.ajax({
-		type: "get"
-		, url: "/member/tastyList"
-		, dataType: "json"
-		, data: {
-			"nickname":nickname
-		}
-		, success: function(data){
-			paging = data.paging;
-			console.log(paging);
-			var results = data.tastyList;
-			var str = '<tr>';
-			$.each(results, function(i){
-				str += "<td><input type='checkbox' name='checkRow' value = " + results[i].boardno + "/>"+results[i].boardno+"</td>";
-				str += "<td style='width: 3%'>" + results[i].tag + "</td>";
-				str += "<td style='width: 3%'><a href='/tasty/view?boardno=" + results[i].boardno + "'>" + results[i].storeName+"</a></td>";
-				str += "<td style='width: 3%'>"+results[i].hit+"</td>";
-				str += " </tr>";
-			});  
 
-			$('#tastyResult').append(str);	
-			page(paging);
-		}
-		, error: function() {
-			console.log("error")
-		}
-	})
+$(document).ready(function() {
+	
+	//자유게시판 리스트 default
+	getFreePage(1);
 	
 	// 선택체크 삭제
 	$("#btnDelete1").click(function() {
@@ -187,41 +160,26 @@ $(document).ready(function(){
 
 //게시판 토글
 function select(board) {
-	$('.container').hide();
+	
+	$('.board_wrap').hide();
 	document.getElementById(board).style.display = "block";
-}
 
-function page() {
+	if(board == 'tasty'){
+		getTastyPage(1);
+	}
 	
-// 	console.log(paging);
+	if(board == 'free'){
+		getFreePage(1);
+	}
 	
-// 	if(paging.curPage != 1){            // 페이지가 1페이지 가아니면
-//     	$(".pagination").append("<li><a href='/member/tastyList'</a></li>");        //첫페이지로가는버튼 활성화
-//     }else{
-//     	$(".pagination").append("<li class=\"disabled\"><a><<</a></li>");        //첫페이지로가는버튼 비활성화
-//     }
-
-    for(var i=paging.startPage ; i<=paging.endPage ; i++){        //시작페이지부터 종료페이지까지 반복문
-    	if(paging.curPage == i){                            //현재페이지가 반복중인 페이지와 같다면
-            	$(".pagination").append("<li class=\"disabled active\"><a>"+i+"</a></li>");    //버튼 비활성화
-    	}else{
-    		$(".pagination").append("<li class=\"goPage\" data-page=\""+i+"\"><a>"+i+"</a></li>"); //버튼 활성화
-    	}
-    }
-
-
-//   if(paging.curPage < paging.totalPage){                //현재페이지가 전체페이지보다 작을때
-// 		$(".pagination").append("<li class=\"goLastPage\"><a>>></a></li>");    //마지막페이지로 가기 버튼 활성화
-// 	}else{
-// 		$(".pagination").append("<li class=\"disabled\"><a>>></a></li>");        //마지막페이지로 가기 버튼 비활성화
-// 	}
-
-	$('.goPage').click(function(){
-		console.log("clicked")
-	});
-
-
-
+	if(board == 'lecture'){
+		getLecturePage(1);
+	}
+	
+	if(board == 'used'){
+		getUsedPage(1);
+	}
+	
 }
 </script>
 
@@ -231,10 +189,28 @@ function page() {
 }
 .menubar{
 margin-left: 0px;
-margin-bottom: 30px;
-width: 1100px;
+margin-bottom: 50px;
+width: 100%;
 height: 130px;
 background: #47b8e017;
+}
+.user_info {
+	position: relative;
+	margin-left: 20px;
+	margin-bottom: 10px;
+	
+}
+.user_info>p {
+	text-align: left;
+	font-size: 15px;
+	margin-bottom: 0px;
+	
+}
+.user_modify {
+	position: relative;
+	float: right;
+	margin-right: 20px;
+	margin-top: 15px;
 }
 #modify, #logout, #modifyNick {
   background: #ffffff;
@@ -255,657 +231,656 @@ background: #47b8e017;
 }
 #btnDelete1, #btnDelete2, #btnDelete3, #btnDelete4, #btnGrades {
   background:  #47b8e0;
-  background-image: -webkit-linear-gradient(top,  #47b8e0,  #47b8e0);
-  background-image: -moz-linear-gradient(top,  #47b8e0,  #47b8e0);
-  background-image: -ms-linear-gradient(top,  #47b8e0,  #47b8e0);
-  background-image: -o-linear-gradient(top,  #47b8e0,  #47b8e0);
+/*   background-image: -webkit-linear-gradient(top,  #47b8e0,  #47b8e0); */
+/*   background-image: -moz-linear-gradient(top,  #47b8e0,  #47b8e0); */
+/*   background-image: -ms-linear-gradient(top,  #47b8e0,  #47b8e0); */
+/*   background-image: -o-linear-gradient(top,  #47b8e0,  #47b8e0); */
   background-image: linear-gradient(to bottom,  #47b8e0,  #47b8e0);
-  -webkit-border-radius: 5;
-  -moz-border-radius: 5;
+/*   -webkit-border-radius: 5; */
+/*   -moz-border-radius: 5; */
   border-radius: 5px;
-  font-family: Arial;
+/*   font-family: Arial; */
   color: #ffffff;
   font-size: 12px;
   padding: 10px 20px 10px 20px;
   border: solid #ffffff 1px;
   text-decoration: none;
+  float: right;
+  margin: 20px 0;
 }
+.mylec_wrap {
+	width: 100%;
+	height: 550px;
+/* 	position: relative; */
+/* 	display: inline-block; */
+}
+.timetable_wrap {
 
-.row2 {
-
-    width: 45%;
+	padding: 0 5%;
     display: inline-block;
-    float: left;
+    margin-bottom: 10px;
+	float: left;
 }
-.row1 {
+#mytable{
+	width: 400px;
+	border: 1px solid #ccc;
+	
+}
+#mytable th{
+	padding: 5px;
+	border: 1px solid #ccc;
+	text-align: center !important;
+	
+}
+#mytable thead {
+	background-color: #47b8e017;
+}
 
-    width: 45%;
+#mytable th:first-child {
+	background-color: #47b8e017;
+}
+
+.hakjum_wrap {
+
+/*     width: 45%; */
     display: inline-block;
-    float: right;
+    margin-bottom: 10px;
+	float: right;
+	padding: 0 5%;
 }
-.rowAll {
-	margin-left: 15px;
-	margin-right: 15px;
-}
-.container {
+.board_wrap {
 	display: none;
+	width: 100%;
+	height: 330px;
+	position: relative;
 }
-#tasty {
+#free {
 	display: block;
+}
+.mylist {
+	width: 100%;
+	margin-bottom: 50px;
+}
+.board_select {
+	width: 100%;
+	text-align: left;
+	margin-bottom: 20px;
+}
+.board_select>a {
+	text-decoration: none;
+	color: black;
+	font-size: 14px;
+	font-weight: bold;
+	margin-right: 30px
+}
+.board_select>hr {
+	border-top: 1.5px solid #000;
+	width: 350px;
+	margin: 5px 0 0 0;
+}
+.board_wrap>table {
+	width: 100%;
+	word-break: break-all;
+}
+
+.text-center {
+	text-align: center;
+ 	bottom: 0; 
+ 	position: absolute; 
+ 	width: 100%; 
+}
+.pagination {
+	padding-left: 40px;
+}
+
+.myh4 >h4 {
+	font-weight: bold;
+}
+
+.mycalc {
+	width: 300px;
+}
+.calc_add {
+	text-align: right;
+}
+.calc_add>a {
+	text-decoration: none;
+	color: black;
 }
 </style>
 
 <input type="hidden" name="nickname" id="nickname" value="${nick }" />
 <input type="hidden" name="hakbun" id="hakbun" value="${hakbun }" />
 
-<div class="col-4">
 <div class="menubar" >
-<form>
-
-<div class="left">
-<br>
-<%-- 비로그인 상태 --%>
-<c:if test="${empty login }">
-<div align="left">
-	<strong>로그인이 필요합니다</strong><br>
-</div>
-</c:if>
-
-<%-- 로그인 상태 --%>
-<c:if test="${login }">
-<div align="left" style="position: relative; left: 20px; ">
-	${nick }님<br><br>
-	학번 : ${hakbun }
-<div style="position: relative; left: 750px; ">
-<button type="button" id = "modifyNick" onclick="location.href='/member/modifyNick'">닉네임수정</button>
-<button type="button" id = "modify" onclick="location.href='/member/modify'">비밀번호수정</button>
-<button type="button" id = "logout" onclick="location.href='/member/logout'">로그아웃</button>
-</div>
-</div>
-</c:if>
-</div>
-</form>
-</div>
-</div>
-
-<div class="board_select">
-	<a href="javascript:void(0)" onclick="select('free')">자유게시판</a>
-	<a href="javascript:void(0)" onclick="select('lecture')">강의평가</a>
-	<a href="javascript:void(0)" onclick="select('used')">중고장터</a>
-	<a href="javascript:void(0)" onclick="select('tasty')">테이스티로드</a>
-</div>
-
-<div class="container" id="tasty">
-<div class="row">
-<div class="col order-1">
-<br>
-
-<hr>
-내가 쓴 테이스티 로드 게시글<br><br>
-
-<table style = "text-align : center; margin : auto;" class = "mypagelist">
-<thead>
-	<tr>
-		<th style="width: 3%">글번호</th>
-		<th style="width: 3%">태그</th>
-		<th style="width: 3%">음식점이름</th>
-		<th style="width: 3%">조회수</th>
-		<th style="width: 3%">작성일</th>
-	</tr>
-</thead>
-
-<tbody id="tastyResult"></tbody>
-
-</table>
-
-<c:import url="/WEB-INF/views/member/paging.jsp" />
-</div>
-
-</div>
-<div id="btnBox" class="float-right" style="text-align: right">
-	<button id="btnDelete1">삭제</button>
-</div>
+	<form>
+		<div class="user_info">
+			<br>
+			<p>${nick }님</p>
+			<p>학번 : ${hakbun }</p>
+			<div class="user_modify">
+				<button type="button" id = "modifyNick" onclick="location.href='/member/modifyNick'">닉네임수정</button>
+				<button type="button" id = "modify" onclick="location.href='/member/modify'">비밀번호수정</button>
+				<button type="button" id = "logout" onclick="location.href='/member/logout'">로그아웃</button>
+			</div>
+		</div>
+	</form>
 </div>
 
 
-<div class="container" id="free">
-<div class="row">
+<!-- 내가 작성한 게시물 div -->
+<div class="mylist">
 
-<div class="col order-1">
-<br>
+	<!-- 게시판 선택 -->
+	<div class="board_select">
+		<a href="javascript:void(0)" onclick="select('free')">자유게시판</a>
+		<a href="javascript:void(0)" onclick="select('lecture')">강의평가</a>
+		<a href="javascript:void(0)" onclick="select('used')">중고장터</a>
+		<a href="javascript:void(0)" onclick="select('tasty')">테이스티로드</a>
+		<hr>
+	</div>
 
-<hr>
-내가 쓴 자유게시판 게시글<br><br>
+	
+	<!-- 자유게시판 -->
+	<div class="board_wrap" id="free">
+		<table class = "mypagelist">
+			<thead>
+				<tr>
+					<th style="width: 1%"></th>
+					<th style="width: 10%">번호</th>
+					<th style="width: 10%">태그</th>
+					<th style="width: 55%">제목</th>
+					<th style="width: 9%">조회수</th>
+					<th style="width: 15%">작성일</th>
+				</tr>
+			</thead>
+			
+			<tbody id="freeResult"></tbody>
+		</table>
+		
+		<div class="text-center">
+			<c:import url="/WEB-INF/views/member/paging.jsp" />
+			<button id="btnDelete2">삭제</button>
+		</div>
+	</div>
+	
+	<!-- 강의평가 -->	
+	<div class="board_wrap" id="lecture">
+		<table class = "mypagelist">
+			<thead>
+				<tr>
+					<th style="width: 1%"></th>
+					<th style="width: 10%">번호</th>
+					<th style="width: 10%">구분</th>
+					<th style="width: 55%">강의명</th>
+					<th style="width: 9%">조회수</th>
+					<th style="width: 15%">작성일</th>
+				</tr>
+			</thead>
+			<tbody id="lectureResult"></tbody>
+		</table>
+		
+		<div class="text-center">
+			<c:import url="/WEB-INF/views/member/paging.jsp" />
+			<button id="btnDelete4">삭제</button>
+		</div>
+	</div>
+	
+	<!-- 중고거래 -->
+	<div class="board_wrap" id="used">
+		<table class = "mypagelist">
+			<thead>
+				<tr>
+					<th style="width: 1%"></th>
+					<th style="width: 10%">번호</th>
+					<th style="width: 10%">태그</th>
+					<th style="width: 45%">제목</th>
+					<th style="width: 10%">가격</th>
+					<th style="width: 9%">조회수</th>
+					<th style="width: 15%">작성일</th>
+				</tr>
+			</thead>
+			<tbody id="usedResult"></tbody>
+		</table>
+		
+		<div class="text-center">
+			<c:import url="/WEB-INF/views/member/paging.jsp" />
+			<button id="btnDelete3">삭제</button>
+		</div>
+	</div>
 
-<table style = "text-align : center; margin : auto;" class = "mypagelist">
-<thead>
-	<tr>
-		<th style="width: 3%">번호</th>
-		<th style="width: 3%">태그</th>
-		<th style="width: 3%">제목</th>
-		<th style="width: 3%">작성자</th>
-		<th style="width: 3%">조회수</th>
-		<th style="width: 3%">작성일</th>
-	</tr>
-</thead>
-
-<tbody>
-	<c:forEach items="${freeList }" var="i">
-	<tr>
-		<td style="width: 3%"><input type="checkbox" name="checkRow" value = "${i.boardno }"/>${i.boardno }</td>
-		<td style="width: 3%">${i.tag }</td>
-		<td style="width: 3%"><a href="/free/view?tag=${i.tag }&boardno=${i.boardno }">${i.title }</a></td>
-		<td style="width: 3%">${i.writer }</td>
-		<td style="width: 3%">${i.hit }</td>
-		<td style="width: 3%"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
-	</tr>
-	</c:forEach>
-</tbody>
-
-</table>
+		
+	<!-- 테이스티로드 -->
+	<div class="board_wrap" id="tasty">
+		<table class = "mypagelist">
+			<thead>
+				<tr>
+					<th style="width: 1%"></th>
+					<th style="width: 10%">번호</th>
+					<th style="width: 10%">태그</th>
+					<th style="width: 55%">음식점이름</th>
+					<th style="width: 9%">조회수</th>
+					<th style="width: 15%">작성일</th>
+				</tr>
+			</thead>
+			<tbody id="tastyResult"></tbody>
+		</table>
+	
+		<div class="text-center">
+			<c:import url="/WEB-INF/views/member/paging.jsp" />
+			<button id="btnDelete1">삭제</button>
+		</div>
+	</div>
+	
 </div>
 
-</div>
-<div id="btnBox" class="float-right" style="text-align: right">
-	<button id="btnDelete2">삭제</button>
-</div>
-</div>
-
-<div class="container" id="used">
-
-<div class="row">
+<div class="mylec_wrap" >
 
 
-<div class="col order-1">
-<br>
 
-<hr>
-내가 쓴 중고장터 게시글<br><br>
+	<!-- 시간표 -->
+	<div class="timetable_wrap">
+	
+		<div style="text-align: center;" class="myh4">
+			<h4>내 시간표</h4>
+		</div>
 
-<table style = "text-align : center; margin : auto;" class = "mypagelist">
-<thead>
-	<tr>
-		<th style="width: 3%">글번호</th>
-		<th style="width: 3%">태그</th>
-		<th style="width: 3%">제목</th>
-		<th style="width: 3%">작성자</th>
-		<th style="width: 3%">가격</th>
-		<th style="width: 3%">작성일</th>
-	</tr>
-</thead>
+		<div class="mytime">
+			<table id="mytable">
+			 <thead>
+			    <tr>
+			     <th style="width:16%">시간</th>
+			     <th style="width:16.8%">월</th>
+			     <th style="width:16.8%">화</th>
+			     <th style="width:16.8%">수</th>
+			     <th style="width:16.8%">목</th>
+			     <th style="width:16.8%">금</th>
+			   </tr>
+			 </thead>
+			 <tbody>
+			<%--  <c:forEach items="${recommendList }" var="ri"> --%>
+			 <tr><th>09:00-10:00</th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 1}">
+			 <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 1 }">
+			 <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach></th>
+			 <th><c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 1 }">
+			 <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 1 }">
+			 <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 1 }">
+			 <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 </tr>
+			 <tr><th>10:00-11:00</th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
+			 <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
+			 <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach></th>
+			 <th><c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
+			 <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
+			 <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
+			 <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 </tr>
+			 <tr><th>11:00-12:00</th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
+			 <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
+			 <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach></th>
+			 <th><c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
+			 <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
+			 <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
+			 <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 </tr>
+			 <tr><th>12:00-13:00</th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
+			 <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
+			 <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach></th>
+			 <th><c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
+			 <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
+			 <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
+			 <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 </tr>
+			 <tr><th>13:00-14:00</th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
+			 <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
+			 <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach></th>
+			 <th><c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
+			 <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
+			 <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
+			 <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th> </tr>
+			 <tr><th>14:00-15:00</th>
+			  <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
+			 <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
+			 <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach></th>
+			 <th><c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
+			 <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
+			 <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
+			 <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 </tr>
+			 <tr><th>15:00-16:00</th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
+			 <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
+			 <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach></th>
+			 <th><c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
+			 <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
+			 <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
+			 <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th> 
+			 </tr>
+			 <tr><th>16:00-17:00</th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
+			 <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
+			 <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach></th>
+			 <th><c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
+			 <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
+			 <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
+			 <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 </tr>
+			 <tr><th>17:00-18:00</th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
+			 <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
+			 <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach></th>
+			 <th><c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
+			 <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
+			 <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 <th>
+			 <c:forEach items="${myList }" var="mi">
+			 <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
+			 <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
+			 </c:if>
+			 </c:forEach>
+			 </th>
+			 </tr>
+			 </tbody>
+			</table>
+		</div>
+	</div>
 
-<tbody>
-	<c:forEach items="${usedList }" var="i">
-	<tr>
-		<td style="width: 3%">
-		<input type="checkbox" name="checkRow" value = "${i.boardno }"/>${i.boardno }</td>
-		<td style="width: 3%">${i.tag }</td>
-			<td style="width: 3%"><a href="/used/view?boardno=${i.boardno }">${i.product }</a></td>
-		<td style="width: 3%">${i.writer }</td>
-		<td style="width: 3%">${i.hit }</td>
-		<td style="width: 3%"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
-	</tr>
-	</c:forEach>
-</tbody>
+	<!-- 학점계산기 -->
+	<div class="hakjum_wrap">
 
-</table>
-</div>
-
-</div>
-<div id="btnBox" class="float-right" style="text-align: right">
-	<button id="btnDelete3">삭제</button>
-</div>
-</div>
-
-<div class="container" id="lecture">
-<div class="row">
-
-<div class="col order-1">
-<br>
-
-<hr>
-내가 쓴 강의평가게시판 게시글<br><br>
-
-<table style = "text-align : center; margin : auto;" class = "mypagelist">
-<thead>
-	<tr>
-		<th style="width: 3%">번호</th>
-		<th style="width: 3%">태그</th>
-		<th style="width: 3%">제목</th>
-		<th style="width: 3%">작성자</th>
-		<th style="width: 3%">조회수</th>
-		<th style="width: 3%">작성일</th>
-	</tr>
-</thead>
-
-<tbody>
-	<c:forEach items="${lectureList }" var="i">
-	<tr>
-		<td style="width: 3%"><input type="checkbox" name="checkRow" value = "${i.boardno }"/>${i.boardno }</td>
-		<td style="width: 3%">${i.tag }</td>
-		<td style="width: 3%"><a href="/free/view?tag=${i.tag }&boardno=${i.boardno }">${i.title }</a></td>
-		<td style="width: 3%">${i.writer }</td>
-		<td style="width: 3%">${i.hit }</td>
-		<td style="width: 3%"><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
-	</tr>
-	</c:forEach>
-</tbody>
-
-</table>
-</div>
-
-</div>
-<div id="btnBox" class="float-right" style="text-align: right">
-	<button id="btnDelete4">삭제</button>
-</div>
-</div>
-
-
-<br>
-<br>
-<br>
-
-<div class="hakjum_wrap">
-<div class = "rowAll" style="position: relative">
-<div class="row1">
-
-<div style="text-align: center;">
-<hr>
-학점 계산기<br><br>
-</div>
-<div>
-<table style = "text-align : center; margin : auto;" class = "grades">
-<thead>
-	<tr>
-		<th style="width: 5%">과목명</th>
-		<th style="width: 3%">점수</th>
-		<th style="width: 1%">전공</th>
-	</tr>
-</thead>
-<tbody id = "grades">
-	<tr>
-		<th style="width: 5%"><input type = "text"></th>
-		<th style="width: 3%">
-          <select name="grades">
-                 <option value="4.5">A+</option>
-                 <option value="4.0">A</option>
-                 <option value="3.5">B+</option>
-                 <option value="3.0">B</option>
-                 <option value="2.5">C+</option>
-                 <option value="2.0">C</option>
-                 <option value="1.5">D</option>
-                 <option value="0">F</option>
-             </select></th>
-		<th style="width: 1%">
-		<input type="checkbox" name="checkRow"/></th>
-	</tr>
-	<tr>
-		<th style="width: 10%"><input type = "text"></th>
-		<th style="width: 3%">
-          <select name="grades">
-                 <option value="4.5">A+</option>
-                 <option value="4.0">A</option>
-                 <option value="3.5">B+</option>
-                 <option value="3.0">B</option>
-                 <option value="2.5">C+</option>
-                 <option value="2.0">C</option>
-                 <option value="1.5">D</option>
-                 <option value="0">F</option>
-             </select></th>
-		<th style="width: 1%">
-		<input type="checkbox" name="checkRow"/></th>
-	</tr>
-</tbody>
-</table>
-</div>
-<a href="#" title="" class="add-author">과목 추가</a>
-<a onclick="delete_row()">과목 삭제</a><br><br>
-
-		<p class="result" id = "result">
-		<span class="msg">성적을 입력해 주세요</span>
-
-<div id="btnBox" class="float-right" style="text-align: right">
-	<button class="grades" id = "btnGrades">계산</button>
-</div>
-</div></div>
-
-<div class="timetable_wrap">
-
-<div class="row2">
-
-<hr>
-내 시간표<br><br>
-
-<table class="table table-bordered" style="width:500px; height:350px; font-size: xx-small">
- <thead>
-    <tr class="text-center">
-     <th scope="col" style="width:100px">시간</th>
-     <th scope="col" style="width:300px">월</th>
-     <th scope="col" style="width:300px">화</th>
-     <th scope="col" style="width:300px">수</th>
-     <th scope="col" style="width:300px">목</th>
-     <th scope="col" style="width:300px">금</th>
-   </tr>
- </thead>
- <tbody class="text-center">
-<%--  <c:forEach items="${recommendList }" var="ri"> --%>
- <tr><th>09:00-10:00</th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 1}">
- <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 1 }">
- <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach></th>
- <th><c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 1 }">
- <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 1 }">
- <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 1 }">
- <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- </tr>
- <tr><th>10:00-11:00</th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
- <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
- <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach></th>
- <th><c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
- <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
- <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 2 || mi.start_time eq 1 }">
- <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- </tr>
- <tr><th>11:00-12:00</th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
- <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
- <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach></th>
- <th><c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
- <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
- <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 3 || mi.end_time eq 3 }">
- <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- </tr>
- <tr><th>12:00-13:00</th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
- <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
- <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach></th>
- <th><c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
- <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
- <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 4 || mi.end_time eq 4 }">
- <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- </tr>
- <tr><th>13:00-14:00</th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
- <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
- <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach></th>
- <th><c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
- <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
- <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 5 || mi.end_time eq 6 }">
- <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th> </tr>
- <tr><th>14:00-15:00</th>
-  <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
- <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
- <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach></th>
- <th><c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
- <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
- <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 6 || mi.end_time eq 6 }">
- <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- </tr>
- <tr><th>15:00-16:00</th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
- <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
- <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach></th>
- <th><c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
- <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
- <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 7 || mi.end_time > 6 }">
- <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th> 
- </tr>
- <tr><th>16:00-17:00</th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
- <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
- <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach></th>
- <th><c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
- <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
- <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 8 || mi.end_time > 7 }">
- <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- </tr>
- <tr><th>17:00-18:00</th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
- <c:if test="${mi.lecture_day eq '월' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
- <c:if test="${mi.lecture_day eq '화' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach></th>
- <th><c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
- <c:if test="${mi.lecture_day eq '수' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
- <c:if test="${mi.lecture_day eq '목' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- <th>
- <c:forEach items="${myList }" var="mi">
- <c:if test="${mi.start_time eq 9 || mi.end_time > 8 }">
- <c:if test="${mi.lecture_day eq '금' }">${mi.lecture_name }</c:if>
- </c:if>
- </c:forEach>
- </th>
- </tr>
- </tbody>
-</table>
-</div>
-</div>
+		<div style="text-align: center;" class="myh4">
+			<h4>학점계산기</h4>
+		</div>
+		
+		<div>
+		<table class="grades mycalc">
+		<thead>
+			<tr>
+				<th style="width: 5%">과목명</th>
+				<th style="width: 3%">점수</th>
+				<th style="width: 1%">전공</th>
+			</tr>
+		</thead>
+		<tbody id = "grades">
+			<tr>
+				<th style="width: 5%"><input type = "text"></th>
+				<th style="width: 3%">
+		          <select name="grades">
+		                 <option value="4.5">A+</option>
+		                 <option value="4.0">A</option>
+		                 <option value="3.5">B+</option>
+		                 <option value="3.0">B</option>
+		                 <option value="2.5">C+</option>
+		                 <option value="2.0">C</option>
+		                 <option value="1.5">D</option>
+		                 <option value="0">F</option>
+		             </select></th>
+				<th style="width: 1%">
+				<input type="checkbox" name="checkRow"/></th>
+			</tr>
+			<tr>
+				<th style="width: 10%"><input type = "text"></th>
+				<th style="width: 3%">
+		          <select name="grades">
+		                 <option value="4.5">A+</option>
+		                 <option value="4.0">A</option>
+		                 <option value="3.5">B+</option>
+		                 <option value="3.0">B</option>
+		                 <option value="2.5">C+</option>
+		                 <option value="2.0">C</option>
+		                 <option value="1.5">D</option>
+		                 <option value="0">F</option>
+		             </select></th>
+				<th style="width: 1%">
+				<input type="checkbox" name="checkRow"/></th>
+			</tr>
+		</tbody>
+		</table>
+		</div>
+		
+		<div class="calc_add">
+			<a href="javascript:void(0)" title="" class="add-author">추가</a>
+			<a onclick="delete_row()">삭제</a><br><br>
+		</div>
+				<p class="result" id = "result">
+				<span class="msg">성적을 입력해 주세요</span>
+		
+		<div id="btnBox" class="float-right" style="text-align: right">
+			<button class="grades" id = "btnGrades">계산</button>
+		</div>
+	</div>
 </div>
 

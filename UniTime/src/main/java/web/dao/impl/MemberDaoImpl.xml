@@ -80,26 +80,64 @@
 				) B
 			ORDER BY rnum
 		) tastyboard_kg
-<!-- 		WHERE rnum BETWEEN #{startNo } AND #{endNo } -->
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
 
 	</select>
 	
-	<select id = "freeList" parameterType = "web.dto.Member" resultType="web.dto.FreeBoard">
-		SELECT *
-		FROM freeBoard_kg
-		WHERE writer = #{nickname }
+	<select id = "freeList" parameterType = "web.util.Paging" resultType="web.dto.FreeBoard">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+		        SELECT boardno, tag, title, content, writer, hit, writtendate FROM freeboard_kg
+		        <if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+		        	<choose>
+		        		<when test="searchType == 'total'">
+		        			WHERE title LIKE '%' || '${keyword }' || '%'
+		        			OR content LIKE '%' || '${keyword }' || '%'
+		        			OR writer LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        		<when test="searchType != 'total'">
+		        			WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        	</choose>
+		        </if>
+		        ORDER BY boardno DESC ) B
+		    ORDER BY rnum ) RB
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
 	</select>
 	
-	<select id = "usedList" parameterType = "web.dto.Member" resultType="web.dto.UsedBoard">
-		SELECT *
-		FROM usedBoard_kg
-		WHERE writer = #{nickname }
+	<select id = "usedList" parameterType = "map" resultType="web.dto.UsedBoard">
+		SELECT 
+	    	boardno, tag, title, product,
+		    content, writer, hit, price,
+		    writtendate
+	    FROM (
+	    	SELECT rownum rnum, B.* FROM (
+	    	    SELECT * FROM UsedBoard_KG
+	    	    ORDER BY boardno DESC
+	    	    ) B
+	    	    WHERE writer = #{keyword }
+	    	ORDER BY rnum
+	    ) UsedBoard_KG
+	    WHERE rnum BETWEEN #{startNo } AND #{endNo }
 	</select>
 	
-	<select id="lectureList" parameterType="web.dto.Member" resultType="web.dto.UsedBoard">
-		SELECT *
-		FROM lectureboard_kg
-		WHERE writer = #{nickname }
+	<select id="lectureList" parameterType="map" resultType="web.dto.LectureBoard">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+		        SELECT boardno,tt.lecture_section,tt.lecture_name,tt.professor_name,
+		        		team_project,homework,total_score,writer,hit,writtendate
+		        FROM lectureboard_kg lb, timetable_kg tt
+		        WHERE lb.department_code=tt.lecture_code
+		        <if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+		        	<choose>
+		        		<when test="searchType == 'total'">
+							AND writer LIKE '%' || '${keyword }' || '%'
+		        		</when>
+		        	</choose>
+		        </if>
+		        ORDER BY boardno DESC ) B
+		    ORDER BY rnum ) RB
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
 	</select>
 	
 	<!-- 마이페이지에서 체크버튼을 이용한 삭제 -->
@@ -177,5 +215,29 @@
 		SELECT * FROM member_kg
 		WHERE email = #{email}
 
+	</select>
+	
+	<select id="selectTastyCntAllByNick" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM tastyboard_kg
+		WHERE writer = #{writer }
+	</select>
+	
+	<select id="selectFreeCntAllByNick" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM freeboard_kg
+		WHERE writer = #{writer }
+	</select>
+	
+	<select id="selectLectureCntAllByNick" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM lectureboard_kg
+		WHERE writer = #{writer }
+	</select>
+	
+	<select id="selectUsedCntAllByNick" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM usedboard_kg
+		WHERE writer = #{writer }
 	</select>
 </mapper>

@@ -17,13 +17,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-
-$(function(){
-	$("#pwFind").click(function() {
-		location.href='/member/pwFind';
-	})
-})
-
 $(document).ready(function() {
 	
 	//모든 이미지 리스트
@@ -404,7 +397,7 @@ p.number > strong {
 	</form>
 	
 	<div class="find">
-		<a class="find" id ="pwFind">비밀번호 찾기</a>
+		<a href="/member/pwFind">비밀번호 찾기</a>
 	</div>
 	
 	<div class="register">
