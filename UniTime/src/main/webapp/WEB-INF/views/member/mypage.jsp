@@ -350,6 +350,7 @@ background: #47b8e017;
 </style>
 
 <input type="hidden" name="nickname" id="nickname" value="${nick }" />
+<input type="hidden" name="hakbun" id="hakbun" value="${hakbun }" />
 
 <div class="menubar" >
 	<form>
@@ -881,6 +882,5 @@ background: #47b8e017;
 			<button class="grades" id = "btnGrades">계산</button>
 		</div>
 	</div>
-
 </div>
 

@@ -139,6 +139,32 @@ public class MemberController {
 		 
 		}
 	
+	@ResponseBody
+	@RequestMapping(value = "/member/emailCheck", method = RequestMethod.POST)
+	public int postEmailCheck(String email) {
+		logger.info("post emailCheck");
+		logger.info(email);
+		
+		Member emailCheck;
+
+		 int result2 = 0;
+		try {
+			emailCheck = memberService.emailCheck(email);
+			
+			 
+			 if(emailCheck != null) {
+			  result2 = 1;
+			 } 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		 return result2;
+		 
+		}
+	
 	@RequestMapping(value = "/member/mypage", method = RequestMethod.GET)
 	public void mypage(Model model, Member member, HttpSession session,
 			@RequestParam(defaultValue = "1") int curPage, Map<String, Object> map
@@ -321,9 +347,9 @@ public class MemberController {
 		
 	 logger.info("modifyNick 처리");
 	 
-	 memberService.memberModifyNick(member);
-	 
 	 logger.info(member.toString());
+	 
+	 memberService.memberModifyNick(member);
 	 
 	 session.invalidate();
 	 

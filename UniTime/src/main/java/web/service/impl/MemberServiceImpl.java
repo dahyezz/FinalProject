@@ -94,6 +94,10 @@ public class MemberServiceImpl implements MemberService{
 	public Member nickCheck(String nickname) throws Exception {
 		return memberDao.nickCheck(nickname);
 	}
+	@Override
+	public Member emailCheck(String email) throws Exception {
+		return memberDao.emailCheck(email);
+	}
 
 	@Override
 	public List<TastyBoard> tastyList(Paging paging) {
@@ -202,11 +206,17 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public void memberModifyNick(Member member) throws Exception {
-		/*
-		 * memberDao.memberModifyNick(member); memberDao.tastyUpdateNick(member);
-		 * memberDao.freeUpdateNick(member); memberDao.usedUpdateNick(member);
-		 * memberDao.lectureUpdateNick(member);
-		 */
+		
+	    Map<String, Object> parameters = new HashMap<String, Object>();
+	    parameters.put("oldnickname", memberDao.selectMemberByHakbun(member).getNickname());
+	    parameters.put("newnickname", member.getNickname());
+		
+		memberDao.memberModifyNick(member);
+		memberDao.tastyUpdateNick(parameters);
+		memberDao.freeUpdateNick(parameters);
+		memberDao.usedUpdateNick(parameters);
+		memberDao.lectureUpdateNick(parameters);
+		
 	}
 	
 	@Override

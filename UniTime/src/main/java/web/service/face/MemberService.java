@@ -40,6 +40,7 @@ public interface MemberService {
 	
 	public Member idCheck(String hakbun) throws Exception;
 	public Member nickCheck(String nickname) throws Exception;
+	public Member emailCheck(String email) throws Exception;
 	
 	public List<TastyBoard> tastyList(Paging tastyPaging);
 	public List<FreeBoard> freeList(Paging paging);

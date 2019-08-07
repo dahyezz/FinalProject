@@ -23,6 +23,14 @@
 		WHERE email = #{email }
 	</select>
 
+	<select id="selectMemberByHakbun" parameterType="web.dto.Member"
+		resultType="web.dto.Member">
+		SELECT department_code departmentCode, hakbun, name, email,
+		nickname, password, penalty
+		FROM member_kg
+		WHERE hakbun = #{hakbun }
+	</select>
+
 	<insert id="insert" parameterType="web.dto.Member">
 		INSERT INTO member_kg
 		(department_code, hakbun, name, email, nickname, password, penalty)
@@ -40,6 +48,12 @@
 	<select id="nickCheck" resultType="web.dto.Member">
 		SELECT nickname from member_kg
 		where nickname = #{nickname}
+	</select>
+	
+	<!-- 이메일 확인 -->
+	<select id="emailCheck" resultType="web.dto.Member">
+		SELECT email from member_kg
+		where email = #{email}
 	</select>
 	
 	<!-- 내가 작성한 목록 불러오기 -->
@@ -163,11 +177,29 @@
 	</update>
 	
 	<!-- 닉네임 수정 --> 
-<!-- 	<update id="tastyUpdateNick" parameterType = "web.dto.Member">
+	<update id="tastyUpdateNick" parameterType = "map">
  		update tastyboard_kg set
- 		writer = #{nickname}
-		WHERE writer = {nickname};
-	</update> -->
+ 		writer = #{newnickname}
+		WHERE writer = #{oldnickname}
+	</update>
+
+	<update id="freeUpdateNick" parameterType = "map">
+ 		update freeboard_kg set
+ 		writer = #{newnickname}
+		WHERE writer = #{oldnickname}
+	</update>
+	
+	<update id="usedUpdateNick" parameterType = "map">
+ 		update usedboard_kg set
+ 		writer = #{newnickname}
+		WHERE writer = #{oldnickname}
+	</update>
+	
+	<update id="lectureUpdateNick" parameterType = "map">
+ 		update lectureboard_kg set
+ 		writer = #{newnickname}
+		WHERE writer = #{oldnickname}
+	</update>
 
 	<select id="selectMyList" parameterType="String" resultType="web.dto.TempTable">
 		SELECT * FROM timetable_kg ttb JOIN mytable tb ON ttb.lecture_code=tb.lecture_code
