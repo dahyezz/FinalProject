@@ -20,6 +20,7 @@
 			<exclude-mapping path="/member/join" />
 			<exclude-mapping path="/member/idCheck" />
 			<exclude-mapping path="/member/nickCheck" />
+			<exclude-mapping path="/member/emailCheck" />
 			
 			<exclude-mapping path="/member/joinEmail" />
 			<exclude-mapping path="/member/joinComplete" />

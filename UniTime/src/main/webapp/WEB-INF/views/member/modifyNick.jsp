@@ -37,7 +37,7 @@ background:#47b8e017;
   text-decoration: none;
 }
 
-#btnModifyNick {
+#btnModifyNick, #nickCheck {
   background: #ffffff;
   background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
   background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
@@ -54,25 +54,9 @@ background:#47b8e017;
   border: solid #47b8e0 1px;
   text-decoration: none;
 }
-
-#nickCheck {
-  background: #ffffff;
-  background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
-  background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
-  background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
-  background-image: -o-linear-gradient(top, #ffffff, #ffffff);
-  background-image: linear-gradient(to bottom, #ffffff, #ffffff);
-  -webkit-border-radius: 5;
-  -moz-border-radius: 5;
-  border-radius: 5px;
-  font-family: Arial;
-  color: #47b8e0;
-  font-size: 8px;
-  padding: 5px 10px 5px 10px;
-  border: solid #47b8e0 1px;
-  text-decoration: none;
+#btnModifyNick[disabled]{
+	background: #E6E6E6;
 }
-
 </style>
 
 <script type="text/javascript">
@@ -101,12 +85,12 @@ function inputCheck() {
 						$(".result1 .msg").text("사용 불가한 닉네임입니다.");
 						$(".result1 .msg").attr("style", "color:#f00");
 
-						$("#btnJoin").attr("disabled", "disabled");
+						$("#btnModifyNick").attr("disabled", "disabled");
 					} else {
 						$(".result1 .msg").text("사용 가능한 닉네임입니다.");
 						$(".result1 .msg").attr("style", "color:#00f");
 
-						$("#btnJoin").removeAttr("disabled");
+						$("#btnModifyNick").removeAttr("disabled");
 					}
 				}
 			}); // ajax 끝
@@ -126,7 +110,7 @@ function inputCheck() {
 		})
 	});
 </script>
-
+<br><br><br>
 <div class = "row">
 <div class="col-sm-4">
 <div class="menubar1" >
@@ -175,21 +159,19 @@ function inputCheck() {
 <%-- 로그인 상태 --%>
 <c:if test="${login }">
 
-<div align="left" style=" position: absolute;">
+<div align="left" style=" position: absolute; margin-left : 30px">
 	<h4>회원정보 수정</h4>
 	<table>
 	<tr>
-		<th style="width: 100px" scope="row"><label>닉네임<input id="nickname" type="text" name="nickname" placeholder=" 닉네임을 입력하세요" /></label>
-		<button type="button" class="nickCheck" id = "nickCheck">닉네임 확인</button></th>
-		
+		<th style="width: 100px" scope="row"><label>닉네임 : <input id="nickname" type="text" name="nickname" placeholder=" 닉네임을 입력하세요" /></label></th>
 	</tr>
 	<tr>
 		<th><p class="result1">
-		<span class="msg">닉네임을 확인해 주십시오.</span></th>
+		<span class="msg">닉네임을 확인해 주십시오. </span><button type="button" class="nickCheck" id = "nickCheck">중복 확인</button></th>
 	</tr>
 	</table>
 		<input type = "hidden" name = "hakbun" value = "${hakbun}">
-		<button id="btnModifyNick">수정완료</button>
+		<button id="btnModifyNick" disabled="disabled">수정 완료</button>
 </div>
 </c:if>
 </div>
@@ -198,7 +180,7 @@ function inputCheck() {
 </div>
 </div>
 </div>
-
+<br><br><br>
 
 
 
