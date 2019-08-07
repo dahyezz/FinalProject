@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import web.dao.face.MemberDao;
 import web.dao.face.TimeTableDao;
-import web.dto.TastyBoard;
+import web.dto.Member;
 import web.dto.TempTable;
 import web.dto.TimeTable;
 import web.service.face.TimeTableService;
@@ -51,9 +51,15 @@ public class TimeTableServiceImpl implements TimeTableService {
 		
 		HttpSession session = req.getSession();
 		String id=(String)session.getAttribute("email");
+		
+		Member mem = new Member();
+		mem.setEmail(id);
+		mem = memberDao.selectMemberByEmail(mem);
+		String d_name = timeTableDao.selectDepartname(mem);
+		
 		Map<String,String> map = new HashMap<String, String>();
 		
-		
+		map.put("d_name",d_name);
 		map.put("stime", req.getParameter("timepriority"));
 		map.put("etime", Integer.toString(Integer.parseInt(req.getParameter("timepriority"))+3));
 		map.put("classNum", req.getParameter("classNum"));
