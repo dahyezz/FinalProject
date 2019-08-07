@@ -3,6 +3,13 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<!-- select태그 부트스트랩 적용 -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	
@@ -38,23 +45,15 @@ $(document).ready(function(){
 </script>
 
 <style type="text/css">
-.lectureWrite table {
-	border:1px solid #ccc;
+.ed>h3 {
+	font-weight: bold;
+	font-size: 30px;
 }
 
-.lectureWrite th{
-	text-align: center;
-	border:1px solid #ccc;
-	background:#ccf;
-}
-
-.lectureWrite button {
-	background:#ccf;
-}
-
-.lectureWrite {
-	border-left: 1px solid #eee;
-	border-right: 1px solid #eee;
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+	width: 300px;
+	float: left;
+	text-align: center; 
 }
 
 .lectureWrite #content{
@@ -76,24 +75,49 @@ $(document).ready(function(){
 	border:none;
 }
 
+#btnWrite {
+	background-color: #47b8e0;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+  
+  margin-left: 7px;
+  margin-bottom: 2px;
+}
+#btnCancel {
+background-color: #ff7473;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff ;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+}
+
 </style>
 
 <div class="lectureWrite">
 
-<h1>글쓰기</h1>
+<div class="ed board-header padding-horizontal-small@s margin-bottom-small" style="text-align: left;">
+	<h3>강의평가 게시판</h3>
+	<p>여러분들의 강의 후기를 학우들에게 공유해주세요<br>※ 강의평가 게시판은 익명으로 작성됩니다</p>
+</div>
 
 <form action="/lecture/write" method="post">
 
 	<table class="table table-condensed">
 	<tr>
-		<th>작성자</th>
-		<td>※ 강의평가 게시판은 익명으로 작성됩니다.</td>
-	</tr>
-	<tr>
 		<th>강의명</th>
 		<td colspan="3">
-			<select name="department_code">
-				<option selected>----- 강의명 선택 -----</option>
+			<select name="department_code" class="selectpicker">
+				<option selected>- - - - - 강의명 선택 - - - - -</option>
 				<c:forEach items="${timetableList }" var="i">
 				<option value="${i.lecture_code }">${i.lecture_name } - ${i.professor_name }</option>
 				</c:forEach>
