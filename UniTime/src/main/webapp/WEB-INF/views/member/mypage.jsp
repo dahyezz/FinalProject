@@ -296,6 +296,7 @@ background: #47b8e017;
 </style>
 
 <input type="hidden" name="nickname" id="nickname" value="${nick }" />
+<input type="hidden" name="hakbun" id="hakbun" value="${hakbun }" />
 
 <div class="col-4">
 <div class="menubar" >
@@ -575,7 +576,7 @@ background: #47b8e017;
 <hr>
 내 시간표<br><br>
 
-<table class="table table-bordered" style="width:500px;height:350px;">
+<table class="table table-bordered" style="width:500px; height:350px; font-size: xx-small">
  <thead>
     <tr class="text-center">
      <th scope="col" style="width:100px">시간</th>

@@ -72,7 +72,7 @@
   text-decoration: none;
 }
 
-#idCheck, #nickCheck {
+#idCheck, #nickCheck, #emailCheck {
   background: #47b8e0;
   background-image: -webkit-linear-gradient(top, #47b8e0, #47b8e0);
   background-image: -moz-linear-gradient(top, #47b8e0, #47b8e0);
@@ -189,7 +189,7 @@ $(document).ready(function() {
 					$("#btnJoin").attr("disabled", "disabled");
 				} else {
 					$(".result .msg").text("사용 가능한 학번입니다");
-					$(".result .msg").attr("style", "color:#47b8e0");
+					$(".result .msg").attr("style", "color:#000000");
 
 					$("#btnJoin").removeAttr("disabled");
 				}
@@ -208,6 +208,7 @@ $(document).ready(function() {
 				url : "/member/nickCheck",
 				type : "post",
 				data : query,
+				dataType : "json",
 				success : function(data) {
 
 					console.log(data);
@@ -219,10 +220,46 @@ $(document).ready(function() {
 						$("#btnJoin").attr("disabled", "disabled");
 					} else {
 						$(".result1 .msg").text("사용 가능한 닉네임입니다");
-						$(".result1 .msg").attr("style", "color:#00f");
+						$(".result1 .msg").attr("style", "color:#000000");
 
 						$("#btnJoin").removeAttr("disabled");
 					}
+				}
+			}); // ajax 끝
+		});
+		//----------------------------------------------------------------------------------------------------
+		$("#emailCheck").click(function() {
+			var query = {
+				email : $("#email").val()
+			};
+			
+			console.log( query );
+
+			$.ajax({
+				url : "/member/emailCheck",
+
+				type : "post",
+				data : query,
+
+				dataType : "json",
+				success : function(data) {
+					
+					console.log(data);
+					
+					if (data == 1) {
+						$(".result2 .msg").text("사용 불가한 이메일입니다");
+						$(".result2 .msg").attr("style", "color:#f00");
+
+						$("#btnJoin").attr("disabled", "disabled");
+					} else {
+						$(".result2 .msg").text("사용 가능한 이메일입니다");
+						$(".result2 .msg").attr("style", "color:#000000");
+
+						$("#btnJoin").removeAttr("disabled");
+					}
+				} , error : function( e ) {
+					console.log("error");
+// 					console.log(e)
 				}
 			}); // ajax 끝
 		});
@@ -448,13 +485,13 @@ $(document).ready(function() {
 	
 </pre>
 </div>
-<br><input type="checkbox" id = "chk1"/>동의? 어 동의
+<br><input type="checkbox" id = "chk1"/> 회원가입 이용약관에 동의합니다
 <div id="end">
 	<hr>
 </div>
 
 <div id="title">
-	<h4>개인정보 보호 정책 </h4>
+	<h4>개인정보 취급방침 </h4>
 </div>
 
 
@@ -462,7 +499,7 @@ $(document).ready(function() {
 
 <pre id="content">	
 
-<h3>개인정보 취급 방침</h3>
+<h3>개인정보 취급방침</h3>
 
 슬기로운대학생활(이하 “회사”)은 회사가 운영하는 인터넷 사이트를 이용하는 이용자님들의 개인정보를 매우 중요하게 생각하며 아래와 같은 개인 정보취급방침을 가지고 있습니다. 이 개인정보취급방침은 개인정보와 관련한 법령 또는 지침의 변경이 있는 경우 갱신되고, 정책의 변화에 따라 달라질 수 있으니 이용자께서는 슬기로운대학생활을 방문 시 수시로 확인하여 주시기 바랍니다. 회사의 개인정보취급방침은 다음과 같은 내용을 담고 있습니다. 
 
@@ -616,14 +653,14 @@ $(document).ready(function() {
 
 </pre>
 </div>
-<br><input type="checkbox" id = "chk2"/>동의? 어 동의
+<br><input type="checkbox" id = "chk2"/> 회원가입 개인정보 취급방침에 동의합니다.
 <div id="end">
 	<hr>
 </div>
 
 <label>
 <span class="hide">이용약관동의</span>
-<input type="checkbox" name="agree" id = "allChk"/> <span class="protxt">이용약관에 동의합니다.</span>
+<input type="checkbox" name="agree" id = "allChk"/> <span class="protxt"> 모든 이용약관에 동의합니다.</span>
 <span class="probtn"></span>
 </label>
 	<div class = "next1">
@@ -653,7 +690,13 @@ $(document).ready(function() {
 			</tr>
 			<tr>
 				<th style="width: 100px" scope="row"><label>이메일<input
-						type="email" name="email" placeholder=" 이메일을 입력하세요" /></label></th>
+						id = "email" type="email" name="email"
+						placeholder=" 이메일을 입력하세요" /></label>
+						<button type="button" class="emailCheck" id = "emailCheck">이메일 확인</button></th>
+			</tr>
+			<tr>
+				<th><p class="result2">
+						<span class="msg">이메일을 확인해 주십시오.</span></th>
 			</tr>
 			<tr>
 				<th style="width: 100px" scope="row"><label>닉네임<input

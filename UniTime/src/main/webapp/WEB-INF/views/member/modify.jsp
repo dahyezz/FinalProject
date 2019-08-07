@@ -75,6 +75,15 @@ background:#47b8e017;
 
 </style>
 <script type="text/javascript">
+function inputCheck() {
+	
+	var join = document.joinForm;
+
+	if(!join.password.value.match(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/)) {
+	    alert("비밀번호는 영문,숫자,특수문자(!@$%^&* 만 허용)를 혼합하여 사용해주세요. 영문은 대소문자를 구분합니다.");
+	    return false;
+	}
+}
 
 function inputCheck() {
 	
@@ -138,6 +147,7 @@ function inputCheck() {
 		})
 	});
 </script>
+<br><br><br>
 <div class = "row">
 <div class="col-sm-4">
 <div class="menubar1" >
@@ -186,7 +196,7 @@ function inputCheck() {
 <%-- 로그인 상태 --%>
 <c:if test="${login }">
 
-<div align="left" style=" position: absolute;">
+<div align="left" style=" position: absolute; margin-left : 30px">
 	<h4>회원정보 수정</h4>
 	<table>
 <!--  	<tr>
@@ -198,7 +208,7 @@ function inputCheck() {
 		<span class="msg">닉네임을 확인해 주십시오.</span></th>
 	</tr> -->
 	<tr>
-		<th style="width: 100px" scope="row"><label>새 패스워드<input id = "password" type="password" name="password" placeholder="새 비밀번호를 입력하세요" /></label></th>
+		<th style="width: 100px" scope="row"><label>새 비밀번호<input id = "password" type="password" name="password" placeholder="새 비밀번호를 입력하세요" /></label></th>
 		</tr>
 	</table>
 		<input type = "hidden" name = "hakbun" value = "${hakbun}">
@@ -209,6 +219,8 @@ function inputCheck() {
 </div>
 
 </form>
-</div>
-</div>
-</div>
+</div></div></div>
+<br><br><br>
+
+
+
