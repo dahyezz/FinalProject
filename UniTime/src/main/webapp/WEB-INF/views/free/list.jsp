@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<!-- select태그 부트스트랩 적용 -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
+    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -85,15 +92,61 @@ function checkBoardDelete(){
 	border-right: 1px solid #eee;
 }
 
+.ed>h3 {
+	font-weight: bold;
+	font-size: 30px;
+}
+.ed>span {
+	font-size: 20px;
+}
+
+#btnWrite {
+  background-color: #47b8e0;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 13	px;
+  padding: 5px 10px;
+  margin: 5px;
+  float: right;
+  border: none;
+  text-decoration: none;
+}
+
+#btnSearch {
+  background-color: #47b8e0;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 13	px;
+  padding: 7px 10px;
+/*   margin: 5px; */
+  border: none;
+  text-decoration: none;
+}
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
+	width: 80px;
+}
+.bootstrap-select>.dropdown-toggle {
+	width: 80px !important;
+}
+.bootstrap-select .dropdown-menu {
+	min-width: 80px !important;
+}
+.form-control {
+	display: inline;
+	width: 200px;
+}
+
 </style>
 
 <div class="freeList">
 
-<h1>게시판 리스트</h1>
-<hr>
-
-<div>
-<button style="float:right;" class="btn btn-info" onclick="location.href='/free/write'">글쓰기</button>
+<div class="ed board-header padding-horizontal-small@s margin-bottom-small" style="text-align: left;">
+	<h3>자유게시판</h3>
+	<button style="float:right;" id="btnWrite" onclick="location.href='/free/write'">글쓰기</button>
 </div>
 
 <table class="table table-striped table-hover table-condensed">
@@ -113,7 +166,7 @@ function checkBoardDelete(){
 
 <!-- 공지게시글 리스트 -->
 <c:forEach items="${noticeList}" var="i">
-	<tr style="background:#ccc;">
+	<tr style="background:#cdd;">
 		<c:if test="${nick eq 'admin' }"><td></td></c:if>
 		<td>${i.boardno }</td>
 		<td>${i.tag }</td>
@@ -151,14 +204,14 @@ function checkBoardDelete(){
 
 <div class="freeSearch">
 <form action="/free/list" method="get">
-	<select name="searchType">
+	<select name="searchType" class="selectpicker">
 		<option value="total" selected>전체</option>
 		<option value="title">제목</option>
 		<option value="content">내용</option>
 		<option value="writer">작성자</option>
 	</select>
 	
-	<input type="text" name="keyword" placeholder="검색어를 입력해주세요."/>
-	<button>검색</button>
+	<input type="text" name="keyword"  class="form-control" placeholder="검색어를 입력해주세요."/>
+	<button id="btnSearch">검색</button>
 </form>
 </div>

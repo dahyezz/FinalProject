@@ -47,6 +47,7 @@ $(document).ready(function(){
 		$.getJSON("/free/commentview?boardno="+boardno, function(data){
 			
 			var html='';
+			var commentCnt=0;
 			
 			//배열을 순회하면서 HTML을  생성
 			$(data).each(function(){
@@ -66,9 +67,12 @@ $(document).ready(function(){
 	            }
 	            html+= '<hr>';
 	            html+= '</div>';
+	            
+	            commentCnt++;
 			});
 			
 			$(".freeViewCommentList").html(html);
+			$("#commentCnt").html(commentCnt);
 		});
 	}
 	
@@ -164,6 +168,11 @@ $(document).ready(function(){
 	width:98%;
 	margin-left: 10px;
 }
+
+.freeCommentWrite span{
+	float: left;
+	font-size:30px;
+}
 </style>
 
 <div class="freeView">
@@ -224,8 +233,9 @@ $(document).ready(function(){
 <c:if test="${board.tag ne '공지'}">
 
 <div class="freeCommentWrite">
-	<h3 style="float:left;">Comments</h3><span id="commentCnt"></span>
-	<hr>
+	<span>댓글&nbsp;</span>
+	<span id="commentCnt"></span>
+	<span>개</span>
 	
 	<form id="commentWriteForm" method="post">
 		<input type="hidden" id="boardno" value="${board.boardno }">
