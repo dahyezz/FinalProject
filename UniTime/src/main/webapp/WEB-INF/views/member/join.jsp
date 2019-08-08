@@ -195,9 +195,19 @@ $(document).ready(function() {
 				}
 			}
 		}); // ajax 끝
+		
 	});
 		//----------------------------------------------------------------------------------------------------
 		$(".nickCheck").click(function() {
+			
+			var join = document.joinForm;
+			
+				if(join.nickname.value.length < 4) {
+					alert("닉네임 최소자릿수는 4자리 입니다.");
+			   		x.nick.focus();
+			    	return;
+				}
+			
 			var query = {
 				nickname : $("#nickname").val()
 			};

@@ -31,8 +31,6 @@ jQuery(function(){
         		'<option value="1.5">D</option>' +
         		'<option value="0">F</option>' +
         		'</select></th>' +
-        		'<th style="width: 1%">' +
-        		'<input type="checkbox" name="checkRow"/></th>' +
         		'</tr>');
             counter++;
         jQuery('table.grades').append(newRow);
@@ -366,117 +364,7 @@ background: #47b8e017;
 		</div>
 	</form>
 </div>
-
-
-<!-- 내가 작성한 게시물 div -->
-<div class="mylist">
-
-	<!-- 게시판 선택 -->
-	<div class="board_select">
-		<a href="javascript:void(0)" onclick="select('free')">자유게시판</a>
-		<a href="javascript:void(0)" onclick="select('lecture')">강의평가</a>
-		<a href="javascript:void(0)" onclick="select('used')">중고장터</a>
-		<a href="javascript:void(0)" onclick="select('tasty')">테이스티로드</a>
-		<hr>
-	</div>
-
-	
-	<!-- 자유게시판 -->
-	<div class="board_wrap" id="free">
-		<table class = "mypagelist">
-			<thead>
-				<tr>
-					<th style="width: 1%"></th>
-					<th style="width: 10%">번호</th>
-					<th style="width: 10%">태그</th>
-					<th style="width: 55%">제목</th>
-					<th style="width: 9%">조회수</th>
-					<th style="width: 15%">작성일</th>
-				</tr>
-			</thead>
-			
-			<tbody id="freeResult"></tbody>
-		</table>
-		
-		<div class="text-center">
-			<c:import url="/WEB-INF/views/member/paging.jsp" />
-			<button id="btnDelete2">삭제</button>
-		</div>
-	</div>
-	
-	<!-- 강의평가 -->	
-	<div class="board_wrap" id="lecture">
-		<table class = "mypagelist">
-			<thead>
-				<tr>
-					<th style="width: 1%"></th>
-					<th style="width: 10%">번호</th>
-					<th style="width: 10%">구분</th>
-					<th style="width: 55%">강의명</th>
-					<th style="width: 9%">조회수</th>
-					<th style="width: 15%">작성일</th>
-				</tr>
-			</thead>
-			<tbody id="lectureResult"></tbody>
-		</table>
-		
-		<div class="text-center">
-			<c:import url="/WEB-INF/views/member/paging.jsp" />
-			<button id="btnDelete4">삭제</button>
-		</div>
-	</div>
-	
-	<!-- 중고거래 -->
-	<div class="board_wrap" id="used">
-		<table class = "mypagelist">
-			<thead>
-				<tr>
-					<th style="width: 1%"></th>
-					<th style="width: 10%">번호</th>
-					<th style="width: 10%">태그</th>
-					<th style="width: 45%">제목</th>
-					<th style="width: 10%">가격</th>
-					<th style="width: 9%">조회수</th>
-					<th style="width: 15%">작성일</th>
-				</tr>
-			</thead>
-			<tbody id="usedResult"></tbody>
-		</table>
-		
-		<div class="text-center">
-			<c:import url="/WEB-INF/views/member/paging.jsp" />
-			<button id="btnDelete3">삭제</button>
-		</div>
-	</div>
-
-		
-	<!-- 테이스티로드 -->
-	<div class="board_wrap" id="tasty">
-		<table class = "mypagelist">
-			<thead>
-				<tr>
-					<th style="width: 1%"></th>
-					<th style="width: 10%">번호</th>
-					<th style="width: 10%">태그</th>
-					<th style="width: 55%">음식점이름</th>
-					<th style="width: 9%">조회수</th>
-					<th style="width: 15%">작성일</th>
-				</tr>
-			</thead>
-			<tbody id="tastyResult"></tbody>
-		</table>
-	
-		<div class="text-center">
-			<c:import url="/WEB-INF/views/member/paging.jsp" />
-			<button id="btnDelete1">삭제</button>
-		</div>
-	</div>
-	
-</div>
-
 <div class="mylec_wrap" >
-
-
 
 	<!-- 시간표 -->
 	<div class="timetable_wrap">
@@ -831,7 +719,6 @@ background: #47b8e017;
 			<tr>
 				<th style="width: 5%">과목명</th>
 				<th style="width: 3%">점수</th>
-				<th style="width: 1%">전공</th>
 			</tr>
 		</thead>
 		<tbody id = "grades">
@@ -848,8 +735,6 @@ background: #47b8e017;
 		                 <option value="1.5">D</option>
 		                 <option value="0">F</option>
 		             </select></th>
-				<th style="width: 1%">
-				<input type="checkbox" name="checkRow"/></th>
 			</tr>
 			<tr>
 				<th style="width: 10%"><input type = "text"></th>
@@ -864,8 +749,6 @@ background: #47b8e017;
 		                 <option value="1.5">D</option>
 		                 <option value="0">F</option>
 		             </select></th>
-				<th style="width: 1%">
-				<input type="checkbox" name="checkRow"/></th>
 			</tr>
 		</tbody>
 		</table>
@@ -882,5 +765,112 @@ background: #47b8e017;
 			<button class="grades" id = "btnGrades">계산</button>
 		</div>
 	</div>
-</div>
+</div><br><br><br><br>
 
+
+
+<!-- 내가 작성한 게시물 div -->
+<div class="mylist">
+
+	<!-- 게시판 선택 -->
+	<div class="board_select">
+		<a href="javascript:void(0)" onclick="select('free')">자유게시판</a>
+		<a href="javascript:void(0)" onclick="select('lecture')">강의평가</a>
+		<a href="javascript:void(0)" onclick="select('used')">중고장터</a>
+		<a href="javascript:void(0)" onclick="select('tasty')">테이스티로드</a>
+		<hr>
+	</div>
+
+	
+	<!-- 자유게시판 -->
+	<div class="board_wrap" id="free">
+		<table class = "mypagelist">
+			<thead>
+				<tr>
+					<th style="width: 1%"></th>
+					<th style="width: 10%">번호</th>
+					<th style="width: 10%">태그</th>
+					<th style="width: 55%">제목</th>
+					<th style="width: 9%">조회수</th>
+					<th style="width: 15%">작성일</th>
+				</tr>
+			</thead>
+			
+			<tbody id="freeResult"></tbody>
+		</table>
+		
+		<div class="text-center">
+			<c:import url="/WEB-INF/views/member/paging.jsp" />
+			<button id="btnDelete2">삭제</button>
+		</div>
+	</div>
+	
+	<!-- 강의평가 -->	
+	<div class="board_wrap" id="lecture">
+		<table class = "mypagelist">
+			<thead>
+				<tr>
+					<th style="width: 1%"></th>
+					<th style="width: 10%">번호</th>
+					<th style="width: 10%">구분</th>
+					<th style="width: 55%">강의명</th>
+					<th style="width: 9%">조회수</th>
+					<th style="width: 15%">작성일</th>
+				</tr>
+			</thead>
+			<tbody id="lectureResult"></tbody>
+		</table>
+		
+		<div class="text-center">
+			<c:import url="/WEB-INF/views/member/paging.jsp" />
+			<button id="btnDelete4">삭제</button>
+		</div>
+	</div>
+	
+	<!-- 중고거래 -->
+	<div class="board_wrap" id="used">
+		<table class = "mypagelist">
+			<thead>
+				<tr>
+					<th style="width: 1%"></th>
+					<th style="width: 10%">번호</th>
+					<th style="width: 10%">태그</th>
+					<th style="width: 45%">제목</th>
+					<th style="width: 10%">가격</th>
+					<th style="width: 9%">조회수</th>
+					<th style="width: 15%">작성일</th>
+				</tr>
+			</thead>
+			<tbody id="usedResult"></tbody>
+		</table>
+		
+		<div class="text-center">
+			<c:import url="/WEB-INF/views/member/paging.jsp" />
+			<button id="btnDelete3">삭제</button>
+		</div>
+	</div>
+
+		
+	<!-- 테이스티로드 -->
+	<div class="board_wrap" id="tasty">
+		<table class = "mypagelist">
+			<thead>
+				<tr>
+					<th style="width: 1%"></th>
+					<th style="width: 10%">번호</th>
+					<th style="width: 10%">태그</th>
+					<th style="width: 55%">음식점이름</th>
+					<th style="width: 9%">조회수</th>
+					<th style="width: 15%">작성일</th>
+				</tr>
+			</thead>
+			<tbody id="tastyResult"></tbody>
+		</table>
+	
+		<div class="text-center">
+			<c:import url="/WEB-INF/views/member/paging.jsp" />
+			<button id="btnDelete1">삭제</button>
+		</div>
+	</div>
+	
+</div>

@@ -7,7 +7,7 @@ import web.dto.BadReport;
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
 import web.dto.UsedComment;
-import web.util.Paging;
+import web.util.Paging4used;
 
 public interface UsedDao {
 	
@@ -26,7 +26,7 @@ public interface UsedDao {
 	 *  @param paging : 페이징 객체 
 	 *  @return List<UsedBoard> : 전체 조회 결과 반환
 	 */
-	public List<UsedBoard> selectAll(Paging paging);
+//	public List<UsedBoard> selectAll(Paging paging);
 	
 	
 	/**
@@ -58,14 +58,14 @@ public interface UsedDao {
 	 * @param search : 페이징 정보 
 	 * @return int : 검색된 게시글 수 
 	 */
-	public int countSearch(Paging search);
+	public int countSearch(Paging4used search);
 	
 	/**
 	 *  검색어 적용한 게시글 목록 조회 
 	 * @param search : 검색어 
 	 * @return List : 검색되어 페이징처리된 게시글 
 	 */
-	public List<UsedBoard> selectPageSearch(Paging search);
+	public List<UsedBoard> selectPageSearch(Paging4used search);
 	
 	/**
 	 * 게시글 작성하기 
@@ -131,6 +131,14 @@ public interface UsedDao {
 	 *  @return
 	 */
 	public List<UsedComment> selectAllCommentnoByBoardno(int boardno);
+	
+	
+	/**
+	 *  게시글내 댓글 수 조회
+	 * @param usedCmt
+	 * @return
+	 */
+	public List<UsedBoard> CountComment(UsedComment UsedCmt);
 	
 	
 	/**

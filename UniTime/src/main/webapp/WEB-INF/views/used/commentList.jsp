@@ -8,6 +8,7 @@
 <div id="commentdiv">
 	<h4>댓글</h4>
 	
+	<!-- 댓글 목록 조회 -->
 	<c:forEach items="${commentList }" var="i">
 		<div id="commentno${i.commentno }" data-commentno="${i.commentno }" class="comment"> 
 			<span>${i.writer }</span>
@@ -20,13 +21,31 @@
 				
 				<div id="commentre${i.commentno }" style="display:none;"></div>
 			</c:if>
-			
-			
-			<!-- 작성자가 아닌 유저/관리자가 신고할 때 -->
-			<c:if test="${nick ne i.writer && nick ne 'admin' }">
-				<a href="javascript:void(0)" onclick="report('${i.boardno}','${i.commentno }')" id="cmtReport${i.commentno }">신고</a>
-			</c:if>
-			
 		</div>
 	</c:forEach>
+	
+	
+	<!-- 댓글 작성창 -->
+	<br>	
+	<label>${nick }
+		<textarea id="content" name="content" rows="1" cols="70"></textarea>
+ 		
+ 		<!-- 엔터키로 댓글 입력  -- doesn't works
+		<script>
+		$("#content").keyup(function(e){ 
+	        var code = e.which;
+	        if(code==13){
+	        	e.preventDefault();
+	       	 	$('cmtWrite').click(writeComment());
+	        } 
+		}); 
+		</script>
+		-->
+
+	</label>
+	
+	<input type="hidden" name="writer" id="writer" value="${nick }" />
+	
+	<button id="cmtWrite" name="cmtWrite" class="btn" >입력</button>
+	
 </div>

@@ -59,16 +59,17 @@ public class MainController {
 		model.addAttribute("usedboard", usedBoard);
 		
 		String email = (String)session.getAttribute("email");
+
 		if(email != null && email.equals("")) {
 			List<TimeTable> timeTable = mainService.timeTable(email);
-			model.addAttribute("timetable", timeTable);	
+			model.addAttribute("myList", timeTable);	
 		}
 		logger.info("시간표 : " + email);		
 
 	}
 	
 	@RequestMapping(value="/unitime", method=RequestMethod.GET)
-	public void unitime() {}
+	public void unitime() { }
 	
 	
 	

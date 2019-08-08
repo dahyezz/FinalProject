@@ -12,6 +12,7 @@
 	<definition name="free/report" template="/WEB-INF/views/free/report.jsp" />
 	<definition name="lecture/report" template="/WEB-INF/views/lecture/report.jsp" />
 	<definition name="used/commentList" template="/WEB-INF/views/used/commentList.jsp" />
+	<definition name="used/reportReason" template="/WEB-INF/views/used/reportReason.jsp" />
 	<definition name="unitime" template="/WEB-INF/views/unitime.jsp" />
 	
 	

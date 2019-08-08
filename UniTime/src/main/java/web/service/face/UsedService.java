@@ -11,7 +11,7 @@ import web.dto.BadReport;
 import web.dto.UsedBoard;
 import web.dto.UsedComment;
 import web.dto.UsedImage;
-import web.util.Paging;
+import web.util.Paging4used;
 
 public interface UsedService {
 
@@ -23,7 +23,7 @@ public interface UsedService {
 	 *  @param curPage : 현재 페이지 
 	 *  @return Paging : 페이징 객체 
 	 */
-	public Paging getPage(
+	public Paging4used getPage(
 			int curPage
 		);
 	
@@ -34,9 +34,9 @@ public interface UsedService {
 	 *  @param Paging : 페이징 객체 
 	 *  @return List<UsedBoard> : 전체 글 List
 	 */
-	public List<UsedBoard> list(
-			Paging paging
-		);
+//	public List<UsedBoard> list(
+//			Paging paging
+//		);
 	
 	
 	/**
@@ -44,14 +44,14 @@ public interface UsedService {
 	 * @param search
 	 * @return
 	 */
-	public int getTotal(Paging search);
+	public int getTotal(Paging4used search);
 	
 	/**
 	 *  검색결과에 페이징 처리한 게시글 목록 
 	 * @param search - 페이징, 검색어 정보 
 	 * @return List - 검색되고 페이징처리된 게시글 
 	 */
-	public List<UsedBoard> getSearchPagingList(Paging search);
+	public List<UsedBoard> getSearchPagingList(Paging4used search);
 	
 	/**
 	 * 게시글 작성하기 
@@ -184,4 +184,10 @@ public interface UsedService {
 	public boolean checkReport(BadReport bad);
 	
 	
+	/**
+	 *  댓글 수 가져오는 기능
+	 * @param boardno
+	 * @return
+	 */
+	public List<UsedBoard> getCountCmt(UsedComment UsedCmt);
 }
