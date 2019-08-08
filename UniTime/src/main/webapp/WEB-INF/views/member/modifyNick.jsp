@@ -57,6 +57,13 @@ background:#47b8e017;
 #btnModifyNick[disabled]{
 	background: #E6E6E6;
 }
+
+#nickCheck, #btnModifyNick {
+    position: relative;
+    left: 660px;
+    top: 100px;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -67,6 +74,15 @@ function inputCheck() {
 	$(document).ready(function() {
 		
 		$(".nickCheck").click(function() {
+			
+			var join = document.joinForm;
+			
+			if(join.nickname.value.length < 4) {
+				alert("닉네임 최소자릿수는 4자리 입니다.");
+		   		x.nick.focus();
+		    	return;
+			}
+			
 			var query = {
 				nickname : $("#nickname").val()
 			};
@@ -109,6 +125,7 @@ function inputCheck() {
 			history.go(-1);
 		})
 	});
+
 </script>
 <br><br><br>
 <div class = "row">
@@ -145,7 +162,7 @@ function inputCheck() {
 
 <div class="col-4">
 <div class="menubar2" >
-	<form action="/member/modifyNick" method="post" name="modifyForm"
+	<form name = "joinForm" action="/member/modifyNick" method="post" name="modifyForm"
 		onsubmit="return inputCheck()">
 <div class="left">
 <br>
@@ -167,10 +184,11 @@ function inputCheck() {
 	</tr>
 	<tr>
 		<th><p class="result1">
-		<span class="msg">닉네임을 확인해 주십시오. </span><button type="button" class="nickCheck" id = "nickCheck">중복 확인</button></th>
+		<span class="msg">닉네임을 확인해 주십시오. </span></th>
 	</tr>
 	</table>
 		<input type = "hidden" name = "hakbun" value = "${hakbun}">
+		<button type="button" class="nickCheck" id = "nickCheck">중복 확인</button>
 		<button id="btnModifyNick" disabled="disabled">수정 완료</button>
 </div>
 </c:if>
