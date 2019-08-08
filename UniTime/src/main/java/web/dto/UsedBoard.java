@@ -14,14 +14,16 @@ public class UsedBoard {
 	private int price;
 	private Date writtendate;
 	private int rnum;
+	private int commentCnt;
 	
 	
 	@Override
 	public String toString() {
 		return "UsedBoard [boardno=" + boardno + ", tag=" + tag + ", title=" + title + ", product=" + product
 				+ ", content=" + content + ", writer=" + writer + ", hit=" + hit + ", price=" + price + ", writtendate="
-				+ writtendate + ", rownum=" + rnum + "]";
+				+ writtendate + ", rownum=" + rnum + "commentCnt" + commentCnt + "]";
 	}
+
 	public int getBoardno() {
 		return boardno;
 	}
@@ -83,6 +85,12 @@ public class UsedBoard {
 		this.rnum = rownum;
 	}
 	
+	public int getCommentCnt() {
+		return commentCnt;
+	}
+	public void setCommentCnt(int commentCnt) {
+		this.commentCnt = commentCnt;
+	}
 
 	
 }

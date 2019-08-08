@@ -14,25 +14,6 @@
 	</select>
 	
 	
-	<select id="selectAll"
-	    resultType="web.dto.UsedBoard"
-	    parameterType="web.util.Paging">
-	    SELECT 
-	    	boardno, tag, title, product,
-		    content, writer, hit, price,
-		    writtendate
-	    FROM (
-	    	SELECT rownum rnum, B.* FROM (
-	    	    SELECT * FROM UsedBoard_KG
-	    	    ORDER BY boardno DESC
-	    	    ) B
-	    	ORDER BY rnum
-	    ) UsedBoard_KG
-	    WHERE 
-	         rnum BETWEEN #{startNo } AND #{endNo }
-	</select>
-	
-	
 	<select id="getBoardno"
 	    resultType="int">
 	    SELECT usedboard_kg_seq.nextval FROM dual
@@ -302,7 +283,8 @@
 		SELECT  
 		    boardno, tag, title, product, 
 		    content, writer, hit, 
-		    price, writtendate
+		    price, writtendate, 
+		    (SELECT COUNT(*) FROM UsedComment_KG WHERE boardno = UsedBoard_KG.boardno) commentCnt
 		FROM 
 		    UsedBoard_KG
 	</sql>

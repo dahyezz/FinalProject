@@ -256,13 +256,13 @@ $(document).ready(function() {
 		style="width:100%">
 		
 		<tr>
-			<th>글번호</th>
-			<td>
-				${usedboard.boardno }
-			</td>
 			<th>조회수</th>
 			<td>
 				${usedboard.hit }
+			</td>
+			<th>댓글수</th>
+			<td>
+				${usedboard.commentCnt }
 			</td>
 		</tr>
 		<tr>
