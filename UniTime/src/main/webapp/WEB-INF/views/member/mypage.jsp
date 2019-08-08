@@ -280,7 +280,7 @@ background: #47b8e017;
 
 .hakjum_wrap {
 
-/*     width: 45%; */
+    width: 45%;
     display: inline-block;
     margin-bottom: 10px;
 	float: right;
@@ -714,6 +714,10 @@ background: #47b8e017;
 		</div>
 		
 		<div>
+		<div class="calc_add">
+			<a href="javascript:void(0)" title="" class="add-author">추가</a>
+			<a onclick="delete_row()">삭제</a><br><br>
+		</div>
 		<table class="grades mycalc">
 		<thead>
 			<tr>
@@ -752,11 +756,6 @@ background: #47b8e017;
 			</tr>
 		</tbody>
 		</table>
-		</div>
-		
-		<div class="calc_add">
-			<a href="javascript:void(0)" title="" class="add-author">추가</a>
-			<a onclick="delete_row()">삭제</a><br><br>
 		</div>
 				<p class="result" id = "result">
 				<span class="msg">성적을 입력해 주세요</span>
