@@ -65,19 +65,7 @@
 			<li><a href="/used/list">중고장터</a></li>
 			<li><a href="/tasty/list">테이스티로드</a></li>
 		</c:if>
-		<c:if test="${nick eq 'admin'}">
-			<li><a href="/admin/site">사이트관리</a></li>
-			<li><a href="/admin/board">게시판관리</a>
-				<ul>
-					<li><a href="/free/list" >자유게시판</a></li>
-					<li><a href="/lecture/list">강의평가</a></li>
-					<li><a href="/used/list">중고장터</a></li>
-					<li><a href="/tasty/list">테이스티로드</a></li>
-				</ul>
-			</li>
-			<li><a href="/admin/member">회원리스트</a></li>
-			<li><a href="/admin/black">블랙리스트</a></li>
-		</c:if>
+		
 	</ul>
 </div>
 

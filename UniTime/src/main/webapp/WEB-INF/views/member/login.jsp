@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
 
 <style rel="stylesheet">
+.footer {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+}
 #form {
   z-index: 15;
   position: relative;

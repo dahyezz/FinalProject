@@ -19,6 +19,23 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- 에러페이지 지정 -->
+	<error-page>
+	    <exception-type>java.lang.Throwable</exception-type>
+	    <location>/WEB-INF/views/unitime.jsp</location>
+	</error-page>
+	
+	<error-page>
+	    <error-code>404</error-code>
+	    <location>/WEB-INF/views/unitime.jsp</location>
+	</error-page>
+	
+	<error-page>
+	    <error-code>500</error-code>
+	    <location>/WEB-INF/views/unitime.jsp</location>
+	</error-page>
+
+
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

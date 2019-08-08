@@ -2,6 +2,9 @@ package web.dao.face;
 
 import java.util.List;
 
+import web.dto.TimeTable;
+import web.dto.Unilist;
+
 public interface MainDao {
 	
 	public List freeboardNotice();
@@ -12,6 +15,8 @@ public interface MainDao {
 	
 	public List usedBoard();
 	
-	public List timeTable(String email);
+	public List<TimeTable> timeTable(String email);
+
+	public List<Unilist> selectAllUnilist(String keyword);
 
 }

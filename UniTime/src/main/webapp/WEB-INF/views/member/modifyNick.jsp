@@ -4,6 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     
 <style type = "text/css">
+.footer {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+}
 .menubar1{
 margin-left: 0px;
 margin-bottom: 30px;

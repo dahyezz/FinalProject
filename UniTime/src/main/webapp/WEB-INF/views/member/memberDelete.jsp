@@ -3,6 +3,11 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
+.footer {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+} 
 #btnMemberDelete {
   background: #ffffff;
   background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);

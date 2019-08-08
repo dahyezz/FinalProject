@@ -45,13 +45,14 @@ public class TastyBoardController {
 	
 	@RequestMapping(value="/tasty/list", method=RequestMethod.GET)
 	public void list(Model model,
-			@RequestParam(defaultValue="1") int curPage,String searchType, String keyword,
+			@RequestParam(defaultValue="1") int curPage,String searchType, String keyword,String listSelect,
 			Map<String, Object> map 
 			) {
 		
 		map.put("curPage", curPage);
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
+		map.put("listSelect", listSelect);
 		
 		Paging paging = tastyBoardService.getcurPage(map);
 	
@@ -59,6 +60,7 @@ public class TastyBoardController {
 		
 		List<TastyBoard> boardList = tastyBoardService.list(paging);
 
+		model.addAttribute("liSel", listSelect);
 		model.addAttribute("list", boardList);
 		model.addAttribute("paging", paging);
 	}

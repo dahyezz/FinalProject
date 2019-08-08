@@ -19,6 +19,8 @@ public class Paging {
 	private String searchType;	//게시판 검색 타입
 	private String keyword;	//게시판 검색 키워드
 	
+	private String listSelect;
+	
 	public Paging() {	}
 	
 	// 총 게시글 수만 입력하는 생성자
@@ -94,11 +96,14 @@ public class Paging {
 		endNo = curPage*listCount;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "Paging [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount + ", totalPage="
 				+ totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage=" + endPage
-				+ ", startNo=" + startNo + ", endNo=" + endNo + ",searchType=" + searchType + ",keyword=" + keyword + "]";
+				+ ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + ", searchType=" + searchType
+				+ ", keyword=" + keyword + ", listSelect=" + listSelect + "]";
 	}
 
 	public int getCurPage() {
@@ -197,4 +202,13 @@ public class Paging {
 		this.keyword = keyword;
 	}
 
+	public String getListSelect() {
+		return listSelect;
+	}
+
+	public void setListSelect(String listSelect) {
+		this.listSelect = listSelect;
+	}
+
+	
 }

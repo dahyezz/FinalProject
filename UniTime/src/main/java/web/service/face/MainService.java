@@ -2,6 +2,9 @@ package web.service.face;
 
 import java.util.List;
 
+import web.dto.TimeTable;
+import web.dto.Unilist;
+
 public interface MainService {
 	
 	public List freeboardNotice();
@@ -12,7 +15,9 @@ public interface MainService {
 	
 	public List usedBoard();
 	
-	public List timeTable(String email);
+	public List<TimeTable> timeTable(String email);
+
+	public List<Unilist> getUniList(String keyword);
 	
 
 }

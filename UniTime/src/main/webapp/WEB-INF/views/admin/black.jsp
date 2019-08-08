@@ -53,6 +53,11 @@ $(document).ready(function() {
 </script>
     
 <style type="text/css">
+.footer {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+}
 .list table, th {
 	text-align: center;
 }
