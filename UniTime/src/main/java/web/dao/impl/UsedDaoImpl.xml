@@ -168,7 +168,6 @@
 	<select id="selectAllCommentnoByBoardno"
 		parameterType="web.dto.UsedBoard"
 		resultType="web.dto.UsedComment">
-		
 		SELECT 
 			commentno, boardno, writer, content, writtendate
 		FROM 
@@ -177,9 +176,20 @@
 			boardno = #{boardno }
 		ORDER BY
 			commentno DESC
-		
 	</select>
 	
+	
+	<!-- 댓글 수 가져오는 기능 -->
+	<select id="CountComment"
+		parameterType="web.dto.UsedComment"
+		resultType="web.dto.UsedBoard">
+		SELECT
+			count(*)
+		FROM
+			usedcomment_kg
+		GROUP BY
+		    boardno
+	</select>
 	
 	
 	<select id="selectBoardByCommentno"
@@ -331,5 +341,6 @@
 		) CNT
 		
 	</select>
+	
 	
 </mapper>

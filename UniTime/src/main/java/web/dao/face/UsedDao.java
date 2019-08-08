@@ -134,6 +134,14 @@ public interface UsedDao {
 	
 	
 	/**
+	 *  게시글내 댓글 수 조회
+	 * @param usedCmt
+	 * @return
+	 */
+	public List<UsedBoard> CountComment(UsedComment UsedCmt);
+	
+	
+	/**
 	 * 댓글 번호를 통해 게시글 조회하기
 	 * @param usedcmt
 	 * @return
@@ -189,5 +197,5 @@ public interface UsedDao {
 	 */
 	public int selectCntBadReport(BadReport bad);
 	
-
+	
 }
