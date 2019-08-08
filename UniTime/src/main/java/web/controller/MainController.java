@@ -44,8 +44,8 @@ public class MainController {
 		
 		String email = (String)session.getAttribute("email");
 		List timeTable = mainService.timeTable(email);
+		model.addAttribute("myList", timeTable);
 		logger.info("시간표 : " + email);
-		
 		
 		
 		
@@ -54,7 +54,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/unitime", method=RequestMethod.GET)
-	public void unitime() {}
+	public void unitime() { }
 	
 	
 	
