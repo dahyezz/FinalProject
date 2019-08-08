@@ -101,7 +101,26 @@ function sendFile(file, el){
 }
 
 .freeWrite #content{
-	width:98%;
+	width:100%;
+}
+
+.freeWriteTable {
+	font-size: 14px;
+	line-height: 1.5;
+	border: none;
+	margin-bottom: 15px;
+	font-family: 'NanumSquare', sans-serif;
+}
+.freeWriteTable tr th {
+	font-weight: 700;
+	white-space: nowrap;
+	width:100px;
+}
+.freeWriteTable tr th, .freeWriteTable tr td {
+	color: #34314c;
+	text-align: left;
+	padding: 10px 10px 0 0;
+	border: none;
 }
 
 #btnWrite {
@@ -118,6 +137,7 @@ function sendFile(file, el){
   margin-left: 7px;
   margin-bottom: 2px;
 }
+
 #btnCancel {
 background-color: #ff7473;
   -webkit-border-radius: 5;
@@ -139,14 +159,10 @@ background-color: #ff7473;
 </div>
 
 <form action="/free/write" method="post" id ="writeForm" enctype="multipart/form-data">	
-	<table class="table">
-	<tr>
-		<th>작성자</th>
-		<td>${nick }</td>
-	</tr>
+	<table class="freeWriteTable">
 	<tr>
 		<th>태그</th>
-		<td colspan="3">
+		<td>
 			<select name="tag" class="selectpicker">
 			<c:if test="${nick eq 'admin' }">
 				<option value="공지" selected>공지</option>
@@ -162,21 +178,18 @@ background-color: #ff7473;
 	</tr>
 	<tr>
 		<th>제목</th>
-		<td colspan="3"><input type="text" style="width:600px;" name="title" /></td>
+		<td><input type="text" name="title" style="width:800px;"/></td>
 	</tr>
 	<tr>
 		<th>첨부파일</th>
-		<td colspan="3"> <input type="file" name="file"/></td>
+		<td> <input type="file" name="file"/></td>
 	</tr>
 	<tr>
-		<th colspan="4">내용</th>
-	</tr>
-	<tr>
-		<td colspan="4">
-		<textarea id="summernote" name="content"></textarea>
-		</td>
+		<th>내용</th>
 	</tr>
 	</table>
+	
+	<textarea id="summernote" name="content"></textarea>
 	
 	<div class="text-center">	
 	<button type="submit" id="btnWrite" >작성</button>
