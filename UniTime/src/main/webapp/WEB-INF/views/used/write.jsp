@@ -121,7 +121,7 @@ function sendFile(file, el){
 				images = images+data.usedImgNo;
 				document.getElementById("images").value = images;
 				isfirst = false;
-			}else{
+			} else{
 				images = images + "," + data.usedImgNo;	
 				document.getElementById("images").value = images;
 			}
@@ -134,8 +134,6 @@ function sendFile(file, el){
 	});
 }
 </script>
-
-
 
 
 

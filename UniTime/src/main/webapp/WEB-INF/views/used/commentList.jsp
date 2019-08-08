@@ -6,9 +6,19 @@
 
 
 <div id="commentdiv">
-	<h4>댓글</h4>
+	<c:if test="${usedboard.commentCnt == 0 }">
+		<span style="font-size: 1.5em;">댓글</span>
+	</c:if>
+	<c:if test="${usedboard.commentCnt != 0 }">
+		<span style="font-size: 1.5em;">댓글&nbsp;</span>
+		<span style="font-size: 1.5em;">${usedboard.commentCnt }</span>
+		<span style="font-size: 1.5em;">개</span>
+	</c:if>
+
+	
 	
 	<!-- 댓글 목록 조회 -->
+	<br>
 	<c:forEach items="${commentList }" var="i">
 		<div id="commentno${i.commentno }" data-commentno="${i.commentno }" class="comment"> 
 			<span>${i.writer }</span>

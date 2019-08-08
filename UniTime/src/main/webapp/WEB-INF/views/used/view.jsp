@@ -41,6 +41,7 @@
 
 <script type="text/javascript">
 var boardno = ${usedboard.boardno };
+
 $(document).ready(function() {
 
 	$('#btnList').click(function() {
@@ -168,7 +169,7 @@ $(document).ready(function() {
 					console.log("error occured.")
 				}
 			});
-		} 
+		}
 	}
 	
 	
@@ -256,13 +257,13 @@ $(document).ready(function() {
 		style="width:100%">
 		
 		<tr>
+			<th>게시글 번호</th>
+			<td>
+				${usedboard.boardno }
+			</td>
 			<th>조회수</th>
 			<td>
 				${usedboard.hit }
-			</td>
-			<th>댓글수</th>
-			<td>
-				${usedboard.commentCnt }
 			</td>
 		</tr>
 		<tr>
@@ -314,9 +315,9 @@ $(document).ready(function() {
 
 	<!-- 게시판 버튼 ( 목록/수정/삭제 ) -->
 	<div id="view-buttons">
-		<!-- 신고버튼 --> 
-		<c:if test="${nick ne writer}">
-			<a href="javascript:void(0)" onclick="report('${usedboard.boardno }')" style="float: right;" id="btnReport">
+		<!-- 접속한 회원이 작성자도, admin도 아닌 일반회원일 경우 --> 
+		<c:if test="${nick ne usedboard.writer && nick ne 'admin' }">
+			<a href="javascript:void(0)" onclick="report('${usedboard.boardno }')" id="btnReport">
 				<button id="btnReport" class="btn btn-warning">신고</button>
 			</a>
 			<input type="hidden" id="reason" />
@@ -332,7 +333,7 @@ $(document).ready(function() {
 		<!-- 접속한 회원의 nick이 admin일 경우 -->
 		<c:if test="${nick eq 'admin' }">
 			<button id="btnDelete" class="btn btn-warning">삭제</button>
-			<a href="javascript:void(0)" onclick="report('${usedboard.boardno }')" style="float: right;" id="btnReport">
+			<a href="javascript:void(0)" onclick="report('${usedboard.boardno }')" id="btnReport">
 				<button id="btnReport" class="btn btn-warning">신고</button>
 			</a>
 			<input type="hidden" id="reason" />
