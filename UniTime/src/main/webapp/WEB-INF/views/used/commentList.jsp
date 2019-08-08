@@ -29,7 +29,8 @@
 	<br>	
 	<label>${nick }
 		<textarea id="content" name="content" rows="1" cols="70"></textarea>
- 		<!-- 엔터키로 댓글 입력 -->
+ 		
+ 		<!-- 엔터키로 댓글 입력  -- doesn't works
 		<script>
 		$("#content").keyup(function(e){ 
 	        var code = e.which;
@@ -37,8 +38,9 @@
 	        	e.preventDefault();
 	       	 	$('cmtWrite').click(writeComment());
 	        } 
-		});
+		}); 
 		</script>
+		-->
 
 	</label>
 	

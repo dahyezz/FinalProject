@@ -29,7 +29,7 @@ import web.dto.UsedBoard;
 import web.dto.UsedImage;
 import web.dto.UsedComment;
 import web.service.face.UsedService;
-import web.util.Paging;
+import web.util.Paging4used;
 
 @Controller
 public class UsedBoardController {
@@ -48,14 +48,14 @@ public class UsedBoardController {
 	@RequestMapping(value="/used/list", method=RequestMethod.GET)
 	public void list(
 			@RequestParam(defaultValue="1") int curPage,
-			Paging search,
+			Paging4used search,
 			Model model
 		) {
 		
 		int totalCount = usedService.getTotal(search);
 		
 		// 페이징 생성 
-		Paging paging = new Paging(totalCount, curPage);
+		Paging4used paging = new Paging4used(totalCount, curPage);
 		paging.setSearch(search.getSearch());
 		model.addAttribute("paging", paging);
 		

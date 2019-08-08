@@ -314,7 +314,6 @@ $(document).ready(function() {
 
 	<!-- 게시판 버튼 ( 목록/수정/삭제 ) -->
 	<div id="view-buttons">
-		<button id="btnList" class="btn btn-primary">목록</button>
 		<!-- 신고버튼 --> 
 		<c:if test="${nick ne writer}">
 			<a href="javascript:void(0)" onclick="report('${usedboard.boardno }')" style="float: right;" id="btnReport">
@@ -322,6 +321,7 @@ $(document).ready(function() {
 			</a>
 			<input type="hidden" id="reason" />
 		</c:if>
+		<button id="btnList" class="btn btn-primary">목록</button>
 		
 		<!-- 접속한 회원의 nick이 해당 게시글의 작성자일 경우 -->
 		<c:if test="${nick eq usedboard.writer }">

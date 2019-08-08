@@ -21,7 +21,7 @@ import web.dto.UsedBoard;
 import web.dto.UsedImage;
 import web.dto.UsedComment;
 import web.service.face.UsedService;
-import web.util.Paging;
+import web.util.Paging4used;
 
 @Service
 public class UsedServiceImpl implements UsedService {
@@ -35,30 +35,30 @@ public class UsedServiceImpl implements UsedService {
 	
 	// Paging 
 	@Override
-	public Paging getPage(int curPage) {
+	public Paging4used getPage(int curPage) {
 		
 		int totalCount = usedDao.selectCntAll();
 		
 		int listCount = 10;
-		Paging paging = new Paging(totalCount, curPage, listCount);
+		Paging4used paging = new Paging4used(totalCount, curPage, listCount);
 		
 		return paging;
 	}
 	
 	// 게시글 리스트 ('/used/list')
-	@Override
-	public List<UsedBoard> list(Paging paging) {
-		return usedDao.selectAll(paging);
-	}
+//	@Override
+//	public List<UsedBoard> list(Paging paging) {
+//		return usedDao.selectAll(paging);
+//	}
 	
 	
 	@Override
-	public int getTotal(Paging search) {
+	public int getTotal(Paging4used search) {
 		return usedDao.countSearch(search);
 	}
 	
 	@Override
-	public List<UsedBoard> getSearchPagingList(Paging search) {
+	public List<UsedBoard> getSearchPagingList(Paging4used search) {
 		return usedDao.selectPageSearch(search);
 	}
 	

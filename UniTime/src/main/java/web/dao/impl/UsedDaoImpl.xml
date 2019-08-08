@@ -14,6 +14,7 @@
 	</select>
 	
 	
+	
 	<select id="getBoardno"
 	    resultType="int">
 	    SELECT usedboard_kg_seq.nextval FROM dual
@@ -276,9 +277,6 @@
 	</select>
 	
 	
-	
-	
-	
 	<sql id="selectBoard">
 		SELECT  
 		    boardno, tag, title, product, 
@@ -304,7 +302,7 @@
 	
 	
 	<select id="selectPageSearch"
-		 parameterType="web.util.Paging"
+		 parameterType="web.util.Paging4used"
 		 resultType="web.dto.UsedBoard">
 		 
 		SELECT * FROM (
@@ -315,7 +313,7 @@
 	</select>
 
 	<select id="countSearch"
-		 parameterType="web.util.Paging"
+		 parameterType="web.util.Paging4used"
 		 resultType="int">
 		 
 		SELECT COUNT(*) FROM (
