@@ -73,26 +73,18 @@ background:#47b8e017;
   text-decoration: none;
 }
 
-</style>
-<script type="text/javascript">
-function inputCheck() {
-	
-	var join = document.joinForm;
-
-	if(!join.password.value.match(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/)) {
-	    alert("비밀번호는 영문,숫자,특수문자(!@$%^&* 만 허용)를 혼합하여 사용해주세요. 영문은 대소문자를 구분합니다.");
-	    return false;
-	}
+#btnModify, #btnCancel {
+    position: relative;
+    left: 270px;
+    top: 230px;
 }
 
+</style>
+<script type="text/javascript">
+
+
 function inputCheck() {
 	
-	var join = document.modifyForm;
-	
-	if(!join.password.value.match(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/)) {
-	    alert("비밀번호는 영문,숫자,특수문자(!@$%^&* 만 허용)를 혼합하여 사용해주세요. 영문은 대소문자를 구분합니다.");
-	    return false;
-	}
 }
 	$(document).ready(function() {
 		
@@ -138,7 +130,14 @@ function inputCheck() {
 
 		//수정완료 버튼 클릭 시 form submit
 		$("#btnModify").click(function() {
-			$(this).parents("form").submit();
+			
+			var join = document.modifyForm;
+			
+			if(!join.password.value.match(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/)) {
+			    alert("비밀번호는 영문,숫자,특수문자(!@$%^&* 만 허용)를 혼합하여 사용해주세요. 영문은 대소문자를 구분합니다.");
+			} else {
+				join.submit();
+			}
 		})
 
 		//취소 버튼 누르면 뒤로가기
@@ -182,8 +181,7 @@ function inputCheck() {
 
 <div class="col-4">
 <div class="menubar2" >
-	<form action="/member/modify" method="post" name="modifyForm"
-		onsubmit="return inputCheck()">
+	<form action="/member/modify" method="post" name="modifyForm">
 <div class="left">
 <br>
 <%-- 비로그인 상태 --%>
@@ -212,13 +210,13 @@ function inputCheck() {
 		</tr>
 	</table>
 		<input type = "hidden" name = "hakbun" value = "${hakbun}">
-		<button id="btnModify">수정완료</button>
-		<button id="btnCancel">뒤로가기</button>
 </div>
 </c:if>
 </div>
 
 </form>
+		<button id="btnModify">수정완료</button>
+		<button id="btnCancel">뒤로가기</button>
 </div></div></div>
 <br><br><br>
 
