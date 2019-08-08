@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
 <!-- select태그 부트스트랩 적용 -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
@@ -169,7 +169,7 @@ function checkBoardDelete(){
 	<tr style="background:#cdd;">
 		<c:if test="${nick eq 'admin' }"><td></td></c:if>
 		<td>${i.boardno }</td>
-		<td>${i.tag }</td>
+		<td>[${i.tag }]</td>
 		<td><a href="/free/view?tag=${i.tag }&boardno=${i.boardno }">${i.title }</a></td>
 		<td>${i.writer }</td>
 		<td>${i.hit }</td>
@@ -184,7 +184,7 @@ function checkBoardDelete(){
 			<td><input type="checkbox" name="boardCheck" value="${i.boardno }"/></td>
 		</c:if>
 		<td>${i.boardno }</td>
-		<td>${i.tag }</td>
+		<td>[${i.tag }]</td>
 		<td><a href="/free/view?tag=${i.tag }&boardno=${i.boardno }">${i.title }</a></td>
 		<td>${i.writer }</td>
 		<td>${i.hit }</td>

@@ -50,6 +50,25 @@ $(document).ready(function(){
 	font-size: 30px;
 }
 
+.lectureWriteTable {
+	font-size: 14px;
+	line-height: 1.5;
+	border: none;
+	margin-bottom: 15px;
+	font-family: 'NanumSquare', sans-serif;
+}
+.lectureWriteTable tr th {
+	font-weight: 700;
+	white-space: nowrap;
+	width:100px;
+}
+.lectureWriteTable tr th, .lectureWriteTable tr td {
+	color: #34314c;
+	text-align: left;
+	padding: 10px 10px 0 0;
+	border: none;
+}
+
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
 	width: 300px;
 	float: left;
@@ -57,7 +76,7 @@ $(document).ready(function(){
 }
 
 .lectureWrite #content{
-	width:98%;
+	width:100%;
 }
 
 .star{
@@ -112,10 +131,10 @@ background-color: #ff7473;
 
 <form action="/lecture/write" method="post">
 
-	<table class="table table-condensed">
+	<table class="lectureWriteTable">
 	<tr>
 		<th>강의명</th>
-		<td colspan="3">
+		<td>
 			<select name="department_code" class="selectpicker">
 				<option selected>- - - - - 강의명 선택 - - - - -</option>
 				<c:forEach items="${timetableList }" var="i">
@@ -126,7 +145,7 @@ background-color: #ff7473;
 	</tr>
 	<tr>
 		<th>조별과제</th>
-		<td colspan="3">
+		<td>
 		<div class="starRev_team">
 			<input type="text" class="star on" value="1">
 			<input type="text" class="star" value="2">
@@ -138,7 +157,7 @@ background-color: #ff7473;
 	</tr>
 		<tr>
 		<th>과제량</th>
-		<td colspan="3">
+		<td>
 		<div class="starRev_home">
 			<input type="text" class="star on" value="1">
 			<input type="text" class="star" value="2">
@@ -150,7 +169,7 @@ background-color: #ff7473;
 	</tr>
 		<tr>
 		<th>총점</th>
-		<td colspan="3">
+		<td>
 		<div class="starRev_total">
 			<input type="text" class="star on" value="1">
 			<input type="text" class="star" value="2">
@@ -161,15 +180,12 @@ background-color: #ff7473;
 		</div></td>
 	</tr>
 	<tr>
-		<th colspan="4">내용</th>
-	</tr>
-	<tr>
-		<td colspan="4">
-		<textarea id="content" name="content" rows="10" cols="100" 
-		placeholder="불건전한 언어 사용, 타인 비방 및 게시판 운영을 방해하는 행위가 확인되면 서비스 이용이 제한될 수 있습니다."></textarea>
-		</td>
+		<th>내용</th>
 	</tr>
 	</table>
+	
+	<textarea id="content" name="content" rows="10" cols="100" 
+	placeholder="불건전한 언어 사용, 타인 비방 및 게시판 운영을 방해하는 행위가 확인되면 서비스 이용이 제한될 수 있습니다."></textarea>
 	
 	<div class="text-center">
 	<button type="submit" id="btnWrite" >작성</button>

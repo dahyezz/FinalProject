@@ -143,24 +143,70 @@ $(document).ready(function(){
 </script>
 
 <style type="text/css">
-.freeView table {
-	border:1px solid #ccc;
+.article-head > h2 {
+	font-size: 30px;
+	margin-top:5px;
 }
-
-.freeView th{
-	text-align: center;
-	border:1px solid #ccc;
-	background:#ff7473;
-	width: 15%;
-}
-
-.freeView td{
+.writer_info {
 	text-align: left;
+	margin-bottom: 30px;
+}
+.writer_info>span {
+	font-size: 15px;
+	margin-right: 20px;
+}
+#writer_nick, #hit_count, #board_tag {
+	font-weight: 800;
+}
+#hit_info {
+	margin-right: 5px;
 }
 
-.freeView {
-	border-left: 1px solid #eee;
-	border-right: 1px solid #eee;
+.btn-group a{
+	color: black;
+	text-decoration: none;
+	font-weight: 800;
+}
+.btn-group a:hover{
+	text-decoration: underline;
+}
+
+#btnCommentWrite, #btnList {
+	background-color: #47b8e0;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+  margin-left: 7px;
+  margin-bottom: 2px;
+}
+
+#btnDelete, #btnUpdate, #btnReport, .commentDelete {
+	background-color: #ff7473;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff ;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+}
+
+#content{
+	width: 100%;
+	padding: 6px 12px;
+	font-size: 14px;
+	height: 30px; 
+	color: #555;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	text-align:left;
 }
 
 .commentList {
@@ -177,55 +223,46 @@ $(document).ready(function(){
 
 <div class="freeView">
 
-<h1>게시글 내용</h1>
-<hr>
+<div class="article-head margin-bottom-large" style="text-align:left; margin-top:30px;">
+	<span id="board_tag">[${board.tag }]</span>
+	<h2 class="margin-bottom-xsmall">${board.title }</h2>
+</div>
 
-<table class="table table-condensed">
-	<tr>
-		<th>글번호</th>
-		<td colspan="3">${board.boardno }</td>
-	</tr>
-	<tr>
-		<th>태그</th>
-		<td colspan="3">${board.tag }</td>
-	</tr>
-	<tr>
-		<th>제목</th>
-		<td colspan="3">${board.title }</td>
-	</tr>
-	<tr>
-		<th>작성자</th>
-		<td>${board.writer }</td>
-	</tr>
-	<tr>
-		<th>조회수</th>
-		<td>${board.hit }</td>
-	</tr>
-	<tr>
-		<th>작성일</th>
-		<td colspan="3"><fmt:formatDate value="${board.writtendate }" pattern="yyyy-MM-dd HH:mm" /></td>
-	</tr>
-	<tr>
-		<td colspan="4" style="height:300px;">${board.content }</td>
-	</tr>
-	<tr>
-		<th>첨부파일</th>
-		<td colspan="3"><a href="/free/download?fileno=${viewFile.fileno }">${viewFile.originname }</a></td>
-	</tr>
-</table>
+<div class="writer_info">
+	<span class="glyphicon glyphicon-user" style="margin-right:3px;"></span>
+	<span id="writer_nick">${board.writer }</span>
+	
+	<span><fmt:formatDate value="${board.writtendate }" pattern="yyyy.MM.dd HH:mm" /></span>
+	<span id="hit_info">조회수</span><span id="hit_count">${board.hit }</span>
+	
+	<div class="btn-group">
+		<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-floppy-disk"></span>
+			&nbsp;첨부파일&nbsp;<span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+			<c:if test="${empty viewFile.originname }"><li>&nbsp;첨부파일이 없습니다.</li></c:if>
+			<li><a href="/free/download?fileno=${viewFile.fileno }">${viewFile.originname }</a></li>
+		</ul>
+	</div>
+</div>
+
+<div>
+	${board.content }
+</div>
+<hr>
 
 <div class="text-center">
 	<input type="hidden" id="boardno" value="${board.boardno }">
 	<input type="hidden" id="tag" value="${board.tag }">
-	<button id="btnList" onclick="location.href='/free/list'" class="btn btn-info">목록</button>
+	<button id="btnList" onclick="location.href='/free/list'">목록</button>
 	<c:if test="${nick eq board.writer || nick eq 'admin' }">
-		<button id="btnUpdate" class="btn btn-info">수정</button>
-		<button id="btnDelete" class="btn btn-info">삭제</button>
+		<button id="btnUpdate">수정</button>
+		<button id="btnDelete">삭제</button>
 	</c:if>
 
 	<c:if test="${nick ne board.writer}">
-	<button id="btnReport" style="float:right;"class="btn btn-info">신고</button>
-
+	<button id="btnReport" style="float:right;">신고</button>
 	</c:if>
 </div>
 
@@ -242,11 +279,10 @@ $(document).ready(function(){
 		<input type="hidden" id="nick" value="${nick }">
 		<table class="table table-condensed">
 		<tr>
-			<th style="width:100px;">${nick }</th>
 			<td>
-			<textarea id="comment" name="content" rows="3" cols="130" 
+			<textarea id="comment" name="content" rows="3" cols="150" 
 			placeholder="댓글을 입력해주세요. 불건전한 언어 사용, 타인 비방 및 게시판 운영을 방해하는 행위가 확인되면 서비스 이용이 제한될 수 있습니다."></textarea>
-			<button type="button" id="btnCommentWrite" class="btn btn-info">댓글등록</button>
+			<button type="button" id="btnCommentWrite">댓글등록</button>
 			</td>
 		</tr>
 		</table>

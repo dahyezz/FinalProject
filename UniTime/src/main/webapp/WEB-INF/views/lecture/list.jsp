@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
 <!-- select태그 부트스트랩 적용 -->
@@ -105,7 +105,6 @@ function checkBoardDelete(){
   text-decoration: none;
 }
 
-
 .lectureList input[type='checkbox'] {
 	width:20px;
 	height:20px;
@@ -132,6 +131,7 @@ function checkBoardDelete(){
   border: none;
   text-decoration: none;
 }
+
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
 	width: 80px;
 }
@@ -146,17 +146,21 @@ function checkBoardDelete(){
 	width: 200px;
 }
 
-
-
-
 .project {
     min-height:300px;
     height:auto;
     width:250px;
-    background:#fff; border:1px solid #ddd; margin: 15px 0; overflow:hidden;
+    background:#fff;
+    border:1px solid #ddd;
+    margin: 15px 0;
+    overflow:hidden;
     border-radius:7px;
     border-color: #5bc0de;
     cursor:pointer;
+}
+.project:hover {
+	border:3px solid #5bc0de;
+	border-radius:7px;
 }
 .project-content {
     padding:20px 20px 20px;
