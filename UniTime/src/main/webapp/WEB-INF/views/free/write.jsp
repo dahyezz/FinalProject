@@ -7,6 +7,13 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
+<!-- select태그 부트스트랩 적용 -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
+
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -82,35 +89,57 @@ function sendFile(file, el){
 </script>
 
 <style type="text/css">
-.freeWrite table {
-	border:1px solid #ccc;
+.ed>h3 {
+	font-weight: bold;
+	font-size: 30px;
 }
 
-.freeWrite th{
-	text-align: center;
-	border:1px solid #ccc;
-	background:#ccf;
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+	width: 100px;
+	float: left;
+	text-align: center; 
 }
 
-.freeWrite button {
-	background:#ccf;
-}
-
-.freeWrite {
-	border-left: 1px solid #eee;
-	border-right: 1px solid #eee;
-}
 .freeWrite #content{
 	width:98%;
+}
+
+#btnWrite {
+	background-color: #47b8e0;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+  
+  margin-left: 7px;
+  margin-bottom: 2px;
+}
+#btnCancel {
+background-color: #ff7473;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff ;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
 }
 </style>
 
 <div class="freeWrite">
 
-<h1>글쓰기</h1>
+<div class="ed board-header padding-horizontal-small@s margin-bottom-small" style="text-align: left;">
+	<h3>자유게시판</h3>
+	<p>여러분들의 생각을 자유롭게 작성해주세요</p>
+</div>
 
 <form action="/free/write" method="post" id ="writeForm" enctype="multipart/form-data">	
-	<table class="table table-condensed">
+	<table class="table">
 	<tr>
 		<th>작성자</th>
 		<td>${nick }</td>
@@ -118,7 +147,7 @@ function sendFile(file, el){
 	<tr>
 		<th>태그</th>
 		<td colspan="3">
-			<select name="tag">
+			<select name="tag" class="selectpicker">
 			<c:if test="${nick eq 'admin' }">
 				<option value="공지" selected>공지</option>
 				<option value="잡담">잡담</option>

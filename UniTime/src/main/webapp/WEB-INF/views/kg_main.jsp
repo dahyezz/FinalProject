@@ -18,78 +18,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <style type="text/css">
-.ed>h3 {
-	font-weight: bold;
-	font-size: 30px;
-}
-.ed>span {
-	font-size: 20px;
-}
-.tasty .pagination>li:first-child {
-	border-radius: 500px 0 0 500px;
-}
-.tasty .pagination>li {
-	display: inline-block;
-	margin: 0;
-	background-color: #f8f8f8;
-}
-
-tasty .pagination {
-	border-radius: 500px !important;
-}
-.pagination-sm>li>a, .pagination-sm>li>span{
-	border-radius: 15px;
-}
-
-#btnWrite {
-  background-color: #ffc952;
-  -webkit-border-radius: 5;
-  -moz-border-radius: 5;
-  border-radius: 5px;
-  color: #34314c;
-  font-size: 13	px;
-  padding: 5px 10px;
-  margin: 5px;
-  float: right;
-  border: none;
-  text-decoration: none;
-}
-#btnSearch {
-  background-color: #ffc952;
-  -webkit-border-radius: 5;
-  -moz-border-radius: 5;
-  border-radius: 5px;
-  color: #34314c;
-  font-size: 13	px;
-  padding: 7px 10px;
-/*   margin: 5px; */
-  border: none;
-  text-decoration: none;
-}
-
-
-.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
-	width: 80px;
-}
-.bootstrap-select>.dropdown-toggle {
-	width: 80px !important;
-}
-.bootstrap-select .dropdown-menu {
-	min-width: 80px !important;
-}
-.form-control {
-	display: inline;
-	width: 200px;
-}
-.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
-	color: #34314c;
-	background-color: #ffc952;
-	border-color: #ffc952;
-}
-.pagination>li>a, .pagination>li>span {
-	color: #34314c;
-	border: none;
-}
 
 .list table, th {
 	text-align: center;
@@ -98,8 +26,8 @@ tasty .pagination {
 </style>
 
 
-<div style="border: 1px solid gold; float: right; width: 35%;">
-<h4>중고장터</h4>
+<div style="border: 1px solid gold; float: right; width: 530px; margin: 1px">
+<h4 style="float: left;">&nbsp;&nbsp;&nbsp;중고장터</h4>
 <table class="table table-striped table-hover table-condensed">
 <thead>
 	<tr> 
@@ -123,14 +51,14 @@ tasty .pagination {
 </c:forEach>
 </tbody>
 </table>
-<a href="/used/list">더보기</a>
+<a href="/used/list" style="color: black;"><p style="font-size: 15px; float: right; font-style: italic;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</p></a>
 
 </div>
 
 
-<div style="border: 1px solid gold; float: left; width: 63%;">
+<div style="border: 1px solid gold; float: left; width: 960px; margin: 1px">
 
-<h4>공지사항</h4>
+<h4 style="float: left">&nbsp;&nbsp;&nbsp;공지사항</h4>
 <table class="table table-striped table-hover table-condensed">
 <thead>
 	<tr>
@@ -156,15 +84,13 @@ tasty .pagination {
 </c:forEach>
 </tbody>
 </table>
-<a href="/free/list">더보기</a>
+<a href="/free/list" style="color: black;"><p style="font-size: 15px; float: right; font-style: italic;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</p></a>
 </div>
 
-<hr>
 
 
-
-<div style="border: 1px solid gold; float: left; width: 63%;">
-<h4>자유게시판</h4>
+<div style="border: 1px solid gold; float: left; width: 960px; margin: 1px">
+<h4 style="float: left">&nbsp;&nbsp;&nbsp;자유게시판</h4>
 <table class="table table-striped table-hover table-condensed">
 <thead>
 	<tr>
@@ -190,10 +116,8 @@ tasty .pagination {
 </c:forEach>
 </tbody>
 </table>
-<a href="/free/list">더보기</a>
+<a href="/free/list" style="color: black;"><p style="font-size: 15px; float: right; font-style: italic;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</p></a>
 </div>
-
-<hr>
 
 
 
@@ -242,9 +166,8 @@ tasty .pagination {
 </c:forEach>
 </tr>
 </table>
-<a href="/tasty/list">더보기</a>
+<a href="/tasty/list" style="color: black;"><p style="font-size: 15px; float: right; font-style: italic;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</p></a>
 </div>
-
 
 
 

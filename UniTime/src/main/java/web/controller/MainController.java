@@ -25,7 +25,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/kg_main", method=RequestMethod.GET)
-	public void kg_main(Model model) {
+	public void kg_main(Model model, HttpSession session) {
 		
 		List freeboardNoticeList = mainService.freeboardNotice();
 		model.addAttribute("notice", freeboardNoticeList);
@@ -42,7 +42,9 @@ public class MainController {
 		List usedBoard = mainService.usedBoard();
 		model.addAttribute("usedboard", usedBoard);
 		
-		
+		String email = (String)session.getAttribute("email");
+		List timeTable = mainService.timeTable(email);
+		logger.info("시간표 : " + email);
 		
 		
 		

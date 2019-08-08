@@ -2,6 +2,7 @@ package web.dao.face;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.Session;
 
@@ -31,16 +32,19 @@ public interface MemberDao {
 	 * @return Member - 조회하려는 회원의 모든 정보
 	 */
 	public Member selectMemberByEmail(Member member);
+	
+	public Member selectMemberByHakbun(Member member);
 
 	public void insert(Member member);
 
 	public Member idCheck(String hakbun) throws Exception;
 	public Member nickCheck(String nickname) throws Exception;
+	public Member emailCheck(String email) throws Exception;
 
 	public List<TastyBoard> tastyList(Paging paging);
-	public List<FreeBoard> freeList(Member member);
-	public List<UsedBoard> usedList(Member member);
-	public List<LectureBoard> lectureList(Member member);
+	public List<FreeBoard> freeList(Paging paging);
+	public List<UsedBoard> usedList(Paging paging);
+	public List<LectureBoard> lectureList(Paging paging);
 	
 	/**
 	 * 
@@ -65,15 +69,12 @@ public interface MemberDao {
 	 */
 	public void memberModifyNick(Member member) throws Exception;
 	
-	/*
-	 * public void tastyUpdateNick(Member member);
-	 * 
-	 * public void freeUpdateNick(Member member);
-	 * 
-	 * public void usedUpdateNick(Member member);
-	 * 
-	 * public void lectureUpdateNick(Member member);
-	 */
+	
+	 public void tastyUpdateNick(Map<String, Object> parameters);
+	 public void freeUpdateNick(Map<String, Object> parameters);
+	 public void usedUpdateNick(Map<String, Object> parameters);
+	 public void lectureUpdateNick(Map<String, Object> parameters);
+	 
 	
 	public void memberGrades(Member member);
 	
@@ -81,12 +82,20 @@ public interface MemberDao {
 	//로그인한 이메일과 같은
 	public List selectMyList(String id);
 	
-		// 비밀번호 찾기
-		public String find_pw(String email) throws Exception;
+	// 비밀번호 찾기
+	public String find_pw(String email) throws Exception;
 
-		public int selectCntMemberPwFind(Member member);
+	public int selectCntMemberPwFind(Member member);
 
-		public Member selectMemberPwfind(Member member);
+	public Member selectMemberPwfind(Member member);
+
+	public int selectTastyCntAllByNick(Map<String, Object> map);
+
+	public int selectFreeCntAllByNick(Map<String, Object> map);
+
+	public int selectLectureCntAllByNick(Map<String, Object> map);
+
+	public int selectUsedCntAllByNick(Map<String, Object> map);
 
 }
 

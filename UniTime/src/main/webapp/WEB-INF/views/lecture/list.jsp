@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<!-- select태그 부트스트랩 적용 -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
+    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -76,13 +83,32 @@ function checkBoardDelete(){
 </script> 
 
 <style type="text/css">
-.lectureList table, th {
-	text-align: center;
+.ed>h3 {
+	font-weight: bold;
+	font-size: 30px;
+}
+.ed>span {
+	font-size: 20px;
 }
 
-.lectureList {
-	border-left: 1px solid #eee;
-	border-right: 1px solid #eee;
+#btnWrite {
+  background-color: #47b8e0;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 13	px;
+  padding: 5px 10px;
+  margin: 5px;
+  float: right;
+  border: none;
+  text-decoration: none;
+}
+
+
+.lectureList input[type='checkbox'] {
+	width:20px;
+	height:20px;
 }
 
 .yellowStar{
@@ -93,64 +119,102 @@ function checkBoardDelete(){
 	color:white;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
+
+#btnSearch {
+  background-color: #47b8e0;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 13	px;
+  padding: 7px 10px;
+/*   margin: 5px; */
+  border: none;
+  text-decoration: none;
+}
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
+	width: 80px;
+}
+.bootstrap-select>.dropdown-toggle {
+	width: 80px !important;
+}
+.bootstrap-select .dropdown-menu {
+	min-width: 80px !important;
+}
+.form-control {
+	display: inline;
+	width: 200px;
+}
+
+
+
+
+.project {
+    min-height:300px;
+    height:auto;
+    width:250px;
+    background:#fff; border:1px solid #ddd; margin: 15px 0; overflow:hidden;
+    border-radius:7px;
+    border-color: #5bc0de;
+    cursor:pointer;
+}
+.project-content {
+    padding:20px 20px 20px;
+}
+
 </style>
 
 <div class="lectureList">
 
-<h1>게시판 리스트</h1>
-<hr>
-
-<div>
-<button style="float:right;" class="btn btn-info" onclick="location.href='/lecture/write'">글쓰기</button>
+<div class="ed board-header padding-horizontal-small@s margin-bottom-small" style="text-align: left;">
+	<h3>강의평가 게시판</h3>
+	<div><button style="float:right;" id="btnWrite" onclick="location.href='/lecture/write'">글쓰기</button></div>
 </div>
 
-<table class="table table-striped table-hover table-condensed">
-<thead>
-	<tr>
+<div class="lectureContainer" style="">
+
+	<c:if test="${nick eq 'admin' }">
+	<div class="allCheck">
+		<input type="checkbox" id="allCheck" onclick="allChk(this)" />
+		<label for="allCheck"><strong>전체 체크</strong></label>&emsp;&emsp;
+		<button type="button" onclick="checkBoardDelete();">체크 삭제</button>
+	</div>
+	</c:if>
+	
+	<c:set var="five" value="5" />
+	
+	<div class="row" style="margin-top:40px; margin-left:180px;">
+	<c:forEach items="${list}" var="i">
+		<div class="col-xs-4" style="margin-right:-60px;">
+		
 		<c:if test="${nick eq 'admin' }">
-			<th style="width:5%;"><input type="checkbox" id="allCheck" onclick="allChk(this)" /></th>
+			<span><input type="checkbox" name="boardCheck" value="${i.boardno }"/></span>
 		</c:if>
-		<th style="width:5%;">번호</th>
-		<th style="width:10%;">전공/교양</th>
-		<th style="width:30%;">강의명</th>
-		<th style="width:10%;">강의 교수</th>
-		<th style="width:10%;">조별과제</th>
-		<th style="width:10%;">과제량</th>
-		<th style="width:10%;">총점</th>
-		<th style="width:5%;">조회수</th>
-		<th style="width:20%;">작성일</th>
-	</tr>
-</thead>
-
-<c:set var="five" value="5" />
-<c:forEach items="${list}" var="i">
-	<tr>
-		<c:if test="${nick eq 'admin' }">
-			<td><input type="checkbox" name="boardCheck" value="${i.boardno }"/></td>
-		</c:if>
-		<td>${i.boardno }</td>
-		<td>${i.lecture_section }</td>
-		<td><a href="/lecture/view?boardno=${i.boardno }">${i.lecture_name }</a></td>
-		<td>${i.professor_name }</td>
-		<td>
-		<span class="yellowStar"><c:forEach begin="1" end="${i.team_project }">★</c:forEach></span>
-		<span class="whiteStar"><c:forEach begin="1" end="${five - i.team_project }">★</c:forEach></span></td>
-		<td>
-		<span class="yellowStar"><c:forEach begin="1" end="${i.homework }">★</c:forEach></span>
-		<span class="whiteStar"><c:forEach begin="1" end="${five - i.homework }">★</c:forEach></span></td>
-		<td>
-		<span class="yellowStar"><c:forEach begin="1" end="${i.total_score }">★</c:forEach></span>
-		<span class="whiteStar"><c:forEach begin="1" end="${five - i.total_score }">★</c:forEach></span></td>
-		<td>${i.hit }</td>
-		<td><fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></td>
-	</tr>
-</c:forEach>
-
-</table>
-
-<c:if test="${nick eq 'admin'}">
-<button type="button" style="float:left;" onclick="checkBoardDelete();">체크 삭제</button>
-</c:if>
+		
+			<div class="project" onclick="location.href='/lecture/view?boardno=${i.boardno }'">
+				<div class="project-content">					
+					<p>${i.boardno }</p>
+					<p><h4><strong>[${i.lecture_section }] ${i.lecture_name }</strong></h4></p>
+					<p>${i.professor_name }</p>
+					<p style="padding-top:7px;">조별과제&nbsp;
+					<span class="yellowStar"><c:forEach begin="1" end="${i.team_project }">★</c:forEach></span>
+					<span class="whiteStar"><c:forEach begin="1" end="${five - i.team_project }">★</c:forEach></span></p>
+					<p>과제량&nbsp;
+					<span class="yellowStar"><c:forEach begin="1" end="${i.homework }">★</c:forEach></span>
+					<span class="whiteStar"><c:forEach begin="1" end="${five - i.homework }">★</c:forEach></span>
+					</p>
+					<p>총점&nbsp;
+					<span class="yellowStar"><c:forEach begin="1" end="${i.total_score }">★</c:forEach></span>
+					<span class="whiteStar"><c:forEach begin="1" end="${five - i.total_score }">★</c:forEach></span></p>
+					<p style="padding-top:7px;">조회수 ${i.hit }</p>
+					<p><span class="glyphicon glyphicon-time"></span>&nbsp;<fmt:formatDate value="${i.writtendate }" pattern="yyyy-MM-dd" /></p>
+				</div>
+			</div>
+			
+		</div>
+	</c:forEach>
+	</div>
+</div>
 
 </div>
 
@@ -158,13 +222,12 @@ function checkBoardDelete(){
 
 <div class="lectureSearch">
 <form action="/lecture/list" method="get">
-	<select name="searchType">
-		<option value="total" selected>전체</option>
-		<option value="lecture_name">강의명</option>
+	<select name="searchType" class="selectpicker">
+		<option value="lecture_name" selected>강의명</option>
 		<option value="professor_name">강의 교수</option>
 	</select>
 	
-	<input type="text" name="keyword" placeholder="검색어를 입력해주세요."/>
-	<button>검색</button>
+	<input type="text" name="keyword"  class="form-control" placeholder="검색어를 입력해주세요."/>
+	<button id="btnSearch">검색</button>
 </form>
 </div>

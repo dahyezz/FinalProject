@@ -36,5 +36,11 @@ public class MainServiceImpl implements MainService {
 
 		return mainDao.usedBoard();
 	}
+	
+	@Override
+	public List timeTable(String email) {
+
+		return mainDao.timeTable(email);
+	}
 
 }

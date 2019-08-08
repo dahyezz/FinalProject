@@ -94,6 +94,10 @@ public class MemberServiceImpl implements MemberService{
 	public Member nickCheck(String nickname) throws Exception {
 		return memberDao.nickCheck(nickname);
 	}
+	@Override
+	public Member emailCheck(String email) throws Exception {
+		return memberDao.emailCheck(email);
+	}
 
 	@Override
 	public List<TastyBoard> tastyList(Paging paging) {
@@ -102,18 +106,18 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public List<FreeBoard> freeList(Member member) {
-		return memberDao.freeList(member);
+	public List<FreeBoard> freeList(Paging paging) {
+		return memberDao.freeList(paging);
 	}
 	
 	@Override
-	public List<UsedBoard> usedList(Member member) {
-		return memberDao.usedList(member);
+	public List<UsedBoard> usedList(Paging paging) {
+		return memberDao.usedList(paging);
 	}
 	
 	@Override
-	public List<LectureBoard> lectureList(Member member) {
-		return memberDao.lectureList(member);
+	public List<LectureBoard> lectureList(Paging paging) {
+		return memberDao.lectureList(paging);
 	}
 
 
@@ -202,11 +206,17 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public void memberModifyNick(Member member) throws Exception {
-		/*
-		 * memberDao.memberModifyNick(member); memberDao.tastyUpdateNick(member);
-		 * memberDao.freeUpdateNick(member); memberDao.usedUpdateNick(member);
-		 * memberDao.lectureUpdateNick(member);
-		 */
+		
+	    Map<String, Object> parameters = new HashMap<String, Object>();
+	    parameters.put("oldnickname", memberDao.selectMemberByHakbun(member).getNickname());
+	    parameters.put("newnickname", member.getNickname());
+		
+		memberDao.memberModifyNick(member);
+		memberDao.tastyUpdateNick(parameters);
+		memberDao.freeUpdateNick(parameters);
+		memberDao.usedUpdateNick(parameters);
+		memberDao.lectureUpdateNick(parameters);
+		
 	}
 	
 	@Override
@@ -251,14 +261,48 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public Paging getTastycurPage(Map<String, Object> map) {
 	
-		int totalCount = tastyBoardDao.selectCntAll();
+		int totalCount = memberDao.selectTastyCntAllByNick(map);
 		int curPage = Integer.parseInt(map.get("curPage").toString());
 		int listCount = 10;
 		
 		Paging paging = new Paging(totalCount, curPage, listCount);
 		paging.setSearchType("total");	
-//		paging.setKeyword();
-//		System.out.println(paging);
+
+		return paging;
+	}
+	
+	@Override
+	public Paging getFreecurPage(Map<String, Object> map) {
+		int totalCount = memberDao.selectFreeCntAllByNick(map);
+		int curPage = Integer.parseInt(map.get("curPage").toString());
+		int listCount = 10;
+		
+		Paging paging = new Paging(totalCount, curPage, listCount);
+		paging.setSearchType("total");	
+
+		return paging;
+	}
+	@Override
+	public Paging getLecturecurPage(Map<String, Object> map) {
+		int totalCount = memberDao.selectLectureCntAllByNick(map);
+		int curPage = Integer.parseInt(map.get("curPage").toString());
+		int listCount = 10;
+		
+		Paging paging = new Paging(totalCount, curPage, listCount);
+		paging.setSearchType("total");	
+
+		return paging;
+	}
+	
+	@Override
+	public Paging getUsedcurPage(Map<String, Object> map) {
+		int totalCount = memberDao.selectUsedCntAllByNick(map);
+		int curPage = Integer.parseInt(map.get("curPage").toString());
+		int listCount = 10;
+		
+		Paging paging = new Paging(totalCount, curPage, listCount);
+		paging.setSearchType("total");	
+
 		return paging;
 	}
 }

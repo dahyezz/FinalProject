@@ -1,9 +1,9 @@
 package web.dao.face;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.Member;
 import web.dto.TempTable;
 import web.dto.TimeTable;
 
@@ -34,5 +34,7 @@ public interface TimeTableDao {
 	public List selectRec(String id);
 
 	public void insertMytable(String id);
+	
+	public String selectDepartname(Member mem);
 	
 }

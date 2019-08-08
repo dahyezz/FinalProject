@@ -18,8 +18,9 @@ display:none;
 .list td:hover a{
 display:block; 
  }
-.menu td:hover p{
+#menu td:hover p{
 display:none;
+background: black;
 }
 
 </style>
@@ -34,7 +35,7 @@ display:none;
 	</tr>
 	<tr>
 		<td>
-		<p class="menu" style="font-size:35px">게시판 관리</p> 공지사항 입력, 모든 게시글 조회, 수정, 삭제
+		<p id="menu" style="font-size:35px">게시판 관리</p> 공지사항 입력, 모든 게시글 조회, 수정, 삭제
 		<p><a href="/free/list">자유게시판</a></p>
 		<p><a href="/lecture/list">강의평가</a></p>
 		<p><a href="/used/list">중고장터</a><p>

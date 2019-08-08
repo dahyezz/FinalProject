@@ -3,7 +3,40 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<div class="text-center">
+<style type="text/css">
+.pagination>li:first-child {
+	border-radius: 500px 0 0 500px;
+}
+.pagination>li {
+	display: inline-block;
+	margin: 0;
+	background-color: #f8f8f8;
+}
+.pagination {
+	border-radius: 500px !important;
+}
+.pagination-sm>li>a, .pagination-sm>li>span{
+	border-radius: 15px;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+	color: #34314c;
+	background-color: #47b8e0;
+	border-color: #47b8e0;
+}
+.pagination-sm>li:first-child>a, .pagination-sm>li:first-child>span {
+	border-radius: 15px;
+/* 	background-color: #47b8e017; */
+}
+.pagination-sm>li:last-child>a, .pagination-sm>li:last-child>span {
+	border-radius: 15px;
+}
+.pagination>li>a, .pagination>li>span {
+	color: #34314c;
+	border: none;
+}
+</style>
+
+<div class="pagination-container padding-horizontal-small@s">
 	<ul class="pagination pagination-sm">
 		<!-- 처음으로 가기 -->
 		<c:if test="${paging.curPage ne 1 }">

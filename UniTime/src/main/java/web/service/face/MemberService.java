@@ -40,11 +40,12 @@ public interface MemberService {
 	
 	public Member idCheck(String hakbun) throws Exception;
 	public Member nickCheck(String nickname) throws Exception;
+	public Member emailCheck(String email) throws Exception;
 	
 	public List<TastyBoard> tastyList(Paging tastyPaging);
-	public List<FreeBoard> freeList(Member member);
-	public List<UsedBoard> usedList(Member member);
-	public List<LectureBoard> lectureList(Member member);
+	public List<FreeBoard> freeList(Paging paging);
+	public List<UsedBoard> usedList(Paging paging);
+	public List<LectureBoard> lectureList(Paging paging);
 	
 	public void tastyDelete(String names);
 	public void freeDelete(String names);
@@ -71,5 +72,11 @@ public interface MemberService {
 
 
 	public Paging getTastycurPage(Map<String, Object> map);
+
+	public Paging getFreecurPage(Map<String, Object> map);
+
+	public Paging getLecturecurPage(Map<String, Object> map);
+
+	public Paging getUsedcurPage(Map<String, Object> map);
 
 }

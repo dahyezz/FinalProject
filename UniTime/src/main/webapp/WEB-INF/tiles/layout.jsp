@@ -22,7 +22,7 @@
 
 
 <style type="text/css">
-h1, h2, h3, h4, h5, span, p, a {
+h1, h2, h3, h4, h5, span, p, a, table {
 	font-family: 'NanumSquare', sans-serif;
 }
 .wrap {

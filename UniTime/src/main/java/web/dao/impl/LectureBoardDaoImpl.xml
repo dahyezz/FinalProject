@@ -16,10 +16,6 @@
 		        WHERE lb.department_code=tt.lecture_code
 		        <if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
 		        	<choose>
-		        		<when test="searchType == 'total'">
-		        			AND tt.lecture_name LIKE '%' || '${keyword }' || '%'
-		        			OR tt.professor_name LIKE '%' || '${keyword }' || '%'
-		        		</when>
 		        		<when test="searchType == 'lecture_name'">
 		        			AND tt.lecture_name LIKE '%' || '${keyword }' || '%'
 		        		</when>
@@ -40,10 +36,6 @@
 			WHERE lb.department_code=tt.lecture_code
 	        <if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
 	        	<choose>
-	        		<when test="searchType == 'total'">
-	        			AND tt.lecture_name LIKE '%' || '${keyword }' || '%'
-	        			OR tt.professor_name LIKE '%' || '${keyword }' || '%'
-	        		</when>
 	        		<when test="searchType == 'lecture_name'">
 	        			AND tt.lecture_name LIKE '%' || '${keyword }' || '%'
 	        		</when>

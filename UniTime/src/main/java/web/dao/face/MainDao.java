@@ -11,5 +11,7 @@ public interface MainDao {
 	public List tastyBoard();
 	
 	public List usedBoard();
+	
+	public List timeTable(String email);
 
 }

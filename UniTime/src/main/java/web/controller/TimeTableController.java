@@ -1,8 +1,6 @@
 package web.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import web.dto.Member;
 import web.dto.TempTable;
 import web.dto.TimeTable;
+import web.service.face.MemberService;
 import web.service.face.TimeTableService;
 
 @Controller
@@ -26,6 +26,7 @@ public class TimeTableController {
 	private static final Logger logger = LoggerFactory.getLogger(TimeTableController.class);
 	
 	@Autowired TimeTableService timeTableService;
+	@Autowired MemberService memberService;
 	
 	@RequestMapping(value="/timetable/lecturelist", method=RequestMethod.GET)
 	public void lectureAll(Model model, HttpSession session) { 
@@ -52,6 +53,7 @@ public class TimeTableController {
 		TimeTable timeTable = new TimeTable();
 		
 		temp.setUser_email(id);
+
 		
 		String[] nameList = names.split(",");
 		int insertList[] = new int[nameList.length];
@@ -63,21 +65,22 @@ public class TimeTableController {
 			temp.setStart_time(timeTable.getStart_time());
 			temp.setLecture_day(timeTable.getLecture_day());
 			
+			
 			if(timeTableService.checkLecture(temp)) {
-				
 				timeTableService.myListInsert(temp);
 				
 				List mylist = timeTableService.myList(id);
-			
-				
 				model.addAttribute("myList", mylist);
+				
+				session.setAttribute("lectureCheck", true);
 			}
 			
-			boolean checklec;
-			if(!timeTableService.checkLecture(temp)) {
-				checklec=false;
-				model.addAttribute("lectureCheck", checklec);
+			if(!(timeTableService.checkLecture(temp))) {
+				
+				session.setAttribute("lectureCheck", false);
 			}
+			
+			
 		}
 
 		
@@ -110,6 +113,11 @@ public class TimeTableController {
 	public void recommend(Model model, HttpSession session) {
 		
 		String id= (String) session.getAttribute("email");
+		Member mem = new Member();
+		mem.setEmail(id);
+		mem = memberService.getLoginMember(mem);
+		model.addAttribute("nick", mem.getNickname());
+		
 		List mylist = timeTableService.myList(id);
 		model.addAttribute("myList", mylist);
 		

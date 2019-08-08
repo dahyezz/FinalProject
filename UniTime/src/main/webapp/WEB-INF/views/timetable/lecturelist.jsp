@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
+
 <script type="text/javascript">
 $(document).ready(function() {
 
@@ -34,12 +35,14 @@ $(document).ready(function() {
 		$(document.body).append($form);
 		$form.submit();
 		
-// 		if ( lectureCheck ==false ){
-// 			alert('시간이 중복되었습니다!');
-// 		}
-// 		else {
+		var checkLecture = $('input[name=lectureCheck]').val();
+		
+		if ( checkLecture == false ){
+			alert('시간이 중복되었습니다!');
+		}
+		if( checkLecture == true) {
 			alert('강의 담기 성공!');
-// 			}
+		}
 		
 	});
 	
@@ -76,28 +79,50 @@ $(document).ready(function() {
 		
 		alert('강의가 삭제됐습니다');
 	});
+	
 });
 
 //전체 체크/해제
-function checkAll() {
-	// checkbox들
-	var $checkboxes=$("input:checkbox[name='checkRow']");
+	function checkLecAll() {
+		// checkbox들
+		var $checkboxes=$("input:checkbox[name='checkRow']");
 
-	// checkAll 체크상태 (true:전체선택, false:전체해제)
-	var check_status = $("#checkAll").is(":checked");
-	
-	if( check_status ) {
-		// 전체 체크박스를 checked로 바꾸기
-		$checkboxes.each(function() {
-			this.checked = true;	
-		});
-	} else {
-		// 전체 체크박스를 checked 해제하기
-		$checkboxes.each(function() {
-			this.checked = false;	
-		});
+		// checkAll 체크상태 (true:전체선택, false:전체해제)
+		var check_status = $("#checkAll").is(":checked");
+		
+		if( check_status ) {
+			// 전체 체크박스를 checked로 바꾸기
+			$checkboxes.each(function() {
+				this.checked = true;	
+			});
+		} else {
+			// 전체 체크박스를 checked 해제하기
+			$checkboxes.each(function() {
+				this.checked = false;	
+			});
+		}
 	}
-}
+
+
+	function checkMyAll() {
+		// checkbox들
+		var $checkmyboxes=$("input:checkbox[name='checkMyRow']");
+
+		// checkAll 체크상태 (true:전체선택, false:전체해제)
+		var check_status2 = $("#checkAll2").is(":checked");
+		
+		if( check_status2 ) {
+			// 전체 체크박스를 checked로 바꾸기
+			$checkmyboxes.each(function() {
+				this.checked = true;	
+			});
+		} else {
+			// 전체 체크박스를 checked 해제하기
+			$checkmyboxes.each(function() {
+				this.checked = false;	
+			});
+		}
+	}
 
 </script>
 
@@ -128,7 +153,7 @@ function checkAll() {
 <thead>
 	<tr>
 		<th>
-			<input type="checkbox" id="checkAll" onclick="checkAll();" />
+			<input type="checkbox" id="checkAll" onClick="checkLecAll()" />
 		</th>
 		<th id="lectureList" style="width: 5%;">학년</th>
 		<th id="lectureList" style="width: 10%;">강의구분</th>
@@ -160,7 +185,7 @@ function checkAll() {
 <input type="hidden" name="lectureCheck" value="${lectureCheck }" />
 </div>
 <br>
-<button id="btnContain">강의담기</button>
+<button class="btn btn-outline-info" id="btnContain">강의담기</button>
 </form>
 <br><br>
 <h3>내 강의 목록</h3>
@@ -171,7 +196,7 @@ function checkAll() {
 <thead>
 	<tr>
 		<th>
-			<input type="checkbox" id="checkAll2" onclick="checkAll2();" />
+			<input type="checkbox" id="checkAll2" onClick="checkMyAll()" />
 		</th>
 		<th id="lectureList" style="width: 5%;">학년</th>
 		<th id="lectureList" style="width: 10%;">강의구분</th>

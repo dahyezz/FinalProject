@@ -12,5 +12,7 @@ public interface MainService {
 	
 	public List usedBoard();
 	
+	public List timeTable(String email);
+	
 
 }
