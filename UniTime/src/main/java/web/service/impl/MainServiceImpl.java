@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.MainDao;
+import web.dto.TimeTable;
+import web.dto.Unilist;
 import web.service.face.MainService;
 
 @Service
@@ -38,9 +40,19 @@ public class MainServiceImpl implements MainService {
 	}
 	
 	@Override
-	public List timeTable(String email) {
+	public List<TimeTable> timeTable(String email) {
 
 		return mainDao.timeTable(email);
+	}
+	
+	@Override
+	public List<Unilist> getUniList(String keyword) {
+		
+//		if(keyword == null || keyword.equals("")) {
+//			keyword = "";
+//		}
+		
+		return mainDao.selectAllUnilist(keyword);
 	}
 
 }

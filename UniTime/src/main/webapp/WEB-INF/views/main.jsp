@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>슬기로운 대학생활</title>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link rel="shortcut icon" type="image/x-icon" href="/image/logo.png" />
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
 <!-- jQuery 2.2.4 -->
@@ -55,13 +55,31 @@ $(document).ready(function() {
 		
 	}, 2000);
 	
+	$('#keyword').keyup(function() {
+		console.log($(this).val());
+		
+// 		$.ajax({
+// 			type: "get"
+// 			, url : "/main/getList"
+// 			, dataType: "json"
+// 			, data: {
+// 				"keyword": $(this).val()
+// 			}
+// 			,success: function(data){
+// 				console.log(data.unilist);
+// 			}
+// 			,error: function() {
+// 				console.log("error");
+// 			}
+// 		});
+	});
 	
 });
 
 </script>
 
 <style type="text/css">
-p, h1, h2, strong {
+p, h1, h2, strong,a {
 	font-family: 'NanumSquare', sans-serif;
 }
 .main_login {
@@ -69,14 +87,23 @@ p, h1, h2, strong {
 	right: 0;
 	top: 0;
 	height: 100%;
-/* 	overflow-y: auto; */
+ 	overflow-y: auto; 
 	display: block;
 	width: 300px;
 
 	text-align: center;
 	border-left: 1px solid #ccc;
 }
-
+.login_wrap{
+	background-color: #fff;
+	box-sizing: border-box;
+/* 	height: 270px; */
+	width: 300px;
+	padding: 20px 15px;
+	top: 0;
+	z-index: 11;
+	position: fixed;
+}
 #btnLogin {
 	float: right;
 }
@@ -89,12 +116,18 @@ p, h1, h2, strong {
 	
 	float: 
 }
+.main_login::-webkit-scrollbar {
+	display: none;
+}
 .search {
+	background-color: #fff;
+	position: fixed;
 	border-top: 2px solid #ccc;
 	margin: 10px 0;
-	
 	padding: 5px;
 	z-index: 11;
+	top: 308px;
+	width: 300px; 	
 }
 .search > p {
 	margin: 10px 0;
@@ -120,13 +153,17 @@ p, h1, h2, strong {
 }
 .campuslist {
 /*  	overflow: hidden; */
+	top: 410px;
+	z-index: 10;
+	position: relative;
  	height: 100%; 
 	border-top: 1px solid #ccc;
 }
 .scrollBlind{
+
 	width: 330px;
 	height: 100%;
-	overflow-y: scroll;
+/* 	overflow-y: scroll; */
 	
 }
 .campuslist a {
@@ -378,112 +415,46 @@ p.number > strong {
 
 <div class="main_login">
 
-	<div class="main_img">
-		<img src="/image/logo.png" style="width: 100px; height: 100px;">
-	</div>
-	
-	<div class="clearfix"></div>
-
-	<form action="/member/login" method="post" id = "login">
-
-		<label class="input"><input type="text" name="email" placeholder="이메일" autocomplete="off" class="text"/></label>
+	<div class="login_wrap">
+		<div class="main_img">
+			<img src="/image/logo.png" style="width: 100px; height: 100px;">
+		</div>
 		
-		<label class="input"><input type="password" name="password" placeholder="비밀번호" autocomplete="off" class="text"/></label>
+		<div class="clearfix"></div>
+	
+		<form action="/member/login" method="post" id = "login">
+	
+			<label class="input"><input type="text" name="email" placeholder="이메일" autocomplete="off" class="text"/></label>
+			
+			<label class="input"><input type="password" name="password" placeholder="비밀번호" autocomplete="off" class="text"/></label>
+			
+			<p class="submit">
+				<input type="submit" value="로그인" id="loginBtn" />
+			</p>
+	<!-- 		<button class="btn btn-info" id = "btnLogin">로그인</button> -->
+		</form>
 		
-		<p class="submit">
-			<input type="submit" value="로그인" id="loginBtn" />
-		</p>
-<!-- 		<button class="btn btn-info" id = "btnLogin">로그인</button> -->
-	</form>
-	
-	<div class="find">
-		<a href="/member/pwFind">비밀번호 찾기</a>
+		<div class="find">
+			<a href="/member/pwFind">비밀번호 찾기</a>
+		</div>
+		
+		<div class="register">
+			<a href="/member/join">회원가입</a>
+		</div>
 	</div>
-	
-	<div class="register">
-		<a href="/member/join">회원가입</a>
-	</div>
-	
 	<div class="search">
 		<p>우리 학교 커뮤니티 둘러보기</p>
 		
-		<input type="text" name="name" placeholder="찾으시는 캠퍼스를 입력하세요." autocomplete="off" class="text"/>
+		<input type="text" name="keyword" id="keyword" placeholder="찾으시는 캠퍼스를 입력하세요." autocomplete="off" class="text"/>
 	</div>
 	
 	<div class="campuslist">
 		<div class="scrollBlind">
-		<a href="/kg_main">
-			<span class="name">경기대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">경희대</span>
-		</a>
-		<a href="/unitime">
-			<span class="name">마지막</span>
-		</a>
+			<c:forEach items="${unilist }" var="i">
+				<a href="${i.uniUrl }">
+					<span class="name">${i.uniName }</span>
+				</a>
+			</c:forEach>
 		</div>
 	</div>
 	
@@ -634,7 +605,7 @@ p.number > strong {
 <div class="main_no_footer">
 	<ul class="links">
 		<li class="copyright">
-			<a href="/main_no">@ 슬기로운대학생활</a>
+			<a href="/main">@ 슬기로운대학생활</a>
 		</li>
 		<li>
 			<a href="/info/termofservice">이용약관</a>

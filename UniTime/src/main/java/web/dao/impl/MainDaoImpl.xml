@@ -52,6 +52,16 @@
 	
 	</select>
 
-
+	<select id="selectAllUnilist" resultType="web.dto.Unilist" parameterType="String">
+		SELECT uni_code uniCode, uni_name uniName, uni_url uniUrl
+		FROM unilist
+		<where>
+			<if test='keyword != null and keyword != "" '>
+				uni_name LIKE '%' || '#{keyword }' || '%'
+			</if>
+		</where>
+		
+		ORDER BY uni_code
+	</select>
 
 </mapper>

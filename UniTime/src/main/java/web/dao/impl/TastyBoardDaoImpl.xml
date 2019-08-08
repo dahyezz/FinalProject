@@ -43,7 +43,19 @@
 		        		</when>
 		        	</choose>
 		        </if>
-				ORDER BY boardno DESC
+		        <if test="listSelect != null and listSelect != '' ">
+		        	<choose>
+		        		<when test="listSelect == 'totalScore'">
+		        			ORDER BY score DESC, boardno DESC
+		        		</when>
+		        		<when test="listSelect == 'hitScore'">
+		        			ORDER BY hit DESC, boardno DESC
+		        		</when>
+		        		<when test="listSelect == 'date'">
+		        			ORDER BY boardno DESC
+		        		</when>
+		        	</choose>
+		        </if>
 				) B
 			ORDER BY rnum
 		) tastyboard_kg

@@ -3,6 +3,7 @@
 
 <style type="text/css">
 .footer{
+
 	background-color:  #47b8e054;
 	-webkit-margin-bottom-collapse: separate;
 }

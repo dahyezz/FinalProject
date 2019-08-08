@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
     
 <style type="text/css">
+.footer {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+}
 .list table, th {
 	rext-align: center;
 	border-left: 1px solid #eee;

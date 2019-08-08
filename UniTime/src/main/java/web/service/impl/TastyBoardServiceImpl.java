@@ -37,12 +37,17 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 		
 		paging.setSearchType((String) map.get("searchType"));
 		paging.setKeyword((String) map.get("keyword"));
+		paging.setListSelect((String) map.get("listSelect"));
 		
 		return paging;
 	}
 	
 	@Override
 	public List<TastyBoard> list(Paging paging) {
+		
+		if(paging.getListSelect()==null || paging.getListSelect().equals(""))
+			paging.setListSelect("date");
+		
 		return tastyBoardDao.selectAll(paging);
 	}
 	

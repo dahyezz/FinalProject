@@ -11,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import web.dto.TimeTable;
+import web.dto.Unilist;
 import web.service.face.MainService;
 
 @Controller
@@ -21,7 +24,20 @@ public class MainController {
 	@Autowired MainService mainService;
 	
 	@RequestMapping(value="/main", method = RequestMethod.GET)
-	public void main(HttpSession session) { 
+	public void main(Model model, String keyword) {
+		List<Unilist> unilist = mainService.getUniList(keyword);
+		model.addAttribute("unilist", unilist);
+	}
+	
+	@RequestMapping(value="/main/getList", method=RequestMethod.GET)
+	public ModelAndView getList(ModelAndView mav, String keyword) {
+
+		List<Unilist> unilist = mainService.getUniList(keyword);
+		
+		mav.addObject("unilist", unilist);
+		mav.setViewName("jsonView");
+		
+		return mav;
 	}
 	
 	@RequestMapping(value="/kg_main", method=RequestMethod.GET)
@@ -43,13 +59,12 @@ public class MainController {
 		model.addAttribute("usedboard", usedBoard);
 		
 		String email = (String)session.getAttribute("email");
-		List timeTable = mainService.timeTable(email);
-		model.addAttribute("myList", timeTable);
-		logger.info("시간표 : " + email);
-		
-		
-		
-		
+
+		if(email != null && email.equals("")) {
+			List<TimeTable> timeTable = mainService.timeTable(email);
+			model.addAttribute("myList", timeTable);	
+		}
+		logger.info("시간표 : " + email);		
 
 	}
 	

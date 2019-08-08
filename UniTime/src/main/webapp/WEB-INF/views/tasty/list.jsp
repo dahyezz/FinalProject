@@ -24,6 +24,17 @@
 $(document).ready(function() {
 	
 	$('#searchType').selectpicker();
+// 	console.log(${liSel}.val())
+	
+	var lisel = '${liSel}'
+	
+	if(lisel.length == 0){
+		$('#listSelect').val("date").prop("selected", true);
+	}else if(lisel == 'hitScore') {
+		$('#listSelect').val("hitScore").prop("selected", true);
+	} else {
+		$('#listSelect').val("totalScore").prop("selected", true);
+	}
 	
 	$('#btnWrite').click(function() {
 		$(location).attr("href","/tasty/write");
@@ -102,8 +113,25 @@ $(document).ready(function() {
 			}
 			
 		} 
-	})
+	});
 	
+	$('#listSelect').on('change', function() {
+		var selected = $(this).val();
+		console.log(selected);
+		
+		//전송 폼
+		var $form = $("<form>")
+				.attr("action","/tasty/list")
+				.attr("method", "get")
+				.append(
+					$("<input>")
+							.attr("type","hidden")
+							.attr("name", "listSelect")
+							.attr("value", selected)
+				);
+		$(document.body).append($form);
+		$form.submit();
+	});
 });
 
 // 전체 체크/체크해제 되는 동작
@@ -208,6 +236,15 @@ tasty .pagination {
 	color: #34314c;
 	border: none;
 }
+.select_wrap {
+	text-align: left;
+	margin: 10px 0;
+}
+.bootstrap-select .dropdown-toggle .filter-option-inner-inner
+ {
+/* 	float: left; */
+	font-family: 'NanumSquare', sans-serif;
+}
 
 </style>
 
@@ -215,6 +252,14 @@ tasty .pagination {
 	<h3>테이스티로드</h3>
 	<span>숨겨진 맛집을 찾아서!</span>
 	<button id="btnWrite">글쓰기</button>
+</div>
+
+<div class="select_wrap">
+	<select name="listSelect" id="listSelect" class="selectpicker" style="vertical-align: center;">
+		<option value="date">날짜</option>
+		<option value="totalScore">별점</option>
+		<option value="hitScore">조회수</option>
+	</select>
 </div>
 
 <div class="clearfix"></div>
