@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.BadReport;
 import web.dto.UsedBoard;
@@ -45,7 +46,7 @@ public class UsedBoardController {
 	 *  used/List 페이지 컨트롤러
 	 */
 	@RequestMapping(value="/used/list", method=RequestMethod.GET)
-	public String list(
+	public void list(
 			@RequestParam(defaultValue="1") int curPage,
 			Paging search,
 			Model model
@@ -61,7 +62,6 @@ public class UsedBoardController {
 		List<UsedBoard> boardList = usedService.getSearchPagingList(paging);
 		model.addAttribute("list", boardList);
 		
-		return "used/list";
 	}
 	
 	
@@ -322,6 +322,26 @@ public class UsedBoardController {
 		return "used/commentList";
 	}
 	
+	
+	
+	@RequestMapping(value="/used/report", method=RequestMethod.POST)
+	public ModelAndView report(BadReport badReport, ModelAndView mav) {
+		
+		logger.info(badReport.toString());
+		
+		boolean success = usedService.reportBoard(badReport);
+		
+		mav.addObject("success", success);
+		mav.addObject("commentno",badReport.getCommentno());
+		
+		mav.setViewName("jsonView");
+		
+		return mav;
+
+	}
+	
+	@RequestMapping(value="/used/reportReason", method=RequestMethod.GET)
+	public void declareReason() { }
 	
 	
 }

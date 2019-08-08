@@ -184,4 +184,10 @@ public interface UsedService {
 	public boolean checkReport(BadReport bad);
 	
 	
+	/**
+	 *  댓글 수 가져오는 기능
+	 * @param boardno
+	 * @return
+	 */
+	public List<UsedBoard> getCountCmt(UsedComment UsedCmt);
 }

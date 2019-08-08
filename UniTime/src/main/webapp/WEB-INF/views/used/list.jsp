@@ -47,18 +47,21 @@
 <table class="table table-striped table-hover table-condensed">
 	
 	<tr>
-		<th style="width: 7%;">글번호</th>
-		<th style="width: 8%;">태그</th>
-		<th style="width: 15%">작성자</th>
-		<th style="width: 35%">제목</th>
-		<th style="width: 12%">가격</th>
-		<th style="width: 8%">조회수</th>
-		<th style="width: 15%">작성일</th>
+		<th style="width: 10%">작성일</th>
+		<th style="width: 10%;">글번호</th>
+		<th style="width: 5%;">태그</th>
+		<th style="width: 10%">작성자</th>
+		<th style="width: 30%">제목</th>
+		<th style="width: 15%">가격</th>
+		<th style="width: 10%">조회수</th>
+		<th style="width: 10%">댓글 </th>
 	</tr>
 	
 	<c:forEach items="#{list }" var="i">
 	
 	<tr>
+		<td><fmt:formatDate value="${i.writtendate }" 
+		    pattern="yyyy-MM-dd" /></td>
 		<td>${i.boardno }</td>
 		<td>${i.tag }</td>
 		<td>${i.writer }</td>
@@ -66,8 +69,7 @@
 		<td><fmt:formatNumber value="${i.price }" 
 		    pattern="###,###.###"/></td>
 		<td>${i.hit }</td>
-		<td><fmt:formatDate value="${i.writtendate }" 
-		    pattern="yyyy-MM-dd" /></td>
+		<td>${i.commentCnt }</td>
 	</tr>
 		
 	</c:forEach>

@@ -11,7 +11,7 @@ public class UsedComment {
 	
 	@Override
 	public String toString() {
-		return "usedComment [commentno=" + commentno + ", boardno=" + boardno + ", writer=" + writer + ", content="
+		return "UsedComment [commentno=" + commentno + ", boardno=" + boardno + ", writer=" + writer + ", content="
 				+ content + ", writtendate=" + writtendate + "]";
 	}
 
@@ -55,4 +55,5 @@ public class UsedComment {
 		this.writtendate = writtendate;
 	}
 	
+
 }

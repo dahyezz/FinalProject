@@ -245,6 +245,14 @@ public class UsedServiceImpl implements UsedService {
 		// 게시글 번호로 댓글 조회
 		return usedDao.selectAllCommentnoByBoardno(boardno);
 	}
+	
+	
+	// 댓글 수 가져오는 함수 
+	@Override
+	public List<UsedBoard> getCountCmt(UsedComment UsedCmt){
+		return usedDao.CountComment(UsedCmt);
+	}
+	
 
 	@Override
 	public UsedComment getBoardno(UsedComment usedComment) {
@@ -280,5 +288,6 @@ public class UsedServiceImpl implements UsedService {
 			return false;
 		}
 	}
+	
 	
 }
