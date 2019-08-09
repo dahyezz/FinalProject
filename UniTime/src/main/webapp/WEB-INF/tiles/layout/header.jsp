@@ -39,7 +39,7 @@
 	<c:if test="${login }">
 		<a href="/member/logout">로그아웃</a>
 		<c:if test="${nick eq 'admin' }">
-			<a href="/main">사이트</a>
+			<a href="/admin/main">관리자</a>
 		</c:if>
 		<c:if test="${nick ne 'admin' }">
 			<a href="/member/mypage">마이페이지</a>
@@ -64,6 +64,12 @@
 			<li><a href="/lecture/list">강의평가</a></li>
 			<li><a href="/used/list">중고장터</a></li>
 			<li><a href="/tasty/list">테이스티로드</a></li>
+		</c:if>
+		<c:if test="${nick eq 'admin' }">
+			<li><a href="/admin/site">사이트관리</a></li>
+			<li><a href="/admin/board">게시판관리</a></li>
+			<li><a href="/admin/member">회원리스트</a></li>
+			<li><a href="/admin/black">블랙리스트</a></li>
 		</c:if>
 		
 	</ul>
