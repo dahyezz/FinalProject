@@ -209,7 +209,7 @@ function declare(boardno, commentno){
 	var check = true;
 	var interval = null;
 	
-	myWindow = window.open("http://localhost:8088/tasty/declareReason","신고사유","width=550, height=630, left="+100+", top="+20+", resizable=no");
+	myWindow = window.open("/tasty/declareReason","신고사유","width=550, height=630, left="+100+", top="+20+", resizable=no");
 	
 	interval = window.setInterval(function() {
 		try {

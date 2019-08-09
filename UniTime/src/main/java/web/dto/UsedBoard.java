@@ -15,13 +15,14 @@ public class UsedBoard {
 	private Date writtendate;
 	private int rnum;
 	private int commentCnt;
-	
-	
+	private int fileno;
+
+
 	@Override
 	public String toString() {
 		return "UsedBoard [boardno=" + boardno + ", tag=" + tag + ", title=" + title + ", product=" + product
 				+ ", content=" + content + ", writer=" + writer + ", hit=" + hit + ", price=" + price + ", writtendate="
-				+ writtendate + ", rownum=" + rnum + "commentCnt" + commentCnt + "]";
+				+ writtendate + ", rnum=" + rnum + ", commentCnt=" + commentCnt + ", fileno=" + fileno + "]";
 	}
 
 	public int getBoardno() {
@@ -90,6 +91,14 @@ public class UsedBoard {
 	}
 	public void setCommentCnt(int commentCnt) {
 		this.commentCnt = commentCnt;
+	}
+	
+	public int getFileno() {
+		return fileno;
+	}
+
+	public void setFileno(int fileno) {
+		this.fileno = fileno;
 	}
 
 	
