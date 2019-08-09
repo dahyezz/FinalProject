@@ -11,19 +11,18 @@
 	    resultType="int">
 	    SELECT count(*)
 	    FROM UsedBoard_KG
- 	    <if test="searchType != null && searchType!= ''
-	        && keyword != null && keyword != '' ">
+<!--  	    <if test="searchType != null AND searchType!= '' AND keyword != null AND keyword != '' ">
 	    	<choose>
 	    		<when test="searchType == 'total'">
-	    			WHERE title LIKE '%' || '${search }' || '%'
+	    			WHERE title LIKE '%' || '${search }' || '%'   '%1%'
 	    			OR content LIKE '%' || '${search }' || '%'
 	    			OR writer LIKE '%' || '${search }' || '%'
 	    		</when>
-	    		<when test="searchType == 'total'">
+	    		<when test="searchType != 'total'">
 	    			WHERE ${searchType } LIKE '%' || '${search }' || '%'
 	    		</when>
 	    	</choose>
-	    </if>
+	    </if> -->
 	</select>
 	
 	
@@ -305,7 +304,7 @@
 	<sql id="selectSearch">
 		SELECT rownum rnum, B.* FROM (
 			<include refid="selectBoard" />
-			<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+			<!-- <if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
 	        	<choose>
 	        		<when test="searchType == 'total'">
 	        			WHERE title LIKE '%' || '${keyword }' || '%'
@@ -320,7 +319,7 @@
 			WHERE 1=1
 			<if test="search != null and search != ''">
 				AND title LIKE '%' || #{search } || '%' 
-			</if>
+			</if> -->
 			ORDER BY boardno DESC
 		) B
 		ORDER BY rnum
