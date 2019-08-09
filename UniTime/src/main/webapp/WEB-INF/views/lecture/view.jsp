@@ -127,7 +127,7 @@ $(document).ready(function(){
 	
 	//게시글 신고
 	$("#btnReport").click(function(){
-		window.open("/lecture/report?boardno="+boardno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
+		window.open("/lecture/report?boardno="+boardno+"&nickname="+nick,"신고사유","width=550, height=600, left=500 top=20");
 	});
 	
 	//댓글 신고
@@ -135,7 +135,7 @@ $(document).ready(function(){
 				
 		var commentno=$(this).attr("data-commentno");
 		
-		window.open("/lecture/report?boardno="+boardno+"&commentno="+commentno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
+		window.open("/lecture/report?boardno="+boardno+"&commentno="+commentno+"&nickname="+nick,"신고사유","width=550, height=600, left=500 top=20");
 	});
 });
 </script>
@@ -145,6 +145,7 @@ $(document).ready(function(){
 	font-size: 30px;
 	margin-top:5px;
 }
+
 .writer_info {
 	text-align: left;
 	margin-bottom: 30px;
@@ -161,11 +162,11 @@ $(document).ready(function(){
 }
 
 .lecture_table {
-	margin-top: 60px;
+	margin-top: 50px;
 	font-size: 14px;
 	line-height: 1.5;
 	border: none;
-	margin-bottom: 15px;
+	margin-bottom: 50px;
 }
 .lecture_table tr th {
 	min-width: 100px;
@@ -203,18 +204,6 @@ $(document).ready(function(){
   padding: 5px 10px;
   border: none;
   text-decoration: none;
-}
-
-#content{
-	width: 100%;
-	padding: 6px 12px;
-	font-size: 14px;
-	height: 30px; 
-	color: #555;
-	background-color: #fff;
-	border: 1px solid #ccc;
-	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-	text-align:left;
 }
 
 .commentList {
@@ -278,9 +267,7 @@ $(document).ready(function(){
 	</tr>
 </table>
 
-<div>
-	${board.content }
-</div>
+<div class="text-left">${board.content }</div>
 <hr>
 
 <div class="text-center">
