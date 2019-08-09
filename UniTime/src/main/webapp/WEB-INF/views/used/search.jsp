@@ -9,9 +9,6 @@ $(document).ready(function() {
 });
 </script>
 
-
-
-
 	<span class="form-inline text-center">
 		<select name="searchType" class="selectpicker">
 			<option value="total" selected>전체</option>
@@ -25,5 +22,3 @@ $(document).ready(function() {
 		<button id="btnSearch" class="btn">검색</button>
 		
 	</span>
-<!-- 	<input class="form-control" type="text" id="search" />
-	<button id="btnSearch" class="btn">검색</button> -->

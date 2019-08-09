@@ -295,7 +295,8 @@
 		    content, writer, hit, 
 		    price, writtendate, 
 		   (SELECT COUNT(*) 
-		    FROM UsedComment_KG WHERE boardno = UsedBoard_KG.boardno) commentCnt
+		    FROM UsedComment_KG WHERE boardno = UsedBoard_KG.boardno) commentCnt,
+		   (SELECT min(usedimgno) FROM UsedImg_KG WHERE boardno = UsedBoard_KG.boardno ) AS fileno
 		FROM 
 		    UsedBoard_KG
 	</sql>

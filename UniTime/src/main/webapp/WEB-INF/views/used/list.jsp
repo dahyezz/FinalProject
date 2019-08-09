@@ -21,6 +21,10 @@
   text-align: center;
  }
  
+ #thumbnail {
+ 	width: 120px;
+ }
+ 
  
 </style>
 
@@ -45,23 +49,27 @@
 <div>
 	<table class="table table-striped table-hover table-condensed" style="width:100%;">
 	    <tr>
-	    	<th style="width: 125px;">이미지</th>
-	    	<th colspan="4">거래 게시글</th>
+	    	<th style="width: 125px; font-size: 1.3em;">이미지</th>
+	    	<th colspan="4" style="font-size: 1.3em;">거래 게시글</th>
 	    </tr>
 	    <c:forEach items="${list }" var="i">
 		    <tr style="text-align: center">
 		    	<td rowspan="4">
-		    		<c:if test="${usedimg.imgsize ne 0 }">
-		    		
-		    		</c:if>
-		    		<img src="https://moorestown-mall.com/noimage.gif" width="120px" height="120px;"/>
+		    		<!-- 파일이 존재하지 않을 경우  -->
+		    		<c:if test="${i.fileno eq 0 }">
+						<img id="thumbnail" class="card-image-top img-fluid" src="/image/noimage.jpg">
+					</c:if>
+					<!-- 파일이 존재할 경우  -->
+					<c:if test="${i.fileno ne 0 }">
+						<img id="thumbnail" class="card-image-top img-fluid" src="/usedImage?usedImgNo=${i.fileno }">
+					</c:if>
 		    	</td>
 		        <td>
-		        	<c:if test="${i.tag =='sell'}">
-		        		<span style="color: red; font-size: 1.3em;"><b>${i.tag }</b></span>
+		        	<c:if test="${i.tag =='SELL' || i.tag == 'sell' }">
+		        		<span style="color: red; font-size: 1.1em;"><b>${i.tag }</b></span>
 		    		</c:if>
-		    		<c:if test="${i.tag =='buy'}">
-		        		<span style="color: blue; font-size: 1.3em;"><b>${i.tag }</b></span>
+		    		<c:if test="${i.tag == 'BUY' || i.tag == 'buy'}">
+		    			<span style="color: blue; font-size: 1.1em;"><b>${i.tag }</b></span>
 		    		</c:if>
 		        </td>
 		        <td colspan="3"><a href="/used/view?boardno=${i.boardno }"><span style="font-size: 1.3em;">${i.title }</span></a></td>

@@ -38,7 +38,7 @@
 	<!-- 댓글 작성창 -->
 	<br>	
 	<label>${nick }
-		<textarea id="content" name="content" rows="1" cols="70"></textarea>
+		<textarea id="content" name="content" rows="1" cols="70" placeholder="건전하고 상호존중하는 문화를 위한 깨끗한 댓글만 달아주세요."></textarea>
  		
  		<!-- 엔터키로 댓글 입력  -- doesn't works
 		<script>
