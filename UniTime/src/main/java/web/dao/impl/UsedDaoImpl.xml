@@ -6,11 +6,24 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="web.dao.face.UsedDao">
-
+	<!-- 페이징에 쓰임 -->
 	<select id="selectCntAll"
 	    resultType="int">
 	    SELECT count(*)
 	    FROM UsedBoard_KG
+ 	    <if test="searchType != null && searchType!= ''
+	        && keyword != null && keyword != '' ">
+	    	<choose>
+	    		<when test="searchType == 'total'">
+	    			WHERE title LIKE '%' || '${search }' || '%'
+	    			OR content LIKE '%' || '${search }' || '%'
+	    			OR writer LIKE '%' || '${search }' || '%'
+	    		</when>
+	    		<when test="searchType == 'total'">
+	    			WHERE ${searchType } LIKE '%' || '${search }' || '%'
+	    		</when>
+	    	</choose>
+	    </if>
 	</select>
 	
 	
@@ -282,7 +295,8 @@
 		    boardno, tag, title, product, 
 		    content, writer, hit, 
 		    price, writtendate, 
-		    (SELECT COUNT(*) FROM UsedComment_KG WHERE boardno = UsedBoard_KG.boardno) commentCnt
+		   (SELECT COUNT(*) 
+		    FROM UsedComment_KG WHERE boardno = UsedBoard_KG.boardno) commentCnt
 		FROM 
 		    UsedBoard_KG
 	</sql>
@@ -291,6 +305,18 @@
 	<sql id="selectSearch">
 		SELECT rownum rnum, B.* FROM (
 			<include refid="selectBoard" />
+			<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+	        	<choose>
+	        		<when test="searchType == 'total'">
+	        			WHERE title LIKE '%' || '${keyword }' || '%'
+	        			OR content LIKE '%' || '${keyword }' || '%'
+	        			OR writer LIKE '%' || '${keyword }' || '%'
+	        		</when>
+	        		<when test="searchType != 'total'">
+	        			WHERE ${searchType } LIKE '%' || '${keyword }' || '%'
+	        		</when>
+	        	</choose>
+	        </if>
 			WHERE 1=1
 			<if test="search != null and search != ''">
 				AND title LIKE '%' || #{search } || '%' 
