@@ -60,7 +60,7 @@ public class MainController {
 		
 		String email = (String)session.getAttribute("email");
 
-		if(email != null && email.equals("")) {
+		if(email != null && !email.equals("")) {
 			List<TimeTable> timeTable = mainService.timeTable(email);
 			model.addAttribute("myList", timeTable);	
 		}

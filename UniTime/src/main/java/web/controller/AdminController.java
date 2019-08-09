@@ -63,15 +63,14 @@ public class AdminController {
 		adminService.memberDelete(email);
 		
 		return "redirect:/admin/member";
+		
 	}
 	
 	@RequestMapping(value="/admin/memberPenalty", method = RequestMethod.GET)
 	public String adminMemberPenalty(String[] email) {
 		
-		
 		logger.info("경고 +1 :" + Arrays.toString(email));
 		adminService.memberPenalty(email);
-		
 		adminService.moveBlackList();
 		
 		return "redirect:/admin/member";
@@ -104,7 +103,7 @@ public class AdminController {
 	@RequestMapping(value="/admin/blackListDelete", method = RequestMethod.GET)
 	public String adminBlackListDelete(String[] email) {
 		
-		logger.info("삭제할 학번:" + Arrays.deepToString(email));
+		logger.info("삭제할 이메일:" + Arrays.deepToString(email));
 		adminService.blackListDelete(email);
 		
 		return "redirect:/admin/black";
@@ -136,7 +135,7 @@ public class AdminController {
 	@RequestMapping(value="/admin/badReportDelete", method = RequestMethod.GET)
 	public String adminBadReportDelete(int[] badno) {
 		
-//		logger.info("삭제할 게시글번호:" + badno);
+		logger.info("삭제할 게시글번호:" + badno);
 		adminService.badReportDelete(badno);
 		
 		return "redirect:/admin/badReport";

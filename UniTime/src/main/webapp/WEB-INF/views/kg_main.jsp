@@ -17,27 +17,48 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<script type="text/javascript">
+	function hideDiv() {
+		var obj=document.getElementById("timetable");
+		obj.style.display="none";
+		
+		var obj2=document.getElementById("hideButton");
+		obj2.style.display="none";
+		
+		var obj3=document.getElementById("showButton")
+		obj3.style.display="block";
+	} 
+	function showDiv() {
+		var obj=document.getElementById("timetable");
+		obj.style.display="block";
+		
+		var obj2=document.getElementById("showButton");
+		obj2.style.display="none";
+		
+		var obj3=document.getElementById("hideButton");
+		obj3.style.display="block";
+
+	}
+
+</script>
+
 <style type="text/css">
 
-.list table, th {
-	text-align: center;
-	
-}
-
 .card-columns .card {
-	width: 280px;
-	margin: cente
+	width: 85%;
+	margin: auto
 }
 .timetable_wrap {
 
 	padding: 0 5%;
-    display: inline-block;
+    display: none;
     margin-bottom: 10px;
 	float: left;
 }
 #mytable{
 	width: 400px;
 	border: 1px solid #ccc;
+	background: white;
 }
 #mytable th{
 	padding: 5px;
@@ -52,21 +73,29 @@
 #mytable th:first-child {
 	background-color: #47b8e017;
 }
-
-/* 내일 지울것 */
-.timetable{
-	display: none;
+.timeTableButton {
+	background-image: linear-gradient(to bottom,  #47b8e0,  #47b8e0);
+	border-radius: 5px;
+	color: #ffffff;
+  	font-size: 12px;
+  	padding: 10px 20px 10px 20px;
+  	border: solid #ffffff 1px;
+  	text-decoration: none;
+  	float: right;
+  	margin: auto;	
 }
-/* 여기까지 */
+
+  
+
 </style>
 
 
-<div class="timetable">
-<input type="button" value="내 시간표 보기" style="float: left;">
-
+<input class="timeTableButton" id="showButton" type="button" value="내 시간표 보기" onclick="showDiv();" style="float: left;"/>
+<input class="timeTableButton" id="hideButton" type="button" value="내 시간표 접기" onclick="hideDiv();" style="float: left;  display: none;"/>
+<br>
 
 	<!-- 시간표 -->
-	<div class="timetable_wrap">
+	<div id="timetable" class="timetable_wrap" style="position: absolute; left:100px;">
 	
 		<div style="text-align: center;" class="myh4">
 			<h4>내 시간표</h4>
@@ -404,27 +433,11 @@
 			</table>
 		</div>
 	</div>
-</div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div style="width: 1510px;">
-<div style="border: 1px solid gold; float: right; width: 530px; margin: 1px;">
+<br><br>
+<div style="width: 100%">
+<div style="border: 1px solid gold; float: right; width: 35%; margin: 1px;">
 <h4 style="float: left;">&nbsp;&nbsp;&nbsp;중고장터</h4>
 <table class="table table-striped table-hover table-condensed">
 <thead>
@@ -454,11 +467,11 @@
 </div>
 
 <div>
-<div style="border: 1px solid gold; float: left; width: 960px; margin: 1px">
+<div style="border: 1px solid gold; float: left; width: 63%; margin: 1px">
 
-<h4 style="float: left">&nbsp;&nbsp;&nbsp;공지사항</h4>
+<h4 style="float: left;">&nbsp;&nbsp;&nbsp;공지사항</h4>
 <table class="table table-striped table-hover table-condensed">
-<thead>
+<thead> 
 	<tr>
 		<th style="width: 10%;">번호</th>
 		<th style="width: 10%;">테그</th>
@@ -487,7 +500,7 @@
 
 
 
-<div style="border: 1px solid gold; float: left; width: 960px; margin: 1px">
+<div style="border: 1px solid gold; float: left; width: 63%; margin: 1px">
 <h4 style="float: left">&nbsp;&nbsp;&nbsp;자유게시판</h4>
 <table class="table table-striped table-hover table-condensed">
 <thead>
@@ -519,23 +532,27 @@
 </div>
 </div>
 
-<div class="card-columns">
+<div class="clearfix"></div>
+
+<br>
+
+<div class="card-columns" style="width: 100%; margin: auto; border: 1px solid gold;">
 <table>
 <tr>
 
 <c:forEach items="${tastyboard }" var="i">
-	 <td>
+	 <td style="border: 1px solid gold; width: 30px">
 <!-- 	<div class="card-wrap"> -->
 <%-- 		<a class="overlay overlay-fill overlay-top" href="/tasty/view?boardno=${i.boardno }" ></a> --%>
-	<div class="card" onclick="location.href='/tasty/view?boardno=${i.boardno}'" style="float: left;">
+	<div class="card" onclick="location.href='/tasty/view?boardno=${i.boardno}'" >
 
 		<div class="card-image">
 		<c:if test="${i.fileno eq 0 }">
-			<img id="thumbnail" class="card-image-top img-fluid" src="/image/default.jpg" alt="Card image cap" width="280px">	
+			<img id="thumbnail" class="card-image-top img-fluid" src="/image/default.jpg" alt="Card image cap" style="width: 85%; float: left;">	
 		</c:if>
 
 		<c:if test="${i.fileno ne 0 }">
-			<img id="thumbnail" class="card-image-top img-fluid" alt="Card image cap" src="/tastyImage?fileno=${i.fileno }" width="280px">
+			<img id="thumbnail" class="card-image-top img-fluid" alt="Card image cap" src="/tastyImage?fileno=${i.fileno }" style="width: 85%; float: left;">
 		</c:if>
 		</div>
 		
@@ -563,8 +580,8 @@
 </c:forEach>
 </tr>
 </table>
-<a href="/tasty/list" style="color: black;"><p style="font-size: 15px; float: right; font-style: italic;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</p></a>
 </div>
+<a href="/tasty/list" style="color: black;"><p style="font-size: 15px; float: right; font-style: italic;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</p></a>
 
 
 
