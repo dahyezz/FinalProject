@@ -39,22 +39,32 @@ $(document).ready(function() {
 </script>
 
 <style type="text/css">
-.lectureUpdate table {
-	border:1px solid #ccc;
+.ed>h3 {
+	font-weight: bold;
+	font-size: 30px;
 }
 
-.lectureUpdate th{
-	text-align: center;
-	border:1px solid #ccc;
-	background:#ccf;
+.lectureUpdateTable {
+	font-size: 14px;
+	line-height: 1.5;
+	border: none;
+	margin-bottom: 15px;
+	font-family: 'NanumSquare', sans-serif;
+}
+.lectureUpdateTable tr th {
+	font-weight: 700;
+	white-space: nowrap;
+	width:100px;
+}
+.lectureUpdateTable tr th, .lectureUpdateTable tr td {
+	color: #34314c;
+	text-align: left;
+	padding: 10px 10px 0 0;
+	border: none;
 }
 
-.lectureUpdate {
-	border-left: 1px solid #eee;
-	border-right: 1px solid #eee;
-}
 .lectureUpdate #content{
-	width:98%;
+	width:100%;
 }
 
 .star{
@@ -71,30 +81,55 @@ $(document).ready(function() {
 	background-position:0 0;
 	border:none;
 }
+
+#btnUpdate {
+	background-color: #47b8e0;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+  margin-left: 7px;
+  margin-bottom: 2px;
+}
+
+#btnCancel {
+background-color: #ff7473;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff ;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+}
 </style>
 
 <div class="lectureUpdate">
 
-<h1>글쓰기</h1>
+<div class="ed board-header padding-horizontal-small@s margin-bottom-small" style="text-align: left;">
+	<h3>강의평가 게시판</h3>
+	<p>여러분들의 강의 후기를 학우들에게 공유해주세요<br>※ 강의평가 게시판은 익명으로 작성됩니다</p>
+</div>
 
 <form action="/lecture/update?boardno=${board.boardno }" method="post">
 
-	<table class="table table-condensed">
+	<table class="lectureUpdateTable">
 	<tr>
 		<th>글번호</th>
-		<td colspan="3">${board.boardno }</td>
-	</tr>
-	<tr>
-		<th>작성자</th>
-		<td>※ 강의평가 게시판은 익명으로 작성됩니다.</td>
+		<td>${board.boardno }</td>
 	</tr>
 	<tr>
 		<th>강의명</th>
-		<td colspan="3">${timetable.lecture_name } - ${timetable.professor_name }</td>
+		<td>${timetable.lecture_name } - ${timetable.professor_name }</td>
 	</tr>
 	<tr>
 		<th>조별과제</th>
-		<td colspan="3">
+		<td>
 		<div class="starRev_team">
 			<input type="text" class="star on" value="1">
 			<input type="text" class="star" value="2">
@@ -104,9 +139,9 @@ $(document).ready(function() {
 			<input type="hidden" name="team_project" id="team_project">
 		</div></td>
 	</tr>
-	<tr>
+		<tr>
 		<th>과제량</th>
-		<td colspan="3">
+		<td>
 		<div class="starRev_home">
 			<input type="text" class="star on" value="1">
 			<input type="text" class="star" value="2">
@@ -116,9 +151,9 @@ $(document).ready(function() {
 			<input type="hidden" name="homework" id="homework">
 		</div></td>
 	</tr>
-	<tr>
+		<tr>
 		<th>총점</th>
-		<td colspan="3">
+		<td>
 		<div class="starRev_total">
 			<input type="text" class="star on" value="1">
 			<input type="text" class="star" value="2">
@@ -129,15 +164,12 @@ $(document).ready(function() {
 		</div></td>
 	</tr>
 	<tr>
-		<th colspan="4">내용</th>
-	</tr>
-	<tr>
-		<td colspan="4">
-		<textarea id="content" name="content" rows="10" cols="100" 
-		placeholder="불건전한 언어 사용, 타인 비방 및 게시판 운영을 방해하는 행위가 확인되면 서비스 이용이 제한될 수 있습니다.">${board.content }</textarea>
-		</td>
+		<th>내용</th>
 	</tr>
 	</table>
+	
+	<textarea id="content" name="content" rows="10" cols="100" 
+		placeholder="불건전한 언어 사용, 타인 비방 및 게시판 운영을 방해하는 행위가 확인되면 서비스 이용이 제한될 수 있습니다.">${board.content }</textarea>
 	
 	<div class="text-center">
 	<button type="submit" id="btnUpdate">수정 적용</button>

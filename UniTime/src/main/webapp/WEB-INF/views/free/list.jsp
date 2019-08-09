@@ -87,6 +87,10 @@ function checkBoardDelete(){
 	text-align: center;
 }
 
+.freeList thead{
+	background-color: #47b8e054;
+}
+
 .freeList {
 	border-left: 1px solid #eee;
 	border-right: 1px solid #eee;
