@@ -44,6 +44,8 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 			curPage=Integer.parseInt(param);
 		}
 		
+		int listCount=10;
+		
 		//검색 파라미터 파싱
 		String searchType=req.getParameter("searchType");
 		String keyword=req.getParameter("keyword");
@@ -57,7 +59,7 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		int totalCount=freeBoardDao.selectCntAll(paging);
 		
 		//새로운 메소드의 페이징 객체 생성
-		paging=new Paging(totalCount,curPage);
+		paging=new Paging(totalCount,curPage,listCount);
 		paging.setSearchType(searchType);
 		paging.setKeyword(keyword);
 		

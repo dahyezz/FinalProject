@@ -129,7 +129,7 @@ $(document).ready(function(){
 	
 	//게시글 신고
 	$("#btnReport").click(function(){
-		window.open("/free/report?boardno="+boardno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
+		window.open("/free/report?boardno="+boardno+"&nickname="+nick,"신고사유","width=550, height=600, left=500 top=20");
 	});
 	
 	//댓글 신고
@@ -137,7 +137,7 @@ $(document).ready(function(){
 				
 		var commentno=$(this).attr("data-commentno");
 		
-		window.open("/free/report?boardno="+boardno+"&commentno="+commentno+"&nickname="+nick,"신고사유","width=550, height=670, left=500 top=20");
+		window.open("/free/report?boardno="+boardno+"&commentno="+commentno+"&nickname="+nick,"신고사유","width=550, height=600, left=500 top=20");
 	});
 });
 </script>
@@ -147,9 +147,10 @@ $(document).ready(function(){
 	font-size: 30px;
 	margin-top:5px;
 }
+
 .writer_info {
 	text-align: left;
-	margin-bottom: 30px;
+	margin-bottom: 50px;
 }
 .writer_info>span {
 	font-size: 15px;
@@ -197,18 +198,6 @@ $(document).ready(function(){
   text-decoration: none;
 }
 
-#content{
-	width: 100%;
-	padding: 6px 12px;
-	font-size: 14px;
-	height: 30px; 
-	color: #555;
-	background-color: #fff;
-	border: 1px solid #ccc;
-	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-	text-align:left;
-}
-
 .commentList {
 	text-align: left;
 	width:98%;
@@ -247,9 +236,7 @@ $(document).ready(function(){
 	</div>
 </div>
 
-<div>
-	${board.content }
-</div>
+<div class="text-left">${board.content }</div>
 <hr>
 
 <div class="text-center">

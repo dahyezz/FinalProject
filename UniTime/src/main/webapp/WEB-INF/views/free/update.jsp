@@ -8,6 +8,13 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
+<!-- select태그 부트스트랩 적용 -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
+
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -77,45 +84,88 @@ function sendFile(file, el){
 </script>
 
 <style type="text/css">
-.freeUpdate table {
-	border:1px solid #ccc;
+.ed>h3 {
+	font-weight: bold;
+	font-size: 30px;
 }
 
-.freeUpdate th{
-	text-align: center;
-	border:1px solid #ccc;
-	background:#ccf;
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+	width: 100px;
+	float: left;
+	text-align: center; 
 }
 
-.freeUpdate {
-	border-left: 1px solid #eee;
-	border-right: 1px solid #eee;
-}
 .freeUpdate #content{
-	width:98%;
+	width:100%;
+}
+
+.freeUpdateTable {
+	font-size: 14px;
+	line-height: 1.5;
+	border: none;
+	margin-bottom: 15px;
+	font-family: 'NanumSquare', sans-serif;
+}
+.freeUpdateTable tr th {
+	font-weight: 700;
+	white-space: nowrap;
+	width:100px;
+}
+.freeUpdateTable tr th, .freeUpdateTable tr td {
+	color: #34314c;
+	text-align: left;
+	padding: 10px 10px 0 0;
+	border: none;
+}
+
+#btnUpdate {
+	background-color: #47b8e0;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+  
+  margin-left: 7px;
+  margin-bottom: 2px;
+}
+
+#btnCancel {
+background-color: #ff7473;
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #fff ;
+  font-size: 13	px;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
 }
 </style>
 
 <div class="freeUpdate">
 
-<h1>글쓰기</h1>
+<div class="ed board-header padding-horizontal-small@s margin-bottom-small" style="text-align: left;">
+	<h3>자유게시판</h3>
+	<p>여러분들의 생각을 자유롭게 작성해주세요</p>
+</div>
 
 <form action="/free/update?boardno=${board.boardno }" method="post" id="updateForm">
 
 	<input type="hidden" id="boardno" value="${board.boardno }">
-	<table class="table table-condensed">
+	
+	<table class="freeUpdateTable">
 	<tr>
 		<th>글번호</th>
-		<td colspan="3">${board.boardno }</td>
+		<td>${board.boardno }</td>
 	</tr>
 	<tr>
-		<th>작성자</th>
-		<td>${board.writer }</td>
-	</tr>
-		<tr>
 		<th>태그</th>
-		<td colspan="3">
-			<select name="tag">
+		<td>
+			<select name="tag" class="selectpicker">
 			<!-- 관리자 수정일 때 -->
 			<c:if test="${nick eq 'admin' }">
 				<c:if test="${board.tag eq '공지' }">
@@ -167,24 +217,19 @@ function sendFile(file, el){
 	</tr>
 	<tr>
 		<th>제목</th>
-		<td colspan="3"><input type="text" style="width:600px;" name="title" value="${board.title }"/></td>
+		<td><input type="text" name="title" style="width:800px;" value="${board.title }"/></td>
 	</tr>
 	<tr>
-		<th>첨부파일</th>
-		<td colspan="3"> <input type="file" name="file" /></td>
-	</tr>
-	<tr>
-		<th colspan="4">내용</th>
-	</tr>
-	<tr>
-		<td colspan="4">
-		<textarea id="summernote" name="content">${board.content }</textarea>
-		</td>
+		<th>내용</th>
 	</tr>
 	</table>
 	
+	<textarea id="summernote" name="content">${board.content }</textarea>
+	
+	<div class="text-center">	
 	<button id="btnUpdate">수정 적용</button>
 	<button type="button" id="btnCancel" onclick="history.go(-1)">취소</button>
+	</div>
 </form>
 
 </div>

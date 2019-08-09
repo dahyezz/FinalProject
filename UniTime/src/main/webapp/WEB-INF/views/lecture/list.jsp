@@ -146,6 +146,16 @@ function checkBoardDelete(){
 	width: 200px;
 }
 
+.row{
+	margin-top:40px;
+	margin-left:180px;
+}
+
+.col-xs-4 {
+	margin-right:40px;
+	width:250px;
+}
+
 .project {
     min-height:300px;
     height:auto;
@@ -175,7 +185,7 @@ function checkBoardDelete(){
 	<div><button style="float:right;" id="btnWrite" onclick="location.href='/lecture/write'">글쓰기</button></div>
 </div>
 
-<div class="lectureContainer" style="">
+<div class="lectureContainer">
 
 	<c:if test="${nick eq 'admin' }">
 	<div class="allCheck">
@@ -187,9 +197,9 @@ function checkBoardDelete(){
 	
 	<c:set var="five" value="5" />
 	
-	<div class="row" style="margin-top:40px; margin-left:180px;">
+	<div class="row">
 	<c:forEach items="${list}" var="i">
-		<div class="col-xs-4" style="margin-right:-60px;">
+		<div class="col-xs-4">
 		
 		<c:if test="${nick eq 'admin' }">
 			<span><input type="checkbox" name="boardCheck" value="${i.boardno }"/></span>
