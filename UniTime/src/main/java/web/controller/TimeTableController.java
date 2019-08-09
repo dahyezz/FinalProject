@@ -39,7 +39,11 @@ public class TimeTableController {
 		String id= (String) session.getAttribute("email");
 		List mylist = timeTableService.myList(id);
 		
+		
+		model.addAttribute("lecCheck", session.getAttribute("lectureCheck"));
 		model.addAttribute("myList", mylist);
+		
+		
 		
 	}
 	
@@ -66,25 +70,24 @@ public class TimeTableController {
 			temp.setLecture_day(timeTable.getLecture_day());
 			
 			
+			
 			if(timeTableService.checkLecture(temp)) {
+				
+				session.setAttribute("lectureCheck", "t");
+				
 				timeTableService.myListInsert(temp);
 				
 				List mylist = timeTableService.myList(id);
 				model.addAttribute("myList", mylist);
 				
-				session.setAttribute("lectureCheck", true);
 			}
-			
-			if(!(timeTableService.checkLecture(temp))) {
-				
-				session.setAttribute("lectureCheck", false);
+			else {
+				session.setAttribute("lectureCheck", "f");
 			}
-			
-			
 		}
-
 		
 		return "redirect:/timetable/lecturelist";
+		
 	}
 	
 	

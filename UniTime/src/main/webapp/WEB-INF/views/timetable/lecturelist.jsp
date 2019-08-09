@@ -33,19 +33,12 @@ $(document).ready(function() {
 					.attr("value", names)
 			);
 		$(document.body).append($form);
-		$form.submit();
+		$form.submit();	
 		
-		var checkLecture = $('input[name=lectureCheck]').val();
-		
-		if ( checkLecture == false ){
-			alert('시간이 중복되었습니다!');
-		}
-		if( checkLecture == true) {
-			alert('강의 담기 성공!');
-		}
 		
 	});
 	
+
 	
 	//선택 삭제
 	$("#btnDelete").click(function(){
@@ -123,12 +116,47 @@ $(document).ready(function() {
 			});
 		}
 	}
+	
+	function alertContain(){
+		
+	var checkLecture = $('input[name=lectureCheck]').val();
+		
+		if( checkLecture == "t") {
+			
+			alert('강의 담기 성공!');
+		}
+		if( checkLecture == "f"){
+			alert('시간이 중복되었습니다!');
+		}
+		
+	}
 
 </script>
 
 <style type="text/css">
 #lectureList {
 	text-align: center;
+	background: white;
+}
+
+#style-2::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#style-2::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+#style-2::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #282c37;
 }
 
 #btnBox {
@@ -147,7 +175,7 @@ $(document).ready(function() {
 <hr>
 <div class="container">
 <form>
-<div style="overflow:scroll;width:1000px;height:400px;">
+<div id ="style-2" style="overflow:scroll;overflow-x:hidden;width:1000px;height:400px;">
 
 <table id="lectureList">
 <thead>
@@ -182,16 +210,17 @@ $(document).ready(function() {
 
 </tbody>
 </table>
-<input type="hidden" name="lectureCheck" value="${lectureCheck }" />
+<input type="hidden" name="lectureCheck" value="${lecCheck }" />
 </div>
 <br>
-<button class="btn btn-outline-info" id="btnContain">강의담기</button>
+<button style="background:#47b8e0;color: #fff;" class="btn btn-outline-info"
+ id="btnContain" onClick="alertContain()">강의담기</button>
 </form>
 <br><br>
 <h3>내 강의 목록</h3>
 <hr>
 <form>
-<div style="overflow:scroll;width:1000px;height:200px;" >
+<div id ="style-2" style="overflow:scroll;overflow-x:hidden;width:1000px;height:200px;">
 <table id="lectureList">
 <thead>
 	<tr>
@@ -227,10 +256,11 @@ $(document).ready(function() {
 </table>
 <br>
 </div>
-<button id="btnDelete">내 강의 삭제</button>
+<br>
+<button style="background:#47b8e0;color: #fff;" class="btn btn-outline-info" id="btnDelete">내 강의 삭제</button>
 </form>
 <br>
-<button onclick="location.href='/timetable/recommend'">추천 시간표 생성</button>
+<button style="background:#47b8e0;color: #fff;" class="btn btn-outline-info" onclick="location.href='/timetable/recommend'">추천 시간표 생성</button>
 </div>
 <br><br><br><br>
 
