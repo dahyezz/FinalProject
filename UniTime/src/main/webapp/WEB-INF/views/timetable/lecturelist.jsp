@@ -35,7 +35,19 @@ $(document).ready(function() {
 		$(document.body).append($form);
 		$form.submit();	
 		
-		
+		$.ajax({
+			type:"POST",
+			url:"/timetable/lecturelist",
+			data: JSON.springfy(names),
+			dataType:"json",
+			success:function(names){
+				
+				if(result=="t") alert('강의 담기 성공!');
+				else if(result=="f") alert('시간이 중복되었습니다!');
+				
+			}
+			
+		});
 	});
 	
 
@@ -117,19 +129,6 @@ $(document).ready(function() {
 		}
 	}
 	
-	function alertContain(){
-		
-	var checkLecture = $('input[name=lectureCheck]').val();
-		
-		if( checkLecture == "t") {
-			
-			alert('강의 담기 성공!');
-		}
-		if( checkLecture == "f"){
-			alert('시간이 중복되었습니다!');
-		}
-		
-	}
 
 </script>
 
@@ -175,7 +174,7 @@ $(document).ready(function() {
 <hr>
 <div class="container">
 <form>
-<div id ="style-2" style="overflow:scroll;overflow-x:hidden;width:1000px;height:400px;">
+<div class="container" id ="style-2" style="overflow:scroll;overflow-x:hidden;width:1000px;height:400px;">
 
 <table id="lectureList">
 <thead>
@@ -210,7 +209,7 @@ $(document).ready(function() {
 
 </tbody>
 </table>
-<input type="hidden" name="lectureCheck" value="${lecCheck }" />
+<%-- <input type="hidden" name="lectureCheck" value="${lecCheck }" /> --%>
 </div>
 <br>
 <button style="background:#47b8e0;color: #fff;" class="btn btn-outline-info"
@@ -220,7 +219,7 @@ $(document).ready(function() {
 <h3>내 강의 목록</h3>
 <hr>
 <form>
-<div id ="style-2" style="overflow:scroll;overflow-x:hidden;width:1000px;height:200px;">
+<div class="container" id ="style-2" style="overflow:scroll;overflow-x:hidden;width:1000px;height:200px;">
 <table id="lectureList">
 <thead>
 	<tr>
