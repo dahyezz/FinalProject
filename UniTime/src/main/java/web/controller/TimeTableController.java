@@ -10,9 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.Member;
 import web.dto.TempTable;
@@ -39,8 +41,6 @@ public class TimeTableController {
 		String id= (String) session.getAttribute("email");
 		List mylist = timeTableService.myList(id);
 		
-		
-		model.addAttribute("lecCheck", session.getAttribute("lectureCheck"));
 		model.addAttribute("myList", mylist);
 		
 		
@@ -73,20 +73,47 @@ public class TimeTableController {
 			
 			if(timeTableService.checkLecture(temp)) {
 				
-				session.setAttribute("lectureCheck", "t");
-				
 				timeTableService.myListInsert(temp);
 				
 				List mylist = timeTableService.myList(id);
 				model.addAttribute("myList", mylist);
 				
 			}
-			else {
-				session.setAttribute("lectureCheck", "f");
-			}
+			
 		}
 		
 		return "redirect:/timetable/lecturelist";
+		
+	}
+	
+	@RequestMapping(value="/timetable/lecturelist",method = RequestMethod.POST)
+	@ResponseBody
+	public String setResult(String data, HttpSession session) throws Exception{
+		
+		String result="f";
+		TempTable temp = new TempTable();
+		temp.setUser_email((String)session.getAttribute("email"));
+		
+		TimeTable timeTable = new TimeTable();
+
+		String[] nameList = data.split(",");
+		int insertList[] = new int[nameList.length];
+		for(int i=0; i<nameList.length; i++) {
+			insertList[i] = Integer.parseInt(nameList[i]);	
+			temp.setLecture_code(insertList[i]);
+			
+			timeTable = timeTableService.getTableByTemp(temp);
+			temp.setStart_time(timeTable.getStart_time());
+			temp.setLecture_day(timeTable.getLecture_day());
+			
+
+			if(timeTableService.checkLecture(temp)) {
+				result = "t";
+			}
+
+		}
+		
+		return result;
 		
 	}
 	
