@@ -123,15 +123,6 @@ public interface TastyBoardDao {
 
 	public List<TastyFile> selectFileByBoardno(TastyBoard tastyBoard);
 
-
-	/**
-	 * tastyfile에 데이터 삽입
-	 * 
-	 * @param file
-	 */
-//	public void insertTastyfile(TastyFile file);
-
-
 	public void updateBoardnoToFile(TastyBoard tastyBoard);
 
 	public void deleteFileByfileno(TastyFile file);
@@ -147,15 +138,4 @@ public interface TastyBoardDao {
 	public int selectCntRecomment(TastyComment tastyComment);
 
 	public void updateDeletedComment(TastyComment tastyComment);
-
-//	/**
-//	 * 신고 취소
-//	 * 
-//	 * @param badReport
-//	 */
-//	public void deleteBadByBoard(BadReport badReport);
-
-
-
-
 }

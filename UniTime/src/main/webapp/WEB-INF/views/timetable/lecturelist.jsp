@@ -170,7 +170,7 @@ $(document).ready(function() {
 </style>
     
 <hr>
-<h1> KH 강의 시간표 </h1>
+<h1> 강의 시간표 </h1>
 <hr>
 <div class="container">
 <form>
