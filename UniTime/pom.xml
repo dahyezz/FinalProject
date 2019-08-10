@@ -28,6 +28,13 @@
 	<dependencies>
 
 
+<!-- Thumbnailator Library -->
+<dependency>
+  <groupId>net.coobird</groupId>
+  <artifactId>thumbnailator</artifactId>
+  <version>0.4.8</version>
+</dependency>
+
 <!-- Jackson Databind -->
 <dependency>
     <groupId>com.fasterxml.jackson.core</groupId>
