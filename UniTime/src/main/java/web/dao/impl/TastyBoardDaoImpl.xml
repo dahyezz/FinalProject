@@ -125,14 +125,9 @@
 		WHERE boardno = #{boardno }
 		START WITH refCommentno = 0 
 		CONNECT BY PRIOR commentno = refCommentno
-<!-- 		ORDER BY commentno -->
 	</select>
 	
 	<insert id="insertComment" parameterType="web.dto.TastyComment">
-<!-- 		<selectKey order="BEFORE" resultType="int" keyProperty="commentno"> -->
-<!-- 			SELECT tastycomment_kg_seq.nextval FROM dual -->
-<!-- 		</selectKey> -->
-	
 		INSERT INTO tastycomment_kg(commentno, boardno, ref_commentno, dept, writer, content)
 		VALUES (tastycomment_kg_seq.nextval, #{boardno }, #{refCommentno }, #{dept }, #{writer }, #{content } )
 	</insert>
@@ -175,15 +170,6 @@
 		WHERE boardno = #{boardno }
 	</select>
 	
-<!-- 	<insert id="insertTastyfile" parameterType="web.dto.TastyFile"> -->
-<!-- 		<selectKey order="BEFORE" resultType="int" keyProperty="fileno"> -->
-<!-- 			SELECT tastyfile_kg_seq.nextval FROM dual -->
-<!-- 		</selectKey> -->
-	
-<!-- 		INSERT INTO tastyfile_kg (fileno, boardno, origin_name, stored_name, filesize) -->
-<!-- 		VALUES (#{fileno }, #{boardno }, #{originName }, #{storedName }, #{filesize }) -->
-<!-- 	</insert> -->
-	
 	<update id="updateBoardnoToFile" parameterType="web.dto.TastyBoard">
 		UPDATE tastyfile_kg
 		SET boardno = #{boardno }
@@ -216,11 +202,4 @@
 		WHERE commentno = #{commentno }
 	</update>
 	
-<!-- 	<delete id="deleteBadByBoard" parameterType="web.dto.BadReport"> -->
-<!-- 		DELETE badreport_kg -->
-<!-- 		WHERE boardname = #{boardname }  -->
-<!-- 		AND boardno = #{boardno } -->
-<!-- 		AND commentno = #{commentno } -->
-<!-- 		AND nickname = #{nickname } -->
-<!-- 	</delete> -->
 </mapper>

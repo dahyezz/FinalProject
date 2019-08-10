@@ -468,9 +468,11 @@ p.number > strong {
 		<div class="screen">
 			<ul id="slider">
 				<li><img src="/image/tasty.png" /></li>
-				<li><img src="/image/default.jpg" width="540px" height="270px"></li>
-				<li><img src="/image/search.png" /></li>
-				<li><img src="/image/star.PNG" /></li>
+				<li><img src="/image/kg_main.PNG"></li>
+				<li><img src="/image/lecture.PNG" /></li>
+				<li><img src="/image/mytime.PNG" /></li>
+				<li><img src="/image/timetable.PNG" /></li>
+				<li><img src="/image/usedboard.PNG" /></li>
 			</ul>
 			
 		</div>

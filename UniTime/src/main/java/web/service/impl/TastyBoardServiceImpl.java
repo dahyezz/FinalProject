@@ -65,23 +65,11 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	
 	@Override
 	public void write(TastyBoard tastyBoard) {
-		
-//		if(tastyBoard.getBoardno()==0)
-//			tastyBoard.setBoardno(tastyBoardDao.selectBoardno());
-		
+
 		tastyBoardDao.insertBoard(tastyBoard);
 		
 		//tastyfile에 boardno=0 인거 update해주기
 		tastyBoardDao.updateBoardnoToFile(tastyBoard);
-		
-//		TastyBoard test = new TastyBoard();
-//		test.setBoardno(0);
-//		List<TastyFile> fileList = tastyBoardDao.selectFileByBoardno(test);
-//		
-//		for(TastyFile f : fileList) {
-//			tastyBoardDao.insertTastyfile(f);
-////			tastyBoardDao.deleteTemp(f);
-//		}
 
 	}
 	
@@ -90,21 +78,11 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 		
 		tastyBoardDao.deleteCommentByBoardno(tastyBoard);
 		tastyBoardDao.deleteFileByboardno(tastyBoard);
-//		TastyFile file = new TastyFile();
-//		file.setBoardno(tastyBoard.getBoardno());
-
 		tastyBoardDao.deleteBoardByBoardno(tastyBoard);
 	}
 	
 	@Override
 	public void update(TastyBoard tastyBoard) {
-		
-//		List<TastyFile> fileList = tastyBoardDao.selectFileByBoardno(tastyBoard);
-//		
-//		for(TastyFile f : fileList) {
-////			tastyBoardDao.insertTastyfile(f);
-//			tastyBoardDao.insertFile(f);
-//		}
 		
 		tastyBoardDao.updateBoard(tastyBoard);
 	}
@@ -120,7 +98,6 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 		
 		//저장될 파일의 이름(원본이름 + UUID)
 		String name = fileupload.getOriginalFilename()+"_"+uId;
-//		url += name;
 		
 		//저장될 파일 객체
 		File dest = new File(storedPath, name);
@@ -230,8 +207,6 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 	public boolean declareBoard(BadReport badReport) {
 		
 		if(tastyBoardDao.selectCntBadReport(badReport)>0) {
-//			tastyBoardDao.deleteBadByBoard(badReport);
-			
 			return false;
 		}
 		else {
@@ -239,7 +214,6 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 			return true;
 		}
 			
-		
 	}
 	
 	@Override

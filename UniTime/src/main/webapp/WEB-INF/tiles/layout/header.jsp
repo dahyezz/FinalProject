@@ -53,7 +53,7 @@
 
 <div class="header">
 	<a href="/kg_main">슬기로운 대학생활</a>
-	<p>KH대학교 커뮤니티</p>
+	<p>경기대</p>
 </div>
 
 <div class="container-fluid">

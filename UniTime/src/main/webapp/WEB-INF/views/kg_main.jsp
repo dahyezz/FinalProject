@@ -43,10 +43,40 @@
 </script>
 
 <style type="text/css">
-
+.main_wrap {
+	width: 100%;
+	padding-top: 5%;
+}
+.used_wrap {
+	border: 1px solid #ccc; float: right; width: 35%; margin: 1px;
+	display: inline-block;
+}
+.notice_wrap {
+	border: 1px solid #ccc; float: left; width: 63%; margin: 1px;
+	display: inline-block;
+}
+.free_wrap {
+	border: 1px solid #ccc; float: left; width: 63%; margin: 1px;
+	display: inline-block;
+}
+.tasty_wrap {
+	width: 100%; margin: auto; border: 1px solid #ccc;
+	display: inline-block;
+}
 .card-columns .card {
-	width: 85%;
-	margin: auto
+	width: 18%;
+	height: auto;
+	margin: 0;
+}
+.card-columns .card-image {
+	width: 100%;
+	min-width: 0px;
+	min-height: 0px;
+/* 	height: 155px; */
+}
+.card-columns img {
+	height: 150px;
+	width: 100%; 
 }
 .timetable_wrap {
 
@@ -435,124 +465,119 @@
 	</div>
 
 
-<br><br>
-<div style="width: 100%">
-<div style="border: 1px solid gold; float: right; width: 35%; margin: 1px;">
-<h4 style="float: left;">&nbsp;&nbsp;&nbsp;중고장터</h4>
-<table class="table table-striped table-hover table-condensed">
-<thead>
-	<tr> 
-		<th style="width: 8%;">번호</th>
-		<th style="width: 10%;">테그</th>
-		<th style="width: 37%;">제목</th>
-		<th style="width: 25%;">품목</th>
-		<th style="width: 20%;">작성자</th>
-	</tr>
-</thead>
+<div class="main_wrap">
 
-<tbody>
-<c:forEach items="${usedboard}" var="i">
-	<tr>
-		<td>${i.boardno }<br><br></td>
-		<td>${i.tag }</td>
-		<td><a href="/used/view?boardno=${i.boardno }">${i.title }</a></td>
-		<td>${i.product }</td>
-		<td>${i.writer }</td>
-	</tr>
-</c:forEach>
-</tbody>
-</table>
-<a href="/used/list" style="color: black;"><p style="font-size: 15px; float: right; font-style: italic;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</p></a>
-
-</div>
-
-<div>
-<div style="border: 1px solid gold; float: left; width: 63%; margin: 1px">
-
-<h4 style="float: left;">&nbsp;&nbsp;&nbsp;공지사항</h4>
-<table class="table table-striped table-hover table-condensed">
-<thead> 
-	<tr>
-		<th style="width: 10%;">번호</th>
-		<th style="width: 10%;">테그</th>
-		<th style="width: 30%;">제목</th>
-		<th style="width: 20%;">작성자</th>
-		<th style="width: 15%;">조회수</th>
-		<th style="width: 15%;">날짜</th>
-	</tr>
-</thead>
-
-<tbody>
-<c:forEach items="${notice}" var="i">
-	<tr>
-		<td>${i.boardno }</td>
-		<td>${i.tag }</td>
-		<td><a href="/free/view?boardno=${i.boardno }">${i.title }</a></td>
-		<td>${i.writer }</td>
-		<td>${i.hit }</td>
-		<td><fmt:formatDate value="${i.writtendate }" pattern="yy-MM-dd" /></td>
-	</tr>
-</c:forEach>
-</tbody>
-</table>
-<a href="/free/list" style="color: black;"><p style="font-size: 15px; float: right; font-style: italic;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</p></a>
-</div>
+	<!-- 중고장터 -->
+	<div class="used_wrap" >
+		<h4 style="float: left;">&nbsp;&nbsp;&nbsp;중고장터</h4>
+		<table class="table table-striped table-hover table-condensed">
+			<thead>
+				<tr> 
+					<th style="width: 8%;">번호</th>
+					<th style="width: 10%;">테그</th>
+					<th style="width: 37%;">제목</th>
+					<th style="width: 25%;">품목</th>
+					<th style="width: 20%;">작성자</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+			<c:forEach items="${usedboard}" var="i">
+				<tr>
+					<td>${i.boardno }<br><br></td>
+					<td>${i.tag }</td>
+					<td><a href="/used/view?boardno=${i.boardno }">${i.title }</a></td>
+					<td>${i.product }</td>
+					<td>${i.writer }</td>
+				</tr>
+			</c:forEach>
+			</tbody>
+		</table>
+		
+		<a href="/used/list" style="color: black;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</a>
+	</div>
 
 
+	<!-- 공지사항 -->
+	<div class="notice_wrap">
+		<h4 style="float: left;">&nbsp;&nbsp;&nbsp;공지사항</h4>
+		<table class="table table-striped table-hover table-condensed">
+			<thead> 
+				<tr>
+					<th style="width: 10%;">번호</th>
+					<th style="width: 10%;">테그</th>
+					<th style="width: 30%;">제목</th>
+					<th style="width: 20%;">작성자</th>
+					<th style="width: 15%;">조회수</th>
+					<th style="width: 15%;">날짜</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+			<c:forEach items="${notice}" var="i">
+				<tr>
+					<td>${i.boardno }</td>
+					<td>${i.tag }</td>
+					<td><a href="/free/view?boardno=${i.boardno }">${i.title }</a></td>
+					<td>${i.writer }</td>
+					<td>${i.hit }</td>
+					<td><fmt:formatDate value="${i.writtendate }" pattern="yy-MM-dd" /></td>
+				</tr>
+			</c:forEach>
+			</tbody>
+		</table>
+		<a href="/free/list" style="color: black;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</a>
+	</div>
 
-<div style="border: 1px solid gold; float: left; width: 63%; margin: 1px">
-<h4 style="float: left">&nbsp;&nbsp;&nbsp;자유게시판</h4>
-<table class="table table-striped table-hover table-condensed">
-<thead>
-	<tr>
-		<th style="width: 10%;">번호</th>
-		<th style="width: 10%;">테그</th>
-		<th style="width: 30%;">제목</th>
-		<th style="width: 20%;">작성자</th>
-		<th style="width: 15%;">조회수</th>
-		<th style="width: 15%;">날짜</th>
-	</tr>
-</thead>
 
-<tbody>
-<c:forEach items="${freeboard}" var="i">
-	<tr>
-		<td>${i.boardno }</td>
-		<td>${i.tag }</td>
-		<td><a href="/free/view?boardno=${i.boardno }">${i.title }</a></td>
-		<td>${i.writer }</td>
-		<td>${i.hit }</td>
-		<td><fmt:formatDate value="${i.writtendate }" pattern="yy-MM-dd" /></td>
-	</tr>
-</c:forEach>
-</tbody>
-</table>
-<a href="/free/list" style="color: black;"><p style="font-size: 15px; float: right; font-style: italic;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</p></a>
-</div>
-</div>
-</div>
+	<!-- 자유게시판 -->
+	<div class="free_wrap">
+		<h4 style="float: left">&nbsp;&nbsp;&nbsp;자유게시판</h4>
+		<table class="table table-striped table-hover table-condensed">
+			<thead>
+				<tr>
+					<th style="width: 10%;">번호</th>
+					<th style="width: 10%;">테그</th>
+					<th style="width: 30%;">제목</th>
+					<th style="width: 20%;">작성자</th>
+					<th style="width: 15%;">조회수</th>
+					<th style="width: 15%;">날짜</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+			<c:forEach items="${freeboard}" var="i">
+				<tr>
+					<td>${i.boardno }</td>
+					<td>${i.tag }</td>
+					<td><a href="/free/view?boardno=${i.boardno }">${i.title }</a></td>
+					<td>${i.writer }</td>
+					<td>${i.hit }</td>
+					<td><fmt:formatDate value="${i.writtendate }" pattern="yy-MM-dd" /></td>
+				</tr>
+			</c:forEach>
+			</tbody>
+		</table>
+		<a href="/free/list" style="color: black;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</a>
+	</div>
 
-<div class="clearfix"></div>
 
-<br>
-
-<div class="card-columns" style="width: 100%; margin: auto; border: 1px solid gold;">
-<table>
-<tr>
-
-<c:forEach items="${tastyboard }" var="i">
-	 <td style="border: 1px solid gold; width: 30px">
+	<!-- 테이스티 -->
+	<div class="tasty_wrap card-columns" >
+	
+	<c:forEach items="${tastyboard }" var="i">
+	 
 <!-- 	<div class="card-wrap"> -->
 <%-- 		<a class="overlay overlay-fill overlay-top" href="/tasty/view?boardno=${i.boardno }" ></a> --%>
-	<div class="card" onclick="location.href='/tasty/view?boardno=${i.boardno}'" >
+	<div class="card" onclick="location.href='/tasty/view?boardno=${i.boardno}'">
 
 		<div class="card-image">
 		<c:if test="${i.fileno eq 0 }">
-			<img id="thumbnail" class="card-image-top img-fluid" src="/image/default.jpg" alt="Card image cap" style="width: 85%; float: left;">	
+			<img id="thumbnail" class="card-image-top img-fluid" src="/image/default.jpg" alt="Card image cap">	
 		</c:if>
 
 		<c:if test="${i.fileno ne 0 }">
-			<img id="thumbnail" class="card-image-top img-fluid" alt="Card image cap" src="/tastyImage?fileno=${i.fileno }" style="width: 85%; float: left;">
+			<img id="thumbnail" class="card-image-top img-fluid" alt="Card image cap" src="/tastyImage?fileno=${i.fileno }">
 		</c:if>
 		</div>
 		
@@ -567,24 +592,10 @@
 			</h2>
 			
 			<h4 class="card-title">${i.storeName }</h4>
-			<span class="text-small" style="color:#ff7473;">
-				<center>${i.loc }</center>
-			</span>
-			<span class="text-small"><center>${i.writer }</center>
-			</span>
-			<p class="cmt"><img src="/image/comment.PNG" style="width:20px; height: 20px;"> ${i.commentCnt }</p>
-			
 		</div>
 	</div>
-	</td>
-</c:forEach>
-</tr>
-</table>
+	</c:forEach>
+
+	</div>
+	
 </div>
-<a href="/tasty/list" style="color: black;"><p style="font-size: 15px; float: right; font-style: italic;">더보기&nbsp;▶&nbsp;&nbsp;&nbsp;</p></a>
-
-
-
-
-
-<br><br><br><br><br><br><br>

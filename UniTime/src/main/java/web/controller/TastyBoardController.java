@@ -209,16 +209,13 @@ public class TastyBoardController {
 		logger.info(tastyComment.toString());
 		
 		tastyBoardService.writeComment(tastyComment);
-//		tastyComment = tastyBoardService.getComment(tastyComment);
-//
-//		logger.info(tastyComment.toString());
+
 		return "redirect:/tasty/comment?boardno="+tastyComment.getBoardno();
 	}
 	
 	@RequestMapping(value="/tasty/comment", method=RequestMethod.GET)
 	public void commentList(TastyBoard tastyBoard, Model model) {
 		
-//		logger.info(tastyBoard.toString());
 		tastyBoard = tastyBoardService.getBoardWriter(tastyBoard);
 		
 		List<TastyComment> commentList = tastyBoardService.getComment(tastyBoard);
