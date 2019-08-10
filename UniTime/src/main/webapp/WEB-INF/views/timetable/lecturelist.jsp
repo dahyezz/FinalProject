@@ -20,30 +20,22 @@ $(document).ready(function() {
 				names += ",";
 			}
 		});
-		console.log(names);
-
-		// 전송 폼
-		var $form = $("<form>")
-			.attr("action", "/timetable/containmylist")
-			.attr("method", "post")
-			.append(
-				$("<input>")
-					.attr("type", "hidden")
-					.attr("name", "names")
-					.attr("value", names)
-			);
-		$(document.body).append($form);
-		$form.submit();	
-		
+	
 		$.ajax({
-			type:"POST",
-			url:"/timetable/lecturelist",
-			data: JSON.springfy(names),
-			dataType:"json",
-			success:function(names){
+			type:"post",
+			url:"/timetable/containmylist",
+			data: {
+				"names":names
+			},
+			dataType:"html",
+			success:function(result){
 				
-				if(result=="t") alert('강의 담기 성공!');
-				else if(result=="f") alert('시간이 중복되었습니다!');
+				if(result=="f"){
+					alert('시간이 중복됐습니다!');
+				}
+				else {
+					alert('강의 담기 성공!');
+				}
 				
 			}
 			

@@ -49,6 +49,7 @@ public class TimeTableController {
 	
 	
 	@RequestMapping(value="/timetable/containmylist", method=RequestMethod.POST)
+	@ResponseBody
 	public String viewMylist(Model model, @RequestParam("names") String names, HttpSession session) {
 		
 		String id= (String) session.getAttribute("email");
@@ -58,6 +59,7 @@ public class TimeTableController {
 		
 		temp.setUser_email(id);
 
+		String result="f";
 		
 		String[] nameList = names.split(",");
 		int insertList[] = new int[nameList.length];
@@ -74,45 +76,15 @@ public class TimeTableController {
 			if(timeTableService.checkLecture(temp)) {
 				
 				timeTableService.myListInsert(temp);
-				
 				List mylist = timeTableService.myList(id);
 				model.addAttribute("myList", mylist);
 				
+				result="t";
+				
 			}
-			
 		}
 		
-		return "redirect:/timetable/lecturelist";
-		
-	}
-	
-	@RequestMapping(value="/timetable/lecturelist",method = RequestMethod.POST)
-	@ResponseBody
-	public String setResult(String data, HttpSession session) throws Exception{
-		
-		String result="f";
-		TempTable temp = new TempTable();
-		temp.setUser_email((String)session.getAttribute("email"));
-		
-		TimeTable timeTable = new TimeTable();
-
-		String[] nameList = data.split(",");
-		int insertList[] = new int[nameList.length];
-		for(int i=0; i<nameList.length; i++) {
-			insertList[i] = Integer.parseInt(nameList[i]);	
-			temp.setLecture_code(insertList[i]);
-			
-			timeTable = timeTableService.getTableByTemp(temp);
-			temp.setStart_time(timeTable.getStart_time());
-			temp.setLecture_day(timeTable.getLecture_day());
-			
-
-			if(timeTableService.checkLecture(temp)) {
-				result = "t";
-			}
-
-		}
-		
+//		return "redirect:/timetable/lecturelist";
 		return result;
 		
 	}
@@ -192,6 +164,7 @@ public class TimeTableController {
 		String id= (String) session.getAttribute("email");
 
 		timeTableService.setMytable(id);
+		
 		
 		
 		return "redirect:/timetable/recommend";
