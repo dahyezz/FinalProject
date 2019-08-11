@@ -25,7 +25,7 @@ public interface TimeTableDao {
 	
 	public TimeTable getTableByTemp(TempTable temp);
 
-	public String[] recCode(Map<String, String> map);
+	public String[] recCode(Map<String, Object> map);
 
 	public void insertRec(TempTable temp);
 

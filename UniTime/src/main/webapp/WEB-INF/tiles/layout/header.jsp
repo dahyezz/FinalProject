@@ -52,8 +52,15 @@
 </div>
 
 <div class="header">
-	<a href="/kg_main">슬기로운 대학생활</a>
-	<p>경기대</p>
+	<c:if test="${uni eq 'kg' }">
+		<a id="uni_url" href="/kg_main">슬기로운 대학생활</a>
+		<p id="uni_name">경기대</p>	
+	</c:if>
+	<c:if test="${uni eq 'kh' }">
+		<a id="uni_url" href="/kh_main">슬기로운 대학생활</a>
+		<p id="uni_name">경희대</p>	
+	</c:if>
+	
 </div>
 
 <div class="container-fluid">
