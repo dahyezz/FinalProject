@@ -51,7 +51,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public Member getLoginMember(Map<String, Object> map) {
-//		map.put("table", "kg");
+		map.put("table", "kg");
 		return memberDao.selectMemberByEmail(map);
 	}
 
