@@ -40,9 +40,9 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired LectureBoardDao lectureBoardDao;
 	
 	@Override
-	public boolean loginCheck(Member member) {
+	public boolean loginCheck(Map<String, Object> map) {
 		
-		if(memberDao.selectCntLogin(member) > 0) {
+		if(memberDao.selectCntLogin(map) > 0) {
 			return true;
 		}
 		return false;
@@ -50,8 +50,9 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public Member getLoginMember(Member member) {
-		return memberDao.selectMemberByEmail(member);
+	public Member getLoginMember(Map<String, Object> map) {
+//		map.put("table", "kg");
+		return memberDao.selectMemberByEmail(map);
 	}
 
 	@Override
@@ -191,11 +192,11 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Member getinfo(String email) {
+	public Member getinfo(Map<String, Object> map) {
 		
-		Member member = new Member();
-		member.setEmail(email);
-		return memberDao.selectMemberByEmail(member);
+//		Member member = new Member();
+//		member.setEmail(map.get);
+		return memberDao.selectMemberByEmail(map);
 	}
 	
 	@Override
@@ -304,6 +305,24 @@ public class MemberServiceImpl implements MemberService{
 		paging.setSearchType("total");	
 
 		return paging;
+	}
+	
+	@Override
+	public String substringBetween(String email) {
+		if(email == null)
+			return null;
+		String open = "@";
+		String close = ".";
+		
+		int start = email.indexOf(open);
+	    if (start != -1) {
+	       int end = email.indexOf(close, start + open.length());
+	       if (end != -1) {
+	          return email.substring(start + open.length(), end);
+	       }
+	    }
+	    return null;
+
 	}
 }
 

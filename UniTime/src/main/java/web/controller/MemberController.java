@@ -1,12 +1,8 @@
 package web.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -26,7 +22,6 @@ import web.dto.LectureBoard;
 import web.dto.Member;
 import web.dto.TastyBoard;
 import web.dto.UsedBoard;
-import web.service.face.FreeBoardService;
 import web.service.face.MemberService;
 import web.util.Paging;
 
@@ -42,14 +37,32 @@ public class MemberController {
 	public void login() { }
 
 	@RequestMapping(value="/member/login", method=RequestMethod.POST)
-	public String loginProc(Member member, HttpSession session) {
+	public String loginProc(Member member, HttpSession session, Map<String, Object> map) {
 		
 		logger.info(member.toString());
 		
+		String uni = memberService.substringBetween(member.getEmail());
+//		logger.info(uni);
+		
 		String redirectUrl = null;
-		if(memberService.loginCheck(member)) {
+		
+		if(uni.equals("kyonggi")) {
+			map.put("table", "kg");
+			map.put("email", member.getEmail());
+			map.put("password", member.getPassword());
 			
-			member = memberService.getLoginMember(member);
+		}
+		
+		if(uni.equals("khu")) {
+			map.put("table", "kh");
+			map.put("email", member.getEmail());
+			map.put("password", member.getPassword());
+		}
+		
+		
+		if(memberService.loginCheck(map)) {
+			
+			member = memberService.getLoginMember(map);
 			
 			session.setAttribute("login", true);
 			session.setAttribute("email", member.getEmail());
@@ -61,12 +74,14 @@ public class MemberController {
 			if(member.getNickname().equals("admin")) {
 				redirectUrl = "/admin/main";
 			} else {
-				redirectUrl = "/kg_main";
+
+				redirectUrl = "/"+(String) map.get("table")+"_main";
 			}
 			
 		} else {
 			redirectUrl = "/main";
 		}
+		
 		
 		return "redirect:" + redirectUrl;
 		
@@ -294,12 +309,13 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/member/memberDelete", method = RequestMethod.POST)
-	public String memberDeleteProc(HttpSession session, Member member, RedirectAttributes rttr) throws Exception {
+	public String memberDeleteProc(HttpSession session, Member member, RedirectAttributes rttr, Map<String, Object> map) throws Exception {
 		
 		logger.info("회원탈퇴");
 		
 		String email = (String)session.getAttribute("email");
-		Member member1 = memberService.getinfo(email);
+		map.put("email", email);
+		Member member1 = memberService.getinfo(map);
 		String oldPass = member1.getPassword();
 		 String newPass = member.getPassword();
 		     

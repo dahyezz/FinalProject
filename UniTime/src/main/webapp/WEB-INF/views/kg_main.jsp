@@ -67,6 +67,7 @@
 	width: 18%;
 	height: auto;
 	margin: 0;
+	display: inline-block;
 }
 .card-columns .card-image {
 	width: 100%;
