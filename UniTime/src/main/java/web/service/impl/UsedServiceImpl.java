@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.name.Rename;
 import web.dao.face.UsedDao;
 import web.dto.BadReport;
 import web.dto.UsedBoard;
@@ -197,11 +199,19 @@ public class UsedServiceImpl implements UsedService {
 		// 파일 저장 
 		try {
 			img.transferTo(dest);
+			
+			// thumbnailator 라이브러리 사용
+//			Thumbnails.of(new File("path/to/directory").listFiles())
+//			.size(120, 120)
+//			.outputFormat("jpg")
+//			.toFiles(Rename.PREFIX_DOT_THUMBNAIL);
+			
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		
 		UsedImage upimage = new UsedImage();
 	
