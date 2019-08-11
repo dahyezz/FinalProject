@@ -60,6 +60,9 @@
 		<a id="uni_url" href="/kh_main">슬기로운 대학생활</a>
 		<p id="uni_name">경희대</p>	
 	</c:if>
+	<c:if test="${nick eq 'admin' }">
+		<a href="/admin/main">슬기로운 대학생활</a>
+	</c:if>
 	
 </div>
 
