@@ -123,11 +123,10 @@
 
 <input class="timeTableButton" id="showButton" type="button" value="내 시간표 보기" onclick="showDiv();" style="float: left;"/>
 <input class="timeTableButton" id="hideButton" type="button" value="내 시간표 접기" onclick="hideDiv();" style="float: left;  display: none;"/>
-<br>
+<br><br>
 
 	<!-- 시간표 -->
 	<div id="timetable" class="timetable_wrap" style="position: absolute; left:100px;">
-	
 		<div style="text-align: center;" class="myh4">
 			<h4>내 시간표</h4>
 		</div>

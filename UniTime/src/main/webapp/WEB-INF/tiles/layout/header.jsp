@@ -77,7 +77,7 @@
 		</c:if>
 		<c:if test="${nick eq 'admin' }">
 			<li><a href="/admin/site">사이트관리</a></li>
-			<li><a href="/admin/board">게시판관리</a></li>
+			<li><a href="/admin/main">게시판관리</a></li>
 			<li><a href="/admin/member">회원리스트</a></li>
 			<li><a href="/admin/black">블랙리스트</a></li>
 		</c:if>

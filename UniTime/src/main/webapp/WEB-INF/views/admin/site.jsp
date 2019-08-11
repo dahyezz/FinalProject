@@ -2,40 +2,34 @@
     pageEncoding="UTF-8"%>
     
 <style type="text/css">
-.footer {
-	position: absolute;
-	width: 100%;
-	bottom: 0;
-}
-.list table, th {
-	rext-align: center;
-	border-left: 1px solid #eee;
-	border-right: 1px solid #eee;
-}
-.air tr {
+#list td {
+font-size: 25px;
+text-align: left; 
+
 }
 </style> 
-
-<table class="table table-striped table-hover table-condensed">
+<br><br><br><br>
+<table id="list" class="table table-striped table-hover table-condensed">
 
 	<tr>
-		<th style="width: 25%;">전체 회원 수</th>
-		<th style="width: 23%">${member }</th>
-		<th style="width: 4%;"></th>
-		<th style="width: 25%;">전체 블랙리스트 수</th>
-		<th style="width: 23%;">${blackList }</th>
+		<td style="width: 25%; text-align: center;"><p>전체 회원 수</p></td>
+		<td style="width: 23%"><i><b>${member }</b></i> 명</td>
+		<td style="width: 4%;"></td>
+		<td style="width: 25%; text-align: center;">전체 블랙리스트 수</td>
+		<td style="width: 23%;"><i><b>${blackList }</b></i> 개</td>
 	</tr>
 
 	<tr>
-		<th style="width: 25%;">전체 신고리스트 수</th>
-		<th style="width: 23%;">${badReport }</th>
-		<th style="width: 4%;"></th>
-		<th style="widht: 25%;">전체 방문자 수
-		<th style="width: 23%;">${visitCntAll }</th>
+		<td style="width: 25%; text-align: center;"><p>전체 신고리스트 수</p></td>
+		<td style="width: 23%;"><i><b>${badReport }</b></i></td>
+		<td style="width: 4%;"></td>
+		<td style="widht: 25%; text-align: center;">전체 방문자 수</td>
+		<td style="width: 23%;"><i><b>${visitCntAll }</b></i></td>
 	</tr>
 	
 	<tr>
-		<th style="widht: 50%;">오늘 방문자 수
-		<th>${visitTodayCnt }</th>
-	
+		<td style="widht: 50%; text-align: center;"><p>오늘 방문자 수</p></td>
+		<td><i><b>${visitTodayCnt }</b></i></td>
+	</tr>
 </table>
+<br><br><br><br>
