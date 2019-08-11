@@ -18,18 +18,18 @@ public interface MemberService {
 	/**
 	 * 로그인 성공/실패 체크
 	 * 
-	 * @param member - 로그인 시도하려는 회원 객체
+	 * @param map - 로그인 시도하려는 회원 객체
 	 * @return boolean - 성공/실패 유무
 	 */
-	public boolean loginCheck(Member member);
+	public boolean loginCheck(Map<String, Object> map);
 
 	/**
 	 * 로그인 성공한 회원의 회원정보 가져오기
 	 * 
-	 * @param member - 로그인 성공한 회원 (email, pw)
+	 * @param map - 로그인 성공한 회원 (email, pw)
 	 * @return Member- 로그인 성공한 회원의 모든 정보
 	 */
-	public Member getLoginMember(Member member);
+	public Member getLoginMember(Map<String, Object> map);
 
 	/**
 	 * 회원가입
@@ -54,7 +54,7 @@ public interface MemberService {
 	//회원 탈퇴
 	public void memberDelete(Member member) throws Exception;
 
-	public Member getinfo(String email);
+	public Member getinfo(Map<String, Object> map);
 	
 	//비밀번호 수정
 	public void memberModify(Member member) throws Exception;
@@ -78,5 +78,7 @@ public interface MemberService {
 	public Paging getLecturecurPage(Map<String, Object> map);
 
 	public Paging getUsedcurPage(Map<String, Object> map);
+
+	public String substringBetween(String email);
 
 }

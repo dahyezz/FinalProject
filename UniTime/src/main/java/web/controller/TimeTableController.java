@@ -1,6 +1,7 @@
 package web.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +32,7 @@ public class TimeTableController {
 	
 	@RequestMapping(value="/timetable/lecturelist", method=RequestMethod.GET)
 	public void lectureAll(Model model, HttpSession session) { 
-		logger.info("½Ã°£Ç¥ ¸ÞÀÎÆäÀÌÁö - °­ÀÇ ¸ñ·Ï");
+		logger.info("ï¿½Ã°ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½");
 		
 		List list = timeTableService.list();
 		
@@ -112,12 +112,13 @@ public class TimeTableController {
 	}
 	
 	@RequestMapping(value="/timetable/recommend", method=RequestMethod.GET)
-	public void recommend(Model model, HttpSession session) {
+	public void recommend(Model model, HttpSession session, Map<String,Object> map) {
 		
 		String id= (String) session.getAttribute("email");
 		Member mem = new Member();
 		mem.setEmail(id);
-		mem = memberService.getLoginMember(mem);
+		map.put("email", id);
+		mem = memberService.getLoginMember(map);
 		model.addAttribute("nick", mem.getNickname());
 		
 		List mylist = timeTableService.myList(id);

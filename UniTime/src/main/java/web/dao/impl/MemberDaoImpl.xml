@@ -8,9 +8,9 @@
 <mapper namespace="web.dao.face.MemberDao">
 
 	<!-- 로그인 -->
-	<select id="selectCntLogin" parameterType="web.dto.Member"
+	<select id="selectCntLogin" parameterType="map"
 		resultType="int">
-		SELECT COUNT(*) FROM member_kg
+		SELECT COUNT(*) FROM member_${table }
 		WHERE email = #{email } AND
 		password = #{password }
 	</select>
@@ -19,7 +19,7 @@
 		resultType="web.dto.Member">
 		SELECT department_code departmentCode, hakbun, name, email,
 		nickname, password, penalty
-		FROM member_kg
+		FROM member_${table }
 		WHERE email = #{email }
 	</select>
 

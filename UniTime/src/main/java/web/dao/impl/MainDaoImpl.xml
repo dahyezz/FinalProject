@@ -8,40 +8,38 @@
 <mapper namespace="web.dao.face.MainDao">
 
 	
-	<select id="freeboardNotice" resultType="web.dto.FreeBoardNotice">
-		<![CDATA[
-			SELECT boardno, tag, title, writer, hit, writtendate FROM freeboard_notice_kg
-			WHERE rownum <= 3
+	<select id="freeboardNotice" resultType="web.dto.FreeBoardNotice" parameterType="map">
+			SELECT boardno, tag, title, writer, hit, writtendate FROM freeboard_notice${table }
+			WHERE rownum <![CDATA[ <= ]]> 3
 			ORDER BY boardno DESC
-		]]>
 	</select>
 	
-	<select id="freeboard" resultType="web.dto.FreeBoard">
-		<![CDATA[
-			SELECT boardno, tag, title, writer, hit, writtendate FROM freeboard_kg
-			WHERE rownum <= 5
+	<select id="freeboard" resultType="web.dto.FreeBoard" parameterType="map">
+		
+			SELECT boardno, tag, title, writer, hit, writtendate FROM freeboard${table }
+			WHERE rownum <![CDATA[ <= ]]> 5
 			ORDER BY boardno DESC
-		]]>
+		
 	</select>
 	
-	<select id="tastyBoard" resultType="web.dto.TastyBoard">
-		<![CDATA[
+	<select id="tastyBoard" resultType="web.dto.TastyBoard" parameterType="map">
+		
 		SELECT boardno, tag, store_name storeName, loc, content, writer, hit, score, writtendate,
-			( SELECT COUNT(*) FROM tastycomment_kg WHERE boardno = tastyboard_kg.boardno ) AS commentCnt,
-			( SELECT min(fileno) FROM tastyfile_kg WHERE boardno = tastyboard_kg.boardno ) AS fileno
-		FROM tastyboard_kg
-		WHERE rownum <= 5
+			( SELECT COUNT(*) FROM tastycomment${table } WHERE boardno = tastyboard${table }.boardno ) AS commentCnt,
+			( SELECT min(fileno) FROM tastyfile${table } WHERE boardno = tastyboard${table }.boardno ) AS fileno
+		FROM tastyboard${table }
+		WHERE rownum <![CDATA[ <= ]]> 5
 		ORDER BY boardno DESC
-		]]>
+		
 	</select>
 	
 		
-	<select id="usedBoard" resultType="web.dto.UsedBoard">
-		<![CDATA[
-			SELECT * FROM usedboard_kg
-			WHERE rownum <= 7
+	<select id="usedBoard" resultType="web.dto.UsedBoard" parameterType="map">
+		
+			SELECT * FROM usedboard${table }
+			WHERE rownum <![CDATA[<=]]> 7
 			ORDER BY boardno DESC
-		]]>
+		
 	</select>
 	
 	<select id="timeTable" resultType="web.dto.TimeTable" parameterType="String">

@@ -1,6 +1,7 @@
 package web.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import web.dto.FreeBoard;
+import web.dto.FreeBoardNotice;
+import web.dto.TastyBoard;
 import web.dto.TimeTable;
 import web.dto.Unilist;
+import web.dto.UsedBoard;
 import web.service.face.MainService;
 
 @Controller
@@ -41,21 +46,21 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/kg_main", method=RequestMethod.GET)
-	public void kg_main(Model model, HttpSession session) {
+	public void kg_main(Model model, HttpSession session, Map<String, Object> map) {
 		
-		List freeboardNoticeList = mainService.freeboardNotice();
+		session.setAttribute("uni", "kg");
+		map.put("table", "_kg");
+		
+		List<FreeBoardNotice> freeboardNoticeList = mainService.freeboardNotice(map);
 		model.addAttribute("notice", freeboardNoticeList);
-//		logger.info("공지사항 : " + freeboardNoticeList);
 		
-		List freeboard = mainService.freeboard();
+		List<FreeBoard> freeboard = mainService.freeboard(map);
 		model.addAttribute("freeboard", freeboard);
-//		logger.info("자유게시판 : " + freeboard);
 		
-		List tastyboard = mainService.tastyBoard();
+		List<TastyBoard> tastyboard = mainService.tastyBoard(map);
 		model.addAttribute("tastyboard", tastyboard);
-//		logger.info("테이스티 : " + tastyboard);
 		
-		List usedBoard = mainService.usedBoard();
+		List<UsedBoard> usedBoard = mainService.usedBoard(map);
 		model.addAttribute("usedboard", usedBoard);
 		
 		String email = (String)session.getAttribute("email");
@@ -78,5 +83,25 @@ public class MainController {
 
 	@RequestMapping(value="/info/privacypolicy", method=RequestMethod.GET)
 	public void privacypolicy() { }
+	
+	@RequestMapping(value="/kh_main", method=RequestMethod.GET)
+	public void kh_main(HttpSession session, Model model, Map<String,Object> map) {
+		session.setAttribute("uni", "kh");
+		map.put("table", "_kh");
+		
+		List<FreeBoardNotice> freeboardNoticeList = mainService.freeboardNotice(map);
+		model.addAttribute("notice", freeboardNoticeList);
+		
+		List<FreeBoard> freeboard = mainService.freeboard(map);
+		model.addAttribute("freeboard", freeboard);
+		
+		List<TastyBoard> tastyboard = mainService.tastyBoard(map);
+		model.addAttribute("tastyboard", tastyboard);
+		
+		List<UsedBoard> usedBoard = mainService.usedBoard(map);
+		model.addAttribute("usedboard", usedBoard);
+		
+		
+	}
 	
 }

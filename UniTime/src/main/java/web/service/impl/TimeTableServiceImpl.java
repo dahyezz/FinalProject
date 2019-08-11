@@ -51,13 +51,16 @@ public class TimeTableServiceImpl implements TimeTableService {
 		
 		HttpSession session = req.getSession();
 		String id=(String)session.getAttribute("email");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("email", id);
+		map.put("table", "kg");
 		
 		Member mem = new Member();
 		mem.setEmail(id);
-		mem = memberDao.selectMemberByEmail(mem);
+		mem = memberDao.selectMemberByEmail(map);
 		String d_name = timeTableDao.selectDepartname(mem);
 		
-		Map<String,String> map = new HashMap<String, String>();
+//		Map<String,String> map = new HashMap<String, String>();
 		
 		map.put("d_name",d_name);
 		map.put("stime", req.getParameter("timepriority"));
