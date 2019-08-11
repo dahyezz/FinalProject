@@ -51,14 +51,15 @@ public class MemberController {
 			map.put("email", member.getEmail());
 			map.put("password", member.getPassword());
 			
-		}
-		
-		if(uni.equals("khu")) {
+		} else if(uni.equals("khu")) {
 			map.put("table", "kh");
 			map.put("email", member.getEmail());
 			map.put("password", member.getPassword());
+		} else {
+			map.put("table", "kg");
+			map.put("email", member.getEmail());
+			map.put("password", member.getPassword());
 		}
-		
 		
 		if(memberService.loginCheck(map)) {
 			
