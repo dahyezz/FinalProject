@@ -27,6 +27,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.GeocodeResponse;
+import com.google.code.geocoder.model.GeocoderRequest;
+import com.google.code.geocoder.model.GeocoderResult;
+import com.google.code.geocoder.model.GeocoderStatus;
+import com.google.code.geocoder.model.LatLng;
+
 import web.dto.BadReport;
 import web.dto.TastyBoard;
 import web.dto.TastyComment;
@@ -293,4 +301,48 @@ public class TastyBoardController {
 
 	@RequestMapping(value="/tasty/declareReason", method=RequestMethod.GET)
 	public void declareReason() { }
+	
+	@RequestMapping(value="/tasty/map", method=RequestMethod.POST)
+	public void map(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		
+		String location = req.getParameter("storeName");
+        
+	      Geocoder geocoder = new Geocoder();
+	      // setAddress : 변환하려는 주소 (경기도 성남시 분당구 등)
+	      // setLanguate : 인코딩 설정
+	      GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(location).setLanguage("ko").getGeocoderRequest();
+	      GeocodeResponse geocoderResponse;
+	      geocoderResponse = geocoder.geocode(geocoderRequest);
+	      
+	      System.out.println(location);
+	      System.out.println(geocoderResponse.getStatus());
+	      System.out.println(geocoderResponse.getResults().isEmpty());
+	      
+	            if (geocoderResponse.getStatus() == GeocoderStatus.OK & !geocoderResponse.getResults().isEmpty()) {
+	                  GeocoderResult geocoderResult=geocoderResponse.getResults().iterator().next();
+	                  LatLng latitudeLongitude = geocoderResult.getGeometry().getLocation();
+	                                           
+	                  Float[] coords = new Float[2];
+	                  coords[0] = latitudeLongitude.getLat().floatValue();
+	                  coords[1] = latitudeLongitude.getLng().floatValue();
+	                  String coordStr = Float.toString(coords[0])+"&"+Float.toString(coords[1]);
+	                  
+	                  resp.setCharacterEncoding("UTF-8");
+	                  resp.setContentType("text/xml");
+	                  resp.getWriter().write(coordStr); // 응답결과반환
+	     }
+		
+//		board = tastyBoardService.getBoard(board);
+//		logger.info(board.toString());
+//		map.put("storeName", board.getStoreName());
+//		
+//		float[] coords = new float[2];
+//		coords = tastyBoardService.geoCoding(map);
+//		model.addAttribute("map", map);
+		
+//		logger.info(map.get("y_point"));
+//		logger.info(map.get("x_point"));
+//		logger.info(coords[0]);
+	}
+	
 }

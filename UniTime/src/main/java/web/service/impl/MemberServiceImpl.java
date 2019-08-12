@@ -51,7 +51,10 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public Member getLoginMember(Map<String, Object> map) {
-		map.put("table", "kg");
+		if(map.get("table").equals("") || map.get("table").equals(null)) {
+			map.put("table", "kg");
+		}
+		
 		return memberDao.selectMemberByEmail(map);
 	}
 
@@ -78,7 +81,7 @@ public class MemberServiceImpl implements MemberService{
 	    sendMail.setText(new StringBuffer().append("<h1>슬기로운 대학생활 이메일 인증입니다.</h1>")
 	          .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
 	          .append("<p>인증를 완료하시면 슬기로운 대학생활의 서비스를 이용하실 수 있습니다.</p>")
-	          .append("<a href='http://192.168.30.169:8080/member/joinComplete'")
+	          .append("<a href='http://192.168.30.171:8080/member/joinComplete'")
 	          .append(">이메일 인증 확인</a>")
 	          .toString());
 	    sendMail.setFrom("gjflrhlanf1@gmail.com", "hyunwoo");

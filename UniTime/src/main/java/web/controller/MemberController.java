@@ -316,6 +316,7 @@ public class MemberController {
 		
 		String email = (String)session.getAttribute("email");
 		map.put("email", email);
+		map.put("table", "kg");
 		Member member1 = memberService.getinfo(map);
 		String oldPass = member1.getPassword();
 		 String newPass = member.getPassword();

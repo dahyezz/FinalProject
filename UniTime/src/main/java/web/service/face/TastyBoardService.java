@@ -136,4 +136,6 @@ public interface TastyBoardService {
 
 	public TastyBoard getBoardWriter(TastyBoard tastyBoard);
 
+	public float[] geoCoding(Map<String, String> map);
+
 }

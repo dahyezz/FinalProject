@@ -4,11 +4,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChZNHc4ZUNUcN_AN7p53YMNMhVoEw2sTQ"></script>
 <script type="text/javascript">
 // var popupX = (window.screen.width / 2) - (350/2);
 // var popupY = (window.screen.height / 2) - (30/2);
 
 $(document).ready(function() {
+	
 	
 	$('#btnList').click(function() {
 		$(location).attr("href","/tasty/list");
@@ -98,6 +100,31 @@ $(document).ready(function() {
 		});		
 		
 	})
+	
+	var check=0;
+	$('#viewMap').click(function() {
+// 		var boardno = ${board.boardno};
+		var storeName = '${board.storeName }';
+		console.log(storeName);
+		
+		 $.ajax({
+		        url:"/tasty/map" // geoCoding호출
+		        ,type:"post"
+		        ,data: {storeName : storeName} // 요청변수설정
+		        ,dataType:"text"
+		            ,success: function(data) {
+		                    var map = data.split('&');
+		                  var map_x = map[0];
+		                  var map_y = map[1];
+		          },
+		          error:function(request,status,error){
+		            console.log("code:"+request.status+"\n"+"error:"+error);
+		          }
+		      });
+		
+// 		window.open("/tasty/map?boardno=${board.boardno }","지도보기","width=550, height=550, left="+100+", top="+20+", resizable=no");
+// 		document.getElementById('map_ma').style.display='block';
+	});
 	
 });
 
@@ -398,12 +425,12 @@ background-color: #ff7473;
 	float: right;
 	color: black;
 }
-</style>
 
+</style>
 
 <div class="article-head margin-bottom-large" style="text-align: left;">
 	<h2 class="margin-bottom-xsmall">
-		<a class="link text-bold" href="/tasty/view?boardno=${board.boardno }">${board.storeName }</a></h2>
+		<a class="link text-bold" href="javascript:void(0)" id="viewMap">${board.storeName }</a></h2>
 </div>
 
 <div class="writer_info">
