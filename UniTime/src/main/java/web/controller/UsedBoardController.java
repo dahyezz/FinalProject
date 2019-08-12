@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.name.Rename;
 import web.dto.BadReport;
 import web.dto.UsedBoard;
 import web.dto.UsedImage;
@@ -58,6 +60,8 @@ public class UsedBoardController {
 		Paging4used paging = new Paging4used(totalCount, curPage);
 		paging.setSearch(search.getSearch());
 		model.addAttribute("paging", paging);
+		model.addAttribute("searchType", paging.getSearchType());
+		model.addAttribute("keyword",paging.getKeyword());
 		
 		List<UsedBoard> boardList = usedService.getSearchPagingList(paging);
 		model.addAttribute("list", boardList);

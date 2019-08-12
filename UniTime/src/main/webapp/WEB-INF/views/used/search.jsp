@@ -4,7 +4,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#btnSearch").click(function() {
-		location.href="/used/list?search="+$("#search").val();
+		location.href="/used/list?searchType="+$("#searchType").val()+"&keyword="+$("#keyword").val();
 	});
 });
 </script>
