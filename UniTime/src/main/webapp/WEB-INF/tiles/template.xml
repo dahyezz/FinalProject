@@ -14,6 +14,7 @@
 	<definition name="used/commentList" template="/WEB-INF/views/used/commentList.jsp" />
 	<definition name="used/reportReason" template="/WEB-INF/views/used/reportReason.jsp" />
 	<definition name="unitime" template="/WEB-INF/views/unitime.jsp" />
+	<definition name="tasty/map" template="/WEB-INF/views/tasty/map.jsp" />
 	
 	
 	<definition name="tilesbase" template="/WEB-INF/tiles/layout.jsp">

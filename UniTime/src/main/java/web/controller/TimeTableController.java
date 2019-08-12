@@ -117,6 +117,7 @@ public class TimeTableController {
 		String id= (String) session.getAttribute("email");
 		Member mem = new Member();
 		mem.setEmail(id);
+		map.put("table", "kg");
 		map.put("email", id);
 		mem = memberService.getLoginMember(map);
 		model.addAttribute("nick", mem.getNickname());
