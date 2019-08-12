@@ -2,6 +2,7 @@ package web.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -12,6 +13,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.GeocodeResponse;
+import com.google.code.geocoder.model.GeocoderRequest;
+import com.google.code.geocoder.model.GeocoderResult;
+import com.google.code.geocoder.model.GeocoderStatus;
+import com.google.code.geocoder.model.LatLng;
 
 import web.dao.face.TastyBoardDao;
 import web.dto.BadReport;
@@ -231,5 +240,56 @@ public class TastyBoardServiceImpl implements TastyBoardService{
 			return true;
 		else
 			return false;
+	}
+	
+	@Override
+	public float[] geoCoding(Map<String, String> map) {
+		
+//		Map<String, String> map = new HashMap<String, String>();
+		String storeName = map.get("storeName");
+		System.out.println(storeName);
+		
+		if(storeName == null)
+			return null;
+		
+		Geocoder geocoder = new Geocoder();
+		
+		GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(storeName).setLanguage("ko").getGeocoderRequest();
+		GeocodeResponse geocoderResponse;
+		
+//		
+		
+		try {
+			geocoderResponse = geocoder.geocode(geocoderRequest);
+			
+//			System.out.println("----------------------");
+			System.out.println(geocoderResponse.getStatus());
+			System.out.println(geocoderResponse.getResults().isEmpty());
+			
+			if(geocoderResponse.getStatus() == GeocoderStatus.OK & !geocoderResponse.getResults().isEmpty()) {
+				
+				GeocoderResult geocoderResult = geocoderResponse.getResults().iterator().next();
+				LatLng latitudeLongitude = geocoderResult.getGeometry().getLocation();
+				
+//				map.put("y_point", latitudeLongitude.getLat().toString());
+//				map.put("x_point", latitudeLongitude.getLng().toString());
+//				
+//				System.out.println(latitudeLongitude.getLat().toString());
+//				System.out.println(latitudeLongitude.getLng().toString());
+				float[] coords =new float[2];
+				coords[0] = latitudeLongitude.getLat().floatValue();
+				coords[1] = latitudeLongitude.getLng().floatValue();
+				
+				System.out.println(coords[0]);
+				System.out.println(coords[1]);
+				
+				return coords;
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }
